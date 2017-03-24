@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/add_fire_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#000000"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/add_fire_back_btn"
+            android:layout_width="65dp"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            >
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="16.5dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:src="@drawable/selector_back"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#ffffff"
+            android:text="修改密码"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/camera_ex_pwd"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:textSize="14sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:gravity="center_vertical"
+        android:padding="6dp"
+        android:hint="摄像机密码"
+        android:inputType="none"
+        android:textColor="@color/text_view_and_kuang"
+        android:textColorHint="@color/hint_color_text"
+        android:imeOptions="actionNext"
+        android:background="@drawable/edit_view_bg"
+        />
+
+    <EditText
+        android:id="@+id/camera_pwd_now"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:textSize="14sp"
+        android:layout_below="@id/camera_ex_pwd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:padding="6dp"
+        android:hint="摄像机新密码"
+        android:inputType="none"
+        android:textColor="@color/text_view_and_kuang"
+        android:textColorHint="@color/hint_color_text"
+        android:imeOptions="actionNext"
+        android:background="@drawable/edit_view_bg"
+        />
+
+    <EditText
+        android:id="@+id/camera_pwd_now2"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:textSize="14sp"
+        android:layout_below="@id/camera_pwd_now"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:padding="6dp"
+        android:hint="再次输入新密码"
+        android:inputType="none"
+        android:textColor="@color/text_view_and_kuang"
+        android:textColorHint="@color/hint_color_text"
+        android:imeOptions="actionNext"
+        android:background="@drawable/edit_view_bg"
+        />
+
+    <RelativeLayout
+        android:id="@+id/modify_camera_pwd"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/camera_pwd_now2"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_button_selector"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改密码"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+    <include layout="@layout/progress_bar"/>
+
+</RelativeLayout>

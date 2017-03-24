@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/dao_hang_lan"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="视频截图"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+    </RelativeLayout>
+    <GridView
+        android:id="@+id/list_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+        android:gravity="center"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="5dp"
+        android:stretchMode="columnWidth"
+        android:background="@color/shou_ye_bg"
+        android:cacheColorHint="@null"
+        >
+    </GridView>
+
+</LinearLayout>

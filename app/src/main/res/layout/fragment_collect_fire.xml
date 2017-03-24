@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ecf0f1"
+    android:orientation="vertical" >
+    
+    <!-- title bar -->
+    <include android:id="@+id/title_include" layout="@layout/title_bar"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/demo_swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_include"
+        android:scrollbars="vertical"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/demo_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <include layout="@layout/play_back_date_pick_fire" />
+    <include layout="@layout/progress_bar"/>
+</RelativeLayout>

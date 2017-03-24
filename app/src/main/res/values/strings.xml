@@ -1,0 +1,208 @@
+<resources>
+    <string name="app_name">智能云消防</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="hint_description_title">Can you allow Contacts permission?</string>
+    <string name="hint_description_why_we_need_the_permission">Hi, we really need the Contacts permissions. If permissions are not granted, some features will not work well. Can you allow it?</string>
+
+
+    <!--登录-->
+    <string name="user_num">手机号</string>
+    <string name="pwd">密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="new_user_register">新用户注册</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="old_user_login">老用户登录</string>
+
+    <!--注册-->
+    <string name="register_email">邮箱注册&#160;&#062;&#062;</string>
+    <string name="code">获取验证码</string>
+    <string name="phone_num">手机号</string>
+    <string name="comfire_pwd">确认密码</string>
+    <string name="edit_code">请输入验证码</string>
+    <string name="old_user_login1">老用户登录 &#160;&#062;&#062;</string>
+    <string name="register_phone">&#060;&#060;&#160;手机号注册</string>
+    <string name="email">邮箱</string>
+
+    <!--导航栏-->
+    <string name="tab_home">摄像头</string>
+    <string name="tab_letter">设置</string>
+    <string name="tab_reference">消息</string>
+    <string name="tab_more">账号</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_register_email">RegisterEmailActivity</string>
+    <string name="title_activity_alarm">AlarmActivity</string>
+    <string name="title_activity_bndemo_guide">BNDemoGuideActivity</string>
+    <string name="line_chart_activity">LineChartActivity</string>
+
+    <!--账号栏-->
+    <string name="app_update_tv">检查更新</string>
+    <string name="about">关于智能云消防</string>
+    <string name="help">配置摄像头</string>
+    <string name="bind_camera">绑定摄像头</string>
+    <string name="exit">注销</string>
+
+    <!--摄像头列表-->
+    <string name="principal">负责人：</string>
+    <string name="yg_mac">烟感MAC：</string>
+    <string name="add_camera">点击添加摄像头</string>
+
+    <!--手视通-->
+    <string name="system_administrator">系统管理员</string>
+    <string name="input_phone">请输入您的手机号码</string>
+    <string name="phone_too_long">手机长度必须是6-15字符</string>
+    <string name="get_phone_code_too_times">获取手机验证码，请稍后再尝试</string>
+    <string name="phone_format_error">手机号码格式错误</string>
+    <string name="phone_number_used">手机号已被注册</string>
+    <string name="registerfail">获取失败</string>
+    <string name="input_vf_code">请输入手机验证码</string>
+    <string name="operator_error">操作失败</string>
+    <string name="vfcode_error">验证码错误</string>
+    <string name="vfcode_timeout">验证码超时</string>
+    <string name="inputpassword">请输入密码</string>
+    <string name="password_length_error">密码太长</string>
+    <string name="reinputpassword">请再一次输入密码</string>
+    <string name="differentpassword">两次输入的密码不一致</string>
+    <string name="input_account">账户不能为空！</string>
+    <string name="input_password">密码不能为空！</string>
+    <string name="input_tip">账户和密码不能为空</string>
+    <string name="account_no_exist">账户不存在</string>
+    <string name="password_error">密码错误</string>
+    <string name="loginfail">登录失败</string>
+
+    <!--pull-->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">释放立即刷新</string>
+    <string name="xlistview_header_hint_loading">正在刷新...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+    <!--dialog-->
+    <string name="dialog_title">烟感位置标志</string>
+    <string name="do_it_btn">取消报警</string>
+    <string name="lead_to_btn">查看导航&#160;&#062;</string>
+    <string name="title_activity_add_camera_first">AddCameraFirstActivity</string>
+    <string name="title_activity_add_camera_second">AddCameraSecondActivity</string>
+    <string name="title_activity_add_camera_third">AddCameraThirdActivity</string>
+    <string name="title_activity_add_wait_acticity">AddWaitActicity</string>
+    <string name="title_activity_add_camera_fourth">AddCameraFourthActivity</string>
+    <string name="title_activity_ap_monitor">ApMonitorActivity</string>
+
+    <string name="video_mode_hd">高清</string>
+    <string name="video_mode_ld">流畅</string>
+    <string name="video_mode_sd">标清</string>
+    <string name="waite_for_linke">拼命加载中...</string>
+    <string name="switch_connect">切换</string>
+    <string name="p2p_call_push_mesg">呼叫中</string>
+    <string name="delete_account">删除账号</string>
+    <string name="bind_account">绑定摄像头</string>
+    <string name="delete">删除</string>
+    <string name="bind">绑定</string>
+    <string name="cancel">取消</string>
+    <string name="open_door">开门</string>
+    <string name="confirm_open_door">确认开门？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="confirm">确定</string>
+    <string name="check">查看</string>
+    <string name="pw_incrrect">密码错误</string>
+    <string name="busy">对方忙线</string>
+    <string name="none">未知原因</string>
+    <string name="id_disabled">对方的id被禁用</string>
+    <string name="id_inactived">对方的id未激活</string>
+    <string name="id_overdate">对方的id已过期</string>
+    <string name="offline">对方离线</string>
+    <string name="powerdown">对方关机</string>
+    <string name="no_body">无人接听</string>
+    <string name="nohelper">连接失败</string>
+    <string name="hungup">挂断</string>
+    <string name="timeout">网络连接超时</string>
+    <string name="internal_error">内部错误</string>
+    <string name="conn_fail">连接失败</string>
+    <string name="not_support">不支持</string>
+    <string name="title_activity_modify_camera_info">ModifyCameraInfoActivity</string>
+    <string name="input_contact_name">请输入设备昵称</string>
+    <string name="input_contact_pwd">请输入设备旧密码</string>
+    <string name="save">保存</string>
+    <string name="title_activity_sdcard">SDCardActivity</string>
+    <string name="sd_capacity">SD卡容量：</string>
+    <string name="sd_remainning_capacity">SD卡剩余容量：</string>
+    <string name="sd_formatting">格式化SD卡</string>
+    <string name="imagedes" />
+    <string name="delete_sd_remind">要清空SD卡吗？如果这样做，您会丢失其中存储的全部数据！</string>
+    <string name="ensure">确定</string>
+    <string name="title_activity_play_back_list">PlayBackListActivity</string>
+    <string name="playback">回放</string>
+    <string name="one_day">最近一天</string>
+    <string name="one_month">最近一月</string>
+    <string name="three_day">最近三天</string>
+    <string name="customize">自定义</string>
+    <string name="search">查询</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minutes">分</string>
+    <string name="loading">加载中...</string>
+    <string name="net_error">网络异常</string>
+    <string name="click_refresh">轻触屏幕刷新</string>
+    <string name="title_activity_play_back">PlayBackActivity</string>
+    <string name="title_activity_record_project">RecordProjectActivity</string>
+
+    <string name="record_alarm">报警录像</string>
+    <string name="record_control">录像设置</string>
+    <string name="record_manual">手动录像</string>
+    <string name="record_timer">定时录像</string>
+    <string name="record_type">录像模式</string>
+    <string name="remote_record">录像开关</string>
+    <string name="pre_record">预录像</string>
+    <string name="record_time_length">录像时长(分钟)</string>
+    <string name="schedule">计划时间表</string>
+    <string name="plan_time">应用</string>
+    <string name="title_activity_print_screen">PrintScreenActivity</string>
+    <string name="title_activity_image_see">ImageSeeActivity</string>
+    <string name="confirm_delete">确定删除吗？</string>
+
+    <string name="repeater_name">类型：</string>
+    <string name="repeater_mac">区域：</string>
+    <string name="smoke_name">探测器名称：</string>
+    <string name="action_tv">查看导航&#160;&#062;&#062;</string>
+    <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="off_line_tv">&#040;离线&#041;</string>
+    <string name="title_activity_forward_down">ForwardDownActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="down_complete_click">下载完成，点击更新。</string>
+    <string name="down_londing_click">正在下载，点击取消。</string>
+    <string name="down_fault_click">下载失败，点击移除。</string>
+    <string name="title_activity_add_fire">AddFireActivity</string>
+
+    <!--add_fire-->
+    <string name="add_fire_title">添加设备</string>
+    <string name="add_fire_mac">MAC</string>
+    <string name="add_fire_name">名称</string>
+    <string name="add_camera_hint_name">摄像机ID</string>
+    <string name="add_camera_name">摄像机</string>
+    <string name="add_fire_lat">经度</string>
+    <string name="add_fire_lon">纬度</string>
+    <string name="add_fire_address">地址</string>
+    <string name="add_fire_zjq">中继器</string>
+    <string name="add_fire_man">负责人</string>
+    <string name="add_fire_man_name">姓名</string>
+    <string name="add_fire_man_phone">电话</string>
+    <string name="add_camera_first">接通电源后，摄像头自检旋转360°。待检测完毕摄像头停止旋转回到初始位置，点击下一步。</string>
+    <string name="add_camera_second">按下设备后端的"RESET"按键，摄像机发出声响，点击下一步。</string>
+    <string name="add_camera_third">输入WIFI密码，点击下一步。</string>
+    <string name="add_camera_fourth">摄像头已连接网络，请输入设备名称和密码，点击保存。</string>
+    <string name="next">下一步&#160;&#160;&#160;&#160;&#062;</string>
+    <string name="save_camera">保存</string>
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+    <string name="title_activity_test">TestActivity</string>
+</resources>

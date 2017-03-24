@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/weeken_rel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        <TextView
+            android:id="@+id/smoke_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            />
+        <CheckBox
+            android:id="@+id/checkbox_tv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/dao_hang_bian_color"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/weeken_rel"
+        />
+
+</RelativeLayout>

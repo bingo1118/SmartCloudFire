@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+    
+    <!-- title bar -->
+    <include android:id="@+id/title_include" layout="@layout/title_bar"/>
+
+    <RelativeLayout
+        android:id="@+id/add_camera_rela"
+        android:layout_below="@id/title_include"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        >
+        <com.smart.cloud.fire.view.AspectRatioImageView
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/sxt_tianjia_selector"
+            android:id="@+id/home_add_camera_image"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_camera"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:textSize="16sp"
+            android:textColor="#616161"/>
+    </RelativeLayout>
+
+    <com.smart.cloud.fire.utils.RefreshListView
+        android:id="@+id/refreshlistview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#ffffff"
+        android:layout_below="@id/add_camera_rela"
+        android:divider="@null"
+        android:listSelector="#00000000"
+        >
+    </com.smart.cloud.fire.utils.RefreshListView>
+
+</RelativeLayout>

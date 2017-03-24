@@ -1,0 +1,432 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dao_hang_lan"
+    android:id="@+id/scroll_view">
+
+    <RelativeLayout
+        android:id="@+id/control_record_title_rala"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/play_back_title"
+        >
+        <ImageView
+            android:id="@+id/camera_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/touxiang"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            />
+        <TextView
+            android:id="@+id/tv_control_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/camera_image"
+            android:layout_centerHorizontal="true"
+            android:text="32552"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@id/control_record_title_rala"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/record_type_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            >
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radio_one"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/record_manual"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_two"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/record_alarm"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_three"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/record_timer"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15sp" />
+            </RadioGroup>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/change_record"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+
+            >
+
+            <TextView
+                android:id="@+id/record_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="@string/remote_record"
+                android:textColor="@color/text_color_black"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/record_img"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_checkbox_off"
+                android:contentDescription="@string/imagedes"
+                android:visibility="gone"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar_record"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:indeterminateDrawable="@drawable/progress_white"
+                android:indeterminateDuration="560000"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/change_pre_record"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/tiao_bg_single"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/pre_record_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="@string/pre_record"
+                android:textColor="@color/text_color_black"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/pre_record_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_checkbox_off"
+                android:contentDescription="@string/imagedes"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_pre_record"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:indeterminateDrawable="@drawable/progress_white"
+                android:indeterminateDuration="560000" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/change_record_time"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/record_time_length"
+                android:textColor="@color/text_color_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_record_time"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:indeterminateDrawable="@drawable/progress_white"
+                android:indeterminateDuration="560000" />
+            <LinearLayout
+                android:id="@+id/record_time_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                >
+
+                <RadioGroup
+                    android:id="@+id/radio_group2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/radio_one_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_two_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="2"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_three_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="3"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+                </RadioGroup>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ontime_lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            >
+            <RelativeLayout
+                android:id="@+id/change_plan_time_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/schedule"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/time_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/hour"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/minutes"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/text3"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/text4"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/hour"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/text5"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/minutes"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <com.smart.cloud.fire.view.WheelView
+                        android:id="@+id/hour_from"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <com.smart.cloud.fire.view.WheelView
+                        android:id="@+id/minute_from"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <com.smart.cloud.fire.view.WheelView
+                        android:id="@+id/hour_to"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <com.smart.cloud.fire.view.WheelView
+                        android:id="@+id/minute_to"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/change_plan_time"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                >
+                <Button
+                    android:id="@+id/bt_plan_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="#00000000"
+                    android:textColor="@color/text_color_white"
+                    android:textSize="15sp"
+                    android:text="@string/plan_time"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/plan_time"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="14:22 - 15:33"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar_plan_time"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:indeterminateDrawable="@drawable/progress_white"
+                    android:indeterminateDuration="560000" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javabase64">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/p2PCore/libs/javabase64.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

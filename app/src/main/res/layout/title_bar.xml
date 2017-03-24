@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/title_rela"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/login_btn"
+        >
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            />
+        <ImageView
+            android:id="@+id/add_fire"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/erweima"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/search_fire"
+            android:layout_width="90dp"
+            android:layout_height="45dp"
+            android:src="@drawable/search_condition_selector"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            />
+
+    </RelativeLayout>
+    <TextView
+        android:layout_below="@id/title_rela"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/xia_heng_xian"
+        />
+</RelativeLayout>

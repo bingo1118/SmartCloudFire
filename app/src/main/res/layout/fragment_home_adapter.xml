@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_item_color_bg">
+
+    <RelativeLayout
+        android:id="@+id/home_adapter_rela"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <ImageView
+            android:id="@+id/home_adapter_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/sxt_zx"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/home_adapter_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="啊都是福建卡接口发快递"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/home_adapter_image"
+            android:textColor="@color/camera_list_tv"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/home_adapter_image1"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/lead_right_zx"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/home_adapter_rela"
+        android:background="@color/line"/>
+
+
+</RelativeLayout>

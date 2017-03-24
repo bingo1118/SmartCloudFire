@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/yg_xl"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/category_child_rela"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/alarm_rela_zx_bg">
+
+            <ImageView
+                android:id="@+id/category_child_image"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:src="@drawable/yg_d"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentTop="true"
+                />
+            <TextView
+                android:id="@+id/category_child_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="12sp"
+                android:text="@string/yg_mac"
+                android:textColor="@color/yg_zt_zx_tv"
+                android:layout_toRightOf="@id/category_child_image"
+                />
+            <TextView
+                android:id="@+id/category_child_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/category_child_tv1"
+                android:textColor="@color/yg_zt_zx_tv"
+                android:textSize="12sp"
+                android:text="爱的说法发发生发的发的"/>
+            <TextView
+                android:id="@+id/category_child_tv3"
+                android:layout_below="@id/category_child_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/yg_zt_zx_tv"
+                android:text="弟弟弟顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶"/>
+        </RelativeLayout>
+    </LinearLayout>
+   
+</LinearLayout>

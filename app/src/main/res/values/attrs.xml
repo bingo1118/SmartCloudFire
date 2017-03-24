@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="TabWidget">
+    <attr name="bottom_labels" format="reference" />
+  </declare-styleable>
+
+    <declare-styleable name="MyRadioButton">
+
+        <attr name="myDrawableSize" format="dimension"/>
+        <attr name="drawableTop" format="reference"/>
+        <attr name="drawableLeft" format="reference"/>
+        <attr name="drawableRight" format="reference"/>
+        <attr name="drawableBottom" format="reference"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="MyCheckedTextView">
+
+        <attr name="myCheckedTextViewDrawableSize" format="dimension"/>
+        <attr name="myCheckeddrawableTop" format="reference"/>
+        <attr name="myCheckeddrawableLeft" format="reference"/>
+        <attr name="myCheckeddrawableRight" format="reference"/>
+        <attr name="myCheckeddrawableBottom" format="reference"/>
+
+    </declare-styleable>
+    
+</resources>

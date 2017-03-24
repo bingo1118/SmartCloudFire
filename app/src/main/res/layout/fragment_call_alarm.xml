@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bjan_bj">
+
+    <ImageView
+        android:id="@+id/call_alarm_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/call_alarm_selector"
+        android:layout_marginTop="100dp"
+        />
+    <TextView
+        android:id="@+id/show_send_alarm_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="长按发送报警"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_height="100dp">
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/viewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        ></LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/cancel_alarm"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:clickable="false"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/cancel_alarm_btn_an"
+        >
+        <TextView
+            android:id="@+id/cancel_alarm_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消报警"
+            android:textColor="#ffdbbf"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/alarm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_toRightOf="@id/cancel_alarm_tv"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+</LinearLayout>

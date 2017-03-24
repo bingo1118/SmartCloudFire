@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dao_hang_lan"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/modify_header"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/play_back_title">
+
+        <ImageView
+            android:id="@+id/header_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/touxiang" />
+
+        <TextView
+            android:id="@+id/contactId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="11116"
+            android:layout_below="@id/header_img"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_cNumber"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@anim/corner_tiao_single_bg" >
+
+        <EditText
+            android:id="@+id/contactName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#00000000"
+            android:gravity="left|center_vertical"
+            android:hint="@string/input_contact_name"
+            android:singleLine="true"
+            android:textColorHint="@color/hint_color_text"
+            android:text=""
+            android:textColor="@color/text_color_black"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@anim/corner_tiao_single_bg" >
+
+        <EditText
+            android:id="@+id/contactPwdOld"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#00000000"
+            android:gravity="left|center_vertical"
+            android:hint="@string/input_contact_pwd"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:textColorHint="@color/hint_color_text"
+            android:text=""
+            android:textColor="@color/text_color_black"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@anim/corner_tiao_single_bg" >
+
+        <EditText
+            android:id="@+id/contactPwdNewA"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#00000000"
+            android:gravity="left|center_vertical"
+            android:hint="请输入设备新密码"
+            android:textColorHint="@color/hint_color_text"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:text=""
+            android:textColor="@color/text_color_black"
+            android:textSize="15sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@anim/corner_tiao_single_bg" >
+
+        <EditText
+            android:id="@+id/contactPwdNewB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#00000000"
+            android:gravity="left|center_vertical"
+            android:hint="请再次输入设备新密码"
+            android:singleLine="true"
+            android:text=""
+            android:inputType="textPassword"
+            android:textColorHint="@color/hint_color_text"
+            android:textColor="@color/text_color_black"
+            android:textSize="15sp" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/save"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/login_button_selector"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff"
+        android:text="@string/save"/>
+
+</LinearLayout>

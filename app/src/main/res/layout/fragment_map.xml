@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    >
+    <include android:id="@+id/title_include" layout="@layout/title_bar"/>
+    <include
+        android:id="@+id/search_include"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/title_include"
+        layout="@layout/include_search"/>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_below="@id/search_include"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.baidu.mapapi.map.MapView>
+    <include layout="@layout/progress_bar"/>
+</RelativeLayout>

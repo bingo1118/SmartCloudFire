@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fire.cloud.smart.com.smartcloudfire">
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 来电消音 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 摄影机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="false"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name="com.smart.cloud.fire.global.MyApp"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="48ae76de3f" />
+
+        <!--         生产模式key -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="F0GrSzPf0G6As4uGGRGbSFsIYLqOFmKT" />
+
+        <!--
+        测试模式key
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="7GItMm71Df8oQNe4tusL3ms8RFIL1Ft7" />
+        -->
+
+        <activity
+            android:name="com.smart.cloud.fire.mvp.login.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/customBackground">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.smart.cloud.fire.mvp.register.RegisterPhoneActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.login.LoginActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.main.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.smart.cloud.fire.ui.ApMonitorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_ap_monitor"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.smart.cloud.fire.ui.BNDemoGuideActivity"
+            android:label="@string/title_activity_alarm"
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name="com.smart.cloud.fire.global.MainService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name="com.smart.cloud.fire.ui.AboutActivity"
+            android:label="@string/title_activity_about" />
+        <activity
+            android:name="com.obsessive.zbar.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity"
+            android:label="@string/title_activity_add_camera_first" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.camera.AddCameraSecondActivity"
+            android:label="@string/title_activity_add_camera_second" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.camera.AddCameraThirdActivity"
+            android:label="@string/title_activity_add_camera_third" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.camera.AddWaitActicity"
+            android:label="@string/title_activity_add_wait_acticity" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.camera.AddCameraFourthActivity"
+            android:label="@string/title_activity_add_camera_fourth"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.smart.cloud.fire.mvp.Alarm.AlarmActivity"
+            android:label="@string/title_activity_bndemo_guide"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity"
+            android:label="@string/title_activity_bndemo_guide"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.LineChart.LineChartActivity"
+            android:label="@string/line_chart_activity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.LineChart.LineChartActivityTest"
+            android:label="@string/line_chart_activity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.electric.ElectricActivity"
+            android:label="@string/line_chart_activity"
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name="com.smart.cloud.fire.service.DaemonService"
+            android:process="com.example.maat.daemon" />
+        <service
+            android:name="com.smart.cloud.fire.service.RemoteService"
+            android:process=":pushservice" />
+
+        <service
+            android:name="com.smart.cloud.fire.geTuiPush.DemoPushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice" />
+        <service android:name="com.smart.cloud.fire.geTuiPush.DemoIntentService" />
+
+        <activity android:name="com.smart.cloud.fire.mvp.sdcard.SDCardActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.playBack.PlayBackListActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.playBack.PlayBackActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.recordProject.RecordProjectActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.printScreen.PrintScreenActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.printScreen.ImageSeeActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.modifyCameraInfo.ModifyCameraPwdActivity"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff646464</color>
+    <color name="colorPrimaryDark">#ff646464</color>
+    <color name="colorAccent">#ff646464</color>
+
+    <color name="black">#ff646464</color>
+    <color name="app_bg">#eeeeee</color>
+    <color name="white">#ffffffff</color>
+    <color name="tab_item_default">#fafafa</color>
+    <color name="tab_item_selected">#f0f1f2</color>
+    <color name="tab_text_selected">#f8597c</color>
+    <color name="tab_text_default">#bbbbbb</color>
+    <color name="background_color">#fbfbfb</color>
+    <color name="title_text_color">#ffffff</color>
+    
+    <!-- 透明色 -->
+    <color name="fuxk_settle_black_mark">#1A000000</color>
+    
+    <!-- 分割线 -->
+    <color name="fuxk_base_divide_line_color">#dcdcdc</color>
+
+    <color name="wifi_change_color">#09A3DC</color>
+
+    <color name="dao_hang_lan">#E4E4E4</color>
+
+    <color name="text_color_white">#ffffff</color><!-- 白色-->
+    <color name="text_color_black">#444242</color><!-- 黑色-->
+    <color name="text_color_blue">#52a0e0</color><!-- 蓝色-->
+
+    <color name="dialog_title_color">#a4979b</color>
+    <color name="blue">#ff61a9e1</color>
+    <color name="dialog_back_color">#90000000</color>
+    <color name="text_color_gray">#818181</color><!-- 灰色-->
+    <color name="camera_text_color_gray">#b3b3b3</color><!-- 灰色-->
+    <color name="playback_btn_p">#B2000000</color>
+    <color name="alpha">#00000000</color>
+    <color name="color_local_device_bar">#5ab8ff</color><!-- 红色-->
+    <color name="playback_btn">#90000000</color>
+    <color name="shou_ye_bg">#d4d4d4</color>
+
+    <!--login-->
+    <color name="text_view_and_kuang">#838383</color>
+    <color name="login_btn">#f0604d</color>
+    <color name="login_btn_press">#db5240</color>
+    <color name="login_new_user">#f0604d</color>
+    <color name="login_forget_pwd">#5f6e81</color>
+    <!--title-->
+    <color name="xia_heng_xian">#c55234</color>
+    <!--register-->
+    <color name="lead_regiater">#445795</color>
+    <color name="lead_regiater_press">#374e87</color>
+    <!--camera-->
+    <color name="line">#e4e8e9</color>
+    <color name="camera_list_tv">#3b3b3b</color>
+    <color name="camera_list_item">#e3e6e7</color>
+    <!--smoke-->
+    <color name="smoke_dialog">#f7f1e8</color>
+    <color name="smoke_dialog_list_bg">#ecf0f1</color>
+    <color name="smoke_dialog_list_mb">#c8c8c8</color>
+    <color name="smoke_dialog_list_tv_lx">#939393</color>
+    <color name="daohang_ed_bg_press">#ce4637</color>
+    <color name="dao_hang_lan_color">#ecf0f1</color>
+    <color name="dao_hang_bian_color">#b2b2b2</color>
+    <color name="smoke_bian_color">#eac38a</color>
+    <color name="alarm_dao_hang_color">#e6e6e6</color>
+    <color name="setting_color">#99aa4620</color>
+    <color name="setting_bg_color">#eeeeee</color>
+    <color name="action_color">#e49d2b</color>
+    <color name="action_now_color">#fac269</color>
+    <color name="update_message">#C8ffffff</color>
+
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+    <color name="text_color">#F8F8F8</color>
+    <color name="dropdownlist_bg">#d5c9b9</color>
+    <color name="dropdownlist_press">#9d9087</color>
+    <color name="dropdownlist_item">#f2eada</color>
+    <color name="dropdownlist_item_press">#c1b5b7</color>
+
+    <!--烟感列表图形背景-->
+    <color name="yg_zx_line">#cb917b</color>
+    <color name="yg_zx_bg">#f7f1e8</color>
+    <color name="yg_lx_line">#c1c1c1</color>
+    <color name="yg_lx_bg">#f1f1f1</color>
+
+    <color name="yg_zt_zx_line">#cb917b</color>
+    <color name="yg_zt_zx_bg">#f6e7d1</color>
+    <color name="yg_zt_zx_tv">#404040</color>
+
+    <color name="color_text_selected">#df4e3e</color>
+    <color name="color_text_normal">#5f6e81</color>
+    <color name="hint_color_text">#c5c5c5</color>
+    <color name="ddy_color_text">#e48d26</color>
+    <color name="hj_color_text">#e9393d</color>
+</resources>

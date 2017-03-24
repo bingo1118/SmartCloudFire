@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ecf0f1"
+    android:orientation="vertical" >
+    
+    <!-- title bar -->
+    <include android:id="@+id/title_include" layout="@layout/title_bar"/>
+
+    <com.smart.cloud.fire.utils.RefreshListView
+        android:id="@+id/msg_refresh_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#ffffff"
+        android:divider="@null"
+        android:listSelector="#00000000"
+        >
+    </com.smart.cloud.fire.utils.RefreshListView>
+    <include layout="@layout/play_back_date_pick_fire" />
+    <include layout="@layout/progress_bar"/>
+</RelativeLayout>
