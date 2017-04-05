@@ -72,6 +72,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide title
+        //在锁屏状态下弹出。。
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         winParams.flags |= (WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -103,9 +104,12 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
         }
     };
 
+    /**
+     * 根据推送过来的PushAlarmMsg对象填充数据。。
+     */
     private void init() {
         cameraBean = mPushAlarmMsg.getCamera();
-        if(cameraBean!=null){
+        if(cameraBean!=null&&cameraBean.getCameraId()!=null&&cameraBean.getCameraPwd()!=null){
             alarmDoItBtn.setVisibility(View.VISIBLE);
         }else{
             alarmDoItBtn.setVisibility(View.GONE);
@@ -119,7 +123,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 //        int devType = mPushAlarmMsg.getDeviceType();
         alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
         mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
-        mAlarmType.setText(alarmMsg);
+        mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
 //        switch (devType) {
 //            case 1:
 //
@@ -137,7 +141,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 //            default:
 //                break;
 //        }
-        alarmInit();
+        alarmInit();//imageview动画设置。。
         RxView.clicks(alarmLeadToBtn).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
@@ -192,6 +196,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     }
 
     private void alarmInit() {
+        //imageview动画设置。。
         final AnimationDrawable anim = (AnimationDrawable) alarmFkImg
                 .getBackground();
         ViewTreeObserver.OnPreDrawListener opdl = new ViewTreeObserver.OnPreDrawListener() {

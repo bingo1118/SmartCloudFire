@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
+ * 网络连接客户端。。
  * on 2016/8/24.
  */
 public class AppClient {
@@ -16,6 +17,11 @@ public class AppClient {
     public static Retrofit mRetrofit;
 
 
+    /**
+     * 初始化retrofit对象，并配置和返回对象。。
+     * @param url
+     * @return
+     */
     public static Retrofit retrofit(String url) {
         if(mRetrofit!=null){
             mRetrofit=null;

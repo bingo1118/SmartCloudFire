@@ -41,7 +41,7 @@ public class TopIndicator extends RelativeLayout {
     private CharSequence[] mLabels = new CharSequence[] { "探测器", "电气火灾","视频", "故障"};
     private int mScreenWidth;
     private int mUnderLineWidth;
-    private View mUnderLine;
+    private View mUnderLine;//底部滑块。。
     // 底部线条移动初始位置
     private int mUnderLineFromX = 0;
 
@@ -65,12 +65,12 @@ public class TopIndicator extends RelativeLayout {
         this.setBackgroundColor(Color.rgb(255, 255, 255));
 
         mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
-        mUnderLineWidth = mScreenWidth / mLabels.length;
+        mUnderLineWidth = mScreenWidth / mLabels.length;//每个分块长度。。
 
         mUnderLine = new View(context);
         mUnderLine.setBackgroundResource(R.drawable.yg_dh_an);
         LayoutParams underLineParams = new LayoutParams(
-                mUnderLineWidth, 14);
+                mUnderLineWidth, 14);//滑块长高参数。。
 
         // 标题layout
         LinearLayout topLayout = new LinearLayout(context);

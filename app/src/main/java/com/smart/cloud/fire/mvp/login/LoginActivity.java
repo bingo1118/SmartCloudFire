@@ -55,6 +55,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     }
 
     private void initView() {
+        //登陆按钮事件。。
         RxView.clicks(login_rela2).throttleFirst(2, TimeUnit.SECONDS)
                 .subscribe(new Action1<Void>() {
                     @Override

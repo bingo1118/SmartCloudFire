@@ -24,6 +24,10 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
         attachView(view);
     }
 
+    /**
+     * 检查手机号码是否注册过。。
+     * @param phoneNo
+     */
     public void getMesageCode(String phoneNo){
         String AppVersion = MyUtils.getBitProcessingVersion();
         mvpView.showLoading();
@@ -62,16 +66,25 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                 }));
     }
 
+    /**
+     * 注册账号
+     * @param phoneNo
+     * @param pwd
+     * @param rePwd
+     * @param code
+     * @param mContext
+     */
     public void register(final String phoneNo, final String pwd, String rePwd, final String code, final Context mContext){
         MD5 md = new MD5();
         final String password = md.getMD5ofStr(pwd);
         final String rePassword = md.getMD5ofStr(rePwd);
         mvpView.showLoading();
         Random random = new Random();
-        final int value = random.nextInt(4);
+        final int value = random.nextInt(4);//随机取出技威四个服务器中的一个进行访问
         twoSubscription(apiStores[value].verifyPhoneCode("86", phoneNo,code),new Func1<RegisterModel, Observable<RegisterModel>>(){
                     @Override
                     public Observable<RegisterModel> call(RegisterModel registerModel) {
+                        //验证码验证通过后，在技威上进行注册
                         return apiStores[value].register("1","","86",phoneNo,password,rePassword,code,"1");
                     }
                 },
@@ -89,7 +102,7 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                                         SharedPreferencesManager.SP_FILE_GWELL,
                                         SharedPreferencesManager.KEY_RECENTNAME,
                                         phoneNo);
-                                mvpView.register();
+                                mvpView.register();//注册成功后跳转到欢迎页
                                 break;
                             case "6":
                                 mvpView.getDataFail("手机号已被注册");

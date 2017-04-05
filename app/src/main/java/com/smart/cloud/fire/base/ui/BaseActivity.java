@@ -53,12 +53,20 @@ public abstract class BaseActivity extends Activity {
 
     private CompositeSubscription mCompositeSubscription;
 
+
+    /**
+     * 取消substription的注册。。
+     */
     public void onUnsubscribe() {
         if (mCompositeSubscription != null) {
             mCompositeSubscription.unsubscribe();//取消注册，以避免内存泄露
         }
     }
 
+    /**
+     * 添加substription的注册。。
+     * @param subscription
+     */
     public void addSubscription(Subscription subscription) {
 //        if (mCompositeSubscription == null) {
         mCompositeSubscription = new CompositeSubscription();

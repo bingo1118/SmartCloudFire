@@ -55,6 +55,7 @@ public class RegisterPhoneActivity extends MvpActivity<RegisterPresenter> implem
     }
 
     private void doAction() {
+        //获取验证码
         RxView.clicks(register_get_code).throttleFirst(2, TimeUnit.SECONDS)
                 .subscribe(new Action1<Void>() {
                     @Override
@@ -82,6 +83,7 @@ public class RegisterPhoneActivity extends MvpActivity<RegisterPresenter> implem
                         Intent intent1 = new Intent(mContext,LoginActivity.class);
                         startActivity(intent1);
                         finish();
+                        //一个参数是第一个activity进入时的动画，另外一个参数则是第二个activity退出时的动画。。
                         overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
                     }
                 });

@@ -23,6 +23,11 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
         attachView(view);
     }
 
+    /**
+     * 获取所有的设备。。
+     * @param userId
+     * @param privilege
+     */
     public void getAllSmoke(String userId, String privilege){
         mvpView.showLoading();
         Observable mObservable = apiStores1.getAllSmoke(userId,privilege,"");

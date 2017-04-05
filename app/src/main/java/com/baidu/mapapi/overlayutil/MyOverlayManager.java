@@ -82,8 +82,12 @@ public class MyOverlayManager extends OverlayManager {
                     bundle.putSerializable("mNormalSmoke",mCamera);
                     markMap(latLng,overlayOptionses,alarmState,giflist2,viewList.get(3),bundle);
                 }else{
+                    if(smoke.getLatitude().length()==0||smoke.getLongitude().length()==0){
+                       continue;
+                    }//@@
                     double latitude = Double.parseDouble(smoke.getLatitude());
                     double longitude = Double.parseDouble(smoke.getLongitude());
+
                     LatLng latLng = new LatLng(latitude, longitude);
                     bundle.putSerializable("mNormalSmoke",smoke);
                     int devType = smoke.getDeviceType();

@@ -30,6 +30,7 @@ import com.smart.cloud.fire.global.AppConfig;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.NpcCommon;
+import com.smart.cloud.fire.global.TemperatureTime;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -57,6 +58,11 @@ import javax.crypto.spec.DESKeySpec;
 
 public class Utils {
 
+    /**
+     * 验证是否是手机号码
+     * @param input 手机号
+     * @return
+     */
     public static boolean isPhoneNumber(String input){
         String regex="((\\d{11})|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1})|(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1}))$)";
         //String regex = "(^(\\d{3,4}-)?\\d{7,8})$|(13[0-9]{9}) ";
@@ -864,6 +870,11 @@ public class Utils {
         }
     }
 
+    /**
+     * 判断手机网络状态..
+     * @param activity
+     * @return
+     */
     public static boolean isNetworkAvailable(Activity activity)
     {
         Context context = activity.getApplicationContext();
@@ -889,5 +900,13 @@ public class Utils {
         return false;
     }
 
+    public static int getMax(List<TemperatureTime.ElectricBean> electricBeen){
+        int max = (int) Float.parseFloat(electricBeen.get(0).getElectricValue());
+        for(TemperatureTime.ElectricBean electricBean : electricBeen){
+            int value = (int)Float.parseFloat(electricBean.getElectricValue());
+            if (max < value) max = value;
+        }
+        return max;
+    }
 }
 

@@ -7,6 +7,7 @@
     
     <!-- title bar -->
     <include android:id="@+id/title_include" layout="@layout/title_bar"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="42dp">
@@ -25,8 +26,9 @@
             android:textSize="12sp"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
-
+    <!-- 数量显示 -->
     <include android:id="@+id/search_include" layout="@layout/include_search"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

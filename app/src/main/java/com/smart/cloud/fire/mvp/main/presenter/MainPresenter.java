@@ -53,6 +53,7 @@ public class MainPresenter extends BasePresenter<MainView> {
         manager = mContext.getFragmentManager();
         mainContent.setVisibility(View.VISIBLE);
         otherFrameLayout.setVisibility(View.INVISIBLE);
+        //根据用户权限显示界面。。
         switch (privilege){
             case ConstantValues.Privilege.NORMAL_MAN:
                 LinearLayout.LayoutParams linearParams1 =(LinearLayout.LayoutParams) radioGroup.getLayoutParams(); //取控件textView当前的布局参数

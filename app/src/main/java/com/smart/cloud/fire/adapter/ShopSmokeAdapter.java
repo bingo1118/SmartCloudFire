@@ -81,16 +81,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
             switch (devType){
-                case 1:
-                    if (netStates == 0) {
+                case 1://烟感。。
+                    if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_lx);
-                    } else {
+                    } else {//设备在线。。
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_zx);
                     }
                     break;
-                case 2:
+                case 2://燃气。。
                     if (netStates == 0) {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.rq_ygtubiao_sxj_lx);
@@ -99,7 +99,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.rq_ygtubiao_sxj);
                     }
                     break;
-                case 5:
+                case 5://电气。。
                     if (netStates == 0) {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.dq_ygtubiao_slx);
@@ -108,7 +108,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.dq_ygtubiao_sxj);
                     }
                     break;
-                case 7:
+                case 7://声光。。
                     if (netStates == 0) {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sg_ygtubiao_sxj_lx);
@@ -117,7 +117,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sg_ygtubiao_sxj);
                     }
                     break;
-                case 8:
+                case 8://手动。。
                     if (netStates == 0) {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sb_ygtubiao_sxj_lx);
@@ -126,7 +126,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sb_ygtubiao_sxj);
                     }
                     break;
-                case 9:
+                case 9://烟感。。
                     if (netStates == 0) {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_lx);
@@ -146,7 +146,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ItemViewHolder) holder).groupPrincipal2.setText(normalSmoke.getPrincipal2());
             ((ItemViewHolder) holder).groupPhone2.setText(normalSmoke.getPrincipal2Phone());
             ((ItemViewHolder) holder).repeaterTv2.setText(normalSmoke.getRepeater());
-            ((ItemViewHolder) holder).groupPhone1.setOnClickListener(new View.OnClickListener() {
+            ((ItemViewHolder) holder).groupPhone1.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
                     String phoneOne = normalSmoke.getPrincipal1Phone();

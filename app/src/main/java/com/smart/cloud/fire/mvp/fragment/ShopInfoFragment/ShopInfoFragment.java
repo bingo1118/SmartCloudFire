@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,7 +135,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                     lin1.setVisibility(View.VISIBLE);
                 }
                 break;
-            case R.id.area_condition:
+            case R.id.area_condition://地区类型
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
@@ -143,7 +144,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                     areaCondition.showLoading();
                 }
                 break;
-            case R.id.shop_type_condition:
+            case R.id.shop_type_condition://商铺类型
                 if (shopTypeCondition.ifShow()) {
                     shopTypeCondition.closePopWindow();
                 } else {
@@ -152,7 +153,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                     shopTypeCondition.showLoading();
                 }
                 break;
-            case R.id.search_fire:
+            case R.id.search_fire://查询按钮
                 if (!Utils.isNetworkAvailable(getActivity())) {
                     return;
                 }
@@ -179,10 +180,11 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                     } else {
                         shopTypeId = "";
                     }
+                    //判断当前在哪个子fragment。。
                     switch (position) {
                         case FRAGMENT_ONE:
-                            mvpPresenter.getNeedSmoke(userID, privilege + "", areaId, shopTypeId, allDevFragment);
-                            mvpPresenter.getSmokeSummary(userID,privilege+"",areaId);
+                            mvpPresenter.getNeedSmoke(userID, privilege + "", areaId, shopTypeId, allDevFragment);//显示设备。。
+                            mvpPresenter.getSmokeSummary(userID,privilege+"",areaId);//显示总数。。
                             break;
                         case FRAGMENT_TWO:
                             mvpPresenter.getNeedElectricInfo(userID, privilege + "", areaId, shopTypeId,"",electricFragment);

@@ -24,7 +24,8 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("Users/LoginCheck.ashx")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<LoginModel> loginYooSee(@Field("User") String User, @Field("Pwd") String Pwd,
+    Observable<LoginModel>
+    loginYooSee(@Field("User") String User, @Field("Pwd") String Pwd,
                                        @Field("VersionFlag") String VersionFlag, @Field("AppOS") String AppOS,
                                        @Field("AppVersion") String AppVersion);
     //登录本地服务器

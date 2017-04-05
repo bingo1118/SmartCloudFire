@@ -79,6 +79,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         initView();
         regFilter();
         startService(new Intent(MainActivity.this, RemoteService.class));
+        //启动个推接收推送信息。。
         PushManager.getInstance().initialize(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoPushService.class);
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoIntentService.class);
     }
@@ -107,10 +108,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     private void connect() {
-        Intent service = new Intent(mContext, MainService.class);
+        Intent service = new Intent(mContext, MainService.class);//检查更新版本服务。。
         startService(service);
     }
 
+    /**
+     * 添加广播接收器件。。
+     */
     private void regFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction("Constants.Action.ACTION_UPDATE");

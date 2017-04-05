@@ -93,6 +93,7 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        //下拉刷新。。
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

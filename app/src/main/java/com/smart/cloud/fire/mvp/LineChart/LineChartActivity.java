@@ -15,6 +15,7 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.TemperatureTime;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.Utils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -151,7 +152,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
             for (int j = 0; j < numberOfPoints; ++j) {
                 if (j > 0 && j < 7) {
                     values.add(new PointValue(j, randomNumbersTab[i][j]));
-                    axisValuesX.add(new AxisValue(j).setLabel(getTime(list.get(6 - j).getElectricTime())));
+                    axisValuesX.add(new AxisValue(j).setLabel(getTime(list.get(j-1).getElectricTime())));
                 }
             }
 
@@ -232,25 +233,33 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     /**
      * 重点方法，计算绘制图表
      */
-    private void resetViewport() {
+    private void resetViewport(List<TemperatureTime.ElectricBean> tem) {
         //创建一个图标视图,大小为控件的最大大小
+        int value=0;
+        if(tem!=null&&tem.size()>0){
+            value = Utils.getMax(tem)*2;
+        }
         final Viewport v = new Viewport(mLineChartView.getMaximumViewport());
         v.left = 0;                             //坐标原点在左下
         v.bottom = 0;
-        switch (electricType) {
-            case "6":
-                v.top = 400;
-                break;
-            case "7":
-                v.top = 50;
-                break;
-            case "8":
-                v.top = 700;
-                break;
-            case "9":
-                v.top = 80;
-                break;
+        v.top = value;
+        if(value==0){
+            switch (electricType) {
+                case "6":
+                    v.top = 400;
+                    break;
+                case "7":
+                    v.top = 50;
+                    break;
+                case "8":
+                    v.top = 700;
+                    break;
+                case "9":
+                    v.top = 80;
+                    break;
+            }
         }
+
         //最高点为100
         v.right = numberOfPoints - 1;           //右边为点 坐标从0开始 点号从1 需要 -1
         mLineChartView.setMaximumViewport(v);   //给最大的视图设置 相当于原图
@@ -278,7 +287,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         }
         setPointsValues(electricBeen);
         setLinesDatas(electricBeen);
-        resetViewport();
+        resetViewport(electricBeen);
     }
 
     @Override

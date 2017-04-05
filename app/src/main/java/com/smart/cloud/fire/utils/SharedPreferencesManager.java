@@ -68,6 +68,13 @@ public class SharedPreferencesManager {
         return manager;
     }
 
+    /**
+     * 获取名为fileName的sharedPreferences中key为key的值
+     * @param context
+     * @param fileName
+     * @param key
+     * @return
+     */
     public String getData(Context context, String fileName, String key) {
         SharedPreferences sf = context.getSharedPreferences(fileName,
                 context.MODE_PRIVATE);

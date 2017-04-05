@@ -166,16 +166,16 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             mvpView.addSmokeResult("请填选择区域",1);
             return;
         }
-        String deviceType="1";
+        String deviceType="1";//烟感。。
 
         String macStr = (String) smokeMac.subSequence(0, 1);
         switch (macStr){
             case "R":
-                smokeMac = smokeMac.replace("R","");
+                smokeMac = smokeMac.replace("R","");//燃气
                 deviceType="2";
                 break;
             case "Q":
-                smokeMac = smokeMac.replace("Q","");
+                smokeMac = smokeMac.replace("Q","");//电气火灾
                 deviceType="5";
                 break;
             case "G":

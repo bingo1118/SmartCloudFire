@@ -72,7 +72,7 @@
                     myradio:myDrawableSize="25dp"
                     android:gravity="center"
                     android:textColor="@color/color_radio_button"
-                    android:text="商铺信息"
+                    android:text="数据"
                     android:textSize="12sp" />
 
                 <com.smart.cloud.fire.view.MyRadioButton

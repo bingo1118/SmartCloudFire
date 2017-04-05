@@ -38,25 +38,25 @@ import rx.functions.Action1;
  */
 public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresenter> implements ConfireFireFragmentView {
     @Bind(R.id.add_repeater_mac)
-    EditText addRepeaterMac;
+    EditText addRepeaterMac;//集中器。。
     @Bind(R.id.add_fire_mac)
-    EditText addFireMac;
+    EditText addFireMac;//探测器。。
     @Bind(R.id.add_fire_name)
-    EditText addFireName;
+    EditText addFireName;//设备名称。。
     @Bind(R.id.add_fire_lat)
-    EditText addFireLat;
+    EditText addFireLat;//经度。。
     @Bind(R.id.add_fire_lon)
-    EditText addFireLon;
+    EditText addFireLon;//纬度。。
     @Bind(R.id.add_fire_address)
-    EditText addFireAddress;
+    EditText addFireAddress;//设备地址。。
     @Bind(R.id.add_fire_man)
-    EditText addFireMan;
+    EditText addFireMan;//负责人姓名。。
     @Bind(R.id.add_fire_man_phone)
-    EditText addFireManPhone;
+    EditText addFireManPhone;//负责人电话。。
     @Bind(R.id.add_fire_man_two)
-    EditText addFireManTwo;
+    EditText addFireManTwo;//负责人2.。
     @Bind(R.id.add_fire_man_phone_two)
-    EditText addFireManPhoneTwo;
+    EditText addFireManPhoneTwo;//负责人电话2.。
     @Bind(R.id.scan_repeater_ma)
     ImageView scanRepeaterMa;
     @Bind(R.id.scan_er_wei_ma)
@@ -64,11 +64,11 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     @Bind(R.id.location_image)
     ImageView locationImage;
     @Bind(R.id.add_fire_zjq)
-    XCDropDownListView addFireZjq;
+    XCDropDownListView addFireZjq;//选择区域。。
     @Bind(R.id.add_fire_type)
-    XCDropDownListView addFireType;
+    XCDropDownListView addFireType;//选择类型。。
     @Bind(R.id.add_fire_dev_btn)
-    RelativeLayout addFireDevBtn;
+    RelativeLayout addFireDevBtn;//添加设备按钮。。
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.add_camera_name)
@@ -115,6 +115,9 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         });
     }
 
+    /**
+     * 添加设备，提交设备信息。。
+     */
     private void addFire() {
         if (mShopType != null) {
             shopTypeId = mShopType.getPlaceTypeId();

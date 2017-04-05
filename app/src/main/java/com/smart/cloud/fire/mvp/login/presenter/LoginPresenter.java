@@ -33,6 +33,13 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         attachView(view);
     }
 
+    /**
+     * 登陆技威服务器
+     * @param User
+     * @param Pwd
+     * @param context
+     * @param type
+     */
     public void loginYooSee(final String User, final String Pwd, final Context context, final int type) {
         String AppVersion = MyUtils.getBitProcessingVersion();
         MD5 md = new MD5();
@@ -56,6 +63,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 String errorCode = model.getError_code();
                 if(errorCode.equals("0")){
                     editSharePreference(context,model,User,Pwd);
+                    //登陆内部服务器获取用户权限
                     loginServer(User);
                 }else{
                     mvpView.hideLoading();
@@ -95,6 +103,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         }));
     }
 
+    /**
+     * 登陆内部服务器，获取信息到Login Model，errorCode=0表示登陆成功，设置权限。。
+     * @param userId
+     */
     private void loginServer(String userId){
         Observable<LoginModel> observable = apiStores1.login(userId);
         addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
@@ -102,15 +114,19 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onSuccess(LoginModel model) {
                 int errorCode = model.getErrorCode();
                 if(errorCode==0){
+                    //获取到内部服务器的用户权限，并配置到MyAPP
                     MyApp.app.setPrivilege(model.getPrivilege());
+                    //跳转到主界面
                     mvpView.getDataSuccess(model);
                 }else{
+                    //跳转到登陆界面
                     mvpView.getDataFail("登录失败，请重新登录");
                 }
             }
 
             @Override
             public void onFailure(int code, String msg) {
+                //跳转到登陆界面
                 mvpView.getDataFail("网络错误，请检查网络");
             }
 
@@ -127,7 +143,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         MD5 md = new MD5();
         String password = md.getMD5ofStr(Pwd);
         if(type==1){
-            mvpView.showLoading();
+            mvpView.showLoading();//显示登陆进度条。。
         }
         Random random = new Random();
         int value = random.nextInt(4);
@@ -135,8 +151,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             @Override
             public Observable<LoginModel> call(LoginModel loginModel) {
                 if(loginModel.getError_code().equals("0")){
-                    editSharePreference(context,loginModel,User,Pwd);
-                    return apiStores1.login(User);
+                    editSharePreference(context,loginModel,User,Pwd);//存储用户和密码到sharedprefesion。。
+                    return apiStores1.login(User);//登陆内部服务器。。
                 }else {
                     Observable<LoginModel> observable = Observable.just(loginModel);
                     return observable;
@@ -151,8 +167,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             int errorCode = model.getErrorCode();
                             switch (errorCode){
                                 case 0:
-                                    MyApp.app.setPrivilege(model.getPrivilege());
-                                    mvpView.getDataSuccess(model);
+                                    MyApp.app.setPrivilege(model.getPrivilege());//设置权限。。
+                                    mvpView.getDataSuccess(model);//获取数据成功，跳转到主界面
                                     break;
                                 default:
                                     if(type==0){

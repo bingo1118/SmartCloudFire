@@ -110,7 +110,13 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
         }));
     }
 
-    //type:1表示查询商铺类型，2表示查询区域类型
+    /**
+     * 获取选项列表数据。。
+     * type:1表示查询商铺类型，2表示查询区域类型
+     * @param userId
+     * @param privilege
+     * @param type
+     */
     public void getPlaceTypeId(String userId, String privilege, final int type){
         Observable mObservable = null;
         if(type==1){
@@ -128,6 +134,7 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
                 }
             });
         }
+        //跳转会shopinfofragment处理现实。。
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ArrayList<Object>>() {
             @Override
             public void onSuccess(ArrayList<Object> model) {

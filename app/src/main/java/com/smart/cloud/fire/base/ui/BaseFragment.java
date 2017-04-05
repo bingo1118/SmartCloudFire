@@ -94,7 +94,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * fragment name
+     * 获取fragment名字。。
      */
     public abstract String getFragmentName();
 
