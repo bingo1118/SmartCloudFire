@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/about_gw_tv"
-                android:text="广州市瀚润信息科技股份有限公司"
+                android:text="广州瀚润信息科技股份有限公司"
                 android:textColor="#9b9b9b"
                 />
         </RelativeLayout>

@@ -139,6 +139,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             ((ItemViewHolder) holder).groupTvAddress.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).groupTv.setText(normalSmoke.getName());
+            ((ItemViewHolder) holder).macTv.setText("mac:"+normalSmoke.getMac());//@@
             ((ItemViewHolder) holder).repeaterNameTv.setText(normalSmoke.getPlaceType());
             ((ItemViewHolder) holder).repeaterMacTv.setText(normalSmoke.getAreaName());
             ((ItemViewHolder) holder).groupPrincipal1.setText(normalSmoke.getPrincipal1());
@@ -209,6 +210,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ImageView groupImage;
         @Bind(R.id.group_tv)
         TextView groupTv;
+        @Bind(R.id.mac_tv)//@@
+        TextView macTv;
         @Bind(R.id.repeater_tv2)
         TextView repeaterTv2;
         @Bind(R.id.repeater_rela)

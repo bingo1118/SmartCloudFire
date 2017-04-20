@@ -158,12 +158,21 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             mvpView.addSmokeResult("请获取经纬度",1);
             return;
         }
+        if(smokeName.length()==0||smokeName.length()==0){
+            mvpView.addSmokeResult("请填写名称",1);
+            return;
+        }
         if(smokeMac.length()==0){
             mvpView.addSmokeResult("请填写探测器MAC",1);
             return;
         }
         if(areaId==null||areaId.length()==0){
             mvpView.addSmokeResult("请填选择区域",1);
+            return;
+        }
+        //@@
+        if(placeTypeId==null||placeTypeId.length()==0){
+            mvpView.addSmokeResult("请填选择类型",1);
             return;
         }
         String deviceType="1";//烟感。。
