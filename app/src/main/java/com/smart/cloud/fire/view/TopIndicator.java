@@ -38,7 +38,7 @@ public class TopIndicator extends RelativeLayout {
     private List<TextView> mTextView = new ArrayList<>();
     private List<View> mViewList = new ArrayList<>();
     // 顶部菜单的文字数组
-    private CharSequence[] mLabels = new CharSequence[] { "探测器", "电气火灾","视频", "故障"};
+    private CharSequence[] mLabels = new CharSequence[] { "探测器", "电气火灾","视频", "离线"};
     private int mScreenWidth;
     private int mUnderLineWidth;
     private View mUnderLine;//底部滑块。。

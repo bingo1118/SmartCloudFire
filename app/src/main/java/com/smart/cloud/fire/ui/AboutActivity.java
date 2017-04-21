@@ -20,15 +20,15 @@ public class AboutActivity extends Activity{
         setContentView(R.layout.activity_about);
         mContext = this;
         about_version = (TextView) findViewById(R.id.about_version);
-        int version =getlocalVersion();
-        about_version.setText(version+".0");
+        String version =getlocalVersion();
+        about_version.setText(version);
     }
 
-    private int getlocalVersion(){
-        int localversion = 0;
+    private String getlocalVersion(){
+        String localversion = "";
         try {
             PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-            localversion = info.versionCode;
+            localversion = info.versionName;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }

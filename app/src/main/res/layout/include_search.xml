@@ -74,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="故障数:"/>
+                android:text="离线数:"/>
             <TextView
                 android:id="@+id/offline_num"
                 android:layout_width="match_parent"
