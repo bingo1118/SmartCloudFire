@@ -266,4 +266,15 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             mWakelock.acquire();
         }
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        ButterKnife.bind(this);
+        mContext = this;
+        mPushAlarmMsg = (PushAlarmMsg) intent.getExtras().getSerializable("mPushAlarmMsg");
+        alarmMsg = intent.getExtras().getString("alarmMsg");
+        init();
+        regFilter();
+        super.onNewIntent(intent);
+    }
 }

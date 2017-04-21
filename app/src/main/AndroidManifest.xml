@@ -141,7 +141,8 @@
         <activity
             android:name="com.smart.cloud.fire.mvp.Alarm.AlarmActivity"
             android:label="@string/title_activity_bndemo_guide"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask"/>
         <activity
             android:name="com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity"
             android:label="@string/title_activity_bndemo_guide"
