@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -55,6 +60,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     XCDropDownListViewMapSearch areaCondition;
     @Bind(R.id.shop_type_condition)
     XCDropDownListViewMapSearch shopTypeCondition;
+    @Bind(R.id.spinner)
+    Spinner spinner;//@@
     private BaiduMap mBaiduMap;
     private Context mContext;
     private String userID;
@@ -82,13 +89,14 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
+        mvpPresenter.getPlaceTypeId(userID, privilege + "", 3);//@@
         if (privilege == 1) {
-            add_fire.setVisibility(View.GONE);
+            add_fire.setVisibility(View.GONE);//权限为1时没有搜索功能。。
         } else {
             add_fire.setVisibility(View.VISIBLE);
             add_fire.setImageResource(R.drawable.search);
         }
-        mvpPresenter.getAllSmoke(userID, privilege + "");
+//        mvpPresenter.getAllSmoke(userID, privilege + "");//获取所有设备并显示。。
     }
 
     @Override
@@ -154,6 +162,10 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         });
     }
 
+    /**
+     * 初始化各种设备的标记图标。。
+     * @return
+     */
     private List<BitmapDescriptor> initMark(){
         View viewA = LayoutInflater.from(mContext).inflate(
                 R.layout.image_mark, null);
@@ -214,6 +226,10 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         mProgressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * 显示商铺类型列表。。
+     * @param shopTypes
+     */
     @Override
     public void getShopType(ArrayList<Object> shopTypes) {
         shopTypeCondition.setItemsData(shopTypes,mMapFragmentPresenter);
@@ -229,12 +245,45 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         shopTypeCondition.closeLoading();
     }
 
+    /**
+     *显示区域列表。。
+     * @param shopTypes
+     */
     @Override
     public void getAreaType(ArrayList<Object> shopTypes) {
         areaCondition.setItemsData(shopTypes,mMapFragmentPresenter);
         areaCondition.showPopWindow();
         areaCondition.setClickable(true);
         areaCondition.closeLoading();
+    }
+
+    ArrayList<Object> arealist;//@@
+    //@@获取区域列表。。
+    @Override
+    public void getAreaList(ArrayList<Object> shopTypes) {
+        arealist=shopTypes;
+        String[] mItems=new String[shopTypes.size()];
+        for(int i=0;i<arealist.size();i++){
+            mItems[i]=((Area)arealist.get(i)).getAreaName();
+        }
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item, mItems);
+        //绑定 Adapter到控件
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        int selectedAreaId=SharedPreferencesManager.getInstance().getIntData(mContext,"selectedAreaId");
+        spinner.setSelection(selectedAreaId);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "");//获取按照要求获取设备。。
+                SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaId",position);
+                TextView tv=(TextView)view;
+                tv.setTextColor(mContext.getResources().getColor(R.color.white));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override
@@ -335,7 +384,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     } else {
                         shopTypeId = "";
                     }
-                    mvpPresenter.getNeedSmoke(userID, privilege + "", areaId, shopTypeId);
+                    mvpPresenter.getNeedSmoke(userID, privilege + "", areaId, shopTypeId);//获取按照要求获取设备。。
                 }
                 break;
             case R.id.add_fire:

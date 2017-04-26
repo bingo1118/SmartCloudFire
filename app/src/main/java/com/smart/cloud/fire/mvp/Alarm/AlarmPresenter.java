@@ -1,6 +1,7 @@
 package com.smart.cloud.fire.mvp.Alarm;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.MyApp;
@@ -9,6 +10,7 @@ import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.RxTimeCount;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.MusicManger;
+import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
 
@@ -51,6 +53,12 @@ public class AlarmPresenter extends BasePresenter<AlarmView>{
                 });
     }
     private void loadMusicAndVibrate(Context context) {
+        long lastclosetime=SharedPreferencesManager.getInstance().getLongData(context,
+                "AlarmVoice",
+                "closealarmvoice");//@@
+        if((System.currentTimeMillis()-lastclosetime)<60*1000){
+            return;
+        }//@@
         MusicManger.getInstance().playAlarmMusic(context);
         new Thread() {
             public void run() {

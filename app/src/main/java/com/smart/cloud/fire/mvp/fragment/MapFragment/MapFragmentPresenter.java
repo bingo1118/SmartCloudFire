@@ -84,6 +84,8 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
                     }else{
                         mvpView.getShopTypeFail("无数据");
                     }
+                }else if(type==3){
+                    mvpView.getAreaList(model);
                 }else{
                     if(model!=null&&model.size()>0){
                         mvpView.getAreaType(model);

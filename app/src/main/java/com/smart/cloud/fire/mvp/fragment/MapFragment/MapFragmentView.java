@@ -35,4 +35,6 @@ public interface MapFragmentView {
     void getChoiceArea(Area area);
 
     void getChoiceShop(ShopType shopType);
+
+    void getAreaList(ArrayList<Object> shopTypes);//@@
 }

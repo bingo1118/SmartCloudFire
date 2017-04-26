@@ -24,6 +24,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
 import com.smart.cloud.fire.ui.ApMonitorActivity;
 import com.smart.cloud.fire.utils.MusicManger;
+import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.view.MyImageView;
 
 import java.lang.ref.Reference;
@@ -172,6 +173,10 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                 break;
             case R.id.alarm_music_image:
                 if (musicOpenOrClose) {
+                    SharedPreferencesManager.getInstance().putData(mContext,
+                            "AlarmVoice",
+                            "closealarmvoice",
+                            System.currentTimeMillis());//@@
                     MusicManger.getInstance().stop();
                     alarmMusicImage.setImageResource(R.drawable.bj_yl_jy);
                     musicOpenOrClose = false;
