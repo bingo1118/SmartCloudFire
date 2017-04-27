@@ -32,46 +32,7 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
         attachView(view);
     }
 
-    public void getAllSmoke(String userId, String privilege, String page, final List<Smoke> list, final int type,boolean refresh){
-        if(!refresh){
-            mvpView.showLoading();
-        }
-        Observable mObservable = apiStores1.getAllSmoke(userId,privilege,page);
-        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
-            @Override
-            public void onSuccess(HttpError model) {
-                int result=model.getErrorCode();
-                if(result==0){
-                    List<Smoke> smokeList = model.getSmoke();
-                    if(type==1){
-                        if(list==null||list.size()==0){
-                            mvpView.getDataSuccess(smokeList,false);
-                        }else if(list!=null&&list.size()>=20){
-                            mvpView.onLoadingMore(smokeList);
-                        }
-                    }
-                }else{
-                    List<Smoke> mSmokeList = new ArrayList<>();
-                    mvpView.getDataSuccess(mSmokeList,false);
-                    mvpView.getDataFail("无数据");
-                }
-            }
 
-            @Override
-            public void onFailure(int code, String msg) {
-                if(type!=1){
-                    List<Smoke> mSmokeList = new ArrayList<>();
-                    mvpView.getDataSuccess(mSmokeList,false);
-                }
-                mvpView.getDataFail("网络错误");
-            }
-
-            @Override
-            public void onCompleted() {
-                mvpView.hideLoading();
-            }
-        }));
-    }
 
     public void getAllCamera(String userId, String privilege, String page, final List<Camera> list,boolean refresh){
         if(!refresh){
@@ -207,9 +168,13 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
                         allDevFragment.getDataSuccess(smokes,true);
                     }else {
                         mvpView.getDataFail("无数据");
+                        List<Smoke> smokes = new ArrayList<Smoke>();//@@4.27
+                        allDevFragment.getDataSuccess(smokes,true);//@@4.27
                     }
                 }else{
                     mvpView.getDataFail("无数据");
+                    List<Smoke> smokes = new ArrayList<Smoke>();//@@4.27
+                    allDevFragment.getDataSuccess(smokes,true);//@@4.27
                 }
             }
             @Override
@@ -258,6 +223,97 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
 
             @Override
             public void onCompleted() {
+            }
+        }));
+    }
+
+    public void getAllSmoke(String userId, String privilege, String page, final List<Smoke> list, final int type,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getAllSmoke(userId,privilege,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                if(result==0){
+                    List<Smoke> smokeList = model.getSmoke();
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            mvpView.getDataSuccess(smokeList,false);
+                        }else if(list!=null&&list.size()>=20){
+                            mvpView.onLoadingMore(smokeList);
+                        }
+                    }
+                }else{
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                }
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
+    /**
+     * @@4.27
+     * @param userId
+     * @param privilege
+     * @param page
+     * @param list
+     * @param type
+     * @param refresh
+     */
+    public void getAllElectricInfo(String userId, String privilege, String page, final List<Electric> list, final int type,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getAllElectricInfo(userId,privilege,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                if(result==0){
+                    List<Electric> electricList = model.getElectric();
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            mvpView.getDataSuccess(electricList,false);
+                        }else if(list!=null&&list.size()>=20){
+                            mvpView.onLoadingMore(electricList);
+                        }
+                    }
+                }else{
+                    List<Electric> electricList = new ArrayList<>();
+                    mvpView.getDataSuccess(electricList,false);
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<Smoke> electricList = new ArrayList<>();
+                    mvpView.getDataSuccess(electricList,false);
+                }
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
             }
         }));
     }

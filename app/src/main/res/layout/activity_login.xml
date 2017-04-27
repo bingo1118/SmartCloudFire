@@ -28,6 +28,7 @@
           android:layout_marginLeft="10dp"
           android:layout_marginRight="10dp"
           android:hint="@string/user_num"
+          android:lines="1"
           android:textColorHint="@color/hint_color_text"
           android:textColor="@color/text_view_and_kuang"
           android:imeOptions="actionNext"
@@ -52,6 +53,7 @@
             android:layout_alignParentBottom="true"
             android:textColorHint="@color/hint_color_text"
             android:hint="@string/pwd"
+            android:lines="1"
             android:textColor="@color/text_view_and_kuang"
             android:imeOptions="actionDone"
             />

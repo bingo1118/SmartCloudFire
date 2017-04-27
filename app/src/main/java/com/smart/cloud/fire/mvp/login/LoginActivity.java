@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.base.ui.MvpActivity;
@@ -62,6 +63,14 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                     public void call(Void aVoid) {
                         userId = login_user.getText().toString().trim();
                         String pwd = login_pwd.getText().toString().trim();
+                        if(userId.length()==0){
+                            T.show(mContext,"账号不能为空",Toast.LENGTH_SHORT);
+                            return;
+                        }
+                        if(pwd.length()==0){
+                            T.show(mContext,"密码不能为空",Toast.LENGTH_SHORT);
+                            return;
+                        }
                         mvpPresenter.loginYooSee(userId,pwd,mContext,1);
                     }
                 });

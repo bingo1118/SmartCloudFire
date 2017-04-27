@@ -88,6 +88,11 @@ public interface ApiStores {
                                             @Query("areaId") String areaId,@Query("page") String page,
                                             @Query("placeTypeId") String placeTypeId);
 
+    //根据查询内容查询用户烟感
+    @GET("getSmokeBySearch")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getSearchSmoke(@Query("userId") String userId, @Query("privilege") String privilege,
+                                       @Query("search") String search);
     //处理报警消息
     @GET("dealAlarm")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -181,7 +186,7 @@ public interface ApiStores {
 
     @GET("getAllElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<ElectricInfo<Electric>> getAllElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
+    Observable<HttpError> getAllElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                           @Query("page") String page);
 //    getOneElectricInfo?userId=13428282520&privilege=2&smokeMac=32110533
     @GET("getOneElectricInfo")

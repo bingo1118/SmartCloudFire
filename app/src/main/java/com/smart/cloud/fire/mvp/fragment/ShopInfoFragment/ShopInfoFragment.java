@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
@@ -349,6 +350,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
 
     @Override
     public void getDataFail(String msg) {
+        T.show(mContext,msg, Toast.LENGTH_SHORT);//@@4.27
     }
 
     @Override

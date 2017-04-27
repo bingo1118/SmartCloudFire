@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -54,6 +57,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     LinearLayout lin1;
     @Bind(R.id.search_fire)
     ImageView search_fire;
+    @Bind(R.id.search_fire_btn)
+    Button search_fire_btn;
     @Bind(R.id.add_fire)
     ImageView add_fire;
     @Bind(R.id.area_condition)
@@ -62,6 +67,10 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     XCDropDownListViewMapSearch shopTypeCondition;
     @Bind(R.id.spinner)
     Spinner spinner;//@@
+    @Bind(R.id.area_search)
+    EditText area_search;//@@
+    @Bind(R.id.lin_search)
+    LinearLayout lin_search;//@@
     private BaiduMap mBaiduMap;
     private Context mContext;
     private String userID;
@@ -357,9 +366,21 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
 
     private boolean visibility = false;
 
-    @OnClick({R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition})
+    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.search_fire_btn://@@4.27
+                String search=area_search.getText().toString();//@@4.27
+                area_search.setText("");
+                if(search.length()!=0&&search!=null){
+                    lin_search.setVisibility(View.GONE);//@@4.27
+                    mvpPresenter.getSearchSmoke(userID, privilege + "",search );//@@4.27获取查询内容获取设备。。
+                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入软键盘@@4.27
+                }else{
+                    T.show(mContext,"查询内容不能为空",Toast.LENGTH_SHORT);
+                }
+                break;
             case R.id.search_fire:
                 if (shopTypeCondition.ifShow()) {
                     shopTypeCondition.closePopWindow();
@@ -368,7 +389,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     areaCondition.closePopWindow();
                 }
                 if ((mShopType != null && mShopType.getPlaceTypeId() != null) || (mArea != null && mArea.getAreaId() != null)) {
-                    lin1.setVisibility(View.GONE);
+                    lin_search.setVisibility(View.GONE);
                     search_fire.setVisibility(View.GONE);
                     add_fire.setVisibility(View.VISIBLE);
                     areaCondition.searchClose();
@@ -384,13 +405,12 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     } else {
                         shopTypeId = "";
                     }
-                    mvpPresenter.getNeedSmoke(userID, privilege + "", areaId, shopTypeId);//获取按照要求获取设备。。
                 }
                 break;
             case R.id.add_fire:
                 if (visibility) {
                     visibility = false;
-                    lin1.setVisibility(View.GONE);
+                    lin_search.setVisibility(View.GONE);
                     if (areaCondition.ifShow()) {
                         areaCondition.closePopWindow();
                     }
@@ -403,7 +423,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     shopTypeCondition.setEditText("");
                     areaCondition.setEditTextHint("区域");
                     shopTypeCondition.setEditTextHint("类型");
-                    lin1.setVisibility(View.VISIBLE);
+                    lin_search.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.shop_type_condition:

@@ -54,6 +54,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 userId = "+86-"+User;
         }else{
             mvpView.getDataFail("用户不存在");
+            mvpView.hideLoading();
             return;
         }
         Observable<LoginModel> observable = apiStores[value].loginYooSee(userId, password, "1", "3", AppVersion);
@@ -78,6 +79,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             T.showShort(context,"用户名不能为空");
                             break;
                         default:
+                            T.showShort(context,"用户名或密码错误");//@@4.27
                             break;
                     }
                     if(type==0){
