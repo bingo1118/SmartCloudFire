@@ -376,7 +376,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     lin_search.setVisibility(View.GONE);//@@4.27
                     mvpPresenter.getSearchSmoke(userID, privilege + "",search );//@@4.27获取查询内容获取设备。。
                     InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入软键盘@@4.27
+                    if(imm.isActive()){
+                        imm.hideSoftInputFromWindow(search_fire_btn.getWindowToken(),0);//隐藏输入软键盘@@4.28
+                    }
                 }else{
                     T.show(mContext,"查询内容不能为空",Toast.LENGTH_SHORT);
                 }

@@ -44,6 +44,8 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
                         mvpView.getDataByCondition(alarmMessageModels);
                     }
                 }else{
+                    List<AlarmMessageModel> alarmMessageModels = new ArrayList<AlarmMessageModel>();//@@5.3
+                    mvpView.getDataSuccess(alarmMessageModels);//@@5.3
                     mvpView.getDataFail("无数据");
                 }
             }

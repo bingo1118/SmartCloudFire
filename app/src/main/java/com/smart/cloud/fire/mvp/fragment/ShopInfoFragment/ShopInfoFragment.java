@@ -219,6 +219,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         position = index;
         switch (index) {
             case FRAGMENT_ONE:
+                addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (allDevFragment == null) {
                     allDevFragment = new AllDevFragment();
                     ft.add(R.id.fragment_content, allDevFragment);
@@ -227,6 +228,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 }
                 break;
             case FRAGMENT_TWO:
+                addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (electricFragment == null) {
                     electricFragment = new ElectricFragment();
                     ft.add(R.id.fragment_content, electricFragment);
@@ -235,6 +237,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 }
                 break;
             case FRAGMENT_THREE:
+                addFire.setVisibility(View.GONE);//视频界面没有搜索功能@@5.3
                 if (cameraFragment == null) {
                     cameraFragment = new CameraFragment();
                     ft.add(R.id.fragment_content, cameraFragment);
@@ -243,6 +246,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 }
                 break;
             case FRAGMENT_FOUR:
+                addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (offLineDevFragment == null) {
                     offLineDevFragment = new OffLineDevFragment();
                     ft.add(R.id.fragment_content, offLineDevFragment);

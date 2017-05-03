@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -68,10 +69,26 @@ public class RegisterPhoneActivity extends MvpActivity<RegisterPresenter> implem
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if(imm.isActive()){
+                            imm.hideSoftInputFromWindow(register_btn_phone.getWindowToken(),0);//隐藏输入软键盘@@4.28
+                        }
                         String phoneNO = register_user.getText().toString().trim();
                         String pwd = register_pwd.getText().toString().trim();
                         String rePwd = register_comfire_pwd.getText().toString().trim();
                         String code = register_code.getText().toString().trim();
+                        if(phoneNO.length()==0){
+                            T.showShort(mContext,"请输入注册的手机号");
+                            return;
+                        };
+                        if(pwd.length()==0){
+                            T.showShort(mContext,"请输入注册密码");
+                            return;
+                        };
+                        if(rePwd.length()==0){
+                            T.showShort(mContext,"请再次输入注册密码");
+                            return;
+                        };
                         mvpPresenter.register(phoneNO,pwd,rePwd,code,mContext);
                     }
                 });

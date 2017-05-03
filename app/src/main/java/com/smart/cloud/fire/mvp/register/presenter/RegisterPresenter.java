@@ -112,6 +112,7 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                                 break;
                             case "18":
                                 mvpView.getDataFail("验证码输入错误");
+                                break;
                             case "10":
                                 mvpView.getDataFail("两次输入的密码不一致");
                                 break;

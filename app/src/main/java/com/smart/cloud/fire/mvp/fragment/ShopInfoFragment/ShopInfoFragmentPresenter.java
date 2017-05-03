@@ -282,9 +282,9 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
             mvpView.showLoading();
         }
         Observable mObservable = apiStores1.getAllElectricInfo(userId,privilege,page);
-        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
             @Override
-            public void onSuccess(HttpError model) {
+            public void onSuccess(ElectricInfo<Electric> model) {
                 int result=model.getErrorCode();
                 if(result==0){
                     List<Electric> electricList = model.getElectric();
@@ -334,6 +334,10 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
                     }else{
                         mvpView.onLoadingMore(electricList);
                     }
+                }else{//@@4.28
+                    List<Electric> electricList = new ArrayList<>();
+                    mvpView.getDataSuccess(electricList,false);
+                    mvpView.getDataFail("无数据");
                 }
             }
 

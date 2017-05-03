@@ -43,6 +43,8 @@ public class PushDemoReceiver extends BroadcastReceiver {
 
         switch (bundle.getInt(PushConsts.CMD_ACTION)) {
             case PushConsts.GET_MSG_DATA:
+
+
                 // 获取透传数据
                 payload = bundle.getByteArray("payload");
                 if(payload!=null){
@@ -57,7 +59,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                                 int alarmType = dataJson.getInt("alarmType");
                                 if(deviceType==1){
                                     if(alarmType==202) {
-                                        message="发生火灾";
+                                        message="发生烟雾报警";
                                     }else{
                                         message="烟感电量低，请更换电池";
                                     }

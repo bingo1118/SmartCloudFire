@@ -118,12 +118,12 @@ public class MyOverlayManager extends OverlayManager {
                          ArrayList<BitmapDescriptor> bitmapDescriptors,BitmapDescriptor bitmapDescriptor, Bundle bundle){
         if(alarmState==0){
             overlayOptions.add(new MarkerOptions().position(latLng).icons(bitmapDescriptors).extraInfo(bundle)
-                    .zIndex(0).period(10)
-                    .animateType(MarkerOptions.MarkerAnimateType.drop));
+                    .zIndex(0).period(10));
+//                    .animateType(MarkerOptions.MarkerAnimateType.drop));//取消下落动画。。
         }else{
             overlayOptions.add(new MarkerOptions().position(latLng).icon(bitmapDescriptor).extraInfo(bundle)
-                    .zIndex(0).draggable(true).perspective(true)
-                    .animateType(MarkerOptions.MarkerAnimateType.drop));
+                    .zIndex(0).draggable(true).perspective(true));
+//                    .animateType(MarkerOptions.MarkerAnimateType.drop));//取消下落动画。。
         }
     }
 }

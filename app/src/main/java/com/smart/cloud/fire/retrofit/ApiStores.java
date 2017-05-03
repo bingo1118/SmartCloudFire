@@ -186,7 +186,7 @@ public interface ApiStores {
 
     @GET("getAllElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getAllElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
+    Observable<ElectricInfo<Electric>> getAllElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                           @Query("page") String page);
 //    getOneElectricInfo?userId=13428282520&privilege=2&smokeMac=32110533
     @GET("getOneElectricInfo")

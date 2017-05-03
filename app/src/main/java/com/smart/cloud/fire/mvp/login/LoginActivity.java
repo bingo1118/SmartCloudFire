@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -72,6 +73,10 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                             return;
                         }
                         mvpPresenter.loginYooSee(userId,pwd,mContext,1);
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if(imm.isActive()){
+                            imm.hideSoftInputFromWindow(login_rela2.getWindowToken(),0);//隐藏输入软键盘@@4.28
+                        }
                     }
                 });
         RxView.clicks(login_new_register).throttleFirst(2, TimeUnit.SECONDS)

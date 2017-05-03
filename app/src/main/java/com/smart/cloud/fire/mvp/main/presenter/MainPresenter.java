@@ -49,6 +49,15 @@ public class MainPresenter extends BasePresenter<MainView> {
         attachView(view);
     }
 
+    /**
+     * 根据权限初始化组件。。
+     * @param radioGroup
+     * @param myRadioButton
+     * @param privilege
+     * @param mContext
+     * @param otherFrameLayout
+     * @param mainContent
+     */
     public void initWidget(RadioGroup radioGroup, List<MyRadioButton> myRadioButton, int privilege, Activity mContext,FrameLayout otherFrameLayout,FrameLayout mainContent){
         manager = mContext.getFragmentManager();
         mainContent.setVisibility(View.VISIBLE);
@@ -129,7 +138,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void replaceFragment(int checkedId, FrameLayout otherFrameLayout,FrameLayout mainContent){
         switch (checkedId) {
-            case R.id.radio_comment1:
+            case R.id.radio_comment1://地图。。
                 clickNum = 0;
                 mainContent.setVisibility(View.VISIBLE);
                 otherFrameLayout.setVisibility(View.INVISIBLE);
@@ -141,7 +150,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     clickNumBefore = clickNum;
                 }
                 break;
-            case R.id.radio_letter:
+            case R.id.radio_letter://数据。。
                 clickNum = 2;
                 mainContent.setVisibility(View.INVISIBLE);
                 otherFrameLayout.setVisibility(View.VISIBLE);
@@ -177,7 +186,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     clickNumBefore = clickNum;
                 }
                 break;
-            case R.id.radio_home:
+            case R.id.radio_home://添加设备。。
                 clickNum = 1;
                 mainContent.setVisibility(View.INVISIBLE);
                 otherFrameLayout.setVisibility(View.VISIBLE);
@@ -189,7 +198,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     clickNumBefore = clickNum;
                 }
                 break;
-            case R.id.radio_more:
+            case R.id.radio_more://个人中心。。
                 clickNum = 5;
                 mainContent.setVisibility(View.INVISIBLE);
                 otherFrameLayout.setVisibility(View.VISIBLE);
