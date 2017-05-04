@@ -192,6 +192,12 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 R.layout.image_sg_mark, null);
         View viewSB = LayoutInflater.from(mContext).inflate(
                 R.layout.image_sb_mark, null);
+        View viewSY = LayoutInflater.from(mContext).inflate(
+                R.layout.image_sy_mark, null);//@@水压5.4
+        View viewSY_BJ = LayoutInflater.from(mContext).inflate(
+                R.layout.image_sy_bj_mark, null);//@@水压报警5.4
+        View viewSJSB = LayoutInflater.from(mContext).inflate(
+                R.layout.image_sjsb_mark, null);//@@三江设备5.4
         BitmapDescriptor bdA = BitmapDescriptorFactory
                 .fromView(viewA);
         BitmapDescriptor bdDq = BitmapDescriptorFactory
@@ -208,6 +214,12 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 .fromView(view);
         BitmapDescriptor cameraImage2 = BitmapDescriptorFactory
                 .fromView(view2);
+        BitmapDescriptor syImage = BitmapDescriptorFactory
+                .fromView(viewSY);//@@5.4
+        BitmapDescriptor sy_bj_Image = BitmapDescriptorFactory
+                .fromView(viewSY_BJ);//@@5.4
+        BitmapDescriptor sjsbImage = BitmapDescriptorFactory
+                .fromView(viewSJSB);//@@5.4
         List<BitmapDescriptor> listView = new ArrayList<>();
         listView.add(bdA);
         listView.add(bdC);
@@ -217,6 +229,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         listView.add(bdDq);
         listView.add(bdSG);
         listView.add(bdSB);
+        listView.add(syImage);
+        listView.add(sy_bj_Image);
+        listView.add(sjsbImage);
         return listView;
     }
 

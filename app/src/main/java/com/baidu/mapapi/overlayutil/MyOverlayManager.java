@@ -71,6 +71,12 @@ public class MyOverlayManager extends OverlayManager {
             ArrayList<BitmapDescriptor> giflistSB = new ArrayList<>();
             giflistSB.add(viewList.get(7));
             giflistSB.add(viewList.get(1));
+            ArrayList<BitmapDescriptor> giflistSY = new ArrayList<>();//@@水压5.4
+            giflistSY.add(viewList.get(8));
+            giflistSY.add(viewList.get(9));
+            ArrayList<BitmapDescriptor> giflistSJSB = new ArrayList<>();//@@三江设备5.4
+            giflistSJSB.add(viewList.get(10));
+            giflistSJSB.add(viewList.get(1));
             for (Smoke smoke : mapNormalSmoke) {
                 Camera mCamera = smoke.getCamera();
                 int alarmState = smoke.getIfDealAlarm();
@@ -106,6 +112,12 @@ public class MyOverlayManager extends OverlayManager {
                             break;
                         case 8:
                             markMap(latLng,overlayOptionses,alarmState,giflistSB,viewList.get(7),bundle);
+                            break;
+                        case 9:
+                            markMap(latLng,overlayOptionses,alarmState,giflistSJSB,viewList.get(10),bundle);
+                            break;
+                        case 10:
+                            markMap(latLng,overlayOptionses,alarmState,giflistSY,viewList.get(8),bundle);
                             break;
                     }
                 }

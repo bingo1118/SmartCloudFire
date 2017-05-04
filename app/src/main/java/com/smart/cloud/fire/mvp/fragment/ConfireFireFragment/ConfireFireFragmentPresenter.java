@@ -199,6 +199,10 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("J","");//三江设备
                 deviceType="9";
                 break;
+            case "W":
+                smokeMac = smokeMac.replace("W","");//水压设备
+                deviceType="10";
+                break;
         }
 
         mvpView.showLoading();
