@@ -279,6 +279,14 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                     showDatePick();
                     shangPuTypeChoice.setEditText("");
                     areaTypeChoice.setEditText("");
+                }else{
+                    if (areaTypeChoice.ifShow()) {
+                        areaTypeChoice.closePopWindow();
+                    }//@@5.5关闭下拉选项
+                    if (shangPuTypeChoice.ifShow()) {
+                        shangPuTypeChoice.closePopWindow();
+                    }//@@5.5关闭下拉选项
+                    hideDatePick();//@@5.5
                 }
                 break;
             case R.id.date_cancel:
@@ -605,5 +613,16 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                 endTime.setHintTextColor(getResources().getColor(R.color.hint_color_text));
                 break;
         }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (areaTypeChoice.ifShow()) {
+            areaTypeChoice.closePopWindow();
+        }//@@5.5关闭下拉选项
+        if (shangPuTypeChoice.ifShow()) {
+            shangPuTypeChoice.closePopWindow();
+        }//@@5.5关闭下拉选项
+        hideDatePick();//@@5.5
     }
 }

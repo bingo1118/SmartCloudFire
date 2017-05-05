@@ -80,6 +80,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "J":
                 smokeMac = smokeMac.replace("J","");
+            case "W"://@@5.5水压
+                smokeMac = smokeMac.replace("W","");
                 break;
         }
         if(smokeMac!=null&&smokeMac.length()>0){

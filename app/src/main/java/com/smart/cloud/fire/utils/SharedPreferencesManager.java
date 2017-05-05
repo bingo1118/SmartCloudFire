@@ -20,6 +20,7 @@ public class SharedPreferencesManager {
 
     public static final String KEY_RECENTNAME_ORDER = "recentName_email";
     public static final String KEY_RECENTPASS_NUMBER = "recentPass_number";
+    public static final String KEY_RECENT_PRIVILEGE = "recentPrivilege";//@@5.5用户权限
 
     public static final String KEY_NAMES = "names";
     public static final String KEY_UPDATE_CHECKTIME = "update_checktime";
@@ -87,6 +88,13 @@ public class SharedPreferencesManager {
         return sf.getLong(key,0);
     }
 
+    //@@5.5获取int类型
+    public int getIntData(Context context, String fileName, String key) {
+        SharedPreferences sf = context.getSharedPreferences(fileName,
+                context.MODE_PRIVATE);
+        return sf.getInt(key,0);
+    }
+
     public int getCMuteState(Context context) {
         SharedPreferences sf = context.getSharedPreferences(SP_FILE_GWELL,
                 context.MODE_PRIVATE);
@@ -104,6 +112,14 @@ public class SharedPreferencesManager {
         SharedPreferences sf = context.getSharedPreferences(fileName, context.MODE_PRIVATE);
         Editor editor = sf.edit();
         editor.putLong(key, value);
+        editor.commit();
+    }
+
+    //@@5.5存储int类型
+    public void putIntData(Context context,String fileName,String key,int value){
+        SharedPreferences sf = context.getSharedPreferences(fileName, context.MODE_PRIVATE);
+        Editor editor = sf.edit();
+        editor.putInt(key, value);
         editor.commit();
     }
 

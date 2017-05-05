@@ -70,7 +70,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     @Bind(R.id.add_fire_dev_btn)
     RelativeLayout addFireDevBtn;//添加设备按钮。。
     @Bind(R.id.mProgressBar)
-    ProgressBar mProgressBar;
+    ProgressBar mProgressBar;//加载进度。。
     @Bind(R.id.add_camera_name)
     EditText addCameraName;
     @Bind(R.id.add_camera_relative)
@@ -324,11 +324,14 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
             } else {
                 addFireMac.setText(scanResult);
                 clearText();
-                mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);
+                mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息
             }
         }
     }
 
+    /**
+     * 清空其他编辑框内容。。
+     */
     private void clearText() {
         addFireLon.setText("");
         addFireLat.setText("");

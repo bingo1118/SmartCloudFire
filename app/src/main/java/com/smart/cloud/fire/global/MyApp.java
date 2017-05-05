@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.widget.RemoteViews;
@@ -57,7 +58,14 @@ public class MyApp extends Application {
     }
 
     public int getPrivilege(){
-        return privilege;
+        //return privilege;
+        if(privilege==-1){
+            return SharedPreferencesManager.getInstance().getIntData(this,
+                    SharedPreferencesManager.SP_FILE_GWELL,
+                    SharedPreferencesManager.KEY_RECENT_PRIVILEGE);
+        }else{
+            return privilege;
+        }//@@5.5防止突然网络错误问题
     }
 
     public String getPushState() {

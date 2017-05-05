@@ -29,6 +29,7 @@ import rx.functions.Func1;
  */
 public class LoginPresenter extends BasePresenter<LoginView> {
     private int loginCount=0;
+    Context context;//@@5.5
     public LoginPresenter(LoginView view) {
         attachView(view);
     }
@@ -41,6 +42,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param type
      */
     public void loginYooSee(final String User, final String Pwd, final Context context, final int type) {
+        this.context=context;//@@5.5
         String AppVersion = MyUtils.getBitProcessingVersion();
         MD5 md = new MD5();
         String password = md.getMD5ofStr(Pwd);
@@ -118,6 +120,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 if(errorCode==0){
                     //获取到内部服务器的用户权限，并配置到MyAPP
                     MyApp.app.setPrivilege(model.getPrivilege());
+                    //@@5.5存储用户权限。。
+                    SharedPreferencesManager.getInstance().putIntData(context,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENT_PRIVILEGE, model.getPrivilege());
                     //跳转到主界面
                     mvpView.getDataSuccess(model);
                 }else{
@@ -139,6 +145,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         }));
     }
 
+    //暂时没用。。
     public void loginYoosee(final String User, final String Pwd, final Context context, final int type) {
         String AppVersion = MyUtils.getBitProcessingVersion();
         String userid = "+86-"+User;

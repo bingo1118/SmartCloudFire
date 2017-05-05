@@ -117,7 +117,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
     @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.add_fire:
+            case R.id.add_fire://显示查询条件按钮。。
                 if (visibility) {
                     visibility = false;
                     lin1.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                     lin1.setVisibility(View.VISIBLE);
                 }
                 break;
-            case R.id.area_condition://地区类型
+            case R.id.area_condition://地区类型下拉列表。。
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
@@ -145,7 +145,7 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                     areaCondition.showLoading();
                 }
                 break;
-            case R.id.shop_type_condition://商铺类型
+            case R.id.shop_type_condition://商铺类型下拉列表。。
                 if (shopTypeCondition.ifShow()) {
                     shopTypeCondition.closePopWindow();
                 } else {
@@ -217,6 +217,12 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         hideFragment(ft);
         //注意这里设置位置
         position = index;
+        if (areaCondition.ifShow()) {
+            areaCondition.closePopWindow();
+        }//@@5.5关闭下拉选项
+        if (shopTypeCondition.ifShow()) {
+            shopTypeCondition.closePopWindow();
+        }//@@5.5关闭下拉选项
         switch (index) {
             case FRAGMENT_ONE:
                 addFire.setVisibility(View.VISIBLE);//@@5.3
@@ -479,5 +485,16 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
         onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
         offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (areaCondition.ifShow()) {
+            areaCondition.closePopWindow();
+        }//@@5.5关闭下拉选项
+        if (shopTypeCondition.ifShow()) {
+            shopTypeCondition.closePopWindow();
+        }//@@5.5关闭下拉选项
     }
 }
