@@ -127,6 +127,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            //强制退出。。
             if (intent.getAction().equals("APP_EXIT")) {
                 SharedPreferencesManager.getInstance().putData(mContext,
                         SharedPreferencesManager.SP_FILE_GWELL,
@@ -137,7 +138,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 startActivity(in);
                 finish();
             }
-
+            //已是最新版本。。
             if (intent.getAction().equals("Constants.Action.ACTION_UPDATE_NO")) {
                 View view = LayoutInflater.from(mContext).inflate(
                         R.layout.dialog_update, null);
@@ -174,7 +175,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     }
                 });
             }
-
+            //有新版本。。
             if (intent.getAction().equals("Constants.Action.ACTION_UPDATE")) {
                 if (null != dialog_update && dialog_update.isShowing()) {
                     return;
