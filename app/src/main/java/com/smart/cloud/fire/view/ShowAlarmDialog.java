@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.global.InitBaiduNavi;
+import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.MapFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.utils.T;
@@ -117,7 +118,9 @@ public class ShowAlarmDialog {
                 telPhone(phoneNum2);
                 break;
             case R.id.do_it_btn:
-                mMapFragmentPresenter.dealAlarm(userId,smoke.getMac(),"3");
+                int privilege = MyApp.app.getPrivilege();//@@5.18
+                mMapFragmentPresenter.dealAlarm(userId,smoke.getMac(),privilege+"");//@@5.18
+//                mMapFragmentPresenter.dealAlarm(userId,smoke.getMac(),"3");
                 if (dialog != null) {
                     dialog.dismiss();
                     dialog = null;

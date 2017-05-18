@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Contact;
@@ -103,9 +104,20 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mShopInfoFragmentPresenter.telPhoneAction(mContext, phoneTwo);
                 }
             });
+            if(camera.getIsOnline()==0){//@@5.18
+                ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
+                ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sxt_lx);
+            }else{
+                ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
+                ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_ygtubiao_sxj);
+            }
             ((ItemViewHolder) holder).categoryGroupLin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(camera.getIsOnline()==0) {//@@5.18
+                        T.show(mContext,"设备不在线", Toast.LENGTH_SHORT);
+                        return;
+                    }
                     Contact mContact = new Contact();
                     mContact.contactType = 0;
                     mContact.contactId = camera.getCameraId();

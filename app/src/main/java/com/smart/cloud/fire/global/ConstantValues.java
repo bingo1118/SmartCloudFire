@@ -19,7 +19,7 @@ public class ConstantValues {
     public static final String SERVER_PUSH ="http://119.29.155.148/GeTuiPush/";
     public static final String SERVER_YOOSEE_IP_ONE ="http://api1.cloudlinks.cn/";
     public static final String SERVER_YOOSEE_IP_TWO = "http://api2.cloudlinks.cn/";
-    public static final String SERVER_YOOSEE_IP_THREE = "ht tp://api3.cloud-links.net/";
+    public static final String SERVER_YOOSEE_IP_THREE = "http://api3.cloud-links.net/";
     public static final String SERVER_YOOSEE_IP_FOUR = "http://api4.cloud-links.net/";
     public static final String[] fragmentStr ={"mAgencyMapFragment","mHomeFragment","mCategoryFragment","mMapFragment","mCollectFragment","mSettingFragment","mCallAlarmFragment"};
     public static final String PACKAGE_NAME = "com.smart.cloud.fire.utils.";

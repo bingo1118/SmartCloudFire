@@ -134,7 +134,8 @@ public class MyOverlayManager extends OverlayManager {
 //                    .animateType(MarkerOptions.MarkerAnimateType.drop));//取消下落动画。。
         }else{
             overlayOptions.add(new MarkerOptions().position(latLng).icon(bitmapDescriptor).extraInfo(bundle)
-                    .zIndex(0).draggable(true).perspective(true));
+                    .zIndex(0).draggable(false)////设置标记不可拖拽@@5.18
+                    .perspective(true));
 //                    .animateType(MarkerOptions.MarkerAnimateType.drop));//取消下落动画。。
         }
     }

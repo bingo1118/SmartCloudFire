@@ -16,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.p2p.core.P2PHandler;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
@@ -28,11 +30,14 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
+import com.smart.cloud.fire.utils.SerializableMap;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,6 +90,7 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
     private void regFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConstantValues.Action.REFRESH_CAMERA_PWD);
+        filter.addAction(ConstantValues.Action.GET_FRIENDS_STATE);//@@5.18
         mContext.registerReceiver(mReceiver, filter);
     }
 
@@ -98,6 +104,15 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
                 page = "1";
                 list.clear();
                 mvpPresenter.getAllCamera(userID, privilege + "", page, list,false);
+            }
+            //@@5.18获取摄像机状态
+            if(intent.getAction().equals(ConstantValues.Action.GET_FRIENDS_STATE)){
+                SerializableMap map= (SerializableMap) intent.getSerializableExtra("contactList");
+                Map<String,Integer> cameraList=map.getIntMap();
+                for(int i=0;i<list.size();i++){
+                    list.get(i).setIsOnline(cameraList.get(list.get(i).getCameraId()));
+                }
+                shopCameraAdapter.notifyDataSetChanged();
             }
         }
     };
@@ -173,6 +188,11 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         recyclerView.setAdapter(shopCameraAdapter);
         swipereFreshLayout.setRefreshing(false);
         shopCameraAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
+        String[] cameralist=new String[smokeList.size()];//@@5.18
+        for(int i=0;i<smokeList.size();i++){
+            cameralist[i]=list.get(i).getCameraId();
+        }//@@5.18
+        P2PHandler.getInstance().getFriendStatus(cameralist);//@@5.18
     }
 
     @Override

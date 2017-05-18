@@ -126,13 +126,22 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sb_ygtubiao_sxj);
                     }
                     break;
-                case 9://烟感。。
+                case 9://三江设备@@5.11。。
                     if (netStates == 0) {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_lx);
+                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sjsb_ygtubiao_lx);
                     } else {
                         ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_zx);
+                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sjsb_ygtubiao);
+                    }
+                    break;
+                case 10://水压设备@@5.11。。
+                    if (netStates == 0) {
+                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
+                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sy_ygtubiao_sxj_lx);
+                    } else {
+                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
+                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sy_ygtubiao_sxj);
                     }
                     break;
             }

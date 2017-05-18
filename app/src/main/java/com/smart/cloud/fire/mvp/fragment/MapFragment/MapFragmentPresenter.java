@@ -4,9 +4,11 @@ import android.os.Bundle;
 
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
+import com.smart.cloud.fire.utils.SharedPreferencesManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -170,7 +172,9 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
 
     public void dealAlarm(String userId, String smokeMac,String privilege){
         mvpView.showLoading();
-        final Observable mObservable = apiStores1.getAllSmoke(userId,privilege,"");
+        String selectedAreaId= SharedPreferencesManager.getInstance().getData(MyApp.app,"selectedAreaNum");//@@5.18
+        final Observable mObservable = apiStores1.getNeedSmoke(userId,privilege,selectedAreaId,"","");//@@5.18
+//        final Observable mObservable = apiStores1.getAllSmoke(userId,privilege,"");
         twoSubscription(apiStores1.dealAlarm(userId, smokeMac), new Func1<HttpError,Observable<HttpError>>() {
             @Override
             public Observable<HttpError> call(HttpError httpError) {

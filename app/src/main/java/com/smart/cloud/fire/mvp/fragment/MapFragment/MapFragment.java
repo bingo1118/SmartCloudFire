@@ -301,6 +301,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "");//获取按照要求获取设备。。
                 SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaId",position);
+                SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaNum",((Area)arealist.get(position)).getAreaId());//@@5.18
                 TextView tv=(TextView)view;
                 tv.setTextColor(mContext.getResources().getColor(R.color.white));
             }

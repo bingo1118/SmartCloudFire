@@ -46,19 +46,19 @@ import fire.cloud.smart.com.smartcloudfire.R;
  */
 public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> implements ShopInfoFragmentView, TopIndicator.OnTopIndicatorListener {
     @Bind(R.id.top_indicator)
-    TopIndicator topIndicator;
+    TopIndicator topIndicator;//顶部导航。。
     @Bind(R.id.area_condition)
-    XCDropDownListViewMapSearch areaCondition;
+    XCDropDownListViewMapSearch areaCondition;//区域下拉选择。。
     @Bind(R.id.shop_type_condition)
-    XCDropDownListViewMapSearch shopTypeCondition;
+    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
     @Bind(R.id.lin1)
-    LinearLayout lin1;
+    LinearLayout lin1;//搜素界面。。
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.add_fire)
-    ImageView addFire;
+    ImageView addFire;//显示搜索界面按钮。。
     @Bind(R.id.search_fire)
-    ImageView searchFire;
+    ImageView searchFire;//搜索按钮。。
     @Bind(R.id.lost_count)
     TextView lostCount;
     @Bind(R.id.total_num)
