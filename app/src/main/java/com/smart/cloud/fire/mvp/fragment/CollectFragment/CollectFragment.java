@@ -534,6 +534,11 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
     }
 
     @Override
+    public void updateAlarmMsgSuccess(int index) {
+        adapter.setList(index);
+    }
+
+    @Override
     public void getShopType(ArrayList<Object> shopTypes) {
         shangPuTypeChoice.setItemsData(shopTypes,mvpPresenter);
         shangPuTypeChoice.showPopWindow();

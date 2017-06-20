@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.baidu.location.BDLocation;
 import com.jakewharton.rxbinding.view.RxView;
 import com.obsessive.zbar.CaptureActivity;
+import com.smart.cloud.fire.GetLocationActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.MyApp;
@@ -192,6 +193,8 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                 break;
             case R.id.location_image:
                 mvpPresenter.startLocation();
+                Intent intent=new Intent(mContext, GetLocationActivity.class);
+                startActivityForResult(intent,1);//@@6.20
                 break;
             case R.id.add_fire_zjq:
                 if (addFireZjq.ifShow()) {
@@ -316,17 +319,30 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            if (scanType == 0) {
-                addRepeaterMac.setText(scanResult);
-            } else {
-                addFireMac.setText(scanResult);
-                clearText();
-                mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息
-            }
+        switch (requestCode){
+            case 0:
+                if (resultCode == getActivity().RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    String scanResult = bundle.getString("result");
+                    if (scanType == 0) {
+                        addRepeaterMac.setText(scanResult);
+                    } else {
+                        addFireMac.setText(scanResult);
+                        clearText();
+                        mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息
+                    }
+                }
+                break;
+            case 1://@@6.20
+                if (resultCode == getActivity().RESULT_OK) {
+                    Bundle bundle=data.getBundleExtra("data");
+                    addFireLat.setText(String.format("%.10f",bundle.getDouble("lat")));
+                    addFireLon.setText(String.format("%.10f",bundle.getDouble("lon")));
+                    addFireAddress.setText(bundle.getString("address"));
+                }
+                break;
         }
+
     }
 
     /**

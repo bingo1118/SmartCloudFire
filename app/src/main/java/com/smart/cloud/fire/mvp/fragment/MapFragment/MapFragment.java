@@ -295,6 +295,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         int selectedAreaId=SharedPreferencesManager.getInstance().getIntData(mContext,"selectedAreaId");
+        if(selectedAreaId>=arealist.size()){
+            selectedAreaId=0;//@@5.27切换帐号的时候区域数目不一样会闪退
+        }
         spinner.setSelection(selectedAreaId);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -314,6 +317,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     @Override
     public void getAreaTypeFail(String msg) {
         T.showShort(mContext, msg);
+        mBaiduMap.clear();//@@5.27无数据时清除所有标记
         areaCondition.setClickable(true);
         areaCondition.closeLoading();
     }

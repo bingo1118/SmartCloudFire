@@ -33,6 +33,11 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<LoginModel> login(@Query("userId") String userId);
 
+    //登录本地服务器2，登陆新接口2017.5.16
+    @GET("login")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<LoginModel> login2(@Query("userId") String userId,@Query("pwd") String pwd,@Query("cid") String cid,@Query("appId") String appId);
+
     //获取短信验证码
     @FormUrlEncoded
     @POST("Users/PhoneCheckCode.ashx")

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smart.cloud.fire.GetLocationActivity">
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true">
+    </com.baidu.mapapi.map.MapView>
+
+    <ImageView
+        android:id="@+id/location_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/preset_pos_binder"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/text"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请点击地图选取设备位置"
+        android:layout_alignTop="@+id/bmapView"
+        android:gravity="center"
+        android:background="#fff"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bmapView"
+        android:text="确定"
+        android:background="@drawable/radius"
+        android:textColor="#fff"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/confirm_btn"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>

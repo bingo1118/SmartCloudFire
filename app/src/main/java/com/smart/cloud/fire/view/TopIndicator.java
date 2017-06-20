@@ -82,6 +82,7 @@ public class TopIndicator extends RelativeLayout {
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.width = mUnderLineWidth;
         params.gravity = Gravity.CENTER;
+        params.topMargin=5;//@@6.2
 
         int size = mLabels.length;
         for (int i = 0; i < size; i++) {

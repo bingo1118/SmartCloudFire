@@ -67,7 +67,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 if(errorCode.equals("0")){
                     editSharePreference(context,model,User,Pwd);
                     //登陆内部服务器获取用户权限
-                    loginServer(User);
+                    String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@5.27
+                    loginServer2(User,Pwd,userCID);
+//                    loginServer(User);//@@6.16
                 }else{
                     mvpView.hideLoading();
                     switch (errorCode){
@@ -132,6 +134,44 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 }
             }
 
+            @Override
+            public void onFailure(int code, String msg) {
+                //跳转到登陆界面
+                mvpView.getDataFail("网络错误，请检查网络");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
+    /**
+     * 修改版，增加服务器绑定用户名和cid。。
+     * 登陆内部服务器，获取信息到Login Model，errorCode=0表示登陆成功，设置权限。。
+     * @param userId
+     */
+    private void loginServer2(String userId,String pwd,String cid){
+        Observable<LoginModel> observable = apiStores1.login2(userId,pwd,cid,"1");//@@5.27添加app编号
+        addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
+            @Override
+            public void onSuccess(LoginModel model) {
+                int errorCode = model.getErrorCode();
+                if(errorCode==0){
+                    //获取到内部服务器的用户权限，并配置到MyAPP
+                    MyApp.app.setPrivilege(model.getPrivilege());
+                    //@@5.5存储用户权限。。
+                    SharedPreferencesManager.getInstance().putIntData(context,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENT_PRIVILEGE, model.getPrivilege());
+                    //跳转到主界面
+                    mvpView.getDataSuccess(model);
+                }else{
+                    //跳转到登陆界面
+                    mvpView.getDataFail("登录失败，请重新登录");
+                }
+            }
             @Override
             public void onFailure(int code, String msg) {
                 //跳转到登陆界面

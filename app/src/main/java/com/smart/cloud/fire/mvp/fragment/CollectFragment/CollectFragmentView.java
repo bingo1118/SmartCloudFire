@@ -20,6 +20,8 @@ public interface CollectFragmentView {
 
     void dealAlarmMsgSuccess(List<AlarmMessageModel> alarmMessageModels);
 
+    void updateAlarmMsgSuccess(int index);//@@5.18
+
     void getShopType(ArrayList<Object> shopTypes);
 
     void getShopTypeFail(String msg);

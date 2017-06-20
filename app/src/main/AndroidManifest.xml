@@ -58,10 +58,13 @@
             android:name="BaiduMobAd_STAT_ID"
             android:value="48ae76de3f" />
 
-        <!--         生产模式key -->
+        <!-- @@6.20原来百度地图key -->
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="F0GrSzPf0G6As4uGGRGbSFsIYLqOFmKT" />-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="F0GrSzPf0G6As4uGGRGbSFsIYLqOFmKT" />
+            android:value="kwFFAPEzv1Mmk6KFR4S4Ae9MS5UAOyOq" />
 
         <!--
         测试模式key
@@ -137,12 +140,11 @@
             android:name="com.smart.cloud.fire.mvp.camera.AddCameraFourthActivity"
             android:label="@string/title_activity_add_camera_fourth"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name="com.smart.cloud.fire.mvp.Alarm.AlarmActivity"
             android:label="@string/title_activity_bndemo_guide"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity"
             android:label="@string/title_activity_bndemo_guide"
@@ -166,7 +168,6 @@
         <service
             android:name="com.smart.cloud.fire.service.RemoteService"
             android:process=":pushservice" />
-
         <service
             android:name="com.smart.cloud.fire.geTuiPush.DemoPushService"
             android:exported="true"
@@ -180,7 +181,8 @@
         <activity android:name="com.smart.cloud.fire.mvp.recordProject.RecordProjectActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.printScreen.PrintScreenActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.printScreen.ImageSeeActivity" />
-        <activity android:name="com.smart.cloud.fire.mvp.modifyCameraInfo.ModifyCameraPwdActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.mvp.modifyCameraInfo.ModifyCameraPwdActivity" />
+        <activity android:name="com.smart.cloud.fire.GetLocationActivity"></activity>
     </application>
 
 </manifest>

@@ -21,7 +21,13 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.igexin.sdk.PushManager;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.update.UpdateManager;
@@ -37,6 +43,9 @@ import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.view.MyRadioButton;
 import com.smart.cloud.fire.yoosee.P2PListener;
 import com.smart.cloud.fire.yoosee.SettingListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -127,13 +136,14 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            //强制退出。。
+            //退出。。
             if (intent.getAction().equals("APP_EXIT")) {
                 SharedPreferencesManager.getInstance().putData(mContext,
                         SharedPreferencesManager.SP_FILE_GWELL,
                         SharedPreferencesManager.KEY_RECENTPASS,
                         "");
                 PushManager.getInstance().stopService(getApplicationContext());
+                unbindAlias();
                 Intent in = new Intent(mContext, SplashActivity.class);
                 startActivity(in);
                 finish();
@@ -245,6 +255,35 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
     };
 
+    /**
+     * 个推解绑@@5.16
+     */
+    private void unbindAlias() {
+        String userCID = SharedPreferencesManager.getInstance().getData(this,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@
+        String username = SharedPreferencesManager.getInstance().getData(mContext,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENTNAME);
+        String url= ConstantValues.SERVER_IP_NEW+"loginOut?userId="+username+"&alias="+username+"&cid="+userCID+"&appId=1";//@@5.27添加app编号
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        try {
+//                            Toast.makeText(mContext,response.getString("error"),Toast.LENGTH_SHORT).show();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
     Handler handler = new Handler() {
         long last_time;
 
@@ -298,7 +337,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     public void exitBy2Click(boolean isExit) {
         if (isExit) {
-            moveTaskToBack(false);
+            //moveTaskToBack(false);
+            moveTaskToBack(true);//@@5.31
         }
     }
 

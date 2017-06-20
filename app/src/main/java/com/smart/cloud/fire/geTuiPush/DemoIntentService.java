@@ -56,6 +56,8 @@ public class DemoIntentService extends GTIntentService {
         String userID = SharedPreferencesManager.getInstance().getData(context,
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
+        SharedPreferencesManager.getInstance().putData(context,SharedPreferencesManager.SP_FILE_GWELL,
+                "CID",cid);//@@5.27存储个推cid
         PushManager.getInstance().bindAlias(this.getApplicationContext(),userID);
         goToServer(cid,userID);
     }

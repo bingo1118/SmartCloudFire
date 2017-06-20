@@ -62,7 +62,7 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
         }));
     }
 
-    public void dealAlarm(String userId, String smokeMac,String privilege){
+    public void dealAlarm(String userId, String smokeMac, String privilege, final int index){//@@5.19添加取消报警信息的位置
         mvpView.showLoading();
         Observable mObservable = apiStores1.dealAlarm(userId,smokeMac);
         final Observable Observable2 = apiStores1.getAllAlarm(userId,privilege,"1");
@@ -87,7 +87,9 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
                     int errorCode = model.getErrorCode();
                     if(errorCode==0){
                         List<AlarmMessageModel> alarmMessageModels = model.getAlarm();
-                        mvpView.dealAlarmMsgSuccess(alarmMessageModels);
+//                        mvpView.dealAlarmMsgSuccess(alarmMessageModels);
+//                        mvpView.updateAlarmMsgSuccess(alarmMessageModels);//@@5.18
+                        mvpView.updateAlarmMsgSuccess(index);//@@5.18
                         mvpView.getDataFail("取消成功");
                     }else{
                         mvpView.getDataFail("取消失败");

@@ -215,10 +215,12 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             @Override
             public void onSuccess(ConfireFireModel model) {
                 int result = model.getErrorCode();
+                String error=model.getError();//@@6.15
                 if(result==0){
                     mvpView.addSmokeResult("添加成功",0);
                 }else{
-                    mvpView.addSmokeResult("添加失败",1);
+//                    mvpView.addSmokeResult("添加失败",1);
+                    mvpView.addSmokeResult(error,1);//@@6.15
                 }
             }
 
