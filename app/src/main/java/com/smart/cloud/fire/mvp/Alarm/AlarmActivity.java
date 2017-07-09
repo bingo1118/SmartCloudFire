@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -22,6 +23,7 @@ import com.smart.cloud.fire.global.Contact;
 import com.smart.cloud.fire.global.InitBaiduNavi;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
+import com.smart.cloud.fire.pushmessage.PushWiredSmokeAlarmMsg;
 import com.smart.cloud.fire.ui.ApMonitorActivity;
 import com.smart.cloud.fire.utils.MusicManger;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -63,11 +65,18 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     TextView smokeMarkPhoneTv;
     @Bind(R.id.alarm_do_it_btn)
     Button alarmDoItBtn;
+    @Bind(R.id.lin_principal)
+    LinearLayout lin_principa1;
+    @Bind(R.id.lin_principa2)
+    LinearLayout lin_principa2;
+
     private Context mContext;
     private PushAlarmMsg mPushAlarmMsg;
     private int TIME_OUT = 20;
     private String alarmMsg;
     private PushAlarmMsg.CameraBean cameraBean;
+    private int ifWiredSmoke=0;
+    private PushWiredSmokeAlarmMsg pushWiredSmokeAlarmMsg;//@@6.30
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +92,14 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
         setContentView(R.layout.activity_alarm);
         ButterKnife.bind(this);
         mContext = this;
-        mPushAlarmMsg = (PushAlarmMsg) getIntent().getExtras().getSerializable("mPushAlarmMsg");
+        ifWiredSmoke=getIntent().getIntExtra("isWiredAlarmMsg",0);//@@6.30
+        if(ifWiredSmoke==1){
+            pushWiredSmokeAlarmMsg= (PushWiredSmokeAlarmMsg) getIntent().getExtras().getSerializable("mPushAlarmMsg");
+        }else{
+            mPushAlarmMsg = (PushAlarmMsg) getIntent().getExtras().getSerializable("mPushAlarmMsg");
+        }
         alarmMsg = getIntent().getExtras().getString("alarmMsg");
+
         init();
         regFilter();
     }
@@ -109,22 +124,21 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
-        cameraBean = mPushAlarmMsg.getCamera();
-        if(cameraBean!=null&&cameraBean.getCameraId()!=null&&cameraBean.getCameraPwd()!=null){
-            alarmDoItBtn.setVisibility(View.VISIBLE);
-        }else{
+        if(ifWiredSmoke==1){
+            alarmLeadToBtn.setVisibility(View.GONE);
+            lin_principa1.setVisibility(View.GONE);
+            lin_principa2.setVisibility(View.GONE);
             alarmDoItBtn.setVisibility(View.GONE);
-        }
-        smokeMarkPrincipal.setText(mPushAlarmMsg.getPrincipal2());
-        alarmSmokeMarkPrincipal.setText(mPushAlarmMsg.getPrincipal1());
-        alarmSmokeMarkPhoneTv.setText(mPushAlarmMsg.getPrincipal1Phone());
-        smokeMarkPhoneTv.setText(mPushAlarmMsg.getPrincipal2Phone());
-        alarmInfo.setText(mPushAlarmMsg.getPlaceAddress() + mPushAlarmMsg.getAddress());
-        alarmTime.setText(mPushAlarmMsg.getAlarmTime());
+            smokeMarkPrincipal.setVisibility(View.GONE);;
+            alarmSmokeMarkPrincipal.setVisibility(View.GONE);;
+            alarmSmokeMarkPhoneTv.setVisibility(View.GONE);;
+            smokeMarkPhoneTv.setVisibility(View.GONE);;
+            alarmInfo.setText("终端："+pushWiredSmokeAlarmMsg.getRepeater()+" 编号："+pushWiredSmokeAlarmMsg.getFaultCode()+"详情："+ pushWiredSmokeAlarmMsg.getFaultInfo());
+            alarmTime.setText(pushWiredSmokeAlarmMsg.getFaultTime());
 //        int devType = mPushAlarmMsg.getDeviceType();
-        alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
-        mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
-        mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
+            alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
+            mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
+            mAlarmType.setText(pushWiredSmokeAlarmMsg.getFaultDevDesc() +"发生"+ pushWiredSmokeAlarmMsg.getFaultType());
 //        switch (devType) {
 //            case 1:
 //
@@ -142,17 +156,64 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 //            default:
 //                break;
 //        }
-        alarmInit();//imageview动画设置。。
-        RxView.clicks(alarmLeadToBtn).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                Smoke mNormalSmoke = new Smoke();
-                mNormalSmoke.setLongitude(mPushAlarmMsg.getLongitude() + "");
-                mNormalSmoke.setLatitude(mPushAlarmMsg.getLatitude() + "");
-                Reference<Activity> reference = new WeakReference(mContext);
-                new InitBaiduNavi(reference.get(), mNormalSmoke);//导航
+            alarmInit();//imageview动画设置。。
+//            RxView.clicks(alarmLeadToBtn).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
+//                @Override
+//                public void call(Void aVoid) {
+//                    Smoke mNormalSmoke = new Smoke();
+//                    mNormalSmoke.setLongitude(mPushAlarmMsg.getLongitude() + "");
+//                    mNormalSmoke.setLatitude(mPushAlarmMsg.getLatitude() + "");
+//                    Reference<Activity> reference = new WeakReference(mContext);
+//                    new InitBaiduNavi(reference.get(), mNormalSmoke);//导航
+//                }
+//            });
+        }else{
+            cameraBean = mPushAlarmMsg.getCamera();
+            if(cameraBean!=null&&cameraBean.getCameraId()!=null&&cameraBean.getCameraPwd()!=null){
+                alarmDoItBtn.setVisibility(View.VISIBLE);
+            }else{
+                alarmDoItBtn.setVisibility(View.GONE);
             }
-        });
+            smokeMarkPrincipal.setText(mPushAlarmMsg.getPrincipal2());
+            alarmSmokeMarkPrincipal.setText(mPushAlarmMsg.getPrincipal1());
+            alarmSmokeMarkPhoneTv.setText(mPushAlarmMsg.getPrincipal1Phone());
+            smokeMarkPhoneTv.setText(mPushAlarmMsg.getPrincipal2Phone());
+            alarmInfo.setText(mPushAlarmMsg.getPlaceAddress() + mPushAlarmMsg.getAddress());
+            alarmTime.setText(mPushAlarmMsg.getAlarmTime());
+//        int devType = mPushAlarmMsg.getDeviceType();
+            alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
+            mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
+            mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
+//        switch (devType) {
+//            case 1:
+//
+//                break;
+//            case 2:
+//                alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
+//                mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
+//                mAlarmType.setText(alarmMsg);
+//                break;
+//            case 5:
+//                alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
+//                mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
+//                mAlarmType.setText(alarmMsg);
+//                break;
+//            default:
+//                break;
+//        }
+            alarmInit();//imageview动画设置。。
+            RxView.clicks(alarmLeadToBtn).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
+                @Override
+                public void call(Void aVoid) {
+                    Smoke mNormalSmoke = new Smoke();
+                    mNormalSmoke.setLongitude(mPushAlarmMsg.getLongitude() + "");
+                    mNormalSmoke.setLatitude(mPushAlarmMsg.getLatitude() + "");
+                    Reference<Activity> reference = new WeakReference(mContext);
+                    new InitBaiduNavi(reference.get(), mNormalSmoke);//导航
+                }
+            });
+        }
+
     }
 
     private boolean musicOpenOrClose = true;
@@ -276,7 +337,11 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     protected void onNewIntent(Intent intent) {
         ButterKnife.bind(this);
         mContext = this;
-        mPushAlarmMsg = (PushAlarmMsg) intent.getExtras().getSerializable("mPushAlarmMsg");
+        if(ifWiredSmoke==1){//@@6.30
+            pushWiredSmokeAlarmMsg= (PushWiredSmokeAlarmMsg)intent.getExtras().getSerializable("mPushAlarmMsg");
+        }else{
+            mPushAlarmMsg = (PushAlarmMsg) intent.getExtras().getSerializable("mPushAlarmMsg");
+        }
         alarmMsg = intent.getExtras().getString("alarmMsg");
         init();
         regFilter();

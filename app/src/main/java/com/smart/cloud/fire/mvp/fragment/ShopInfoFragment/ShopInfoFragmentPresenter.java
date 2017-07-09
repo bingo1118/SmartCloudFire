@@ -13,6 +13,9 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.AllDevFragment.AllDevFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Electric.ElectricFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.OffLineDevFragment.OffLineDevFragment;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmoke;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistory;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistoryHttpError;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 
@@ -256,6 +259,134 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
             public void onFailure(int code, String msg) {
                 if(type!=1){
                     List<Smoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                }
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
+    //@@6.29获取无线终端设备
+    public void getAllWiredDev(String userId, String privilege, String page, final List<Smoke> list, final int type,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getAllFaultinfo(userId,privilege,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                if(result==0){
+                    List<Smoke> smokeList = model.getSmoke();
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            mvpView.getDataSuccess(smokeList,false);
+                        }else if(list!=null&&list.size()>=20){
+                            mvpView.onLoadingMore(smokeList);
+                        }
+                    }
+                }else{
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                }
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
+    //@@6.29获取无线终端下的所有烟感设备
+    public void getEquipmentOfOneRepeater(String userId, String repeater, String page, final List<WiredSmoke> list, final int type,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getEquipmentOfOneRepeater(userId,repeater,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                if(result==0){
+//                    List<Smoke> smokeList = model.getSmoke();
+                    List<WiredSmoke> wiredSmokes=model.getFaultment();//@@6.30
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            mvpView.getDataSuccess(wiredSmokes,false);
+                        }else if(list!=null&&list.size()>=20){
+                            mvpView.onLoadingMore(wiredSmokes);
+                        }
+                    }
+                }else{
+                    List<WiredSmoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                }
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
+    //@@6.29获取无线终端下的某个烟感的历史报警
+    public void getAlarmOfRepeater(String userId, String repeater,String smokeMac,String startTime,String endTime,String page, final List<WiredSmokeHistory> list, final int type,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                if(result==0){
+//                    List<Smoke> smokeList = model.getSmoke();
+                    List<WiredSmokeHistory> wiredSmokehistory=model.getalarm();//@@6.30
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            mvpView.getDataSuccess(wiredSmokehistory,false);
+                        }else if(list!=null&&list.size()>=20){
+                            mvpView.onLoadingMore(wiredSmokehistory);
+                        }
+                    }
+                }else{
+                    List<WiredSmokeHistory> mSmokeList = new ArrayList<>();
+                    mvpView.getDataSuccess(mSmokeList,false);
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<WiredSmokeHistory> mSmokeList = new ArrayList<>();
                     mvpView.getDataSuccess(mSmokeList,false);
                 }
                 mvpView.getDataFail("网络错误");

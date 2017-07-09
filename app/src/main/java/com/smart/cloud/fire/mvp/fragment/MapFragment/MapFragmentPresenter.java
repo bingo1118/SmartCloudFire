@@ -34,6 +34,7 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
         mvpView.showLoading();
         Observable mObservable = apiStores1.getAllSmoke(userId,privilege,"");
         Observable Observable2 = apiStores1.getAllCamera(userId,privilege,"");
+//        Observable mObservable = apiStores1.getAllDevice(userId,privilege,"");
         Observable mObservable3 = Observable.merge(Observable2,mObservable);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override

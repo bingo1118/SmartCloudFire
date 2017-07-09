@@ -101,6 +101,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     mvpView.hideLoading();
                     mvpView.getDataFail("网络错误，请检查网络");
                 }
+                //@@6.29跳过技威登陆
+//                String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@5.27
+//                loginServer2(User,Pwd,userCID);//@@6.29
             }
 
             @Override

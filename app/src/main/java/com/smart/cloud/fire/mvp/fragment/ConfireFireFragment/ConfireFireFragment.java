@@ -336,8 +336,8 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
             case 1://@@6.20
                 if (resultCode == getActivity().RESULT_OK) {
                     Bundle bundle=data.getBundleExtra("data");
-                    addFireLat.setText(String.format("%.10f",bundle.getDouble("lat")));
-                    addFireLon.setText(String.format("%.10f",bundle.getDouble("lon")));
+                    addFireLat.setText(String.format("%.8f",bundle.getDouble("lat")));
+                    addFireLon.setText(String.format("%.8f",bundle.getDouble("lon")));
                     addFireAddress.setText(bundle.getString("address"));
                 }
                 break;

@@ -59,9 +59,9 @@
             android:value="48ae76de3f" />
 
         <!-- @@6.20原来百度地图key -->
-        <!--<meta-data-->
-            <!--android:name="com.baidu.lbsapi.API_KEY"-->
-            <!--android:value="F0GrSzPf0G6As4uGGRGbSFsIYLqOFmKT" />-->
+        <!-- <meta-data -->
+        <!-- android:name="com.baidu.lbsapi.API_KEY" -->
+        <!-- android:value="F0GrSzPf0G6As4uGGRGbSFsIYLqOFmKT" /> -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="kwFFAPEzv1Mmk6KFR4S4Ae9MS5UAOyOq" />
@@ -182,7 +182,9 @@
         <activity android:name="com.smart.cloud.fire.mvp.printScreen.PrintScreenActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.printScreen.ImageSeeActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.modifyCameraInfo.ModifyCameraPwdActivity" />
-        <activity android:name="com.smart.cloud.fire.GetLocationActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.GetLocationActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistoryActivity"></activity>
     </application>
 
 </manifest>

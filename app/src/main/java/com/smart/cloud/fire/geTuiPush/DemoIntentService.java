@@ -22,6 +22,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.pushmessage.DisposeAlarm;
 import com.smart.cloud.fire.pushmessage.GetUserAlarm;
 import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
+import com.smart.cloud.fire.pushmessage.PushWiredSmokeAlarmMsg;
 import com.smart.cloud.fire.retrofit.ApiStores;
 import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.rxjava.ApiCallback;
@@ -65,166 +66,207 @@ public class DemoIntentService extends GTIntentService {
     @Override
     public void onReceiveMessageData(Context context, GTTransmitMessage gtTransmitMessage) {
         String msg = new String(gtTransmitMessage.getPayload());
-            try {
-                JSONObject dataJson = new JSONObject(msg);
-                int deviceType = dataJson.getInt("deviceType");
-                switch (deviceType){
-                    case 1://烟感
-                    case 2://燃气
-                    case 7://声光
-                    case 10://水压@@4.28
-                    case 8://手报
-                        String message = null;
-                        int alarmType = dataJson.getInt("alarmType");
-                        switch (deviceType){
-                            case 1:
-                                if(alarmType==202) {
-                                    message="发生烟雾报警";
-                                }else{
-                                    message="烟感电量低，请更换电池";
-                                }
-                                break;
-                            case 2:
-                                message="燃气发生泄漏";
-                                break;
-                            case 7:
-                                message="声光发出报警";
-                                break;
-                            case 8:
-                                message="手动报警";
-                                break;
-                            case 10://@@4.28
-                                if(alarmType==218) {
-                                    message="发生高水压报警";
-                                }else if(alarmType==209){
-                                    message="发生低水压报警";
-                                }else{
-                                    message="电量低，请更换电池";
-                                }
-                                break;
-                        }
-                        PushAlarmMsg mPushAlarmMsg = jsJson(dataJson);
-                        Random random1 = new Random();
-                        showDownNotification(context,message,mPushAlarmMsg,random1.nextInt(),AlarmActivity.class);
-                        Intent intent1 = new Intent(context, AlarmActivity.class);
-                        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent1.putExtra("mPushAlarmMsg",mPushAlarmMsg);
-                        intent1.putExtra("alarmMsg",message);
-                        context.startActivity(intent1);
-                        break;
-                    case 5://电气
-                        PushAlarmMsg pushAlarmMsg1 = jsJson(dataJson);
-                        int alarmFamily = pushAlarmMsg1.getAlarmFamily();
-                        String alarmMsg = null;
-                        switch (alarmFamily){
-                            case 43://电气报警
-                                int alarmType1 = pushAlarmMsg1.getAlarmType();
-                                if(alarmType1!=0){
-                                    alarmMsg = "电气探测器发出：过压报警";
-                                }
-                                break;
-                            case 36:
-                                int alarmType36 = pushAlarmMsg1.getAlarmType();
-                                switch (alarmType36){
-                                    case 1:
-                                        alarmMsg = "电气探测器发出：漏电流故障报警";
-                                        break;
-                                    case 2:
-                                        alarmMsg = "电气探测器发出：温度故障报警";
-                                        break;
-                                    case 3:
-                                        alarmMsg = "电气探测器发出：供电中断报警";
-                                        break;
-                                    case 4:
-                                        alarmMsg = "电气探测器发出：错相报警";
-                                        break;
-                                    case 5:
-                                        alarmMsg = "电气探测器发出：缺相报警";
-                                        break;
-                                    case 6:
-                                        alarmMsg = "电气探测器发出：电弧故障报警";
-                                        break;
-                                    case 7:
-                                        alarmMsg = "电气探测器发出：负载故障报警";
-                                        break;
-                                    case 8:
-                                        alarmMsg = "电气探测器发出：短路故障报警";
-                                        break;
-                                    case 9:
-                                        alarmMsg = "电气探测器发出：断路故障报警";
-                                        break;
-                                }
-                                break;
-                            case 45://电气报警
-                                int alarmType2 = pushAlarmMsg1.getAlarmType();
-                                if(alarmType2!=0){
-                                    alarmMsg = "电气探测器发出：过流报警";
-                                }
-                                break;
-                            case 44://欠压报警
-                                int alarmType3 = pushAlarmMsg1.getAlarmType();
-                                if(alarmType3!=0){
-                                    alarmMsg = "电气探测器发出：欠压报警";
-                                }
-                                break;
-                            case 46://电气报警
-                                int alarmType4 = pushAlarmMsg1.getAlarmType();
-                                if(alarmType4!=0){
-                                    alarmMsg = "电气探测器发出：漏电报警";
-                                }
-                                break;
-                            case 47://电气报警
-                                int alarmType5 = pushAlarmMsg1.getAlarmType();
-                                if(alarmType5!=0){
-                                    alarmMsg = "电气探测器发出：温度报警";
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        Random random = new Random();
-                        showDownNotification(context,alarmMsg,pushAlarmMsg1,random.nextInt(),AlarmActivity.class);
-                        Intent intent2 = new Intent(context, AlarmActivity.class);
-                        intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent2.putExtra("mPushAlarmMsg",pushAlarmMsg1);
-                        intent2.putExtra("alarmMsg",alarmMsg);
-                        context.startActivity(intent2);
-                        break;
-                    case 6://一键报警和报警回复
-                        int alarmType1 = dataJson.getInt("alarmType");
-                        if(alarmType1==3){
-                            GetUserAlarm getUserAlarm = new GetUserAlarm();
-                            getUserAlarm.setAddress(dataJson.getString("address"));
-                            getUserAlarm.setAlarmSerialNumber(dataJson.getString("alarmSerialNumber"));
-                            getUserAlarm.setAlarmTime(dataJson.getString("alarmTime"));
-                            getUserAlarm.setAreaName(dataJson.getString("areaName"));
-                            getUserAlarm.setCallerId(dataJson.getString("callerId"));
-                            getUserAlarm.setInfo(dataJson.getString("info"));
-                            getUserAlarm.setLatitude(dataJson.getString("latitude"));
-                            getUserAlarm.setLongitude(dataJson.getString("longitude"));
-                            getUserAlarm.setSmoke(dataJson.getString("smoke"));
-                            getUserAlarm.setCallerName(dataJson.getString("callerName"));
-                            Random random3 = new Random();
-                            showDownNotification(context,"您收到一条紧急报警消息",getUserAlarm,random3.nextInt(),UserAlarmActivity.class);
-                            Intent intent3 = new Intent(context, UserAlarmActivity.class);
-                            intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent3.putExtra("mPushAlarmMsg",getUserAlarm);
-                            context.startActivity(intent3);
-                        }else{
-                            DisposeAlarm disposeAlarm = new DisposeAlarm();
-                            disposeAlarm.setAlarmType(alarmType1);
-                            disposeAlarm.setPolice(dataJson.getString("police"));
-                            disposeAlarm.setTime(dataJson.getString("time"));
-                            disposeAlarm.setPoliceName(dataJson.getString("policeName"));
-                            Random random4 = new Random();
-                            showDownNotification(context,disposeAlarm.getPoliceName()+"警员已处理您的消息",null,random4.nextInt(),null);
-                        }
-                        break;
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+        try {
+            JSONObject dataJson = new JSONObject(msg);
+            int deviceType = dataJson.getInt("deviceType");
+            switch (deviceType){
+                case 221://@@6.30有线烟感
+                    JSONObject WiredJson =dataJson.getJSONObject("masterFault");
+                    String wiredMessage="发生"+WiredJson.getString("faultType");
+                    PushWiredSmokeAlarmMsg mPushAlarmMsg2 = jsJson2(dataJson.getJSONObject("masterFault"));
+                    Random random2 = new Random();
+//                        showDownNotification(context,wiredMessage,mPushAlarmMsg2,random2.nextInt(),AlarmActivity.class);
+                    Intent wiredIntent = new Intent(context, AlarmActivity.class);
+                    wiredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    wiredIntent.putExtra("mPushAlarmMsg",mPushAlarmMsg2);
+                    wiredIntent.putExtra("alarmMsg",wiredMessage);
+                    wiredIntent.putExtra("isWiredAlarmMsg",1);//@@6.30
+                    context.startActivity(wiredIntent);
+                    break;
+                case 1://烟感
+                case 2://燃气
+                case 7://声光
+                case 10://水压@@4.28
+                case 8://手报
+                    String message = null;
+                    int alarmType = dataJson.getInt("alarmType");
+                    switch (deviceType){
+                        case 1:
+                            if(alarmType==202) {
+                                message="发生烟雾报警";
+                            }else{
+                                message="烟感电量低，请更换电池";
+                            }
+                            break;
+                        case 2:
+                            message="燃气发生泄漏";
+                            break;
+                        case 7:
+                            message="声光发出报警";
+                            break;
+                        case 8:
+                            message="手动报警";
+                            break;
+                        case 10://@@4.28
+                            if(alarmType==218) {
+                                message="发生高水压报警";
+                            }else if(alarmType==209){
+                                message="发生低水压报警";
+                            }else{
+                                message="电量低，请更换电池";
+                            }
+                            break;
+                    }
+                    PushAlarmMsg mPushAlarmMsg = jsJson(dataJson);
+                    Random random1 = new Random();
+                    showDownNotification(context,message,mPushAlarmMsg,random1.nextInt(),AlarmActivity.class);
+                    Intent intent1 = new Intent(context, AlarmActivity.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent1.putExtra("mPushAlarmMsg",mPushAlarmMsg);
+                    intent1.putExtra("alarmMsg",message);
+                    context.startActivity(intent1);
+                    break;
+                case 5://电气
+                    PushAlarmMsg pushAlarmMsg1 = jsJson(dataJson);
+                    int alarmFamily = pushAlarmMsg1.getAlarmFamily();
+                    String alarmMsg = null;
+                    switch (alarmFamily){
+                        case 43://电气报警
+                            int alarmType1 = pushAlarmMsg1.getAlarmType();
+                            if(alarmType1!=0){
+                                alarmMsg = "电气探测器发出：过压报警";
+                            }else{
+                                alarmMsg = "电气探测器发出：过压报警（测试）";
+                            }
+                            break;
+                        case 36:
+                            int alarmType36 = pushAlarmMsg1.getAlarmType();
+                            switch (alarmType36){
+                                case 1:
+                                    alarmMsg = "电气探测器发出：漏电流故障报警";
+                                    break;
+                                case 2:
+                                    alarmMsg = "电气探测器发出：温度故障报警";
+                                    break;
+                                case 3:
+                                    alarmMsg = "电气探测器发出：供电中断报警";
+                                    break;
+                                case 4:
+                                    alarmMsg = "电气探测器发出：错相报警";
+                                    break;
+                                case 5:
+                                    alarmMsg = "电气探测器发出：缺相报警";
+                                    break;
+                                case 6:
+                                    alarmMsg = "电气探测器发出：电弧故障报警";
+                                    break;
+                                case 7:
+                                    alarmMsg = "电气探测器发出：负载故障报警";
+                                    break;
+                                case 8:
+                                    alarmMsg = "电气探测器发出：短路故障报警";
+                                    break;
+                                case 9:
+                                    alarmMsg = "电气探测器发出：断路故障报警";
+                                    break;
+                                case 10://@@6.28
+                                    alarmMsg = "电气探测器发出：485通信故障";
+                                    break;
+                                case 0://@@6.28
+                                    alarmMsg = "电气探测器发出：故障报警";
+                                    break;
+                                default:
+                                    alarmMsg = "电气探测器发出：故障报警(测试)";
+                                    break;
+                            }
+                            break;
+                        case 45://电气报警
+                            int alarmType2 = pushAlarmMsg1.getAlarmType();
+                            if(alarmType2!=0){
+                                alarmMsg = "电气探测器发出：过流报警";
+                            }else{
+                                alarmMsg = "电气探测器发出：过流报警（测试）";
+                            }
+                            break;
+                        case 44://欠压报警
+                            int alarmType3 = pushAlarmMsg1.getAlarmType();
+                            if(alarmType3!=0){
+                                alarmMsg = "电气探测器发出：欠压报警";
+                            }else{
+                                alarmMsg = "电气探测器发出：欠压报警（测试）";
+                            }
+                            break;
+                        case 46://电气报警
+                            int alarmType4 = pushAlarmMsg1.getAlarmType();
+                            if(alarmType4!=0){
+                                alarmMsg = "电气探测器发出：漏电报警";
+                            }else{
+                                alarmMsg = "电气探测器发出：漏电报警（测试）";
+                            }
+                            break;
+                        case 47://电气报警
+                            int alarmType5 = pushAlarmMsg1.getAlarmType();
+                            if(alarmType5!=0){
+                                alarmMsg = "电气探测器发出：温度报警";
+                            }else{
+                                alarmMsg = "电气探测器发出：温度报警（测试）";
+                            }
+                            break;
+                        case 48://分闸报警@@6.28
+                            int alarmType6 = pushAlarmMsg1.getAlarmType();
+                            if(alarmType6!=0){
+                                alarmMsg = "电气探测器发出：分闸报警";
+                            }else{
+                                alarmMsg = "电气探测器发出：分闸报警（测试）";
+                            }
+                            break;
+                        default:
+                            alarmMsg = "电气探测器发出：无该报警类型（测试）";
+                            break;
+                    }
+                    Random random = new Random();
+                    showDownNotification(context,alarmMsg,pushAlarmMsg1,random.nextInt(),AlarmActivity.class);
+                    Intent intent2 = new Intent(context, AlarmActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent2.putExtra("mPushAlarmMsg",pushAlarmMsg1);
+                    intent2.putExtra("alarmMsg",alarmMsg);
+                    context.startActivity(intent2);
+                    break;
+                case 6://一键报警和报警回复
+                    int alarmType1 = dataJson.getInt("alarmType");
+                    if(alarmType1==3){
+                        GetUserAlarm getUserAlarm = new GetUserAlarm();
+                        getUserAlarm.setAddress(dataJson.getString("address"));
+                        getUserAlarm.setAlarmSerialNumber(dataJson.getString("alarmSerialNumber"));
+                        getUserAlarm.setAlarmTime(dataJson.getString("alarmTime"));
+                        getUserAlarm.setAreaName(dataJson.getString("areaName"));
+                        getUserAlarm.setCallerId(dataJson.getString("callerId"));
+                        getUserAlarm.setInfo(dataJson.getString("info"));
+                        getUserAlarm.setLatitude(dataJson.getString("latitude"));
+                        getUserAlarm.setLongitude(dataJson.getString("longitude"));
+                        getUserAlarm.setSmoke(dataJson.getString("smoke"));
+                        getUserAlarm.setCallerName(dataJson.getString("callerName"));
+                        Random random3 = new Random();
+                        showDownNotification(context,"您收到一条紧急报警消息",getUserAlarm,random3.nextInt(),UserAlarmActivity.class);
+                        Intent intent3 = new Intent(context, UserAlarmActivity.class);
+                        intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent3.putExtra("mPushAlarmMsg",getUserAlarm);
+                        context.startActivity(intent3);
+                    }else{
+                        DisposeAlarm disposeAlarm = new DisposeAlarm();
+                        disposeAlarm.setAlarmType(alarmType1);
+                        disposeAlarm.setPolice(dataJson.getString("police"));
+                        disposeAlarm.setTime(dataJson.getString("time"));
+                        disposeAlarm.setPoliceName(dataJson.getString("policeName"));
+                        Random random4 = new Random();
+                        showDownNotification(context,disposeAlarm.getPoliceName()+"警员已处理您的消息",null,random4.nextInt(),null);
+                    }
+                    break;
             }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private PushAlarmMsg jsJson(JSONObject dataJson) throws JSONException {
@@ -256,6 +298,18 @@ public class DemoIntentService extends GTIntentService {
         }catch (Exception e){
         }
         mPushAlarmMsg.setMac(dataJson.getString("mac"));
+        return mPushAlarmMsg;
+    }
+
+    //@@6.30有线烟感推送信息
+    private PushWiredSmokeAlarmMsg jsJson2(JSONObject dataJson) throws JSONException {
+        PushWiredSmokeAlarmMsg mPushAlarmMsg = new PushWiredSmokeAlarmMsg();
+        mPushAlarmMsg.setFaultCode(dataJson.getString("faultCode"));
+        mPushAlarmMsg.setFaultDevDesc(dataJson.getString("faultDevDesc"));
+        mPushAlarmMsg.setFaultInfo(dataJson.getString("faultInfo"));
+        mPushAlarmMsg.setFaultTime(dataJson.getString("faultTime"));
+        mPushAlarmMsg.setFaultType(dataJson.getString("faultType"));
+        mPushAlarmMsg.setRepeater(dataJson.getString("repeater"));
         return mPushAlarmMsg;
     }
 

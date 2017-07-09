@@ -3,6 +3,8 @@ package com.smart.cloud.fire.mvp.fragment.MapFragment;
 import com.smart.cloud.fire.global.ElectricInfo;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmoke;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,16 @@ public class HttpError<T> {
     private ArrayList<ShopType> placeType;
     private List<AlarmMessageModel> Alarm;
     private List<ElectricInfo> Electric;
+    private List<WiredSmoke> faultment;//@@6.30
+    private List<WiredSmokeHistory> alarm;
+
+    public List<WiredSmokeHistory> getalarm() {
+        return alarm;
+    }
+
+    public void setalarm(List<WiredSmokeHistory> alarm) {
+        this.alarm = alarm;
+    }
 
     public String getError() {
         return error;
@@ -88,5 +100,14 @@ public class HttpError<T> {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+
+    public List<WiredSmoke> getFaultment() {
+        return faultment;
+    }
+
+    public void setFaultment(List<WiredSmoke> faultment) {
+        this.faultment = faultment;
     }
 }

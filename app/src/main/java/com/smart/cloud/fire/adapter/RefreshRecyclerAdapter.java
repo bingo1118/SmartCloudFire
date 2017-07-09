@@ -165,6 +165,9 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         case 47:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gw);
                             break;
+                        case 48:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_fz);//@@6.28
+                            break;
                     }
                     break;
                 case 7:

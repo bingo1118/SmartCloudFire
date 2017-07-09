@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.smart.cloud.fire.adapter.ElectricActivityAdapterTest;
 import com.smart.cloud.fire.base.ui.MvpActivity;
@@ -87,6 +88,9 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
 
     @Override
     public void getDataSuccess(List<ElectricValue.ElectricValueBean> smokeList) {
+        if(smokeList.size()==0){
+            Toast.makeText(mContext,"无数据",Toast.LENGTH_SHORT).show();
+        }//@@7.7
         electricActivityAdapter = new ElectricActivityAdapterTest(mContext, smokeList, electricPresenter);
         recyclerView.setAdapter(electricActivityAdapter);
         swipeFreshLayout.setRefreshing(false);

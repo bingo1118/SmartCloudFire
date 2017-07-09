@@ -32,6 +32,10 @@ public class ElectricPresenter extends BasePresenter<ElectricView>{
                 if(resultCode==0){
                     List<ElectricValue> electricList = model.getElectric();
                     List<ElectricValue.ElectricValueBean> electricValueBeen = new ArrayList<>();
+                    if(electricList==null){
+                        mvpView.getDataSuccess(electricValueBeen);
+                        return;
+                    }//@@7.7
                     for(ElectricValue electricValue : electricList){
                         int electricType = electricValue.getElectricType();
                         List<ElectricValue.ElectricValueBean> list = electricValue.getElectricValue();
@@ -41,6 +45,8 @@ public class ElectricPresenter extends BasePresenter<ElectricView>{
                         }
                     }
                     mvpView.getDataSuccess(electricValueBeen);
+                }else{
+                    mvpView.getDataSuccess(new ArrayList<ElectricValue.ElectricValueBean>());
                 }
             }
 

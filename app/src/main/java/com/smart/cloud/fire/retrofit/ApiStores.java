@@ -66,6 +66,28 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getAllSmoke(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
 
+    //获取用户所有的有线终端@@6.29
+    @GET("getAllFaultinfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getAllFaultinfo(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
+
+    //获取用户所有的有线终端下的烟感@@6.29
+    @GET("getEquipmentOfOneRepeater")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getEquipmentOfOneRepeater(@Query("userId") String userId, @Query("repeater") String repeater,@Query("page") String page);
+
+    //获取用户某个烟感的历史报警记录@@7.3
+    @GET("getAlarmOfRepeater")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getAlarmOfRepeater(@Query("userId") String userId, @Query("repeater") String repeater
+            ,@Query("smokeMac") String smokeMac,@Query("startTime") String startTime
+            ,@Query("endTime") String endTime,@Query("page") String page);
+
+    //获取用户所有的设备
+    @GET("getAllDevice")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getAllDevice(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
+
 //    @FormUrlEncoded
 //    @POST("getAllSmoke")
 //    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -92,6 +114,13 @@ public interface ApiStores {
     Observable<HttpError> getNeedSmoke(@Query("userId") String userId, @Query("privilege") String privilege,
                                             @Query("areaId") String areaId,@Query("page") String page,
                                             @Query("placeTypeId") String placeTypeId);
+
+    //根据条件查询用户所有设备（设备类型<11）
+    @GET("getNeedDevice")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedDevice(@Query("userId") String userId, @Query("privilege") String privilege,
+                                       @Query("areaId") String areaId,@Query("page") String page,
+                                       @Query("placeTypeId") String placeTypeId);
 
     //根据查询内容查询用户烟感
     @GET("getSmokeBySearch")
