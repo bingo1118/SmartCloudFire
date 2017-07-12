@@ -51,7 +51,7 @@ public class MainThread {
         try {
             long now_time = System.currentTimeMillis();
             //1000 * 60 * 60 * 12
-            if ((now_time - last_check_update_time) > 1000 * 60 * 60 * 12) {
+            if ((now_time - last_check_update_time) > 1000 * 60 * 60 ) {
                 SharedPreferencesManager.getInstance()
                         .putLastAutoCheckUpdateTime(now_time, MyApp.app);
                 // 创建地址对象
@@ -93,10 +93,14 @@ public class MainThread {
                     String clientCode = getlocalVersion();
                     int result = CompareVersion.compareVersion(serverCode,clientCode);
 
-                    if (result==1) {
+                    if (result>=1) {
+                        if(last_check_update_time!=-1&&serverCode.equals(SharedPreferencesManager.getInstance().getData(mContext,"ignoreVersion"))){
+                            return 1;//@@7.12
+                        }
                         Intent i = new Intent("Constants.Action.ACTION_UPDATE");
                         i.putExtra("url", mUpdateInfo.url);
                         i.putExtra("message", mUpdateInfo.message);
+                        i.putExtra("ignoreVersion",serverCode );
                         MyApp.app.sendBroadcast(i);
                     }
                     if(last_check_update_time==-1&&result<1){

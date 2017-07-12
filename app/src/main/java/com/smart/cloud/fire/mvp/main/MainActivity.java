@@ -135,7 +135,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, Intent intent) {
             //退出。。
             if (intent.getAction().equals("APP_EXIT")) {
                 SharedPreferencesManager.getInstance().putData(mContext,
@@ -230,11 +230,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         }.start();
                     }
                 });
+                final String ignoreVersion=intent.getStringExtra("ignoreVersion");//@@7.12
                 button2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (null != dialog_update) {
                             dialog_update.cancel();
+                            SharedPreferencesManager.getInstance().putData(context,"ignoreVersion",ignoreVersion);//@@7.12
                         }
                     }
                 });

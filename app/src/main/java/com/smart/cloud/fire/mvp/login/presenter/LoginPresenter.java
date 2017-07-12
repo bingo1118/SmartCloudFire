@@ -99,7 +99,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     loginYooSee(User,Pwd,context,type);
                 }else{
                     mvpView.hideLoading();
-                    mvpView.getDataFail("网络错误，请检查网络");
+                    String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@7.12
+                    loginServer2(User,Pwd,userCID);//@@7.12 如果技威登录失败，也登陆我们服务器
+//                    mvpView.getDataFail("网络错误，请检查网络");
                 }
                 //@@6.29跳过技威登陆
 //                String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@5.27
@@ -155,7 +157,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * 登陆内部服务器，获取信息到Login Model，errorCode=0表示登陆成功，设置权限。。
      * @param userId
      */
-    private void loginServer2(String userId,String pwd,String cid){
+    private void loginServer2(final String userId, final String pwd, String cid){
         Observable<LoginModel> observable = apiStores1.login2(userId,pwd,cid,"1");//@@5.27添加app编号
         addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
             @Override
@@ -164,7 +166,19 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 if(errorCode==0){
                     //获取到内部服务器的用户权限，并配置到MyAPP
                     MyApp.app.setPrivilege(model.getPrivilege());
-                    //@@5.5存储用户权限。。
+                    SharedPreferencesManager.getInstance().putData(context,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENTPASS,
+                            pwd);
+                    SharedPreferencesManager.getInstance().putData(context,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENTNAME,
+                            userId);
+                    SharedPreferencesManager.getInstance().putData(context,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENTPASS_NUMBER
+                            ,model.getName());//@@7.12 保存账号密码
+//                    @@5.5存储用户权限。。
                     SharedPreferencesManager.getInstance().putIntData(context,
                             SharedPreferencesManager.SP_FILE_GWELL,
                             SharedPreferencesManager.KEY_RECENT_PRIVILEGE, model.getPrivilege());

@@ -79,7 +79,9 @@ public class WiredDevFragment3 extends MvpFragment<ShopInfoFragmentPresenter> im
         refreshListView();
         String repeater=getActivity().getIntent().getStringExtra("Repeater");
         String mac=getActivity().getIntent().getStringExtra("Mac");
-        mvpPresenter.getAlarmOfRepeater(userID, repeater,mac,"","", page, list, 1,false);
+        String faultDesc=getActivity().getIntent().getStringExtra("Position");
+        String hostType=getActivity().getIntent().getStringExtra("HostType");
+        mvpPresenter.getAlarmOfRepeater(userID, repeater,mac,faultDesc,hostType,"","", page, list, 1,false);
 
     }
 
@@ -105,7 +107,9 @@ public class WiredDevFragment3 extends MvpFragment<ShopInfoFragmentPresenter> im
 //                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
                 String repeater=getActivity().getIntent().getStringExtra("Repeater");
                 String mac=getActivity().getIntent().getStringExtra("Mac");
-                mvpPresenter.getAlarmOfRepeater(userID, repeater,mac,"","", page, list, 1,true);
+                String faultDesc=getActivity().getIntent().getStringExtra("Position");
+                String hostType=getActivity().getIntent().getStringExtra("HostType");
+                mvpPresenter.getAlarmOfRepeater(userID, repeater,mac,faultDesc,hostType,"","", page, list, 1,true);
 //                mvpPresenter.getSmokeSummary(userID,privilege+"","");
             }
         });
@@ -130,7 +134,9 @@ public class WiredDevFragment3 extends MvpFragment<ShopInfoFragmentPresenter> im
                         page = Integer.parseInt(page) + 1 + "";
                         String repeater=getActivity().getIntent().getStringExtra("Repeater");
                         String mac=getActivity().getIntent().getStringExtra("Mac");
-                        mvpPresenter.getAlarmOfRepeater(userID, repeater,mac,"","", page, list, 1,true);
+                        String faultDesc=getActivity().getIntent().getStringExtra("Position");
+                        String hostType=getActivity().getIntent().getStringExtra("HostType");
+                        mvpPresenter.getAlarmOfRepeater(userID, repeater,mac,faultDesc,hostType,"","", page, list, 1,true);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }

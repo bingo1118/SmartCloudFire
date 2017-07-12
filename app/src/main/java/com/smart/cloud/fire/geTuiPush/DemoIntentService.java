@@ -70,6 +70,7 @@ public class DemoIntentService extends GTIntentService {
             JSONObject dataJson = new JSONObject(msg);
             int deviceType = dataJson.getInt("deviceType");
             switch (deviceType){
+                case 224:
                 case 221://@@6.30有线烟感
                     JSONObject WiredJson =dataJson.getJSONObject("masterFault");
                     String wiredMessage="发生"+WiredJson.getString("faultType");

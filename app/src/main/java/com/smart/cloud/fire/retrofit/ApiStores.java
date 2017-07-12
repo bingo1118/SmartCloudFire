@@ -77,11 +77,18 @@ public interface ApiStores {
     Observable<HttpError> getEquipmentOfOneRepeater(@Query("userId") String userId, @Query("repeater") String repeater,@Query("page") String page);
 
     //获取用户某个烟感的历史报警记录@@7.3
-    @GET("getAlarmOfRepeater")
+//    @GET("getAlarmOfRepeater")
+//    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+//    Observable<HttpError> getAlarmOfRepeater(@Query("userId") String userId, @Query("repeater") String repeater
+//            ,@Query("smokeMac") String smokeMac,@Query("startTime") String startTime
+//            ,@Query("endTime") String endTime,@Query("page") String page,@Query("faultDesc") String faultDesc);
+    //获取用户某个烟感的历史报警记录@@7.3
+    @FormUrlEncoded
+    @POST("getAlarmOfRepeater")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getAlarmOfRepeater(@Query("userId") String userId, @Query("repeater") String repeater
-            ,@Query("smokeMac") String smokeMac,@Query("startTime") String startTime
-            ,@Query("endTime") String endTime,@Query("page") String page);
+    Observable<HttpError> getAlarmOfRepeater(@Field("userId") String userId, @Field("repeater") String repeater
+            ,@Field("smokeMac") String smokeMac,@Field("startTime") String startTime
+            ,@Field("endTime") String endTime,@Field("page") String page,@Field("faultDesc") String faultDesc);
 
     //获取用户所有的设备
     @GET("getAllDevice")

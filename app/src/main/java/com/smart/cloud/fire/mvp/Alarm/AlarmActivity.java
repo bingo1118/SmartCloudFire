@@ -129,11 +129,15 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             lin_principa1.setVisibility(View.GONE);
             lin_principa2.setVisibility(View.GONE);
             alarmDoItBtn.setVisibility(View.GONE);
-            smokeMarkPrincipal.setVisibility(View.GONE);;
-            alarmSmokeMarkPrincipal.setVisibility(View.GONE);;
-            alarmSmokeMarkPhoneTv.setVisibility(View.GONE);;
-            smokeMarkPhoneTv.setVisibility(View.GONE);;
-            alarmInfo.setText("终端："+pushWiredSmokeAlarmMsg.getRepeater()+" 编号："+pushWiredSmokeAlarmMsg.getFaultCode()+"详情："+ pushWiredSmokeAlarmMsg.getFaultInfo());
+            smokeMarkPrincipal.setVisibility(View.GONE);
+            alarmSmokeMarkPrincipal.setVisibility(View.GONE);
+            alarmSmokeMarkPhoneTv.setVisibility(View.GONE);
+            smokeMarkPhoneTv.setVisibility(View.GONE);
+            String alarmMsg=pushWiredSmokeAlarmMsg.getFaultInfo();
+            if(alarmMsg.length()==0||alarmMsg==null||alarmMsg.equals("null")){
+                alarmMsg="";
+            }//@@7.10
+            alarmInfo.setText("终端："+pushWiredSmokeAlarmMsg.getRepeater()+" \r编号："+pushWiredSmokeAlarmMsg.getFaultCode()+"\r详情："+ alarmMsg);
             alarmTime.setText(pushWiredSmokeAlarmMsg.getFaultTime());
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);

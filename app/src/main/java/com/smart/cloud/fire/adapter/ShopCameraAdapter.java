@@ -114,10 +114,10 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemViewHolder) holder).categoryGroupLin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(camera.getIsOnline()==0) {//@@5.18
-                        T.show(mContext,"设备不在线", Toast.LENGTH_SHORT);
-                        return;
-                    }
+//                    if(camera.getIsOnline()==0) {//@@5.18
+//                        T.show(mContext,"设备不在线", Toast.LENGTH_SHORT);
+//                        return;
+//                    }
                     Contact mContact = new Contact();
                     mContact.contactType = 0;
                     mContact.contactId = camera.getCameraId();

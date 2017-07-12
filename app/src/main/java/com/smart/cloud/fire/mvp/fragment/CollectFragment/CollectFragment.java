@@ -118,6 +118,13 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
     private RefreshRecyclerAdapter adapter;
     private int lastVisibleItem;
 
+    //startStr, endStr, areaId, placeTypeId
+    private int type=1;//@@是否是按条件查询 1 查询所有 2 条件查询
+    private String startStr;
+    private String endStr;
+    private String areaId;
+    private String placeTypeId;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_collect_fire, container,
@@ -158,6 +165,7 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                 research = false;
                 page = "1";
                 mvpPresenter.getAllAlarm(userID, privilege + "", page, 1, "", "", "", "");
+                type=1;//@@7.12
                 mProgressBar.setVisibility(View.GONE);
             }
         });
@@ -180,9 +188,14 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                     return;
                 }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-                    if (loadMoreCount >= 20 && research == false) {
+//                    if (loadMoreCount >= 20 && research == false) {
+                    if (loadMoreCount >= 20 ) {//@@7.12
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllAlarm(userID, privilege + "", page, 1, "", "", "", "");
+                        if(type==2){
+                            mvpPresenter.getAllAlarm(userID, privilege + "", page, 2,startStr, endStr, areaId, placeTypeId);
+                        }else{
+                            mvpPresenter.getAllAlarm(userID, privilege + "", page, 1, "", "", "", "");
+                        }//@@7.12 区分是否是条件查询 1 查询全部 2 条件查询
                         mProgressBar.setVisibility(View.GONE);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
@@ -264,6 +277,12 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                     }
                 }
                 mvpPresenter.getAllAlarm(userID, privilege + "", page, 2, startStr, endStr, areaId, placeTypeId);
+                this.startStr=startStr;
+                this.endStr=endStr;
+                this.areaId=areaId;
+                this.placeTypeId=placeTypeId;
+                this.type=2;//@@7.12保存查询条件
+
                 hideDatePick();
                 mArea = null;
                 mShopType = null;

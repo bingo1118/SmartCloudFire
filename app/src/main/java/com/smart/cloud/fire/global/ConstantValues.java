@@ -6,13 +6,13 @@ package com.smart.cloud.fire.global;
 public class ConstantValues {
     //public static final String SERVER_IP_NEW ="http://192.168.4.111:51091/fireSystem/";
     //测试IP:
-//    public static final String SERVER_IP_NEW ="http://119.29.224.28:51091/fireSystem/";
+    public static final String SERVER_IP_NEW ="http://119.29.224.28:51091/fireSystem/";
 
 //    public static final String SERVER_IP_NEW ="http://192.168.4.88:51091/fireSystem/";
     //测试IP:
     public static final String SERVER_IP_NEW_TEST="http://119.29.224.28:51090/fireSystem/";
     //正式IP:
-    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
+//    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://192.168.4.120:8080/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://192.168.0.188:8080/fireSystem/";
 
@@ -26,6 +26,7 @@ public class ConstantValues {
     public static final String FORGET_PASSWORD_URL = "http://cloudlinks.cn/pw/";
     //更新接口
     public static final String UPDATE_URL="http://119.29.155.148/download/update_cloudfire.xml";
+//    public static final String UPDATE_URL="http://119.29.223.106:51091/download/update_bqyl.xml";
     public static final String ERROR_URL = "http://182.254.234.243:8080/UploadError/UploadServlet";
 
     public static class Privilege{

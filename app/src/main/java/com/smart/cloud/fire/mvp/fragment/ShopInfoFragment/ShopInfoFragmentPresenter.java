@@ -21,6 +21,7 @@ import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -356,12 +357,27 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
         }));
     }
 
+    //判断是否全数字
+    public static boolean isNumeric1(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        return pattern.matcher(str).matches();
+    }
+
+    Observable mObservable;
+
     //@@6.29获取无线终端下的某个烟感的历史报警
-    public void getAlarmOfRepeater(String userId, String repeater,String smokeMac,String startTime,String endTime,String page, final List<WiredSmokeHistory> list, final int type,boolean refresh){
+    public void getAlarmOfRepeater(String userId, String repeater,String smokeMac,String faultDesc,String hostType,String startTime,String endTime,String page, final List<WiredSmokeHistory> list, final int type,boolean refresh){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page);
+        if(hostType.equals("221")){
+            mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page,"");
+        }else{
+//            smokeMac=getNumber(smokeMac);
+//            faultDesc=getNumber(faultDesc);
+            mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page,faultDesc);
+        }
+
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -397,6 +413,18 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
                 mvpView.hideLoading();
             }
         }));
+    }
+
+    //@@7.12 获取设备名称开头的数字
+    private String getNumber(String smokeMac) {
+        String temp="";
+        for(int i=0;i<smokeMac.length();i++){
+            String a=smokeMac.substring(i,1);
+            if(isNumeric1(a)){
+                temp+=a;
+            }
+        }
+        return temp;
     }
 
     /**

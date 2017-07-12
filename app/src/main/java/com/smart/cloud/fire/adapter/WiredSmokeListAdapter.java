@@ -88,16 +88,21 @@ public class WiredSmokeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_zx);
 
 
-            ((ItemViewHolder) holder).equipmentDesc.setText(normalSmoke.getFaultDevDesc());
-            ((ItemViewHolder) holder).macTv.setText("Mac:"+normalSmoke.getFaultCode());//@@
+
+            if(normalSmoke.getHostType().equals("224")){
+                ((ItemViewHolder) holder).macTv.setText("区域:"+normalSmoke.getFaultCode()+"分区");//@@
+                ((ItemViewHolder) holder).equipmentDesc.setText(normalSmoke.getFaultDevDesc()+"号设备");
+            }else{
+                ((ItemViewHolder) holder).macTv.setText("MAC:"+normalSmoke.getFaultCode());//@@
+                ((ItemViewHolder) holder).equipmentDesc.setText(normalSmoke.getFaultDevDesc());
+            }//@@7.12
             if(normalSmoke.getFaultType().contains("消除")){
                 ((ItemViewHolder) holder).equipmentFaultType_tv.setText("正常");
             }else{
                 ((ItemViewHolder) holder).equipmentFaultType_tv.setText(normalSmoke.getFaultType());
             }
-            ((ItemViewHolder) holder).equipmentFaultInfo_tv.setText(normalSmoke.getFaultInfo());
             ((ItemViewHolder) holder).updatetime_tv.setText(normalSmoke.getFaultTime());
-
+            ((ItemViewHolder) holder).equipmentFaultInfo_tv.setText(normalSmoke.getFaultInfo());
             ((ItemViewHolder) holder).categoryGroupLin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,6 +110,7 @@ public class WiredSmokeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     intent.putExtra("Mac",normalSmoke.getFaultCode());
                     intent.putExtra("Repeater",normalSmoke.getRepeaterMac());
                     intent.putExtra("Position",normalSmoke.getFaultDevDesc());
+                    intent.putExtra("HostType",normalSmoke.getHostType());//@@@7.12
                     mContext.startActivity(intent);
                 }
             });

@@ -12,6 +12,7 @@ public class WiredSmoke implements Serializable {
     private String faultCode;
     private String faultDevDesc;
     private String faultTime;
+    private String hostType;
 
 
 
@@ -64,5 +65,13 @@ public class WiredSmoke implements Serializable {
 
     public void setFaultCode(String faultCode) {
         this.faultCode = faultCode;
+    }
+
+    public String getHostType() {
+        return hostType;
+    }
+
+    public void setHostType(String hostType) {
+        this.hostType = hostType;
     }
 }

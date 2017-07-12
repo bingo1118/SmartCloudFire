@@ -30,7 +30,7 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
         if(type==1){
             observable = apiStores1.getAllAlarm(userId,privilege,page);
         }else{
-            observable = apiStores1.getNeedAlarm(userId,privilege,startTime,endTime,areaId,placeTypeId,"");
+            observable = apiStores1.getNeedAlarm(userId,privilege,startTime,endTime,areaId,placeTypeId,page);
         }
         addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
