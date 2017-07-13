@@ -65,7 +65,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onSuccess(LoginModel model) {
                 String errorCode = model.getError_code();
                 if(errorCode.equals("0")){
-                    editSharePreference(context,model,User,Pwd);
+                    editSharePreference(context,model,User,Pwd);//存储技威用户数据
                     //登陆内部服务器获取用户权限
                     String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@5.27
                     loginServer2(User,Pwd,userCID);

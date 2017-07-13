@@ -370,12 +370,10 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
         if(!refresh){
             mvpView.showLoading();
         }
-        if(hostType.equals("221")){
-            mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page,"");
-        }else{
-//            smokeMac=getNumber(smokeMac);
-//            faultDesc=getNumber(faultDesc);
+        if(hostType.equals("224")){
             mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page,faultDesc);
+        }else{
+            mObservable = apiStores1.getAlarmOfRepeater(userId,repeater,smokeMac,startTime,endTime,page,"");
         }
 
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
