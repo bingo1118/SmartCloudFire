@@ -85,6 +85,7 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
         switch (view.getId()) {
             case R.id.app_update:
                 mvpPresenter.checkUpdate(mContext);
+                getActivity().finish();//@@7.13
                 break;
             case R.id.setting_help_about:
                 Intent intent = new Intent(mContext, AboutActivity.class);
@@ -97,7 +98,9 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
             case R.id.setting_help_exit:
                 Intent in = new Intent();
                 in.setAction("APP_EXIT");
+                in.setPackage("fire.cloud.smart.com.smartcloudfire");//@@7.13只传当前应用
                 mContext.sendBroadcast(in);
+                getActivity().finish();//@@7.17
                 break;
             case R.id.setting_camera_relative:
                 mvpPresenter.bindDialog(mContext);

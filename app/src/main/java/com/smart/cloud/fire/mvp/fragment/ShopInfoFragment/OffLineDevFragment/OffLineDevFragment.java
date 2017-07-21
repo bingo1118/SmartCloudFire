@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
@@ -22,8 +24,6 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
@@ -38,7 +38,7 @@ import fire.cloud.smart.com.smartcloudfire.R;
 /**
  * Created by Administrator on 2016/10/28.
  */
-public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> implements ShopInfoFragmentView {
+public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implements ShopInfoFragmentView {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -56,7 +56,8 @@ public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> i
     private String userID;
     private int privilege;
     private int loadMoreCount;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
+    private int preseterTpye=1;
+    private AllSmokePresenter mShopInfoFragmentPresenter;//@@7.17
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> i
         page = 1;
         list = new ArrayList<>();
         refreshListView();
-        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"",false,1,list,OffLineDevFragment.this);
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
     }
 
     private void refreshListView() {
@@ -97,8 +98,8 @@ public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> i
             public void onRefresh() {
                 page = 1;
                 list.clear();
-                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"",true,1,list,OffLineDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","");
+                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","1",true,1,list,OffLineDevFragment.this);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","1");
             }
         });
 
@@ -120,7 +121,7 @@ public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> i
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && itemCount == count) {
                     if(loadMoreCount>=20){
                         page = page + 1 ;
-                        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"",false,1,list,OffLineDevFragment.this);
+                        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -137,8 +138,9 @@ public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> i
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    protected ShopInfoFragmentPresenter createPresenter() {
-        mShopInfoFragmentPresenter = new ShopInfoFragmentPresenter(this,(ShopInfoFragment)getParentFragment());
+    protected AllSmokePresenter createPresenter() {
+//        mShopInfoFragmentPresenter = new ShopInfoFragmentPresenter(this,(ShopInfoFragment)getParentFragment());
+        mShopInfoFragmentPresenter = new AllSmokePresenter((AllSmokeActivity)getActivity());
         return mShopInfoFragmentPresenter;
     }
 
@@ -153,7 +155,7 @@ public class OffLineDevFragment extends MvpFragment<ShopInfoFragmentPresenter> i
         research = search;
         list.clear();
         list.addAll((List<Smoke>)smokeList);
-        shopSmokeAdapter = new ShopSmokeAdapter(mContext, list, mShopInfoFragmentPresenter);
+        shopSmokeAdapter = new ShopSmokeAdapter(mContext, list);
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
         shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);

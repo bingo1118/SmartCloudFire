@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="视频监控"
+        android:textColor="#ffffff"
+        android:background="@color/login_btn"
+        android:gravity="center"
+        android:textSize="18sp"
+        />
+    <fragment
+        android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.CameraFragment.CameraFragment"
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_image"/>
+
+</LinearLayout>

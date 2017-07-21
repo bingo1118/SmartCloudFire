@@ -1,6 +1,8 @@
 package com.smart.cloud.fire.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
+import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.T;
 
 import java.util.List;
@@ -69,7 +72,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //进行判断显示类型，来创建返回不同的View
         if (viewType == TYPE_ITEM) {
-            View view = mInflater.inflate(R.layout.electric_adapter, parent, false);
+            View view = mInflater.inflate(R.layout.shop_info_adapter, parent, false);
             //这边可以做一些属性设置，甚至事件监听绑定
             ItemViewHolder viewHolder = new ItemViewHolder(view);
             view.setOnClickListener(this);
@@ -92,54 +95,33 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).repeaterRela.setVisibility(View.VISIBLE);
             final Electric normalSmoke = listNormalSmoke.get(position);
-            ((ItemViewHolder) holder).address.setText(normalSmoke.getAddress());
-            ((ItemViewHolder) holder).groupTv.setText(normalSmoke.getName());
-            ((ItemViewHolder) holder).repeaterNameTv.setText(normalSmoke.getPlaceType());
-            ((ItemViewHolder) holder).repeaterMacTv.setText(normalSmoke.getAreaName());
+            ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
+            ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
+            ((ItemViewHolder) holder).repeater_tv.setText(normalSmoke.getRepeater());
+            ((ItemViewHolder) holder).type_tv.setText(normalSmoke.getPlaceType());
+            ((ItemViewHolder) holder).area_tv.setText(normalSmoke.getAreaName());
+
+            ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
+                @Override
+                public void onClick(View v) {
+//                    String phoneOne = normalSmoke.getPrincipal1Phone();
+//                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
+                    Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
+                    intent.putExtra("people1",normalSmoke.getPrincipal1());
+                    intent.putExtra("people2",normalSmoke.getPrincipal2());
+                    intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
+                    intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
+                    mContext.startActivity(intent);
+                }
+            });
             int state = normalSmoke.getNetState();
-            switch (state){
-                case 0:
-                    ((ItemViewHolder) holder).state.setText("离线");
-                    break;
-                case 1:
-                    ((ItemViewHolder) holder).state.setText("在线");
-                    break;
-                default:
-                    break;
+            if (state == 0) {//设备不在线。。
+                ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName()+"（已离线)");
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+            } else {//设备在线。。
+                ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
             }
-            ((ItemViewHolder) holder).installTime.setText(normalSmoke.getAddSmokeTime());
-            String phoneOne = normalSmoke.getPrincipal1Phone();
-            String phoneTwo = normalSmoke.getPrincipal2Phone();
-            if(phoneOne!=null&&phoneOne.length()>0){
-                ((ItemViewHolder) holder).groupPrincipal1.setText(normalSmoke.getPrincipal1());
-                ((ItemViewHolder) holder).groupPhone1.setText(normalSmoke.getPrincipal1Phone());
-            }else{
-                ((ItemViewHolder) holder).relateManOne.setVisibility(View.GONE);
-            }
-            if(phoneTwo!=null&&phoneTwo.length()>0){
-                ((ItemViewHolder) holder).groupPrincipal2.setText(normalSmoke.getPrincipal2());
-                ((ItemViewHolder) holder).groupPhone2.setText(normalSmoke.getPrincipal2Phone());
-            }else{
-                ((ItemViewHolder) holder).relateManTwo.setVisibility(View.GONE);
-            }
-            ((ItemViewHolder) holder).electricId.setText(normalSmoke.getMac());
-            ((ItemViewHolder) holder).repeaterTv2.setText(normalSmoke.getRepeater());
-            ((ItemViewHolder) holder).groupPhone1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phoneOne = normalSmoke.getPrincipal1Phone();
-                    mShopInfoFragmentPresenter.telPhoneAction(mContext, phoneOne);
-                }
-            });
-            ((ItemViewHolder) holder).groupPhone2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phoneTwo = normalSmoke.getPrincipal2Phone();
-                    mShopInfoFragmentPresenter.telPhoneAction(mContext, phoneTwo);
-                }
-            });
             holder.itemView.setTag(normalSmoke);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
@@ -186,62 +168,20 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.group_image)
-        ImageView groupImage;
-        @Bind(R.id.group_tv)
-        TextView groupTv;
-        @Bind(R.id.electric_id)
-        TextView electricId;
-        @Bind(R.id.install_time)
-        TextView installTime;
-        @Bind(R.id.state_tv)
-        TextView stateTv;
-        @Bind(R.id.state)
-        TextView state;
-        @Bind(R.id.repeater_tv1)
-        TextView repeaterTv1;
-        @Bind(R.id.repeater_tv2)
-        TextView repeaterTv2;
-        @Bind(R.id.repeater_rela)
-        RelativeLayout repeaterRela;
+        @Bind(R.id.smoke_name_text)
+        TextView smoke_name_text;
+        @Bind(R.id.mac_tv)
+        TextView mac_tv;
+        @Bind(R.id.repeater_tv)
+        TextView repeater_tv;
+        @Bind(R.id.area_tv)
+        TextView area_tv;
+        @Bind(R.id.type_tv)
+        TextView type_tv;
         @Bind(R.id.address_tv)
-        TextView addressTv;
-        @Bind(R.id.address)
-        TextView address;
-        @Bind(R.id.repeater_name)
-        TextView repeaterName;
-        @Bind(R.id.repeater_name_tv)
-        TextView repeaterNameTv;
-        @Bind(R.id.zjq_name)
-        RelativeLayout zjqName;
-        @Bind(R.id.repeater_mac)
-        TextView repeaterMac;
-        @Bind(R.id.repeater_mac_tv)
-        TextView repeaterMacTv;
-        @Bind(R.id.zjq_mac)
-        RelativeLayout zjqMac;
-        @Bind(R.id.group_principal1)
-        TextView groupPrincipal1;
-        @Bind(R.id.category_group_phone)
-        ImageView categoryGroupPhone;
-        @Bind(R.id.group_phone1)
-        TextView groupPhone1;
-        @Bind(R.id.phone_lin1)
-        LinearLayout phoneLin1;
-        @Bind(R.id.relate_man_one)
-        LinearLayout relateManOne;
-        @Bind(R.id.group_principal2)
-        TextView groupPrincipal2;
-        @Bind(R.id.category_group_phone2)
-        ImageView categoryGroupPhone2;
-        @Bind(R.id.group_phone2)
-        TextView groupPhone2;
-        @Bind(R.id.phone_lin2)
-        LinearLayout phoneLin2;
-        @Bind(R.id.relate_man_two)
-        LinearLayout relateManTwo;
-        @Bind(R.id.category_group_lin)
-        LinearLayout categoryGroupLin;
+        TextView address_tv;
+        @Bind(R.id.manager_img)
+        ImageView manager_img;
 
         public ItemViewHolder(View view) {
             super(view);

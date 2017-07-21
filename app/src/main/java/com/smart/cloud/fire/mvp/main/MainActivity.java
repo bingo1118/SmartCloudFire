@@ -6,18 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.BinderThread;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,8 +33,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.igexin.sdk.PushManager;
+import com.obsessive.zbar.CaptureActivity;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.update.UpdateManager;
+import com.smart.cloud.fire.activity.AddDev.AddDevActivity;
+import com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity;
+import com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity;
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
+import com.smart.cloud.fire.activity.Camera.CameraDevActivity;
+import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
+import com.smart.cloud.fire.activity.MyZoomActivity;
+import com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity;
+import com.smart.cloud.fire.activity.WiredDev.WiredDevActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MainService;
@@ -50,9 +64,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 
 /**
@@ -60,37 +77,86 @@ import fire.cloud.smart.com.smartcloudfire.R;
  */
 public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
 
-    @Bind(R.id.call_alarm)
-    MyRadioButton callAlarm;
     private Context mContext;
     private AlertDialog dialog_update;
-    @Bind(R.id.bottom_group)
-    RadioGroup bottom_group;
-    @Bind(R.id.radio_comment)
-    MyRadioButton radio_comment;
-    @Bind(R.id.radio_comment1)
-    MyRadioButton radio_comment1;
-    @Bind(R.id.radio_letter)
-    MyRadioButton radio_letter;
-    @Bind(R.id.radio_home)
-    MyRadioButton radio_home;
-    @Bind(R.id.main_content)
-    FrameLayout mainContent;
-    @Bind(R.id.otherFrameLayout)
-    FrameLayout otherFrameLayout;
+    @Bind(R.id.home_alarm_light)
+    ImageView home_alarm_light;
+    @Bind(R.id.my_image)
+    ImageView my_image;
+    @Bind(R.id.sxcs_btn)
+    ImageView sxcs_btn;
+    @Bind(R.id.tjsb_btn)
+    ImageView tjsb_btn;
+    @Bind(R.id.dqfh_btn)
+    ImageView dqfh_btn;
+    @Bind(R.id.spjk_btn)
+    ImageView spjk_btn;
+    @Bind(R.id.zddw_btn)
+    ImageView zddw_btn;
+    @Bind(R.id.xfwl_btn)
+    ImageView xfwl_btn;
+    @Bind(R.id.home_alarm_lin)
+    LinearLayout home_alarm_lin;
+    @Bind(R.id.home_alarm_info_text)
+    TextView home_alarm_info_text;
+
+    Timer getlastestAlarm;
+    AnimationDrawable anim ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_2);
         ButterKnife.bind(this);
         mContext = this;
         initView();
         regFilter();
+        anim = (AnimationDrawable) home_alarm_light.getBackground();
         startService(new Intent(MainActivity.this, RemoteService.class));
         //启动个推接收推送信息。。
         PushManager.getInstance().initialize(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoPushService.class);
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoIntentService.class);
+    }
+
+    @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.zddw_btn,
+            R.id.xfwl_btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.my_image:
+                Intent intent = new Intent(mContext, MyZoomActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sxcs_btn:
+                Intent intent_sxcs = new Intent(mContext, AllSmokeActivity.class);
+                startActivity(intent_sxcs);
+                break;
+            case R.id.tjsb_btn:
+                Intent intent_tjsb = new Intent(mContext, ChioceDevTypeActivity.class);
+                startActivity(intent_tjsb);
+                break;
+            case R.id.alarm_history_lin:
+                Intent intent_history = new Intent(mContext, AlarmHistoryActivity.class);
+                startActivity(intent_history);
+                break;
+            case R.id.dqfh_btn:
+                Intent intent_dqfh = new Intent(mContext, ElectricDevActivity.class);
+                startActivity(intent_dqfh);
+                break;
+            case R.id.spjk_btn:
+                Intent intent_spjk = new Intent(mContext, CameraDevActivity.class);
+                startActivity(intent_spjk);
+                break;
+            case R.id.zddw_btn:
+                Intent intent_zddw = new Intent(mContext, WiredDevActivity.class);
+                startActivity(intent_zddw);
+                break;
+            case R.id.xfwl_btn:
+                Intent intent_xfwl = new Intent(mContext, SecurityDevActivity.class);
+                startActivity(intent_xfwl);
+            default:
+                break;
+        }
     }
 
     private void initView() {
@@ -98,22 +164,55 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 new P2PListener(),
                 new SettingListener());
         connect();
-        List<MyRadioButton> list = new ArrayList<>();
-        list.add(radio_comment1);
-        list.add(radio_letter);
-        list.add(radio_comment);
-        list.add(radio_home);
-        list.add(callAlarm);
-        mvpPresenter.initWidget(bottom_group, list, MyApp.app.getPrivilege(), this, otherFrameLayout, mainContent);
-        mainContent.setVisibility(View.VISIBLE);
-        otherFrameLayout.setVisibility(View.INVISIBLE);
-        bottom_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        getlastestAlarm=new Timer();
+        getlastestAlarm.schedule(new TimerTask() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                mvpPresenter.replaceFragment(checkedId, otherFrameLayout, mainContent);
+            public void run() {
+                String username = SharedPreferencesManager.getInstance().getData(mContext,
+                        SharedPreferencesManager.SP_FILE_GWELL,
+                        SharedPreferencesManager.KEY_RECENTNAME);
+                int privilege = MyApp.app.getPrivilege();
+                String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
+                RequestQueue mQueue = Volley.newRequestQueue(MainActivity.this);
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        JSONObject lasteatalarm=response.getJSONObject("lasteatAlarm");
+                                        if(lasteatalarm.getString("ifDealAlarm")=="0"){
+                                            anim.start();
+                                            home_alarm_info_text.setText(lasteatalarm.getString("address")
+                                                +"\n"+lasteatalarm.getString("name")+"发生报警");
+                                            home_alarm_lin.setBackgroundResource(R.drawable.corners_shape_top);
+                                        }else{
+                                            anim.stop();
+                                            home_alarm_info_text.setText(lasteatalarm.getString("address")
+                                                    +"\n"+lasteatalarm.getString("name")+"发生报警【已处理】");
+                                            home_alarm_lin.setBackgroundResource(R.drawable.corners_shape_top_normal);
+                                        }
+                                    }else{
+                                        anim.stop();
+                                        home_alarm_info_text.setText("无最新报警信息");
+                                        home_alarm_lin.setBackgroundResource(R.drawable.corners_shape_top_normal);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        anim.stop();
+                        home_alarm_info_text.setText("未获取到数据");
+                        home_alarm_lin.setBackgroundResource(R.drawable.corners_shape_top_normal);
+                    }
+                });
+                mQueue.add(jsonObjectRequest);
             }
-        });
-
+        },0,10000);
     }
 
     private void connect() {
@@ -348,5 +447,20 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     protected void onDestroy() {
         unregisterReceiver(mReceiver);
         super.onDestroy();
+        getlastestAlarm.cancel();
     }
+
+    private void alarmInit() {
+        //imageview动画设置。。
+        final AnimationDrawable anim = (AnimationDrawable) home_alarm_light.getBackground();
+        ViewTreeObserver.OnPreDrawListener opdl = new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                anim.start();
+                return true;
+            }
+        };
+        home_alarm_light.getViewTreeObserver().addOnPreDrawListener(opdl);
+    }
+
 }

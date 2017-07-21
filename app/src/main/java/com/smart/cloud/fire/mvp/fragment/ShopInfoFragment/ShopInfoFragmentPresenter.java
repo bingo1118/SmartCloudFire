@@ -210,8 +210,8 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
         mvpView.getChoiceArea(area);
     }
 
-    public void getSmokeSummary(String userId,String privilege,String areaId){
-        Observable mObservable = apiStores1.getSmokeSummary(userId,privilege,areaId);
+    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
+        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
@@ -273,11 +273,11 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
     }
 
     //@@6.29获取无线终端设备
-    public void getAllWiredDev(String userId, String privilege, String page, final List<Smoke> list, final int type,boolean refresh){
+    public void getAllWiredDev(String userId, String privilege, String page,String devType, final List<Smoke> list, final int type,boolean refresh){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getAllFaultinfo(userId,privilege,page);
+        Observable mObservable = apiStores1.getNeedDev(userId,privilege,"",page,"",devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -434,7 +434,7 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
      * @param type
      * @param refresh
      */
-    public void getAllElectricInfo(String userId, String privilege, String page, final List<Electric> list, final int type,boolean refresh){
+    public void getAllElectricInfo(String userId, String privilege, String page,String devType, final List<Electric> list, final int type,boolean refresh){
         if(!refresh){
             mvpView.showLoading();
         }

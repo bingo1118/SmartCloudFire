@@ -77,7 +77,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         page = "1";
         list = new ArrayList<>();
         refreshListView();
-        mvpPresenter.getAllWiredDev(userID, privilege + "", page, list, 1,false);
+        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,false);
 }
 
     private void refreshListView() {
@@ -100,8 +100,8 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 page = "1";
                 list.clear();
 //                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
-                mvpPresenter.getAllWiredDev(userID, privilege + "", page, list, 1,true);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","");
+                mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","2");
             }
         });
 
@@ -123,7 +123,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
                     if(loadMoreCount>=20){
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllWiredDev(userID, privilege + "", page, list, 1,true);
+                        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }

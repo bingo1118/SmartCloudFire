@@ -184,7 +184,7 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         loadMoreCount = smokeList.size();
         list.clear();
         list.addAll((List<Camera>)smokeList);
-        shopCameraAdapter = new ShopCameraAdapter(mContext, list, mShopInfoFragmentPresenter);
+        shopCameraAdapter = new ShopCameraAdapter(mContext, list);
         recyclerView.setAdapter(shopCameraAdapter);
         swipereFreshLayout.setRefreshing(false);
         shopCameraAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);

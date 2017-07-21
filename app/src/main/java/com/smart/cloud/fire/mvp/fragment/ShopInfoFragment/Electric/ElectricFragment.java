@@ -79,7 +79,7 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         refreshListView();
         list = new ArrayList<>();
         page = "1";
-        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,list,1,false);
+        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,false);
     }
 
     private void refreshListView() {
@@ -100,7 +100,7 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
             public void onRefresh() {
                 page = "1";
                 list.clear();
-                mvpPresenter.getAllElectricInfo(userID, privilege + "", page,list,1,true);
+                mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true);
             }
         });
 

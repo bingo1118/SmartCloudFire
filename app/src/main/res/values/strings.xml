@@ -190,8 +190,8 @@
     <string name="add_fire_name">名称</string>
     <string name="add_camera_hint_name">摄像机ID</string>
     <string name="add_camera_name">摄像机</string>
-    <string name="add_fire_lat">经度</string>
-    <string name="add_fire_lon">纬度</string>
+    <string name="add_fire_lat">纬度</string>
+    <string name="add_fire_lon">经度</string>
     <string name="add_fire_address">地址</string>
     <string name="add_fire_zjq">中继器</string>
     <string name="add_fire_man">负责人</string>

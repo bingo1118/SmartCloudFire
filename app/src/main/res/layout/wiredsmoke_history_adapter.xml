@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@color/fuxk_settle_black_mark">
+        android:layout_height="30dp"
+        android:background="#e6e6e6">
         <TextView
             android:id="@+id/alarm_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#666666"
             android:textSize="16sp"
-            android:layout_marginLeft="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
             android:text="2016-08-04 17:29:56"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_marginBottom="10dp">
+        android:background="#ffffff">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp">
 
 
             <LinearLayout

@@ -101,11 +101,13 @@ public class MainThread {
                         i.putExtra("url", mUpdateInfo.url);
                         i.putExtra("message", mUpdateInfo.message);
                         i.putExtra("ignoreVersion",serverCode );
+                        i.setPackage("fire.cloud.smart.com.smartcloudfire");//@@7.13只传当前应用
                         MyApp.app.sendBroadcast(i);
                     }
                     if(last_check_update_time==-1&&result<1){
                         Intent i = new Intent("Constants.Action.ACTION_UPDATE_NO");
                         i.putExtra("message", mUpdateInfo.message);
+                        i.setPackage("fire.cloud.smart.com.smartcloudfire");//@@7.13只传当前应用
                         MyApp.app.sendBroadcast(i);
                     }
                 }

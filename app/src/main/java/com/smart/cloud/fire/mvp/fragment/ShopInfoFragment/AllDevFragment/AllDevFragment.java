@@ -12,8 +12,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
@@ -27,19 +30,23 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresen
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 
 
 /**
  * Created by Administrator on 2016/10/28.
  */
-public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> implements ShopInfoFragmentView {
+public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements ShopInfoFragmentView {
+
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -57,7 +64,16 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
     private String page;
     private String userID;
     private int privilege;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
+    private AllSmokePresenter mShopInfoFragmentPresenter;
+
+//    @Bind(R.id.add_fire)
+//    ImageView addFire;//显示搜索界面按钮。。
+//    @Bind(R.id.search_fire)
+//    ImageView searchFire;//搜索按钮。。
+//    @Bind(R.id.area_condition)
+//    XCDropDownListViewMapSearch areaCondition;//区域下拉选择。。
+//    @Bind(R.id.shop_type_condition)
+//    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +81,17 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         ButterKnife.bind(this, view);
         return view;
     }
+
+//    @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.add_fire:
+//
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -77,7 +104,7 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         page = "1";
         list = new ArrayList<>();
         refreshListView();
-        mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,false);
+        mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,false,AllDevFragment.this);
     }
 
     private void refreshListView() {
@@ -99,8 +126,8 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
             public void onRefresh() {
                 page = "1";
                 list.clear();
-                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","");
+                mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","1");
             }
         });
 
@@ -122,7 +149,7 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
                     if(loadMoreCount>=20){
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
+                        mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);//@@7.17
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -139,8 +166,8 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    protected ShopInfoFragmentPresenter createPresenter() {
-        mShopInfoFragmentPresenter = new ShopInfoFragmentPresenter(this,(ShopInfoFragment)getParentFragment());
+    protected AllSmokePresenter createPresenter() {
+        mShopInfoFragmentPresenter = new AllSmokePresenter((AllSmokeActivity)getActivity());
         return mShopInfoFragmentPresenter;
     }
 
@@ -155,7 +182,7 @@ public class AllDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         loadMoreCount = smokeList.size();
         list.clear();
         list.addAll((List<Smoke>)smokeList);
-        shopSmokeAdapter = new ShopSmokeAdapter(mContext, list, mShopInfoFragmentPresenter);
+        shopSmokeAdapter = new ShopSmokeAdapter(mContext, list);
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
 //        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);

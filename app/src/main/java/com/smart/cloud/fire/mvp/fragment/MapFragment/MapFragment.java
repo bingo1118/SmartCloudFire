@@ -80,6 +80,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     private String areaId = "";
     private String shopTypeId = "";
     private MapFragmentPresenter mMapFragmentPresenter;
+    private String devType;//@@7.21
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
+        devType=getActivity().getIntent().getStringExtra("devType");//@@7.21
         mvpPresenter.getPlaceTypeId(userID, privilege + "", 3);//@@
         if (privilege == 1) {
             add_fire.setVisibility(View.GONE);//权限为1时没有搜索功能。。
@@ -302,7 +304,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "");//获取按照要求获取设备。。
+                mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//获取按照要求获取设备。。
                 SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaId",position);
                 SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaNum",((Area)arealist.get(position)).getAreaId());//@@5.18
                 TextView tv=(TextView)view;

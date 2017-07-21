@@ -53,7 +53,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         int value = random.nextInt(4);
         String userId;
         if (Utils.isNumeric(User)) {
-                userId = "+86-"+User;
+            userId = "+86-"+User;
         }else{
             mvpView.getDataFail("用户不存在");
             mvpView.hideLoading();
@@ -214,18 +214,18 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         Random random = new Random();
         int value = random.nextInt(4);
         twoSubscription(apiStores[value].loginYooSee(userid, password, "1", "3", AppVersion), new Func1<LoginModel,Observable<LoginModel>>() {
-            @Override
-            public Observable<LoginModel> call(LoginModel loginModel) {
-                if(loginModel.getError_code().equals("0")){
-                    editSharePreference(context,loginModel,User,Pwd);//存储用户和密码到sharedprefesion。。
-                    return apiStores1.login(User);//登陆内部服务器。。
-                }else {
-                    Observable<LoginModel> observable = Observable.just(loginModel);
-                    return observable;
-                }
-            }
-        },
-        new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
+                    @Override
+                    public Observable<LoginModel> call(LoginModel loginModel) {
+                        if(loginModel.getError_code().equals("0")){
+                            editSharePreference(context,loginModel,User,Pwd);//存储用户和密码到sharedprefesion。。
+                            return apiStores1.login(User);//登陆内部服务器。。
+                        }else {
+                            Observable<LoginModel> observable = Observable.just(loginModel);
+                            return observable;
+                        }
+                    }
+                },
+                new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
                     @Override
                     public void onSuccess(LoginModel model) {
                         String error_code = model.getError_code();

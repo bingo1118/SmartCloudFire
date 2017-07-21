@@ -119,8 +119,22 @@ public interface ApiStores {
     @GET("getNeedSmoke")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getNeedSmoke(@Query("userId") String userId, @Query("privilege") String privilege,
-                                            @Query("areaId") String areaId,@Query("page") String page,
-                                            @Query("placeTypeId") String placeTypeId);
+                                       @Query("areaId") String areaId,@Query("page") String page,
+                                       @Query("placeTypeId") String placeTypeId);
+
+    //根据条件查询用户设备
+    @GET("getNeedDev")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedDev(@Query("userId") String userId, @Query("privilege") String privilege,
+                                     @Query("areaId") String areaId,@Query("page") String page,
+                                     @Query("placeTypeId") String placeTypeId,@Query("devType") String devType);
+
+    //根据条件查询用户设备
+    @GET("getNeedLossDev")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedLossDev(@Query("userId") String userId, @Query("privilege") String privilege,
+                                     @Query("areaId") String areaId,@Query("page") String page,
+                                     @Query("placeTypeId") String placeTypeId,@Query("devType") String devType);
 
     //根据条件查询用户所有设备（设备类型<11）
     @GET("getNeedDevice")
@@ -225,6 +239,12 @@ public interface ApiStores {
     Observable<SmokeSummary> getSmokeSummary(@Query("userId") String userId, @Query("privilege") String privilege,
                                              @Query("areaId") String areaId);
 
+    @GET("getDevSummary")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<SmokeSummary> getDevSummary(@Query("userId") String userId, @Query("privilege") String privilege,
+                                             @Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
+                                                ,@Query("devType") String devType);
+
     @GET("getAllElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<ElectricInfo<Electric>> getAllElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
@@ -251,4 +271,16 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("changeCameraPwd")
     Observable<HttpError> changeCameraPwd(@Field("cameraId") String cameraId, @Field("cameraPwd") String cameraPwd);
+
+    //@@7.19获取用户安防设备列表
+    @GET("getSecurityInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getSecurityInfo(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
+
+    //@@7.19根据条件查询用户安防设备列表
+    @GET("getNeedSecurity")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedSecurity(@Query("userId") String userId, @Query("privilege") String privilege,
+                                          @Query("page") String page,@Query("areaId") String areaId,
+                                          @Query("placeTypeId") String placeTypeId);
 }

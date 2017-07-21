@@ -1,6 +1,8 @@
 package com.smart.cloud.fire.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
+import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
+import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.T;
 
 import java.util.List;
@@ -32,15 +38,15 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Smoke> listNormalSmoke;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
 
-    public ShopSmokeAdapter(Context mContext, List<Smoke> listNormalSmoke,ShopInfoFragmentPresenter mShopInfoFragmentPresenter) {
+    public ShopSmokeAdapter(Context mContext, List<Smoke> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listNormalSmoke = listNormalSmoke;
         this.mContext = mContext;
-        this.mShopInfoFragmentPresenter = mShopInfoFragmentPresenter;
     }
+
+
 
 
     /**
@@ -76,98 +82,118 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).repeaterRela.setVisibility(View.VISIBLE);
             final Smoke normalSmoke = listNormalSmoke.get(position);
             int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
             switch (devType){
                 case 1://烟感。。
                     if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_lx);
+                        ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
                     } else {//设备在线。。
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_yg_zx);
+                        ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName());
                     }
                     break;
                 case 2://燃气。。
-                    if (netStates == 0) {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.rq_ygtubiao_sxj_lx);
-                    } else {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.rq_ygtubiao_sxj);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
                     }
                     break;
                 case 5://电气。。
-                    if (netStates == 0) {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.dq_ygtubiao_slx);
-                    } else {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.dq_ygtubiao_sxj);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
                     }
                     break;
                 case 7://声光。。
-                    if (netStates == 0) {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sg_ygtubiao_sxj_lx);
-                    } else {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sg_ygtubiao_sxj);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName());
                     }
                     break;
                 case 8://手动。。
-                    if (netStates == 0) {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sb_ygtubiao_sxj_lx);
-                    } else {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sb_ygtubiao_sxj);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName());
                     }
                     break;
                 case 9://三江设备@@5.11。。
-                    if (netStates == 0) {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sjsb_ygtubiao_lx);
-                    } else {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sjsb_ygtubiao);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("三江设备："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("三江设备："+normalSmoke.getName());
                     }
                     break;
+                case 12://门磁
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("门磁："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("门磁："+normalSmoke.getName());
+                    }
+                    break;
+                case 11://红外
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("红外探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("红外探测器："+normalSmoke.getName());
+                    }
+                    break;
+                case 13://环境
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("环境探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("环境探测器："+normalSmoke.getName());
+                    }
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, AirInfoActivity.class);
+                            intent.putExtra("Mac",normalSmoke.getMac());
+                            intent.putExtra("Position",normalSmoke.getName());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
                 case 10://水压设备@@5.11。。
-                    if (netStates == 0) {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sy_ygtubiao_sxj_lx);
-                    } else {
-                        ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                        ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sy_ygtubiao_sxj);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName());
                     }
                     break;
             }
 
-            ((ItemViewHolder) holder).groupTvAddress.setText(normalSmoke.getAddress());
-            ((ItemViewHolder) holder).groupTv.setText(normalSmoke.getName());
-            ((ItemViewHolder) holder).macTv.setText("mac:"+normalSmoke.getMac());//@@
-            ((ItemViewHolder) holder).repeaterNameTv.setText(normalSmoke.getPlaceType());
-            ((ItemViewHolder) holder).repeaterMacTv.setText(normalSmoke.getAreaName());
-            ((ItemViewHolder) holder).groupPrincipal1.setText(normalSmoke.getPrincipal1());
-            ((ItemViewHolder) holder).groupPhone1.setText(normalSmoke.getPrincipal1Phone());
-            ((ItemViewHolder) holder).groupPrincipal2.setText(normalSmoke.getPrincipal2());
-            ((ItemViewHolder) holder).groupPhone2.setText(normalSmoke.getPrincipal2Phone());
-            ((ItemViewHolder) holder).repeaterTv2.setText(normalSmoke.getRepeater());
-            ((ItemViewHolder) holder).groupPhone1.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
+            ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
+            ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
+            ((ItemViewHolder) holder).repeater_tv.setText(normalSmoke.getRepeater());
+            ((ItemViewHolder) holder).type_tv.setText(normalSmoke.getPlaceType());
+            ((ItemViewHolder) holder).area_tv.setText(normalSmoke.getAreaName());
+
+            ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
-                    String phoneOne = normalSmoke.getPrincipal1Phone();
-                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
-                }
-            });
-            ((ItemViewHolder) holder).groupPhone2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phoneTwo = normalSmoke.getPrincipal2Phone();
-                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneTwo);
+//                    String phoneOne = normalSmoke.getPrincipal1Phone();
+//                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
+                    Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
+                    intent.putExtra("people1",normalSmoke.getPrincipal1());
+                    intent.putExtra("people2",normalSmoke.getPrincipal2());
+                    intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
+                    intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
+                    mContext.startActivity(intent);
                 }
             });
             holder.itemView.setTag(position);
@@ -215,32 +241,22 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.group_image)
-        ImageView groupImage;
-        @Bind(R.id.group_tv)
-        TextView groupTv;
-        @Bind(R.id.mac_tv)//@@
-        TextView macTv;
-        @Bind(R.id.repeater_tv2)
-        TextView repeaterTv2;
-        @Bind(R.id.repeater_rela)
-        RelativeLayout repeaterRela;
-        @Bind(R.id.group_tv_address)
-        TextView groupTvAddress;
-        @Bind(R.id.repeater_name_tv)
-        TextView repeaterNameTv;
-        @Bind(R.id.repeater_mac_tv)
-        TextView repeaterMacTv;
-        @Bind(R.id.group_principal1)
-        TextView groupPrincipal1;
-        @Bind(R.id.group_phone1)
-        TextView groupPhone1;
-        @Bind(R.id.group_principal2)
-        TextView groupPrincipal2;
-        @Bind(R.id.group_phone2)
-        TextView groupPhone2;
         @Bind(R.id.category_group_lin)
-        LinearLayout categoryGroupLin;
+        LinearLayout category_group_lin;
+        @Bind(R.id.smoke_name_text)
+        TextView smoke_name_text;
+        @Bind(R.id.mac_tv)
+        TextView mac_tv;
+        @Bind(R.id.repeater_tv)
+        TextView repeater_tv;
+        @Bind(R.id.area_tv)
+        TextView area_tv;
+        @Bind(R.id.type_tv)
+        TextView type_tv;
+        @Bind(R.id.address_tv)
+        TextView address_tv;
+        @Bind(R.id.manager_img)
+        ImageView manager_img;
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

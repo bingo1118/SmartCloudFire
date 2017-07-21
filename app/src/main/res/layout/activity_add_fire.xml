@@ -36,7 +36,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:layout_below="@id/add_fire_title">
         <LinearLayout
@@ -460,6 +460,9 @@
                         />
                 </RelativeLayout>
             </RelativeLayout>
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
         </LinearLayout>
     </ScrollView>
 
@@ -470,8 +473,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/login_button_selector"
-        >
+        android:background="@drawable/login_button_selector">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -2,6 +2,7 @@ package com.smart.cloud.fire.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.smart.cloud.fire.global.Contact;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.ui.ApMonitorActivity;
+import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.T;
 
 import java.util.List;
@@ -36,14 +38,12 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Camera> listCamera;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
 
-    public ShopCameraAdapter(Context mContext, List<Camera> listCamera, ShopInfoFragmentPresenter mShopInfoFragmentPresenter) {
+    public ShopCameraAdapter(Context mContext, List<Camera> listCamera) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listCamera = listCamera;
         this.mContext = mContext;
-        this.mShopInfoFragmentPresenter = mShopInfoFragmentPresenter;
     }
 
     /**
@@ -80,36 +80,31 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Camera camera = listCamera.get(position);
-            ((ItemViewHolder) holder).groupTvAddress.setText(camera.getCameraAddress());
-            ((ItemViewHolder) holder).groupTv.setText(camera.getCameraName());
-            ((ItemViewHolder) holder).repeaterNameTv.setText(camera.getPlaceType());
-            ((ItemViewHolder) holder).repeaterMacTv.setText(camera.getAreaName());
-            ((ItemViewHolder) holder).groupPrincipal1.setText(camera.getPrincipal1());
-            ((ItemViewHolder) holder).groupPhone1.setText(camera.getPrincipal1Phone());
-            ((ItemViewHolder) holder).groupPrincipal2.setText(camera.getPrincipal2());
-            ((ItemViewHolder) holder).groupPhone2.setText(camera.getPrincipal2Phone());
-            ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_ygtubiao_sxj);
-            ((ItemViewHolder) holder).groupPhone1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phoneOne = camera.getPrincipal1Phone();
-                    mShopInfoFragmentPresenter.telPhoneAction(mContext, phoneOne);
+            ((ItemViewHolder) holder).address_tv.setText(camera.getCameraAddress());
+            ((ItemViewHolder) holder).mac_tv.setText(camera.getCameraId());//@@
+            ((ItemViewHolder) holder).repeater_tv.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).type_tv.setText(camera.getPlaceType());
+            ((ItemViewHolder) holder).area_tv.setText(camera.getAreaName());
 
-                }
-            });
-            ((ItemViewHolder) holder).groupPhone2.setOnClickListener(new View.OnClickListener() {
+            ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
-                    String phoneTwo = camera.getPrincipal2Phone();
-                    mShopInfoFragmentPresenter.telPhoneAction(mContext, phoneTwo);
+//                    String phoneOne = normalSmoke.getPrincipal1Phone();
+//                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
+                    Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
+                    intent.putExtra("people1",camera.getPrincipal1());
+                    intent.putExtra("people2",camera.getPrincipal2());
+                    intent.putExtra("phone1",camera.getPrincipal1Phone());
+                    intent.putExtra("phone2",camera.getPrincipal2Phone());
+                    mContext.startActivity(intent);
                 }
             });
-            if(camera.getIsOnline()==0){//@@5.18
-                ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_lx_bg);
-                ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.sxt_lx);
-            }else{
-                ((ItemViewHolder) holder).categoryGroupLin.setBackgroundResource(R.drawable.alarm_rela_zx_bg);
-                ((ItemViewHolder) holder).groupImage.setImageResource(R.drawable.yg_ygtubiao_sxj);
+            if (camera.getIsOnline() == 0) {//设备不在线。。
+                ((ItemViewHolder) holder).smoke_name_text.setText("摄像机："+camera.getCameraName()+"（已离线)");
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+            } else {//设备在线。。
+                ((ItemViewHolder) holder).smoke_name_text.setText("摄像机："+camera.getCameraName());
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
             }
             ((ItemViewHolder) holder).categoryGroupLin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,24 +173,20 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.group_image)
-        ImageView groupImage;
-        @Bind(R.id.group_tv)
-        TextView groupTv;
-        @Bind(R.id.group_tv_address)
-        TextView groupTvAddress;
-        @Bind(R.id.repeater_name_tv)
-        TextView repeaterNameTv;
-        @Bind(R.id.repeater_mac_tv)
-        TextView repeaterMacTv;
-        @Bind(R.id.group_principal1)
-        TextView groupPrincipal1;
-        @Bind(R.id.group_phone1)
-        TextView groupPhone1;
-        @Bind(R.id.group_principal2)
-        TextView groupPrincipal2;
-        @Bind(R.id.group_phone2)
-        TextView groupPhone2;
+        @Bind(R.id.smoke_name_text)
+        TextView smoke_name_text;
+        @Bind(R.id.mac_tv)
+        TextView mac_tv;
+        @Bind(R.id.repeater_tv)
+        TextView repeater_tv;
+        @Bind(R.id.area_tv)
+        TextView area_tv;
+        @Bind(R.id.type_tv)
+        TextView type_tv;
+        @Bind(R.id.address_tv)
+        TextView address_tv;
+        @Bind(R.id.manager_img)
+        ImageView manager_img;
         @Bind(R.id.category_group_lin)
         LinearLayout categoryGroupLin;
         public ItemViewHolder(View view) {

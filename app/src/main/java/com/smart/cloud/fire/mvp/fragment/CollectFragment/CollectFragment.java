@@ -547,6 +547,7 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
     public void dealAlarmMsgSuccess(List<AlarmMessageModel> alarmMessageModels) {
         messageModelList.clear();
         messageModelList.addAll(alarmMessageModels);
+        loadMoreCount=alarmMessageModels.size();//@@7.13
         adapter = new RefreshRecyclerAdapter(getActivity(), messageModelList, collectFragmentPresenter, userID, privilege + "");
         demoRecycler.setAdapter(adapter);
         adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
@@ -589,12 +590,26 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
 
     @Override
     public void getDataByCondition(List<AlarmMessageModel> alarmMessageModels) {
-        research = true;
-        messageModelList.clear();
-        messageModelList.addAll(alarmMessageModels);
-        adapter = new RefreshRecyclerAdapter(getActivity(), messageModelList, collectFragmentPresenter, userID, privilege + "");
-        demoRecycler.setAdapter(adapter);
-        adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
+        if(!research){
+            research = true;
+            messageModelList.clear();
+        }//@@7.13
+        int pageInt = Integer.parseInt(page);
+        if (messageModelList != null && messageModelList.size() >= 20 && pageInt > 1) {
+            loadMoreCount=alarmMessageModels.size();
+            messageModelList.addAll(alarmMessageModels);
+            adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
+        } else {
+            loadMoreCount=alarmMessageModels.size();
+            messageModelList.addAll(alarmMessageModels);
+            adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
+        }//@@7.13 添加条件查询分页
+
+//        messageModelList.clear();
+//        messageModelList.addAll(alarmMessageModels);
+//        adapter = new RefreshRecyclerAdapter(getActivity(), messageModelList, collectFragmentPresenter, userID, privilege + "");
+//        demoRecycler.setAdapter(adapter);
+//        adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
     }
 
     @Override

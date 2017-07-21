@@ -184,7 +184,24 @@
         <activity android:name="com.smart.cloud.fire.mvp.modifyCameraInfo.ModifyCameraPwdActivity" />
         <activity android:name="com.smart.cloud.fire.GetLocationActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity" />
-        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistoryActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistoryActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.MyZoomActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.ui.CallManagerDialogActivity"
+            android:label="设备负责人信息"
+            android:theme="@android:style/Theme.Holo.Dialog" />
+        <activity android:name="com.smart.cloud.fire.activity.Map.MapActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.AddDev.AddDevActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.Electric.ElectricDevActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.Camera.CameraDevActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.WiredDev.WiredDevActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity"></activity>
     </application>
 
 </manifest>
