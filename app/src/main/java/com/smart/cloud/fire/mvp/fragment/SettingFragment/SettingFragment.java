@@ -75,7 +75,7 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
         }
         int privilege = MyApp.app.getPrivilege();
         if (privilege == 3) {
-            settingHelpRela.setVisibility(View.VISIBLE);//显示添加摄像机。。
+//            settingHelpRela.setVisibility(View.VISIBLE);//显示添加摄像机。。
             settingCameraRelative.setVisibility(View.VISIBLE);//显示绑定摄像机。。
         }
     }

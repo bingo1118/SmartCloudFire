@@ -226,12 +226,12 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.phone_lin_one:
-                String phoneOne = alarmSmokeMarkPhoneTv.getText().toString().trim();
-                mvpPresenter.telPhone(mContext, phoneOne);
-                break;
-            case R.id.alarm_phone_lin_one:
                 String phoneOne2 = smokeMarkPhoneTv.getText().toString().trim();
                 mvpPresenter.telPhone(mContext, phoneOne2);
+                break;
+            case R.id.alarm_phone_lin_one:
+                String phoneOne1 = alarmSmokeMarkPhoneTv.getText().toString().trim();
+                mvpPresenter.telPhone(mContext, phoneOne1);
                 break;
             case R.id.alarm_tc_image:
                 finish();

@@ -35,7 +35,6 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Electric> listNormalSmoke;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     @Override
@@ -50,12 +49,11 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         void onItemClick(View view , Electric data);
     }
 
-    public ElectricFragmentAdapter(Context mContext, List<Electric> listNormalSmoke, ShopInfoFragmentPresenter mShopInfoFragmentPresenter) {
+    public ElectricFragmentAdapter(Context mContext, List<Electric> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listNormalSmoke = listNormalSmoke;
         this.mContext = mContext;
-        this.mShopInfoFragmentPresenter = mShopInfoFragmentPresenter;
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
@@ -121,6 +119,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
             } else {//设备在线。。
                 ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
             }
             holder.itemView.setTag(normalSmoke);
         } else if (holder instanceof FootViewHolder) {

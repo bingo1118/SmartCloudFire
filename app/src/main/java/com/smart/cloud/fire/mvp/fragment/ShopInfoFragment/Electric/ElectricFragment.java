@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
+import com.smart.cloud.fire.activity.Electric.ElectricDevPresenter;
+import com.smart.cloud.fire.activity.Electric.ElectricDevView;
 import com.smart.cloud.fire.adapter.ElectricFragmentAdapter;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
@@ -42,7 +45,7 @@ import fire.cloud.smart.com.smartcloudfire.R;
 /**
  * Created by Administrator on 2016/11/1.
  */
-public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> implements ShopInfoFragmentView {
+public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implements ElectricDevView {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.swipere_fresh_layout)
@@ -50,7 +53,7 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
     private ElectricFragmentAdapter electricFragmentAdapter;
-    private ShopInfoFragmentPresenter shopInfoFragmentPresenter;
+    private ElectricDevPresenter electricDevPresenter;
     private Context mContext;
     private String userID;
     private int privilege;
@@ -79,7 +82,7 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         refreshListView();
         list = new ArrayList<>();
         page = "1";
-        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,false);
+        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,false,ElectricFragment.this);
     }
 
     private void refreshListView() {
@@ -100,7 +103,8 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
             public void onRefresh() {
                 page = "1";
                 list.clear();
-                mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true);
+                mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true,ElectricFragment.this);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","3");
             }
         });
 
@@ -119,7 +123,7 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && itemCount == count) {
                     if(loadMoreCount>=20){
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,2,true);
+                        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true,ElectricFragment.this);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -137,9 +141,9 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    protected ShopInfoFragmentPresenter createPresenter() {
-        shopInfoFragmentPresenter = new ShopInfoFragmentPresenter(this, (ShopInfoFragment) getParentFragment());
-        return shopInfoFragmentPresenter;
+    protected ElectricDevPresenter createPresenter() {
+        electricDevPresenter = new ElectricDevPresenter((ElectricDevActivity)getActivity());
+        return electricDevPresenter;
     }
 
     @Override
@@ -152,7 +156,7 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         loadMoreCount = smokeList.size();
         list.clear();
         list.addAll((List<Electric>)smokeList);
-        electricFragmentAdapter = new ElectricFragmentAdapter(mContext, list, shopInfoFragmentPresenter);
+        electricFragmentAdapter = new ElectricFragmentAdapter(mContext, list);
         recyclerView.setAdapter(electricFragmentAdapter);
         swipereFreshLayout.setRefreshing(false);
         electricFragmentAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
@@ -203,10 +207,6 @@ public class ElectricFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
 
     @Override
     public void unSubscribe(String type) {
-    }
-
-    @Override
-    public void getLostCount(String count) {
     }
 
     @Override

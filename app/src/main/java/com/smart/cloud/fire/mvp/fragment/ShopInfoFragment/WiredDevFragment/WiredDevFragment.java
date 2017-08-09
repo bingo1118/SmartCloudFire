@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.smart.cloud.fire.activity.WiredDev.WiredDevActivity;
+import com.smart.cloud.fire.activity.WiredDev.WiredDevPresenter;
+import com.smart.cloud.fire.activity.WiredDev.WiredDevView;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.adapter.WiredDevAdapter;
@@ -39,7 +42,7 @@ import fire.cloud.smart.com.smartcloudfire.R;
 /**
  * Created by Rain on 2017/6/29.
  */
-public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> implements ShopInfoFragmentView {
+public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements WiredDevView {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -57,7 +60,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
     private String page;
     private String userID;
     private int privilege;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
+    private WiredDevPresenter wiredDevPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         page = "1";
         list = new ArrayList<>();
         refreshListView();
-        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,false);
+        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,false,WiredDevFragment.this);
 }
 
     private void refreshListView() {
@@ -100,7 +103,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 page = "1";
                 list.clear();
 //                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
-                mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true);
+                mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true,WiredDevFragment.this);
                 mvpPresenter.getSmokeSummary(userID,privilege+"","","","2");
             }
         });
@@ -123,7 +126,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
                     if(loadMoreCount>=20){
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true);
+                        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true,WiredDevFragment.this);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -140,9 +143,9 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    protected ShopInfoFragmentPresenter createPresenter() {
-        mShopInfoFragmentPresenter = new ShopInfoFragmentPresenter(this,(ShopInfoFragment)getParentFragment());
-        return mShopInfoFragmentPresenter;
+    protected WiredDevPresenter createPresenter() {
+        wiredDevPresenter = new WiredDevPresenter((WiredDevActivity)getActivity());
+        return wiredDevPresenter;
     }
 
     @Override
@@ -156,7 +159,7 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
         loadMoreCount = smokeList.size();
         list.clear();
         list.addAll((List<Smoke>)smokeList);
-        shopSmokeAdapter = new WiredDevAdapter(mContext, list, mShopInfoFragmentPresenter);//@@6.29
+        shopSmokeAdapter = new WiredDevAdapter(mContext, list);//@@6.29
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
 //        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
@@ -200,9 +203,6 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
     public void unSubscribe(String type) {
     }
 
-    @Override
-    public void getLostCount(String count) {
-    }
 
     @Override
     public void getChoiceArea(Area area) {
@@ -216,7 +216,6 @@ public class WiredDevFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-
     }
 
     @Override

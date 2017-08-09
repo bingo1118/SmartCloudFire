@@ -90,13 +90,14 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             int ifDeal = mNormalAlarmMessage.getIfDealAlarm();
             ((ItemViewHolder) holder).alarmTimeTv.setText(mNormalAlarmMessage.getAlarmTime());
             ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName());
-            ((ItemViewHolder) holder).repeaterAddressTv.setText(mNormalAlarmMessage.getAddress());
+            ((ItemViewHolder) holder).repeaterAddressTv.setText("地址:"+mNormalAlarmMessage.getAddress());
             ((ItemViewHolder) holder).repeaterNameTv.setText(mNormalAlarmMessage.getPlaceType());
             ((ItemViewHolder) holder).repeaterMacTv.setText(mNormalAlarmMessage.getAreaName());
             ((ItemViewHolder) holder).userSmokeMarkPrincipal.setText(mNormalAlarmMessage.getPrincipal1());
             ((ItemViewHolder) holder).userSmokeMarkPhoneTv.setText(mNormalAlarmMessage.getPrincipal1Phone());
             ((ItemViewHolder) holder).userSmokeMarkPrincipalTwo.setText(mNormalAlarmMessage.getPrincipal2());
             ((ItemViewHolder) holder).userSmokeMarkPhoneTvTwo.setText(mNormalAlarmMessage.getPrincipal2Phone());
+            ((ItemViewHolder) holder).mac_tv.setText("ID:"+mNormalAlarmMessage.getMac());
             if (ifDeal == 0) {
                 ((ItemViewHolder) holder).dealAlarmActionTv.setText("取消报警");
                 ((ItemViewHolder) holder).dealAlarmActionTv.setVisibility(View.VISIBLE);
@@ -179,6 +180,49 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case 8:
                     ((ItemViewHolder) holder).smokeMac.setText("手报探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.shoubao);
+                    ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    break;
+                case 11://@@8.3
+                    ((ItemViewHolder) holder).smokeMac.setText("红外探测器:");
+                    if (alarmType == 202) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setVisibility(View.GONE);//@@5.24
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    } else {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ddy);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }
+                    break;
+                case 12://@@8.3
+                    ((ItemViewHolder) holder).smokeMac.setText("门磁探测器:");
+                    if (alarmType == 202) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setVisibility(View.GONE);//@@5.24
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    } else {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ddy);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }
+                    break;
+                case 15://@@8.3
+                    ((ItemViewHolder) holder).smokeMac.setText("水禁探测器:");
+                    if (alarmType == 202) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setVisibility(View.GONE);//@@5.24
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    } else {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ddy);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }
+                    break;
+                case 13://@@8.3
+                    ((ItemViewHolder) holder).smokeMac.setText("环境探测器:");
+//                    ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.shoubao);
+                    ((ItemViewHolder) holder).alarmMarkImage.setVisibility(View.GONE);//@@5.24
                     ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
@@ -285,6 +329,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView dealAlarmActionTv;
         @Bind(R.id.action_now_tv)
         TextView actionNowTv;
+        @Bind(R.id.mac_tv)
+        TextView mac_tv;
 
         public ItemViewHolder(View view) {
             super(view);

@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:text="爱的说法发发生发的发的"/>
+                android:text="烟感"/>
             <TextView
                 android:id="@+id/user_smoke_dialog_stute"
                 android:layout_width="wrap_content"
@@ -33,13 +33,22 @@
                 android:textColor="@color/smoke_dialog_list_tv_lx"
                 android:text="@string/off_line_tv"/>
             <TextView
-                android:id="@+id/user_smoke_dialog_tv3"
+                android:id="@+id/user_smoke_dialog_tv4"
                 android:layout_below="@id/user_smoke_dialog_tv2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="#000000"
-                android:text="弟弟弟顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶"/>
+                android:text="ID:"/>
+            <TextView
+                android:id="@+id/user_smoke_dialog_tv3"
+                android:layout_below="@id/user_smoke_dialog_tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#000000"
+                android:text="广州市"/>
+
 
         </RelativeLayout>
         <LinearLayout

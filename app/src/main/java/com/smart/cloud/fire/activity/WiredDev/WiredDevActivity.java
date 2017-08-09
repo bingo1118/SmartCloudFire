@@ -187,7 +187,7 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
                     //判断当前在哪个子fragment。。
                     switch (position) {
                         case FRAGMENT_TWO:
-                            mvpPresenter.getAllWiredDev(userID, privilege + "", areaId,"", shopTypeId, "2",null,0,false);
+                            mvpPresenter.getAllWiredDev(userID, privilege + "", areaId,"", shopTypeId, "2",null,1,false,wiredDevFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId,"2");//显示总数。。
                             break;
                         case FRAGMENT_FIVE://@@6.29

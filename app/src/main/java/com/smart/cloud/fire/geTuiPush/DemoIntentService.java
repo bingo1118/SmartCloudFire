@@ -88,6 +88,9 @@ public class DemoIntentService extends GTIntentService {
                 case 2://燃气
                 case 7://声光
                 case 10://水压@@4.28
+                case 11://红外
+                case 12://门磁
+                case 15://水禁
                 case 8://手报
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
@@ -107,6 +110,27 @@ public class DemoIntentService extends GTIntentService {
                             break;
                         case 8:
                             message="手动报警";
+                            break;
+                        case 11:
+                            if(alarmType==202) {
+                                message="发生报警";
+                            }else{
+                                message="红外电量低，请更换电池";
+                            }
+                            break;
+                        case 12:
+                            if(alarmType==202) {
+                                message="发生报警";
+                            }else{
+                                message="门磁电量低，请更换电池";
+                            }
+                            break;
+                        case 15://@@8.3
+                            if(alarmType==202) {
+                                message="发生报警";
+                            }else{
+                                message="水禁电量低，请更换电池";
+                            }
                             break;
                         case 10://@@4.28
                             if(alarmType==218) {

@@ -9,6 +9,8 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpAreaResult;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.OffLineDevFragment.OffLineDevFragment;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.SecurityFragment;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredDevFragment;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 
@@ -23,6 +25,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Rain on 2017/7/18.
  */
 public class WiredDevPresenter extends BasePresenter<WiredDevView> {
+
     public WiredDevPresenter(WiredDevView view){
         attachView(view);
     }
@@ -142,7 +145,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
         }));
     }
     //@@6.29获取无线终端设备
-    public void getAllWiredDev(String userId, String privilege,String areaId, String page,String placeTypeId,String devType, final List<Smoke> list, final int type,boolean refresh){
+    public void getAllWiredDev(String userId, String privilege, String areaId, String page, String placeTypeId, String devType, final List<Smoke> list, final int type, boolean refresh, final WiredDevFragment wiredDevFragment){
         if(!refresh){
             mvpView.showLoading();
         }
@@ -155,15 +158,15 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
                     List<Smoke> smokeList = model.getSmoke();
                     if(type==1){
                         if(list==null||list.size()==0){
-                            mvpView.getDataSuccess(smokeList,false);
+                            wiredDevFragment.getDataSuccess(smokeList,false);
                         }else if(list!=null&&list.size()>=20){
-                            mvpView.onLoadingMore(smokeList);
+                            wiredDevFragment.onLoadingMore(smokeList);
                         }
                     }
                 }else{
                     List<Smoke> mSmokeList = new ArrayList<>();
-                    mvpView.getDataSuccess(mSmokeList,false);
-                    mvpView.getDataFail("无数据");
+                    wiredDevFragment.getDataSuccess(mSmokeList,false);
+                    wiredDevFragment.getDataFail("无数据");
                 }
             }
 
@@ -171,14 +174,14 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
             public void onFailure(int code, String msg) {
                 if(type!=1){
                     List<Smoke> mSmokeList = new ArrayList<>();
-                    mvpView.getDataSuccess(mSmokeList,false);
+                    wiredDevFragment.getDataSuccess(mSmokeList,false);
                 }
-                mvpView.getDataFail("网络错误");
+                wiredDevFragment.getDataFail("网络错误");
             }
 
             @Override
             public void onCompleted() {
-                mvpView.hideLoading();
+                wiredDevFragment.hideLoading();
             }
         }));
     }
@@ -192,5 +195,47 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
     public void getArea(Area area) {
         super.getArea(area);
         mvpView.getChoiceArea(area);
+    }
+
+    //@@6.29获取无线终端设备
+    public void getAllWiredDev(String userId, String privilege, String page, String devType, final List<Smoke> list, final int type, boolean refresh, final WiredDevFragment wiredDevFragment){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getNeedDev(userId,privilege,"",page,"",devType);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                if(result==0){
+                    List<Smoke> smokeList = model.getSmoke();
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            wiredDevFragment.getDataSuccess(smokeList,false);
+                        }else if(list!=null&&list.size()>=20){
+                            wiredDevFragment.onLoadingMore(smokeList);
+                        }
+                    }
+                }else{
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    wiredDevFragment.getDataSuccess(mSmokeList,false);
+                    wiredDevFragment.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<Smoke> mSmokeList = new ArrayList<>();
+                    wiredDevFragment.getDataSuccess(mSmokeList,false);
+                }
+                wiredDevFragment.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                wiredDevFragment.hideLoading();
+            }
+        }));
     }
 }

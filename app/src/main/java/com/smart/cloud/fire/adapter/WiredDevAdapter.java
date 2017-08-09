@@ -41,14 +41,12 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Smoke> listNormalSmoke;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
 
-    public WiredDevAdapter(Context mContext, List<Smoke> listNormalSmoke,ShopInfoFragmentPresenter mShopInfoFragmentPresenter) {
+    public WiredDevAdapter(Context mContext, List<Smoke> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listNormalSmoke = listNormalSmoke;
         this.mContext = mContext;
-        this.mShopInfoFragmentPresenter = mShopInfoFragmentPresenter;
     }
 
 
@@ -88,64 +86,15 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final Smoke normalSmoke = listNormalSmoke.get(position);
             int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
-            switch (devType){
-                case 1://烟感。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName());
-                    }
-                    break;
-                case 2://燃气。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
-                    }
-                    break;
-                case 5://电气。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
-                    }
-                    break;
-                case 7://声光。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName());
-                    }
-                    break;
-                case 8://手动。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName());
-                    }
-                    break;
-                case 9://三江设备@@5.11。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("三江设备："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("三江设备："+normalSmoke.getName());
-                    }
-                    break;
-                case 10://水压设备@@5.11。。
-                    if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
-                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-                    } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName());
-                    }
-                    break;
+
+            if (netStates == 0) {//设备不在线。。
+                ((ItemViewHolder) holder).smoke_name_text.setText("有线主机："+normalSmoke.getName()+"（已离线)");
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+            } else {//设备在线。。
+                ((ItemViewHolder) holder).smoke_name_text.setText("有线主机："+normalSmoke.getName());
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
             }
+
 
             ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@

@@ -86,6 +86,57 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
             }
         }));
     }
+
+    /**
+     * @@4.27
+     * @param userId
+     * @param privilege
+     * @param page
+     * @param list
+     * @param type
+     * @param refresh
+     */
+    public void getAllElectricInfo(String userId, String privilege, String page, String devType, final List<Electric> list, final int type, boolean refresh, final ElectricFragment electricFragment){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable mObservable = apiStores1.getAllElectricInfo(userId,privilege,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
+            @Override
+            public void onSuccess(ElectricInfo<Electric> model) {
+                int result=model.getErrorCode();
+                if(result==0){
+                    List<Electric> electricList = model.getElectric();
+                    if(type==1){
+                        if(list==null||list.size()==0){
+                            electricFragment.getDataSuccess(electricList,false);
+                        }else if(list!=null&&list.size()>=20){
+                            electricFragment.onLoadingMore(electricList);
+                        }
+                    }
+                }else{
+                    List<Electric> electricList = new ArrayList<>();
+                    electricFragment.getDataSuccess(electricList,false);
+                    electricFragment.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                if(type!=1){
+                    List<Smoke> electricList = new ArrayList<>();
+                    mvpView.getDataSuccess(electricList,false);
+                }
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
     public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
         Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
@@ -109,7 +160,7 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
     //    userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
     public void getNeedElectricInfo(String userId, String privilege, String areaId, String placeTypeId, String page,String devType, final ElectricFragment electricFragment){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,areaId,page,placeTypeId);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
             @Override
             public void onSuccess(ElectricInfo<Electric> model) {

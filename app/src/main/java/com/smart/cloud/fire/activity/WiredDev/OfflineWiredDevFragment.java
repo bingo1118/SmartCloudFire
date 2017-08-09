@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
+import com.smart.cloud.fire.adapter.WiredDevAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.MyApp;
@@ -23,6 +24,7 @@ import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredDevFragment;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 
@@ -45,7 +47,7 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
     private LinearLayoutManager linearLayoutManager;
-    private ShopSmokeAdapter shopSmokeAdapter;
+    private WiredDevAdapter shopSmokeAdapter;
     private int lastVisibleItem;
     private Context mContext;
     private List<Smoke> list;
@@ -153,7 +155,7 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
         research = search;
         list.clear();
         list.addAll((List<Smoke>)smokeList);
-        shopSmokeAdapter = new ShopSmokeAdapter(mContext, list);
+        shopSmokeAdapter = new WiredDevAdapter(mContext, list);
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
         shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
