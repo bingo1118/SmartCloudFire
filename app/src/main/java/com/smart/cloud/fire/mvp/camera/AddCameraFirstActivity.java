@@ -33,7 +33,7 @@ public class AddCameraFirstActivity extends Activity {
                 // TODO Auto-generated method stub
                 Intent i = new Intent(mContext, AddCameraSecondActivity.class);
                 startActivity(i);
-                finish();
+//                finish();//@@8.10
             }
         });
     }

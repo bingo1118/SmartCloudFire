@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.BinderThread;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +21,8 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,16 +30,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.igexin.sdk.PushManager;
-import com.obsessive.zbar.CaptureActivity;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.update.UpdateManager;
-import com.smart.cloud.fire.activity.AddDev.AddDevActivity;
 import com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity;
 import com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.Camera.CameraDevActivity;
 import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
-import com.smart.cloud.fire.activity.MyZoomActivity;
+import com.smart.cloud.fire.activity.Setting.MyZoomActivity;
 import com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity;
 import com.smart.cloud.fire.activity.WiredDev.WiredDevActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
@@ -54,7 +49,6 @@ import com.smart.cloud.fire.mvp.main.presenter.MainPresenter;
 import com.smart.cloud.fire.mvp.main.view.MainView;
 import com.smart.cloud.fire.service.RemoteService;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
-import com.smart.cloud.fire.view.MyRadioButton;
 import com.smart.cloud.fire.yoosee.P2PListener;
 import com.smart.cloud.fire.yoosee.SettingListener;
 
@@ -62,8 +56,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -225,8 +217,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
      */
     private void regFilter() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction("Constants.Action.ACTION_UPDATE");
-        filter.addAction("Constants.Action.ACTION_UPDATE_NO");
+//        filter.addAction("Constants.Action.ACTION_UPDATE");
+//        filter.addAction("Constants.Action.ACTION_UPDATE_NO");
         filter.addAction("APP_EXIT");
         mContext.registerReceiver(mReceiver, filter);
     }
@@ -246,112 +238,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 Intent in = new Intent(mContext, SplashActivity.class);
                 startActivity(in);
                 finish();
-            }
-            //已是最新版本。。
-            if (intent.getAction().equals("Constants.Action.ACTION_UPDATE_NO")) {
-                View view = LayoutInflater.from(mContext).inflate(
-                        R.layout.dialog_update, null);
-                TextView title = (TextView) view.findViewById(R.id.title_text);
-                WebView content = (WebView) view
-                        .findViewById(R.id.content_text);
-                TextView button2 = (TextView) view
-                        .findViewById(R.id.button2_text);
-                ImageView minddle_image = (ImageView) view
-                        .findViewById(R.id.minddle_image);
-                RelativeLayout cancel_rela_dialog = (RelativeLayout) view
-                        .findViewById(R.id.cancel_rela_dialog);
-                title.setText("更新消息");
-                content.setBackgroundColor(getResources().getColor(R.color.update_message)); // 设置背景色
-                content.getBackground().setAlpha(255); // 设置填充透明度 范围：0-255
-                content.loadDataWithBaseURL(null, "已是最新版本！", "text/html", "utf-8",
-                        null);
-                minddle_image.setVisibility(View.GONE);
-                cancel_rela_dialog.setVisibility(View.GONE);
-                button2.setText("确定");
-                button2.setTextColor(Color.BLACK);
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                dialog_update = builder.create();
-                dialog_update.show();
-                dialog_update.setContentView(view);
-                button2.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        // TODO Auto-generated method stub
-                        if (null != dialog_update) {
-                            dialog_update.cancel();
-                        }
-                    }
-                });
-            }
-            //有新版本。。
-            if (intent.getAction().equals("Constants.Action.ACTION_UPDATE")) {
-                if (null != dialog_update && dialog_update.isShowing()) {
-                    return;
-                }
-                View view = LayoutInflater.from(mContext).inflate(
-                        R.layout.dialog_update, null);
-                TextView title = (TextView) view.findViewById(R.id.title_text);
-                WebView content = (WebView) view
-                        .findViewById(R.id.content_text);
-                TextView button1 = (TextView) view
-                        .findViewById(R.id.button1_text);
-                TextView button2 = (TextView) view
-                        .findViewById(R.id.button2_text);
-
-                title.setText("更新");
-                content.setBackgroundColor(Color.WHITE); // 设置背景色
-                content.getBackground().setAlpha(100); // 设置填充透明度 范围：0-255
-                String data = intent.getStringExtra("message");
-                final String downloadPath = intent.getStringExtra("url");
-                content.loadDataWithBaseURL(null, data, "text/html", "utf-8",
-                        null);
-                button1.setText("立即更新");
-                button2.setText("下次再说");
-                button1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (null != dialog_update) {
-                            dialog_update.dismiss();
-                            dialog_update = null;
-                        }
-                        if (UpdateManager.getInstance().getIsDowning()) {
-                            return;
-                        }
-                        MyApp.app.showDownNotification(
-                                UpdateManager.HANDLE_MSG_DOWNING, 0);
-                        new Thread() {
-                            public void run() {
-                                UpdateManager.getInstance().downloadApk(handler,
-                                        ConstantValues.Update.SAVE_PATH,
-                                        ConstantValues.Update.FILE_NAME, downloadPath);
-                            }
-                        }.start();
-                    }
-                });
-                final String ignoreVersion=intent.getStringExtra("ignoreVersion");//@@7.12
-                button2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (null != dialog_update) {
-                            dialog_update.cancel();
-                            SharedPreferencesManager.getInstance().putData(context,"ignoreVersion",ignoreVersion);//@@7.12
-                        }
-                    }
-                });
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                dialog_update = builder.create();
-                dialog_update.show();
-                dialog_update.setContentView(view);
-                FrameLayout.LayoutParams layout = (FrameLayout.LayoutParams) view
-                        .getLayoutParams();
-                layout.width = (int) mContext.getResources().getDimension(
-                        R.dimen.update_dialog_width);
-                view.setLayoutParams(layout);
-                dialog_update.setCanceledOnTouchOutside(false);
-                Window window = dialog_update.getWindow();
-                window.setWindowAnimations(R.style.dialog_normal);
             }
         }
     };
@@ -384,40 +270,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         });
         mQueue.add(jsonObjectRequest);
     }
-
-    Handler handler = new Handler() {
-        long last_time;
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            int value = msg.arg1;
-            switch (msg.what) {
-                case UpdateManager.HANDLE_MSG_DOWNING:
-                    if ((System.currentTimeMillis() - last_time) > 1000) {
-                        MyApp.app.showDownNotification(
-                                UpdateManager.HANDLE_MSG_DOWNING, value);
-                        last_time = System.currentTimeMillis();
-                    }
-                    break;
-                case UpdateManager.HANDLE_MSG_DOWN_SUCCESS:
-                    MyApp.app.hideDownNotification();
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    File file = new File(Environment.getExternalStorageDirectory()
-                            + "/" + ConstantValues.Update.SAVE_PATH + "/"
-                            + ConstantValues.Update.FILE_NAME);
-                    if (!file.exists()) {
-                        return;
-                    }
-                    intent.setDataAndType(Uri.fromFile(file),
-                            ConstantValues.Update.INSTALL_APK);
-                    mContext.startActivity(intent);
-                    break;
-                case UpdateManager.HANDLE_MSG_DOWN_FAULT:
-                    break;
-            }
-        }
-    };
 
     @Override
     protected MainPresenter createPresenter() {

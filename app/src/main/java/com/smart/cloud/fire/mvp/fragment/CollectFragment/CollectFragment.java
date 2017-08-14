@@ -276,12 +276,15 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                         areaId = "";
                     }
                 }
+
+                this.research=false;//@@8.10再次查询
                 mvpPresenter.getAllAlarm(userID, privilege + "", page, 2, startStr, endStr, areaId, placeTypeId);
                 this.startStr=startStr;
                 this.endStr=endStr;
                 this.areaId=areaId;
                 this.placeTypeId=placeTypeId;
                 this.type=2;//@@7.12保存查询条件
+
 
                 hideDatePick();
                 mArea = null;

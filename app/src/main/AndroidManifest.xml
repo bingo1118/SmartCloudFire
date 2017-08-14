@@ -185,7 +185,7 @@
         <activity android:name="com.smart.cloud.fire.GetLocationActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistoryActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.MyZoomActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.Setting.MyZoomActivity" />
         <activity android:name="com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity" />
         <activity
             android:name="com.smart.cloud.fire.ui.CallManagerDialogActivity"

@@ -119,6 +119,22 @@ public class AddCameraFourthPresenter extends BasePresenter<AddCameraFourthView>
             mvpView.getDataFail("请填写摄像头密码");
             return;
         }
+        if(cameraName.length()==0||cameraName.length()==0){
+            mvpView.getDataFail("请填写名称");
+            return;
+        }//@@8.10
+        if(cameraId.length()==0){
+            mvpView.getDataFail("请填写ID");
+            return;
+        }//@@8.10
+        if(areaId==null||areaId.length()==0){
+            mvpView.getDataFail("请填选择区域");
+            return;
+        }//@@8.10
+        if(placeTypeId==null||placeTypeId.length()==0){
+            mvpView.getDataFail("请填选择类型");
+            return;
+        }//@@8.10
         mvpView.showLoading();
         Observable mObservable = apiStores1.addCamera(cameraId,cameraName,cameraPwd,cameraAddress,longitude,latitude,principal1,
                 principal1Phone,principal2,principal2Phone,areaId,placeTypeId);

@@ -168,7 +168,7 @@ public class AddWaitActicity extends Activity {
                         isReceive = true;
                         // NormalDialog successdialog=new NormalDialog(mContext);
                         // successdialog.successDialog();
-                        Toast.makeText(mContext, "嘿嘿！设置成功！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "设置成功！", Toast.LENGTH_SHORT).show();
                         mHelper.StopListen();
                         Bundle bundle = msg.getData();
 

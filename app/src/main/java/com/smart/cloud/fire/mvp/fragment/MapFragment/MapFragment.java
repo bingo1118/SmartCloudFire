@@ -200,6 +200,16 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 R.layout.image_sy_bj_mark, null);//@@水压报警5.4
         View viewSJSB = LayoutInflater.from(mContext).inflate(
                 R.layout.image_sjsb_mark, null);//@@三江设备5.4
+        View viewMC = LayoutInflater.from(mContext).inflate(
+                R.layout.image_mc_mark, null);//@@门磁8.10
+        View viewHW = LayoutInflater.from(mContext).inflate(
+                R.layout.image_hw_mark, null);//@@红外8.10
+        View viewHJTCQ = LayoutInflater.from(mContext).inflate(
+                R.layout.image_hjtcq_mark, null);//@@环境探测器8.10
+        View viewZJ = LayoutInflater.from(mContext).inflate(
+                R.layout.image_zj_mark, null);//@@有线主机8.10
+        View viewSJ = LayoutInflater.from(mContext).inflate(
+                R.layout.image_sj_mark, null);//@@水禁8.10
         BitmapDescriptor bdA = BitmapDescriptorFactory
                 .fromView(viewA);
         BitmapDescriptor bdDq = BitmapDescriptorFactory
@@ -222,6 +232,16 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 .fromView(viewSY_BJ);//@@5.4
         BitmapDescriptor sjsbImage = BitmapDescriptorFactory
                 .fromView(viewSJSB);//@@5.4
+        BitmapDescriptor mcImage = BitmapDescriptorFactory
+                .fromView(viewMC);//@@8.10
+        BitmapDescriptor hwImage = BitmapDescriptorFactory
+                .fromView(viewHW);//@@8.10
+        BitmapDescriptor hjtcqImage = BitmapDescriptorFactory
+                .fromView(viewHJTCQ);//@@8.10
+        BitmapDescriptor zjImage = BitmapDescriptorFactory
+                .fromView(viewZJ);//@@8.10
+        BitmapDescriptor sjImage = BitmapDescriptorFactory
+                .fromView(viewSJ);//@@8.10
         List<BitmapDescriptor> listView = new ArrayList<>();
         listView.add(bdA);
         listView.add(bdC);
@@ -234,6 +254,11 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         listView.add(syImage);
         listView.add(sy_bj_Image);
         listView.add(sjsbImage);
+        listView.add(mcImage);
+        listView.add(hwImage);
+        listView.add(hjtcqImage);
+        listView.add(zjImage);
+        listView.add(sjImage);
         return listView;
     }
 

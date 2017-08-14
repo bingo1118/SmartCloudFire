@@ -77,6 +77,21 @@ public class MyOverlayManager extends OverlayManager {
             ArrayList<BitmapDescriptor> giflistSJSB = new ArrayList<>();//@@三江设备5.4
             giflistSJSB.add(viewList.get(10));
             giflistSJSB.add(viewList.get(1));
+            ArrayList<BitmapDescriptor> giflistMC = new ArrayList<>();//@@门磁8.10
+            giflistMC.add(viewList.get(11));
+            giflistMC.add(viewList.get(1));
+            ArrayList<BitmapDescriptor> giflistHW = new ArrayList<>();//@@红外8.10
+            giflistHW.add(viewList.get(12));
+            giflistHW.add(viewList.get(1));
+            ArrayList<BitmapDescriptor> giflistHJTCQ = new ArrayList<>();//@@环境探测器8.10
+            giflistHJTCQ.add(viewList.get(13));
+            giflistHJTCQ.add(viewList.get(1));
+            ArrayList<BitmapDescriptor> giflistZJ = new ArrayList<>();//@@主机8.10
+            giflistZJ.add(viewList.get(14));
+            giflistZJ.add(viewList.get(1));
+            ArrayList<BitmapDescriptor> giflistSJ = new ArrayList<>();//@@水禁8.10
+            giflistSJ.add(viewList.get(15));
+            giflistSJ.add(viewList.get(1));
             for (Smoke smoke : mapNormalSmoke) {
                 Camera mCamera = smoke.getCamera();
                 int alarmState = smoke.getIfDealAlarm();
@@ -118,6 +133,21 @@ public class MyOverlayManager extends OverlayManager {
                             break;
                         case 10:
                             markMap(latLng,overlayOptionses,alarmState,giflistSY,viewList.get(8),bundle);
+                            break;
+                        case 11:
+                            markMap(latLng,overlayOptionses,alarmState,giflistHW,viewList.get(12),bundle);
+                            break;
+                        case 12:
+                            markMap(latLng,overlayOptionses,alarmState,giflistMC,viewList.get(11),bundle);
+                            break;
+                        case 13:
+                            markMap(latLng,overlayOptionses,alarmState,giflistHJTCQ,viewList.get(13),bundle);
+                            break;
+                        case 126:
+                            markMap(latLng,overlayOptionses,alarmState,giflistZJ,viewList.get(14),bundle);
+                            break;
+                        case 15:
+                            markMap(latLng,overlayOptionses,alarmState,giflistSJ,viewList.get(15),bundle);
                             break;
                     }
                 }

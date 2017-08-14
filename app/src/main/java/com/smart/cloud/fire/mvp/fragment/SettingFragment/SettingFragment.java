@@ -85,7 +85,7 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
         switch (view.getId()) {
             case R.id.app_update:
                 mvpPresenter.checkUpdate(mContext);
-                getActivity().finish();//@@7.13
+//                getActivity().finish();//@@7.13
                 break;
             case R.id.setting_help_about:
                 Intent intent = new Intent(mContext, AboutActivity.class);

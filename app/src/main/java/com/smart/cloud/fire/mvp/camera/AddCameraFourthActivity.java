@@ -94,16 +94,16 @@ public class AddCameraFourthActivity extends MvpActivity<AddCameraFourthPresente
     }
 
     private void initView() {
-        cameraName.setText("名称");
+        cameraName.setText("*名称");
         addFireMac.setHint("名称");
-        cameraPwd.setText("密码");
+        cameraPwd.setText("*密码");
         addFireName.setHint("密码");
-        cameraId.setText("ID");
+        cameraId.setText("*设备ID");
         addRepeaterMac.setHint("ID");
         addRepeaterMac.setEnabled(false);
         addRepeaterMac.setText(contactId);
-        addFireZjq.setEditTextHint("区域");
-        addFireType.setEditTextHint("类型");
+        addFireZjq.setEditTextHint("*区域");
+        addFireType.setEditTextHint("*类型");
         scanErWeiMa.setVisibility(View.GONE);
         scanRepeaterMa.setVisibility(View.GONE);
         RxView.clicks(addFireDevBtn).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
