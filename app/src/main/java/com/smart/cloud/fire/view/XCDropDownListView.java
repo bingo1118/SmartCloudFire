@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ShopType;
@@ -213,6 +214,23 @@ public class XCDropDownListView extends LinearLayout {
                         imageView.setVisibility(View.GONE);
                         clear_choice.setVisibility(View.VISIBLE);
                         basePresenter.getArea(mArea);
+                        closePopWindow();
+                    }
+                });
+            }else if(object instanceof NFCDeviceType){
+                final NFCDeviceType nfcDeviceType = (NFCDeviceType)object;
+                // 设置数据
+                listItemView.tv.setText(nfcDeviceType.getPlaceTypeName());
+                final String text = nfcDeviceType.getPlaceTypeName();
+                listItemView.layout.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        editText.setText(text);
+                        imageView.setVisibility(View.GONE);
+                        clear_choice.setVisibility(View.VISIBLE);
+                        basePresenter.getNFCDeviceType(nfcDeviceType);
                         closePopWindow();
                     }
                 });

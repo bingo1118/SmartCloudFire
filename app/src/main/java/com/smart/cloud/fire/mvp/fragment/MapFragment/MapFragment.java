@@ -23,6 +23,7 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.overlayutil.MyOverlayManager;
+import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ConstantValues;
@@ -161,6 +162,26 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
             mMyOverlayManager = new MyOverlayManager();
         }
         mMyOverlayManager.init(mBaiduMap,smokeList, mMapFragmentPresenter,viewList);
+        mMyOverlayManager.removeFromMap();
+        mBaiduMap.setOnMarkerClickListener(mMyOverlayManager);
+        mMyOverlayManager.addToMap();
+        mMyOverlayManager.zoomToSpan();
+        mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                mMyOverlayManager.zoomToSpan();
+            }
+        });
+    }
+
+    @Override
+    public void getNFCSuccess(List<NFCRecordBean> smokeList) {
+        mBaiduMap.clear();
+        List<BitmapDescriptor> viewList =  initMark();
+        if(mMyOverlayManager==null){
+            mMyOverlayManager = new MyOverlayManager();
+        }
+        mMyOverlayManager.initNFC(mBaiduMap,smokeList, mMapFragmentPresenter,viewList);
         mMyOverlayManager.removeFromMap();
         mBaiduMap.setOnMarkerClickListener(mMyOverlayManager);
         mMyOverlayManager.addToMap();
@@ -329,7 +350,11 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//获取按照要求获取设备。。
+                if(devType.equals("7")){
+                    mvpPresenter.getNeedNFC(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//@@8.18
+                }else{
+                    mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//获取按照要求获取设备。。
+                }
                 SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaId",position);
                 SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaNum",((Area)arealist.get(position)).getAreaId());//@@5.18
                 TextView tv=(TextView)view;
@@ -401,6 +426,13 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     public void showSmokeDialog(Smoke smoke) {
         View view = LayoutInflater.from(mContext).inflate(
                     R.layout.user_smoke_address_mark, null,false);
+        new ShowSmokeDialog(getActivity(),view,smoke);
+    }
+
+    @Override
+    public void showNFCDialog(NFCRecordBean smoke) {
+        View view = LayoutInflater.from(mContext).inflate(
+                R.layout.user_smoke_address_mark, null,false);
         new ShowSmokeDialog(getActivity(),view,smoke);
     }
 

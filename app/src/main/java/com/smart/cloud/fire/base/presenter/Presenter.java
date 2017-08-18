@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.base.presenter;
 
+import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ShopType;
 
@@ -24,5 +25,6 @@ public interface Presenter<V> {
 
     void getShop(ShopType shopType);
 
+    void getNFCDeviceType(NFCDeviceType nfcDeviceType);
 
 }

@@ -129,14 +129,15 @@ public class DemoIntentService extends GTIntentService {
                             if(alarmType==202) {
                                 message="发生报警";
                             }else{
-                                message="水禁电量低，请更换电池";
+                                message="水浸电量低，请更换电池";
                             }
                             break;
                         case 10://@@4.28
+                            int alarmFamily = dataJson.getInt("alarmFamily");
                             if(alarmType==218) {
-                                message="发生高水压报警";
+                                message="发生高水压报警 水压值："+alarmFamily+"kpa";
                             }else if(alarmType==209){
-                                message="发生低水压报警";
+                                message="发生低水压报警 水压值："+alarmFamily+"kpa";
                             }else{
                                 message="电量低，请更换电池";
                             }

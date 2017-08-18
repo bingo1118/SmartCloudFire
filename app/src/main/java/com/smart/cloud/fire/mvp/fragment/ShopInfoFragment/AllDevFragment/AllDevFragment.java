@@ -108,61 +108,61 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
     }
 
     private void refreshListView() {
-        //设置刷新时动画的颜色，可以设置4个
-        swipereFreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
-        swipereFreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light, android.R.color.holo_orange_light,
-                android.R.color.holo_green_light);
-        swipereFreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
-                        .getDisplayMetrics()));
-        linearLayoutManager=new LinearLayoutManager(mContext);
-        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+    //设置刷新时动画的颜色，可以设置4个
+    swipereFreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+    swipereFreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
+            android.R.color.holo_red_light, android.R.color.holo_orange_light,
+            android.R.color.holo_green_light);
+    swipereFreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+            .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+                    .getDisplayMetrics()));
+    linearLayoutManager=new LinearLayoutManager(mContext);
+    linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+    recyclerView.setLayoutManager(linearLayoutManager);
 
-        //下拉刷新。。
-        swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                page = "1";
-                list.clear();
-                mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","1");
+    //下拉刷新。。
+    swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            page = "1";
+            list.clear();
+            mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);
+            mvpPresenter.getSmokeSummary(userID,privilege+"","","","1");
+        }
+    });
+
+    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (research) {
+                if(shopSmokeAdapter!=null){
+                    shopSmokeAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
+                }
+                return;
             }
-        });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (research) {
-                    if(shopSmokeAdapter!=null){
-                        shopSmokeAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
-                    }
-                    return;
-                }
-                if(shopSmokeAdapter==null){
-                    return;
-                }
-                int count = shopSmokeAdapter.getItemCount();
+            if(shopSmokeAdapter==null){
+                return;
+            }
+            int count = shopSmokeAdapter.getItemCount();
 //                int itemCount = lastVisibleItem+2;
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
-                    if(loadMoreCount>=20){
-                        page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);//@@7.17
-                    }else{
-                        T.showShort(mContext,"已经没有更多数据了");
-                    }
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
+                if(loadMoreCount>=20){
+                    page = Integer.parseInt(page) + 1 + "";
+                    mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);//@@7.17
+                }else{
+                    T.showShort(mContext,"已经没有更多数据了");
                 }
             }
+        }
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+        }
+    });
+}
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override

@@ -152,7 +152,7 @@ public class AddCameraThirdActivity extends Activity implements View.OnClickList
                 device_network.putExtra("LocalIp", mLocalIp);
                 device_network.putExtra("isNeedSendWifi", true);
                 startActivity(device_network);
-//                finish();//@@8.10
+                finish();//@@8.10
                 break;
             default:
                 break;

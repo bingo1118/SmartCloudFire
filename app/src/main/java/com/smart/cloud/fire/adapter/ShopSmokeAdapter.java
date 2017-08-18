@@ -185,12 +185,12 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;
-                case 15://水禁设备@@8.3。。
+                case 15://水浸设备@@8.3。。
                     if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("水禁："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水浸："+normalSmoke.getName()+"（已离线)");
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
                     } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("水禁："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水浸："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;

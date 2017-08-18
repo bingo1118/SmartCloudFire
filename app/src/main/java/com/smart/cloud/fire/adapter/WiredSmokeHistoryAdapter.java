@@ -37,14 +37,12 @@ public class WiredSmokeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.
     private LayoutInflater mInflater;
     private Context mContext;
     private List<WiredSmokeHistory> listNormalSmoke;
-    private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
 
-    public WiredSmokeHistoryAdapter(Context mContext, List<WiredSmokeHistory> listNormalSmoke, ShopInfoFragmentPresenter mShopInfoFragmentPresenter) {
+    public WiredSmokeHistoryAdapter(Context mContext, List<WiredSmokeHistory> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listNormalSmoke = listNormalSmoke;
         this.mContext = mContext;
-        this.mShopInfoFragmentPresenter = mShopInfoFragmentPresenter;
     }
 
 

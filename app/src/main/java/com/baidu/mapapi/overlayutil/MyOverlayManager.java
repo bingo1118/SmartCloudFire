@@ -13,6 +13,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.model.LatLng;
+import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.MapFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
@@ -25,12 +26,22 @@ public class MyOverlayManager extends OverlayManager {
     private MapFragmentPresenter mMapFragmentPresenter;
     private List<BitmapDescriptor> viewList;
 
+    private static List<NFCRecordBean> mapNormalNFC;//@@8.18
+
     public  MyOverlayManager(){
     }
 
     public void init(BaiduMap baiduMap,List<Smoke> mapNormalSmoke, MapFragmentPresenter mMapFragmentPresenter,List<BitmapDescriptor> viewList){
         initBaiduMap(baiduMap);
         this.mapNormalSmoke = mapNormalSmoke;
+        this.mMapFragmentPresenter = mMapFragmentPresenter;
+        this.viewList = viewList;
+    }
+
+    //@@8.18
+    public void initNFC(BaiduMap baiduMap,List<NFCRecordBean> mapNormalSmoke, MapFragmentPresenter mMapFragmentPresenter,List<BitmapDescriptor> viewList){
+        initBaiduMap(baiduMap);
+        this.mapNormalNFC = mapNormalSmoke;
         this.mMapFragmentPresenter = mMapFragmentPresenter;
         this.viewList = viewList;
     }
@@ -96,13 +107,13 @@ public class MyOverlayManager extends OverlayManager {
                 Camera mCamera = smoke.getCamera();
                 int alarmState = smoke.getIfDealAlarm();
                 Bundle bundle = new Bundle();
-                if(mCamera!=null&&mCamera.getLatitude()!=null&&mCamera.getLatitude().length()>0){
-                    double latitude = Double.parseDouble(mCamera.getLatitude());
-                    double longitude = Double.parseDouble(mCamera.getLongitude());
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    bundle.putSerializable("mNormalSmoke",mCamera);
-                    markMap(latLng,overlayOptionses,alarmState,giflist2,viewList.get(3),bundle);
-                }else{
+//                if(mCamera!=null&&mCamera.getLatitude()!=null&&mCamera.getLatitude().length()>0){
+//                    double latitude = Double.parseDouble(mCamera.getLatitude());
+//                    double longitude = Double.parseDouble(mCamera.getLongitude());
+//                    LatLng latLng = new LatLng(latitude, longitude);
+//                    bundle.putSerializable("mNormalSmoke",mCamera);
+//                    markMap(latLng,overlayOptionses,alarmState,giflist2,viewList.get(3),bundle);
+//                }else{//@@8.14 去除摄像机图标
                     if(smoke.getLatitude().length()==0||smoke.getLongitude().length()==0){
                        continue;
                     }//@@
@@ -150,8 +161,32 @@ public class MyOverlayManager extends OverlayManager {
                             markMap(latLng,overlayOptionses,alarmState,giflistSJ,viewList.get(15),bundle);
                             break;
                     }
-                }
+//                }
             }
+        }else if(mapNormalNFC!=null&&mapNormalNFC.size()>0){//@@8.18 NFC设备地图
+            for (NFCRecordBean smoke : mapNormalNFC) {
+                Bundle bundle = new Bundle();
+                if(smoke.getLatitude().length()==0||smoke.getLongitude().length()==0){
+                    continue;
+                }//@@
+                double latitude = Double.parseDouble(smoke.getLatitude());
+                double longitude = Double.parseDouble(smoke.getLongitude());
+
+                LatLng latLng = new LatLng(latitude, longitude);
+                bundle.putSerializable("mNormalSmoke",smoke);
+                String stateType = smoke.getDevicestate();
+                switch (stateType) {
+                    case "0":
+                        markMap(latLng, overlayOptionses, 1, null, viewList.get(7), bundle);//待检 Yellow
+                        break;
+                    case "1":
+                        markMap(latLng, overlayOptionses, 1, null, viewList.get(2), bundle);//合格 Green
+                        break;
+                    case "2":
+                        markMap(latLng, overlayOptionses, 1, null, viewList.get(1), bundle);//不合格 Red
+                        break;
+                    }
+                }
         }
         return overlayOptionses;
     }

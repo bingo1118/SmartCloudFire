@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -201,7 +202,18 @@
         <activity android:name="com.smart.cloud.fire.activity.WiredDev.WiredDevActivity" />
         <activity android:name="com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.NFC.NFCActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity"></activity>
     </application>
 
 </manifest>

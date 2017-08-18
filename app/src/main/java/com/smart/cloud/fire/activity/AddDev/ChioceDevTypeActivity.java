@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.smart.cloud.fire.activity.AddNFC.AddNFCActivity;
 import com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity;
 
 import butterknife.Bind;
@@ -25,6 +26,8 @@ public class ChioceDevTypeActivity extends Activity {
     ImageButton xfwl_btn;
     @Bind(R.id.spjk_btn)
     ImageButton spjk_btn;
+    @Bind(R.id.nfc_btn)
+    ImageButton nfc_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class ChioceDevTypeActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.sxcs_btn,R.id.zddw_btn,R.id.dqfh_btn,R.id.xfwl_btn,R.id.spjk_btn})
+    @OnClick({R.id.sxcs_btn,R.id.zddw_btn,R.id.dqfh_btn,R.id.xfwl_btn,R.id.spjk_btn,R.id.nfc_btn})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.sxcs_btn:
@@ -60,6 +63,11 @@ public class ChioceDevTypeActivity extends Activity {
                 Intent intent5=new Intent(ChioceDevTypeActivity.this,AddCameraFirstActivity.class);
                 intent5.putExtra("devType",5);
                 startActivity(intent5);
+                break;
+            case R.id.nfc_btn:
+                Intent intent6=new Intent(ChioceDevTypeActivity.this,AddNFCActivity.class);
+                intent6.putExtra("devType",6);
+                startActivity(intent6);
                 break;
         }
     }

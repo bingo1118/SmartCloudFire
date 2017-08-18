@@ -2,6 +2,7 @@ package com.smart.cloud.fire.mvp.fragment.MapFragment;
 
 import android.os.Bundle;
 
+import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.MyApp;
@@ -136,6 +137,35 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
         }));
     }
 
+    public void getNeedNFC(String userId, String privilege,String areaId,String placeTypeId,String devType){
+        mvpView.showLoading();
+        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"");
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                if(model!=null){
+                    int errorCode = model.getErrorCode();
+                    if(errorCode==0&&model.getNfcList().size()>0){
+                        List<NFCRecordBean> smokes = model.getNfcList();
+                        mvpView.getNFCSuccess(smokes);
+                    }else {
+                        mvpView.getAreaTypeFail("无数据");
+                    }
+                }else{
+                    mvpView.getAreaTypeFail("无数据");
+                }
+            }
+            @Override
+            public void onFailure(int code, String msg) {
+                mvpView.getDataFail("网络错误");
+            }
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
     /**
      * 根据查询内容显示坐标@@4.27
      * @param userId
@@ -208,18 +238,24 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
     public void getClickDev(Bundle bundle){
         Serializable object = bundle.getSerializable("mNormalSmoke");
         boolean result = object instanceof Smoke;
-        if (result) {
-            Smoke normalSmoke = (Smoke) object;
-            int states = normalSmoke.getIfDealAlarm();
-            if (states == 1) {//无未处理报警信息，地图图标不闪
-                mvpView.showSmokeDialog(normalSmoke);
-            } else {//有未处理报警信息，地图图标闪动
-                mvpView.showAlarmDialog(normalSmoke);
+        if(object instanceof NFCRecordBean){//@@8.18
+            NFCRecordBean normalSmoke = (NFCRecordBean) object;
+                mvpView.showNFCDialog(normalSmoke);
+        }else{
+            if (result) {
+                Smoke normalSmoke = (Smoke) object;
+                int states = normalSmoke.getIfDealAlarm();
+                if (states == 1) {//无未处理报警信息，地图图标不闪
+                    mvpView.showSmokeDialog(normalSmoke);
+                } else {//有未处理报警信息，地图图标闪动
+                    mvpView.showAlarmDialog(normalSmoke);
+                }
+            } else {
+                Camera camera = (Camera) object;
+                mvpView.openCamera(camera);
             }
-        } else {
-            Camera camera = (Camera) object;
-            mvpView.openCamera(camera);
         }
+
     }
 
     @Override

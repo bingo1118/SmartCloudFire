@@ -169,7 +169,7 @@ public class WiredDevFragment3 extends MvpFragment<ShopInfoFragmentPresenter> im
         loadMoreCount = smokeList.size();
         list.clear();
         list.addAll((List<WiredSmokeHistory>) smokeList);
-        shopSmokeAdapter = new WiredSmokeHistoryAdapter(mContext, list, mShopInfoFragmentPresenter);//@@6.29
+        shopSmokeAdapter = new WiredSmokeHistoryAdapter(mContext, list);//@@6.29
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
 //        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);

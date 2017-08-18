@@ -1,5 +1,7 @@
 package com.smart.cloud.fire.mvp.fragment.MapFragment;
 
+import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
+import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.global.ElectricInfo;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
@@ -29,6 +31,9 @@ public class HttpError<T> {
     private List<ElectricInfo> Electric;
     private List<WiredSmoke> faultment;//@@6.30
     private List<WiredSmokeHistory> alarm;
+
+    private ArrayList<NFCDeviceType> deviceType;//@@8.16 NFC设备类型
+    private ArrayList<NFCRecordBean> nfcList;//@@8.16 NFC设备
 
     public List<WiredSmokeHistory> getalarm() {
         return alarm;
@@ -109,5 +114,22 @@ public class HttpError<T> {
 
     public void setFaultment(List<WiredSmoke> faultment) {
         this.faultment = faultment;
+    }
+
+
+    public ArrayList<NFCDeviceType> getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceTypes(ArrayList<NFCDeviceType> deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public ArrayList<NFCRecordBean> getNfcList() {
+        return nfcList;
+    }
+
+    public void setNfcList(ArrayList<NFCRecordBean> nfcList) {
+        this.nfcList = nfcList;
     }
 }

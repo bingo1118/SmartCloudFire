@@ -37,6 +37,7 @@ import com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.Camera.CameraDevActivity;
 import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
+import com.smart.cloud.fire.activity.NFCDev.NFCDevActivity;
 import com.smart.cloud.fire.activity.Setting.MyZoomActivity;
 import com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity;
 import com.smart.cloud.fire.activity.WiredDev.WiredDevActivity;
@@ -76,17 +77,17 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Bind(R.id.my_image)
     ImageView my_image;
     @Bind(R.id.sxcs_btn)
-    ImageView sxcs_btn;
+    RelativeLayout sxcs_btn;
     @Bind(R.id.tjsb_btn)
-    ImageView tjsb_btn;
+    RelativeLayout tjsb_btn;
     @Bind(R.id.dqfh_btn)
-    ImageView dqfh_btn;
+    RelativeLayout dqfh_btn;
     @Bind(R.id.spjk_btn)
-    ImageView spjk_btn;
+    RelativeLayout spjk_btn;
     @Bind(R.id.zddw_btn)
-    ImageView zddw_btn;
+    RelativeLayout zddw_btn;
     @Bind(R.id.xfwl_btn)
-    ImageView xfwl_btn;
+    RelativeLayout xfwl_btn;
     @Bind(R.id.home_alarm_lin)
     LinearLayout home_alarm_lin;
     @Bind(R.id.home_alarm_info_text)
@@ -112,7 +113,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.zddw_btn,
-            R.id.xfwl_btn})
+            R.id.xfwl_btn,R.id.nfc_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_image:
@@ -146,6 +147,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             case R.id.xfwl_btn:
                 Intent intent_xfwl = new Intent(mContext, SecurityDevActivity.class);
                 startActivity(intent_xfwl);
+                break;
+            case R.id.nfc_btn:
+                Intent intent_nfc = new Intent(mContext, NFCDevActivity.class);
+                startActivity(intent_nfc);
+                break;
             default:
                 break;
         }

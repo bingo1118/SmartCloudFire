@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.global.InitBaiduNavi;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.utils.T;
@@ -43,9 +45,14 @@ public class ShowSmokeDialog {
     Button normalLeadBtn;
     @Bind(R.id.user_smoke_dialog_tv4)
     TextView user_smoke_dialog_tv4;//@@8.7设备id
+    @Bind(R.id.contact1_lin)
+    LinearLayout contact1_lin;//@@8.18
+    @Bind(R.id.contact2_lin)
+    LinearLayout contact2_lin;//@@8.18
     private Smoke smoke;
     private AlertDialog dialog;
     private View mView;
+    private NFCRecordBean nfcsmoke;
 
     public ShowSmokeDialog(Activity context, View mView, Smoke smoke) {
         this.context = context;
@@ -53,6 +60,50 @@ public class ShowSmokeDialog {
         this.mView = mView;
         ButterKnife.bind(this, mView);
         showSmokeDialog(mView);
+    }
+
+    //@@8.18
+    public ShowSmokeDialog(Activity context, View mView, NFCRecordBean smoke) {
+        this.context = context;
+        this.nfcsmoke = smoke;
+        this.mView = mView;
+        ButterKnife.bind(this, mView);
+        showNFCDialog(mView);
+    }
+
+    //@@8.18
+    private void showNFCDialog(final View mView) {
+        RxView.clicks(normalLeadBtn).throttleFirst(2, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        Reference<Activity> reference = new WeakReference(context);
+                        Smoke smoketemp=new Smoke();
+                        smoketemp.setLongitude(nfcsmoke.getLongitude());
+                        smoketemp.setLatitude(nfcsmoke.getLatitude());
+                        new InitBaiduNavi(reference.get(), smoketemp);
+                        if (dialog != null) {
+                            dialog.dismiss();
+                            dialog = null;
+                            ButterKnife.unbind(mView);
+                        }
+                    }
+                });
+        contact1_lin.setVisibility(View.GONE);
+        contact2_lin.setVisibility(View.GONE);
+        userSmokeMarkPhoneTv.setVisibility(View.GONE);
+        userSmokeMarkPhoneTv2.setVisibility(View.GONE);
+        userSmokeMarkPrincipal2.setVisibility(View.GONE);
+        userSmokeMarkPrincipal.setVisibility(View.GONE);
+        userSmokeDialogTv2.setText(nfcsmoke.getDeviceName());
+        userSmokeDialogTv3.setText(nfcsmoke.getAddress());
+        user_smoke_dialog_tv4.setText("ID:"+nfcsmoke.getUid());//@@8.7
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        dialog = builder.create();
+        if(!dialog.isShowing()){
+            dialog.show();
+        }
+        dialog.setContentView(mView);
     }
 
     public void showSmokeDialog(final View view) {

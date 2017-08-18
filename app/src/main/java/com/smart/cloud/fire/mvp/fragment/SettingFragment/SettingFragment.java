@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity;
@@ -80,7 +81,7 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
         }
     }
 
-    @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit, R.id.setting_camera_relative})
+    @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit, R.id.setting_camera_relative,R.id.setting_nfc})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.app_update:
@@ -104,6 +105,10 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
                 break;
             case R.id.setting_camera_relative:
                 mvpPresenter.bindDialog(mContext);
+                break;
+            case R.id.setting_nfc:
+                Intent intent3 = new Intent(mContext, UploadNFCInfoActivity.class);
+                startActivity(intent3);
                 break;
             default:
                 break;

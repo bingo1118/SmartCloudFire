@@ -205,4 +205,9 @@
     <string name="save_camera">保存</string>
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
     <string name="title_activity_test">TestActivity</string>
+
+    <string name="hello">读写NFC程序!</string>
+    <string name="write_to_tag">写入数据</string>
+    <string name="read_to_tag">读取数据</string>
+    <string name="default_note_text">请输入要写入数据!</string>
 </resources>

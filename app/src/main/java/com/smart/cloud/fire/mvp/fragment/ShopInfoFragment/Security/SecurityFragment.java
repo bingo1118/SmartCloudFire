@@ -102,7 +102,7 @@ public class SecurityFragment extends MvpFragment<SecurityDevPresenter> implemen
                 page = "1";
                 list.clear();
                 mvpPresenter.getSecurityInfo(userID, privilege + "", page,"4", list, 1,true,SecurityFragment.this);//@@5.15
-//                mvpPresenter.getSmokeSummary(userID,privilege+"","");
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","4");
             }
         });
 

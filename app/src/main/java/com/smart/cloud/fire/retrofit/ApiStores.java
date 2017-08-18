@@ -110,6 +110,11 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getPlaceTypeId(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
 
+    //获取所有的NFC设备类型
+    @GET("getNFCDeviceTypeId")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNFCDeviceTypeId();
+
     //获取所有的区域类型
     @GET("getAreaId")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -283,4 +288,19 @@ public interface ApiStores {
     Observable<HttpError> getNeedSecurity(@Query("userId") String userId, @Query("privilege") String privilege,
                                           @Query("page") String page,@Query("areaId") String areaId,
                                           @Query("placeTypeId") String placeTypeId);
+
+    //添加烟感
+    @FormUrlEncoded
+    @POST("addNFC")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ConfireFireModel> addNFC(@Field("userId") String userId, @Field("privilege") String privilege,
+                                        @Field("smokeName") String smokeName, @Field("uid") String uid,
+                                          @Field("address") String address, @Field("longitude") String longitude,
+                                          @Field("latitude") String latitude,
+                                          @Field("deviceType") String deviceType,@Field("areaId") String areaId);
+
+    //获取NFC
+    @GET("getNFCInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNFCInfo(@Query("userId") String userId, @Query("areaId") String areaId,@Query("page") String page);
 }

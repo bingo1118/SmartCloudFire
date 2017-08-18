@@ -6,6 +6,7 @@ package com.smart.cloud.fire.base.presenter;
 
 import android.content.Context;
 
+import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.ShopType;
@@ -52,6 +53,11 @@ public class BasePresenter<V> implements Presenter<V> {
 
     @Override
     public void getShop(ShopType shopType) {
+
+    }
+
+    @Override
+    public void getNFCDeviceType(NFCDeviceType nfcDeviceType) {
 
     }
 

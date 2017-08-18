@@ -43,7 +43,7 @@
     </RelativeLayout>
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:background="@drawable/banner"/>
 
     <LinearLayout
@@ -102,22 +102,52 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <ImageButton
+            <RelativeLayout
                 android:id="@+id/sxcs_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/sxcs_btn_selector"/>
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/sxcs_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_sxcs_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="三小场所"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/sxcs_image"/>
+            </RelativeLayout>
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#dddddd"/>
-            <ImageButton
+            <RelativeLayout
                 android:id="@+id/zddw_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/zddw_btn_selector"/>
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/zddw_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_zddw_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="重点单位"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/zddw_image"/>
+            </RelativeLayout>
 
         </LinearLayout>
         <TextView
@@ -129,22 +159,52 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <ImageButton
+            <RelativeLayout
                 android:id="@+id/dqfh_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/dqfh_btn_selector"/>
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/dqfh_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_dqfh_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="电气防火"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/dqfh_image"/>
+            </RelativeLayout>
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#dddddd"/>
-            <ImageButton
+            <RelativeLayout
                 android:id="@+id/xfwl_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/xfwl_btn_selector"/>
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/xfwl_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_xfwl_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="消防物联"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/xfwl_image"/>
+            </RelativeLayout>
 
         </LinearLayout>
         <TextView
@@ -156,22 +216,93 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <ImageButton
+            <RelativeLayout
                 android:id="@+id/spjk_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/spjk_btn_selector"/>
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/spjk_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_spjk_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="视频监控"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/spjk_image"/>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#dddddd"/>
+            <RelativeLayout
+                android:id="@+id/nfc_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/nfc_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_wbxt_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="维保系统"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/nfc_image"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dddddd"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/tjsb_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/tjsb_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_tjsb_android"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="添加设备"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tjsb_image"/>
+            </RelativeLayout>
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#dddddd"/>
             <ImageButton
-                android:id="@+id/tjsb_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/tjsb_btn_selector"/>
+                android:background="#fff"/>
 
         </LinearLayout>
     </LinearLayout>
