@@ -213,7 +213,8 @@
             android:name="com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -125,6 +125,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
                 case 10://@@4.28
+                    int alarmFamily10 = mNormalAlarmMessage.getAlarmFamily();//@@水压值8.31
                     ((ItemViewHolder) holder).smokeMac.setText("水压探测器:");
                     switch(alarmType){
                         case 193://低电压@@
@@ -134,11 +135,13 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             break;
                         case 209://低水压@@
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.dishuiya);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(水压值:"+alarmFamily10+"kpa)");
                             ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             break;
                         case 218://高水压@@
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.gaoshuiya);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(水压值:"+alarmFamily10+"kpa)");
                             ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             break;
@@ -147,6 +150,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case 5:
                     ((ItemViewHolder) holder).smokeMac.setText("电气火灾探测器:");
                     int alarmFamily = mNormalAlarmMessage.getAlarmFamily();
+                    ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     switch (alarmFamily){
                         case 36:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
@@ -167,7 +172,30 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gw);
                             break;
                         case 48:
-                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_fz);//@@6.28
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);//@@6.28
+                            break;
+                        case 143:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gy);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
+                            break;
+                        case 144:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_qy);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
+                            break;
+                        case 145:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gl);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
+                            break;
+                        case 146:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ld);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
+                            break;
+                        case 147:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gw);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
+                            break;
+                        case 148:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);//@@6.28
                             break;
                     }
                     break;

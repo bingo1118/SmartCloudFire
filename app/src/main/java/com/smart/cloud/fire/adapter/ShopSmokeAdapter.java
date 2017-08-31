@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.T;
@@ -169,7 +171,11 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext, AirInfoActivity.class);
+                            if(normalSmoke.getNetState()==0){
+                                Toast.makeText(mContext,"设备不在线",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Intent intent = new Intent(mContext, NewAirInfoActivity.class);
                             intent.putExtra("Mac",normalSmoke.getMac());
                             intent.putExtra("Position",normalSmoke.getName());
                             mContext.startActivity(intent);

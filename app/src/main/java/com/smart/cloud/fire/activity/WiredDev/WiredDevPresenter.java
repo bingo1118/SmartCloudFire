@@ -147,7 +147,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
     //@@6.29获取无线终端设备
     public void getAllWiredDev(String userId, String privilege, String areaId, String page, String placeTypeId, String devType, final List<Smoke> list, final int type, boolean refresh, final WiredDevFragment wiredDevFragment){
         if(!refresh){
-            mvpView.showLoading();
+            wiredDevFragment.showLoading();
         }
         Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
@@ -200,7 +200,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
     //@@6.29获取无线终端设备
     public void getAllWiredDev(String userId, String privilege, String page, String devType, final List<Smoke> list, final int type, boolean refresh, final WiredDevFragment wiredDevFragment){
         if(!refresh){
-            mvpView.showLoading();
+            wiredDevFragment.showLoading();
         }
         Observable mObservable = apiStores1.getNeedDev(userId,privilege,"",page,"",devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
@@ -234,6 +234,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
 
             @Override
             public void onCompleted() {
+
                 wiredDevFragment.hideLoading();
             }
         }));
