@@ -279,7 +279,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
                 alertDialog.show();
                 break;
             case R.id.location_image:
-                mvpPresenter.startLocation();
+//                mvpPresenter.startLocation();
                 Intent intent=new Intent(mContext, GetLocationActivity.class);
                 startActivityForResult(intent,1);//@@6.20
                 break;
@@ -377,6 +377,24 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         addFireZjq.setClickable(true);
         addFireZjq.closeLoading();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1://@@6.20
+                if (resultCode == Activity.RESULT_OK) {
+                    Bundle bundle=data.getBundleExtra("data");
+                    addFireLat.setText(String.format("%.8f",bundle.getDouble("lat")));
+                    addFireLon.setText(String.format("%.8f",bundle.getDouble("lon")));
+                    addFireAddress.setText(bundle.getString("address"));
+                }
+                break;
+        }
+
+    }
+
+
 
     @Override
     public void addSmokeResult(String msg, int errorCode) {

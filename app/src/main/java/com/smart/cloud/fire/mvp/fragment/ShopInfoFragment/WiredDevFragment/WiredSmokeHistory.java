@@ -10,6 +10,7 @@ public class WiredSmokeHistory {
     private String faultCode;
     private String faultType;
     private String faultDevDesc;
+    private String photo1;
 
     public String getFaultInfo() {
         return faultInfo;
@@ -57,5 +58,13 @@ public class WiredSmokeHistory {
 
     public void setFaultDevDesc(String faultDevDesc) {
         this.faultDevDesc = faultDevDesc;
+    }
+
+    public String getPhoto1() {
+        return photo1;
+    }
+
+    public void setPhoto1(String photo1) {
+        this.photo1 = photo1;
     }
 }

@@ -1,16 +1,26 @@
 package com.smart.cloud.fire.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.platform.comapi.map.v;
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistory;
 import com.smart.cloud.fire.utils.T;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
@@ -72,7 +82,7 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      * @param position
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final WiredSmokeHistory normalSmoke = listNormalSmoke.get(position);
 
@@ -93,8 +103,21 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemViewHolder) holder).info_tv.setText(normalSmoke.getFaultInfo());
             ((ItemViewHolder) holder).alarm_time_tv.setText(normalSmoke.getFaultTime());
             ((ItemViewHolder) holder).station_name.setText("状态:");
-
-
+            ((ItemViewHolder) holder).photo1_image.setVisibility(View.VISIBLE);//@@9.28
+            String temp=normalSmoke.getPhoto1();
+            final String temp1=ConstantValues.NFC_IMAGES+normalSmoke.getPhoto1().replace("\\","/");
+            Glide.with(mContext)
+//                    .load("http://139.159.209.212:51091/nfcimages/2017/1506499353470.jpg").thumbnail((float)0.0001)
+                    .load(temp1).thumbnail(0.0001f)
+                    .into(((ItemViewHolder) holder).photo1_image);//@@9.28
+            ((ItemViewHolder) holder).photo1_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, NFCImageShowActivity.class);
+                    intent.putExtra("path",temp1);
+                    mContext.startActivity(intent);
+                }
+            });
             holder.itemView.setTag(position);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
@@ -148,6 +171,8 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView info_tv;//@@设备详情
         @Bind(R.id.station_name)
         TextView station_name;
+        @Bind(R.id.photo1_image)
+        ImageView photo1_image;//@@9.28
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

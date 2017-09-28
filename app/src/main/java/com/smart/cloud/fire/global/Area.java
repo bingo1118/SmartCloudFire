@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Area implements Serializable{
     private String areaId;
     private String areaName;
+    private int isParent;//@@9.1
 
     public String getAreaId() {
         return areaId;
@@ -23,5 +24,13 @@ public class Area implements Serializable{
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
+    }
+
+    public int getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(int isParent) {
+        this.isParent = isParent;
     }
 }

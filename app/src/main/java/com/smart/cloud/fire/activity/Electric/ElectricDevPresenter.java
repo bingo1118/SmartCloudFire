@@ -137,14 +137,14 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
         }));
     }
 
-    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
-        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
+    public void getSmokeSummary(String userId,String privilege,String parentId,String areaId,String placeTypeId,String devType,final ElectricDevView electricDevView){
+        Observable mObservable = apiStores1.getDevSummary(userId,privilege,parentId,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    mvpView.getSmokeSummary(model);
+                    electricDevView.getSmokeSummary(model);
                 }
             }
 
@@ -158,9 +158,9 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
         }));
     }
     //    userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
-    public void getNeedElectricInfo(String userId, String privilege, String areaId, String placeTypeId, String page,String devType, final ElectricFragment electricFragment){
+    public void getNeedElectricInfo(String userId, String privilege, String parentId,String areaId, String placeTypeId, String page,String devType, final ElectricFragment electricFragment){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,areaId,page,placeTypeId);
+        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,parentId,areaId,page,placeTypeId);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
             @Override
             public void onSuccess(ElectricInfo<Electric> model) {
@@ -198,11 +198,11 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
         super.getArea(area);
         mvpView.getChoiceArea(area);
     }
-    public void getNeedLossSmoke(String userId, String privilege, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OffLineElectricDevFragment offLineDevFragment){
+    public void getNeedLossSmoke(String userId, String privilege,String parentId, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OffLineElectricDevFragment offLineDevFragment){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

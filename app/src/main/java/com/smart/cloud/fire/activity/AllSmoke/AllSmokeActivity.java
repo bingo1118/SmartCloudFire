@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,10 +15,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 import com.smart.cloud.fire.activity.Map.MapActivity;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
@@ -33,10 +41,17 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.Wired
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.view.AreaChooceListView;
 import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,15 +74,26 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
     private boolean visibility = false;
     private ShopType mShopType;
     private Area mArea;
+
     private String areaId = "";
+    private String parentId="";//@@9.1
     private String shopTypeId = "";
+
+    private String page="";//@@9.5
+
+    private String areaId_1 = "";//@@9.6全部设备条件
+    private String parentId_1="";
+    private String shopTypeId_1 = "";
+    private String areaId_2 = "";//@@9.6离线设备条件
+    private String parentId_2="";
+    private String shopTypeId_2 = "";
 
     @Bind(R.id.add_fire)
     ImageView addFire;//显示搜索界面按钮。。
     @Bind(R.id.lin1)
     LinearLayout lin1;//搜素界面。。
     @Bind(R.id.area_condition)
-    XCDropDownListViewMapSearch areaCondition;//区域下拉选择。。
+    AreaChooceListView areaCondition;//区域下拉选择。。
     @Bind(R.id.shop_type_condition)
     XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
     @Bind(R.id.smoke_total)
@@ -84,6 +110,9 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
     ImageView searchFire;//搜索按钮。。
     @Bind(R.id.turn_map_btn)
     RelativeLayout turn_map_btn;
+
+    List<Area> parent = null;//@@8.31
+    Map<String, List<Area>> map = null;//@@8.31
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +131,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
             public void onClick(View v) {
                 title_lose_dev.setEnabled(true);
                 title_name_tv.setEnabled(false);
-                smokeTotal.setVisibility(View.VISIBLE);
+//                smokeTotal.setVisibility(View.VISIBLE);
                 mvpPresenter.unSubscribe("allSmoke");
                 position=FRAGMENT_ONE;//@@在线设备
             }
@@ -113,7 +142,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
             public void onClick(View v) {
                 title_name_tv.setEnabled(true);
                 title_lose_dev.setEnabled(false);
-                smokeTotal.setVisibility(View.VISIBLE);
+//                smokeTotal.setVisibility(View.VISIBLE);
                 mvpPresenter.unSubscribe("lostSmoke");
                 position=FRAGMENT_FIVE;//@@离线设备
             }
@@ -148,7 +177,54 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                    String url= ConstantValues.SERVER_IP_NEW+"getAreaInfo?userId="+userID+"&privilege="+privilege;
+                    StringRequest stringRequest = new StringRequest(url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(response);
+                                        if(jsonObject.getInt("errorCode")==0){
+                                            parent = new ArrayList<>();
+                                            map = new HashMap<>();
+                                            JSONArray jsonArrayParent=jsonObject.getJSONArray("areas");
+                                            for(int i=0;i<jsonArrayParent.length();i++){
+                                                JSONObject tempParent= jsonArrayParent.getJSONObject(i);
+                                                Area tempArea=new Area();
+                                                tempArea.setAreaId(tempParent.getString("areaId"));
+                                                tempArea.setAreaName(tempParent.getString("areaName"));
+                                                tempArea.setIsParent(1);
+                                                parent.add(tempArea);
+                                                List<Area> child = new ArrayList<>();
+                                                JSONArray jsonArrayChild=tempParent.getJSONArray("areas");
+                                                for(int j=0;j<jsonArrayChild.length();j++){
+                                                    JSONObject tempChild= jsonArrayChild.getJSONObject(j);
+                                                    Area tempAreaChild=new Area();
+                                                    tempAreaChild.setAreaId(tempChild.getString("areaId"));
+                                                    tempAreaChild.setAreaName(tempChild.getString("areaName"));
+                                                    tempAreaChild.setIsParent(0);
+                                                    child.add(tempAreaChild);
+                                                }
+                                                map.put(tempParent.getString("areaName"),child);
+                                            }
+                                        }
+                                        areaCondition.setItemsData2(parent,map, mAllSmokePresenter);
+                                        areaCondition.showPopWindow();
+                                        areaCondition.setClickable(true);
+                                        areaCondition.closeLoading();
+//                                        mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("error","error");
+                        }
+                    });
+                    mQueue.add(stringRequest);
                     areaCondition.setClickable(false);
                     areaCondition.showLoading();
                 }
@@ -180,7 +256,13 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                     shopTypeCondition.searchClose();
                     visibility = false;
                     if (mArea != null && mArea.getAreaId() != null) {
-                        areaId = mArea.getAreaId();
+                        if(mArea.getIsParent()==1){
+                            parentId= mArea.getAreaId();//@@9.1
+                            areaId="";
+                        }else{
+                            areaId = mArea.getAreaId();
+                            parentId="";
+                        }
                     } else {
                         areaId = "";
                     }
@@ -192,13 +274,19 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                     //判断当前在哪个子fragment。。
                     switch (position) {
                         case FRAGMENT_ONE:
-                            mvpPresenter.getNeedSmoke(userID, privilege + "", areaId, shopTypeId,"1", allDevFragment);//显示设备。。
-                            mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId,"1");//显示总数。。
+                            page="1";
+                            mvpPresenter.getNeedSmoke(userID, privilege + "", "1",parentId,areaId, shopTypeId,"1", allDevFragment);//显示设备。。
+                            mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"1", allDevFragment);//显示总数。。
+                            areaId_1=areaId;//@@9.6
+                            parentId_1=parentId;
+                            shopTypeId_1=shopTypeId;
                             break;
                         case FRAGMENT_FIVE://@@6.29
-                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", areaId, shopTypeId, "","1",false,0,null,offLineDevFragment);
-//                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", areaId, shopTypeId, "", false, offLineDevFragment);
-                            mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId,"1");
+                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", parentId,areaId, shopTypeId, "1","1",false,0,null,offLineDevFragment);
+                            mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"1", offLineDevFragment);
+                            areaId_2=areaId;//@@9.6
+                            parentId_2=parentId;
+                            shopTypeId_2=shopTypeId;
                             break;
                         default:
                             break;
@@ -236,8 +324,8 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
         showFragment(FRAGMENT_ONE);
         addFire.setVisibility(View.VISIBLE);
         addFire.setImageResource(R.drawable.search);
-        smokeTotal.setVisibility(View.VISIBLE);
-        mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","1");
+//        smokeTotal.setVisibility(View.VISIBLE);
+//        mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", allDevFragment);
     }
 
     public void showFragment(int index) {
@@ -310,14 +398,14 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
     public void unSubscribe(String type) {
         switch (type) {
             case "allSmoke":
-                mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","1");
+//                mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", allDevFragment);//@@9.5
                 lin1.setVisibility(View.GONE);
                 searchFire.setVisibility(View.GONE);
                 addFire.setVisibility(View.VISIBLE);
                 showFragment(FRAGMENT_ONE);
                 break;
             case "lostSmoke":
-                mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","1");
+//                mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", offLineDevFragment);//@@9.5
                 lin1.setVisibility(View.GONE);
                 searchFire.setVisibility(View.GONE);
                 addFire.setVisibility(View.VISIBLE);
@@ -395,6 +483,34 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
 
     @Override
     public void onLoadingMore(List<?> smokeList) {
+    }
+
+    public String getParentId1() {
+        return parentId_1;
+    }
+
+    public String getAreaId1() {
+        return areaId_1;
+    }
+
+    public String getShopTypeId1() {
+        return shopTypeId_1;
+    }
+
+    public String getParentId2() {
+        return parentId_2;
+    }
+
+    public String getAreaId2() {
+        return areaId_2;
+    }
+
+    public String getShopTypeId2() {
+        return shopTypeId_2;
+    }
+
+    public String getPage() {
+        return page;
     }
 
 }

@@ -12,7 +12,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.WiredDev.WiredDevActivity;
 import com.smart.cloud.fire.activity.WiredDev.WiredDevPresenter;
@@ -50,6 +52,14 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.smoke_total)
+    LinearLayout smokeTotal;
+    @Bind(R.id.total_num)
+    TextView totalNum;
+    @Bind(R.id.online_num)
+    TextView onlineNum;
+    @Bind(R.id.offline_num)
+    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private WiredDevAdapter shopSmokeAdapter;//@@6.29
     private int lastVisibleItem;
@@ -79,8 +89,10 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
         privilege = MyApp.app.getPrivilege();
         page = "1";
         list = new ArrayList<>();
+        smokeTotal.setVisibility(View.VISIBLE);
         refreshListView();
         mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,false,WiredDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",WiredDevFragment.this);
 }
 
     private void refreshListView() {
@@ -104,7 +116,7 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
                 list.clear();
 //                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
                 mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true,WiredDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","2");
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",WiredDevFragment.this);
             }
         });
 
@@ -192,6 +204,11 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
     }
 
     @Override
+    public void getLostCount(String count) {
+
+    }
+
+    @Override
     public void getAreaType(ArrayList<?> shopTypes, int type) {
     }
 
@@ -216,6 +233,9 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
+        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

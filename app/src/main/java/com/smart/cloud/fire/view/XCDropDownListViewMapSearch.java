@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ShopType;

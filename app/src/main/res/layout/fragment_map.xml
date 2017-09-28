@@ -11,11 +11,19 @@
         android:layout_height="45dp"
         android:background="@color/login_btn"
         >
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="100dp"
+        <!--<Spinner-->
+            <!--android:id="@+id/spinner"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--/>-->
+        <com.smart.cloud.fire.view.AreaChooceListView
+            android:id="@+id/area_condition1"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             />
         <TextView

@@ -12,6 +12,14 @@
         android:background="@color/login_btn"
         >
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trace_search"
+            android:text="轨迹查询"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+        <TextView
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +70,7 @@
             android:visibility="gone"
             android:layout_marginTop="10dp"
             android:background="#e6e6e6">
-            <com.smart.cloud.fire.view.XCDropDownListViewMapSearch
+            <com.smart.cloud.fire.view.AreaChooceListView
                 android:id="@+id/area_condition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -146,6 +154,22 @@
                     android:text="合格数:"/>
                 <TextView
                     android:id="@+id/online_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="不合格数:"/>
+                <TextView
+                    android:id="@+id/no_online_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

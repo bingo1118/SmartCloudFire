@@ -31,7 +31,7 @@ public class UploadUtil {
      *            请求的rul
      * @return 返回响应的内容
      */
-    public String uploadFile(File file, String RequestURL) {
+    public static String uploadFile(File file, String RequestURL) {
         String result = null;
         String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
         String PREFIX = "--", LINE_END = "\r\n";
@@ -56,7 +56,7 @@ public class UploadUtil {
                  * 当文件不为空，把文件包装并且上传
                  */
                 DataOutputStream dos = new DataOutputStream(
-                        conn.getOutputStream());
+                            conn.getOutputStream());
                 StringBuffer sb = new StringBuffer();
                 sb.append(PREFIX);
                 sb.append(BOUNDARY);

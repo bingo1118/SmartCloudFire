@@ -185,6 +185,9 @@ public class MyOverlayManager extends OverlayManager {
                     case "2":
                         markMap(latLng, overlayOptionses, 1, null, viewList.get(1), bundle);//不合格 Red
                         break;
+                    default:
+                        markMap(latLng, overlayOptionses, 1, null, viewList.get(7), bundle);//待检 Yellow
+                        break;
                     }
                 }
         }

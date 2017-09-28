@@ -87,6 +87,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Smoke normalSmoke = listNormalSmoke.get(position);
             int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
+            ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);//@@9.14
             switch (devType){
                 case 1://烟感。。
                     if (netStates == 0) {//设备不在线。。
@@ -96,6 +97,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 2://燃气。。
                     if (netStates == 0) {//设备不在线。。
@@ -105,6 +107,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 5://电气。。
                     if (netStates == 0) {//设备不在线。。
@@ -123,6 +126,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 8://手动。。
                     if (netStates == 0) {//设备不在线。。
@@ -132,6 +136,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 9://三江设备@@5.11。。
                     if (netStates == 0) {//设备不在线。。
@@ -150,6 +155,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("门磁："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 11://红外
                     if (netStates == 0) {//设备不在线。。
@@ -159,6 +165,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("红外探测器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 13://环境
                     if (netStates == 0) {//设备不在线。。
@@ -190,6 +197,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 15://水浸设备@@8.3。。
                     if (netStates == 0) {//设备不在线。。
@@ -199,6 +207,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("水浸："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 14://GPS设备@@8.8
                     if (netStates == 0) {//设备不在线。。
@@ -291,6 +300,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView address_tv;
         @Bind(R.id.manager_img)
         ImageView manager_img;
+        @Bind(R.id.right_into_image)
+        ImageView right_into_image;
         @Bind(R.id.item_lin)
         LinearLayout item_lin;//@@8.8
         public ItemViewHolder(View view) {

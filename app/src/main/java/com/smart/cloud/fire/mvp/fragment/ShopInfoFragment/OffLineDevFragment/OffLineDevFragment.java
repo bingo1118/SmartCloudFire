@@ -12,8 +12,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.baidu.platform.comapi.map.v;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
@@ -46,6 +49,14 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.smoke_total)
+    LinearLayout smokeTotal;//@@9.5
+    @Bind(R.id.total_num)
+    TextView totalNum;
+    @Bind(R.id.online_num)
+    TextView onlineNum;
+    @Bind(R.id.offline_num)
+    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private ShopSmokeAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -76,8 +87,10 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
         privilege = MyApp.app.getPrivilege();
         page = 1;
         list = new ArrayList<>();
+        smokeTotal.setVisibility(View.VISIBLE);//@@9.5
         refreshListView();
-        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",OffLineDevFragment.this);//@@9.5
     }
 
     private void refreshListView() {
@@ -98,8 +111,8 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
             public void onRefresh() {
                 page = 1;
                 list.clear();
-                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","1",true,1,list,OffLineDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","1");
+                mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",true,1,list,OffLineDevFragment.this);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",OffLineDevFragment.this);
             }
         });
 
@@ -107,12 +120,31 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (research) {
-                    if(shopSmokeAdapter!=null){
-                        shopSmokeAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
+//                if (research) {
+//                    if(shopSmokeAdapter!=null){
+//                        shopSmokeAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
+//                    }
+//                    return;
+//                }
+                if(research){//@@9.6 条件查询分页
+                    if(shopSmokeAdapter==null){
+                        return;
+                    }
+                    int count = shopSmokeAdapter.getItemCount();
+                    int itemCount = lastVisibleItem+1;
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && itemCount == count) {
+                        if(loadMoreCount>=20){
+                            page = page + 1 ;
+                            mvpPresenter.getNeedLossSmoke(userID, privilege + "",
+                                    ((AllSmokeActivity)getActivity()).getParentId2(),
+                                    ((AllSmokeActivity)getActivity()).getAreaId2(),
+                                    ((AllSmokeActivity)getActivity()).getShopTypeId2(), page+"","1",false,0,list,OffLineDevFragment.this);
+                        }else{
+                            T.showShort(mContext,"已经没有更多数据了");
+                        }
                     }
                     return;
-                }
+                }//@@9.6
                 if(shopSmokeAdapter==null){
                     return;
                 }
@@ -121,7 +153,7 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && itemCount == count) {
                     if(loadMoreCount>=20){
                         page = page + 1 ;
-                        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
+                        mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -153,12 +185,15 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
     public void getDataSuccess(List<?> smokeList,boolean search) {
         loadMoreCount = smokeList.size();
         research = search;
+        if(search!=false&&page!=1){
+            page=1;
+        }//@@9.6
         list.clear();
         list.addAll((List<Smoke>)smokeList);
         shopSmokeAdapter = new ShopSmokeAdapter(mContext, list);
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
-        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
+//        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
     }
 
     @Override
@@ -212,7 +247,9 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-
+        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

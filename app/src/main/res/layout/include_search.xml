@@ -11,7 +11,7 @@
             android:visibility="gone"
             android:layout_marginTop="10dp"
             android:background="#e6e6e6">
-            <com.smart.cloud.fire.view.XCDropDownListViewMapSearch
+            <com.smart.cloud.fire.view.AreaChooceListView
                 android:id="@+id/area_condition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

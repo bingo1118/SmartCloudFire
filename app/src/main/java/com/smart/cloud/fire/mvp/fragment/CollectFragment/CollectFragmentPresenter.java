@@ -24,13 +24,13 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
     }
 
     //type:1表示获取第一页的报警消息，2表示根据条件查询相应的报警消息
-    public void getAllAlarm(String userId, String privilege, String page, final int type, String startTime, String endTime, String areaId, String placeTypeId){
+    public void getAllAlarm(String userId, String privilege, String page, final int type, String startTime, String endTime, String areaId, String placeTypeId,String parentId){
         mvpView.showLoading();
         Observable observable=null;
         if(type==1){
             observable = apiStores1.getAllAlarm(userId,privilege,page);
         }else{
-            observable = apiStores1.getNeedAlarm(userId,privilege,startTime,endTime,areaId,placeTypeId,page);
+            observable = apiStores1.getNeedAlarm(userId,privilege,startTime,endTime,areaId,placeTypeId,page,parentId);
         }
         addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override

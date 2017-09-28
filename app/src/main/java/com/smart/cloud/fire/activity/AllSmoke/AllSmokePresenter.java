@@ -1,6 +1,7 @@
 package com.smart.cloud.fire.activity.AllSmoke;
 
 import com.smart.cloud.fire.base.presenter.BasePresenter;
+import com.smart.cloud.fire.base.ui.BaseFragment;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
@@ -11,6 +12,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.AllDevFragment.AllDevFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.OffLineDevFragment.OffLineDevFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 
@@ -32,14 +34,14 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
     public AllSmokePresenter(AllSmokeView view){
         attachView(view);
     }
-    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
-        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
+    public void getSmokeSummary(String userId, String privilege, String parentId, String areaId, String placeTypeId, String devType, final ShopInfoFragmentView allDevFragment){
+        Observable mObservable = apiStores1.getDevSummary(userId,privilege,parentId,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    mvpView.getSmokeSummary(model);
+                    allDevFragment.getSmokeSummary(model);
                 }
             }
 
@@ -152,11 +154,11 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
             }
         }));
     }
-    public void getNeedLossSmoke(String userId, String privilege, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OffLineDevFragment offLineDevFragment){
+    public void getNeedLossSmoke(String userId, String privilege,String parentId, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OffLineDevFragment offLineDevFragment){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -170,11 +172,16 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
                             offLineDevFragment.onLoadingMore(smokeList);
                         }
                     }else{
-                        offLineDevFragment.getDataSuccess(smokeList,true);
+                        if(list==null||list.size()==0){
+                            offLineDevFragment.getDataSuccess(smokeList,true);
+                        }else if(list!=null&&list.size()>=20){
+                            offLineDevFragment.onLoadingMore(smokeList);
+                        }
+//                        offLineDevFragment.getDataSuccess(smokeList,true);
                     }
                 }else{
-                    List<Smoke> mSmokeList = new ArrayList<>();
-                    offLineDevFragment.getDataSuccess(mSmokeList,false);
+//                    List<Smoke> mSmokeList = new ArrayList<>();
+//                    offLineDevFragment.getDataSuccess(mSmokeList,false);
                     offLineDevFragment.getDataFail("无数据");
                 }
 
@@ -192,9 +199,9 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
         }));
     }
 
-    public void getNeedSmoke(String userId, String privilege, String areaId, String placeTypeId, String devType, final AllDevFragment allDevFragment){
-        mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,"",placeTypeId,devType);
+    public void getNeedSmoke(String userId, String privilege, final String page, String parentId, String areaId, String placeTypeId, String devType, final AllDevFragment allDevFragment){
+        allDevFragment.showLoading();
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -202,9 +209,15 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
                     int errorCode = model.getErrorCode();
                     if(errorCode==0){
                         List<Smoke> smokes = model.getSmoke();
-                        allDevFragment.getDataSuccess(smokes,true);
+                        if(page.equals("1")){
+                            allDevFragment.getDataSuccess(smokes,true);
+                        }else{
+                            allDevFragment.onLoadingMore(smokes);
+                            allDevFragment.showLoading();
+                        }
+//                        allDevFragment.getDataSuccess(smokes,true);
                     }else {
-                        mvpView.getDataFail("无数据");
+                        allDevFragment.getDataFail("无数据");
                         List<Smoke> smokes = new ArrayList<Smoke>();//@@4.27
                         allDevFragment.getDataSuccess(smokes,true);//@@4.27
                     }
@@ -216,11 +229,11 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
             }
             @Override
             public void onFailure(int code, String msg) {
-                mvpView.getDataFail("网络错误");
+                allDevFragment.getDataFail("网络错误");
             }
             @Override
             public void onCompleted() {
-                mvpView.hideLoading();
+                allDevFragment.hideLoading();
             }
         }));
     }

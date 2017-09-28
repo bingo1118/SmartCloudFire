@@ -14,7 +14,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
 import com.smart.cloud.fire.activity.Electric.ElectricDevPresenter;
@@ -52,6 +54,14 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.smoke_total)
+    LinearLayout smokeTotal;//@@9.5
+    @Bind(R.id.total_num)
+    TextView totalNum;
+    @Bind(R.id.online_num)
+    TextView onlineNum;
+    @Bind(R.id.offline_num)
+    TextView offlineNum;
     private ElectricFragmentAdapter electricFragmentAdapter;
     private ElectricDevPresenter electricDevPresenter;
     private Context mContext;
@@ -80,9 +90,11 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         refreshListView();
+        smokeTotal.setVisibility(View.VISIBLE);//@@9.5
         list = new ArrayList<>();
         page = "1";
         mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,false,ElectricFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","3",ElectricFragment.this);//@@9.5
     }
 
     private void refreshListView() {
@@ -104,7 +116,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                 page = "1";
                 list.clear();
                 mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true,ElectricFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","3");
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","3",ElectricFragment.this);
             }
         });
 
@@ -197,6 +209,11 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
     }
 
     @Override
+    public void getLostCount(String count) {
+
+    }
+
+    @Override
     public void getAreaType(ArrayList<?> shopTypes, int type) {
     }
 
@@ -219,7 +236,9 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-
+        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

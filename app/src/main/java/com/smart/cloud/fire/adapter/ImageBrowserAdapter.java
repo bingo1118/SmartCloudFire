@@ -1,6 +1,8 @@
 package com.smart.cloud.fire.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.smart.cloud.fire.mvp.printScreen.ImageSeeActivity;
 import com.smart.cloud.fire.view.MyImageView;
@@ -104,18 +107,13 @@ public class ImageBrowserAdapter extends BaseAdapter {
             @Override
             public boolean onLongClick(View view) {
                 // TODO Auto-generated method stub
-                NormalDialog dialog = new NormalDialog(
-                        context,
-                        context.getResources().getString(R.string.delete),
-                        context.getResources().getString(R.string.confirm_delete),
-                        context.getResources().getString(R.string.delete),
-                        context.getResources().getString(R.string.cancel)
-                );
-                dialog.setOnButtonOkListener(new NormalDialog.OnButtonOkListener() {
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("确认删除吗？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick() {
-                        // TODO Auto-generated method stub
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                         File f = data[arg0];
                         try{
                             f.delete();
@@ -125,7 +123,13 @@ public class ImageBrowserAdapter extends BaseAdapter {
                         }
                     }
                 });
-                dialog.showDialog();
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 return true;
             }
 

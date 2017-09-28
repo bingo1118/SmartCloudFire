@@ -12,7 +12,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
@@ -38,7 +40,7 @@ import fire.cloud.smart.com.smartcloudfire.R;
 /**
  * Created by Rain on 2017/7/19.
  */
-public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> implements ShopInfoFragmentView {
+public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> implements WiredDevView {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -46,6 +48,14 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.smoke_total)
+    LinearLayout smokeTotal;
+    @Bind(R.id.total_num)
+    TextView totalNum;
+    @Bind(R.id.online_num)
+    TextView onlineNum;
+    @Bind(R.id.offline_num)
+    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private WiredDevAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -75,9 +85,11 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         page = 1;
+        smokeTotal.setVisibility(View.VISIBLE);
         list = new ArrayList<>();
         refreshListView();
-        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","2",false,1,list,OfflineWiredDevFragment.this);
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","2",false,1,list,OfflineWiredDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",OfflineWiredDevFragment.this);
     }
 
     private void refreshListView() {
@@ -98,8 +110,8 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
             public void onRefresh() {
                 page = 1;
                 list.clear();
-                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","2",true,1,list,OfflineWiredDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","2");
+                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "","", "", page+"","2",true,1,list,OfflineWiredDevFragment.this);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",OfflineWiredDevFragment.this);
             }
         });
 
@@ -121,7 +133,7 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && itemCount == count) {
                     if(loadMoreCount>=20){
                         page = page + 1 ;
-                        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "", "", page+"","2",false,1,list,OfflineWiredDevFragment.this);
+                        mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","2",false,1,list,OfflineWiredDevFragment.this);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -212,7 +224,9 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-
+        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

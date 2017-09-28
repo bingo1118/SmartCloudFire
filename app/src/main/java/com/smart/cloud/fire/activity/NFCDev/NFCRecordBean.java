@@ -17,6 +17,15 @@ public class NFCRecordBean implements Serializable{
     String longitude;
     String latitude;
     String addTime;
+    String deviceTypeName;
+
+    public String getDeviceTypeName() {
+        return deviceTypeName;
+    }
+
+    public void setDeviceTypeName(String deviceTypeName) {
+        this.deviceTypeName = deviceTypeName;
+    }
 
     public String getUid() {
         return uid;

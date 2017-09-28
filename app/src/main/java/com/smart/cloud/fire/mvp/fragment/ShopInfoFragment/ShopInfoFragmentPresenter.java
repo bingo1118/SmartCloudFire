@@ -210,8 +210,8 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
         mvpView.getChoiceArea(area);
     }
 
-    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
-        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
+    public void getSmokeSummary(String userId,String privilege,String parentId,String areaId,String placeTypeId,String devType){
+        Observable mObservable = apiStores1.getDevSummary(userId,privilege,parentId,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
@@ -513,7 +513,7 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
 //    userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
     public void getNeedElectricInfo(String userId, String privilege, String areaId, String placeTypeId, String page, final ElectricFragment electricFragment){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,areaId,placeTypeId,page);
+        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,"",areaId,placeTypeId,page);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
             @Override
             public void onSuccess(ElectricInfo<Electric> model) {

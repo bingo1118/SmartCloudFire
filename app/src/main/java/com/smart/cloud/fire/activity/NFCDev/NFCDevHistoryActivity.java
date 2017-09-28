@@ -105,6 +105,7 @@ public class NFCDevHistoryActivity extends Activity{
                                     wiredSmokeHistory.setFaultTime(jsonObject.getString("addTime"));
                                     wiredSmokeHistory.setFaultInfo(jsonObject.getString("memo"));
                                     wiredSmokeHistory.setFaultType(jsonObject.getString("devicestate"));
+                                    wiredSmokeHistory.setPhoto1(jsonObject.getString("photo1"));//@@9.28
                                     list.add(wiredSmokeHistory);
                                 }
                                 getDataSuccess();

@@ -145,6 +145,18 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             break;
+                        case 217://水压升高@@
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.shuiyashenggao);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(水压值:"+alarmFamily10+"kpa)");
+                            ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                            ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                            break;
+                        case 210://水压降低@@
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.shuiyajiangdi);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(水压值:"+alarmFamily10+"kpa)");
+                            ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                            ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                            break;
                     }
                     break;
                 case 5:

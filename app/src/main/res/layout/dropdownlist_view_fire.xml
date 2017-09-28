@@ -16,13 +16,13 @@
         android:textColorHint="@color/hint_color_text"
         android:padding="5dp"
         android:editable="false"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:background="@null"
-        android:singleLine="true" />
+        android:singleLine="true"/>
     <ImageView 
         android:id="@+id/btn"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/dropdown"
         android:padding="5dp"

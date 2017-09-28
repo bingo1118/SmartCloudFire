@@ -3,6 +3,7 @@ package com.smart.cloud.fire.mvp.fragment.MapFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -33,12 +39,19 @@ import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.ui.ApMonitorActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.view.AreaChooceListView;
 import com.smart.cloud.fire.view.ShowAlarmDialog;
 import com.smart.cloud.fire.view.ShowSmokeDialog;
 import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,12 +75,12 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     Button search_fire_btn;
     @Bind(R.id.add_fire)
     ImageView add_fire;
-    @Bind(R.id.area_condition)
-    XCDropDownListViewMapSearch areaCondition;
+    @Bind(R.id.area_condition1)
+    AreaChooceListView areaCondition;
     @Bind(R.id.shop_type_condition)
     XCDropDownListViewMapSearch shopTypeCondition;
-    @Bind(R.id.spinner)
-    Spinner spinner;//@@
+//    @Bind(R.id.spinner)
+//    Spinner spinner;//@@9.12
     @Bind(R.id.area_search)
     EditText area_search;//@@
     @Bind(R.id.lin_search)
@@ -82,6 +95,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     private String shopTypeId = "";
     private MapFragmentPresenter mMapFragmentPresenter;
     private String devType;//@@7.21
+
+    List<Area> parent = null;//@@9.12
+    Map<String, List<Area>> map = null;//@@9.12
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,13 +117,16 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         devType=getActivity().getIntent().getStringExtra("devType");//@@7.21
-        mvpPresenter.getPlaceTypeId(userID, privilege + "", 3);//@@
+//        mvpPresenter.getPlaceTypeId(userID, privilege + "", 3);//@@9.12
         if (privilege == 1) {
             add_fire.setVisibility(View.GONE);//权限为1时没有搜索功能。。
         } else {
             add_fire.setVisibility(View.VISIBLE);
             add_fire.setImageResource(R.drawable.search);
         }
+        areaCondition.seteditTextColor("#ffffffff");//@@9.12
+        areaCondition.setEditText("区域选择");//@@9.12
+        areaCondition.setclear_choice(null,false);//@@9.12
 //        mvpPresenter.getAllSmoke(userID, privilege + "");//获取所有设备并显示。。
     }
 
@@ -330,40 +349,40 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     }
 
     ArrayList<Object> arealist;//@@
-    //@@获取区域列表。。
+    //@@获取区域列表。。//9.12改为二级区域
     @Override
     public void getAreaList(ArrayList<Object> shopTypes) {
-        arealist=shopTypes;
-        String[] mItems=new String[shopTypes.size()];
-        for(int i=0;i<arealist.size();i++){
-            mItems[i]=((Area)arealist.get(i)).getAreaName();
-        }
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item, mItems);
-        //绑定 Adapter到控件
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        int selectedAreaId=SharedPreferencesManager.getInstance().getIntData(mContext,"selectedAreaId");
-        if(selectedAreaId>=arealist.size()){
-            selectedAreaId=0;//@@5.27切换帐号的时候区域数目不一样会闪退
-        }
-        spinner.setSelection(selectedAreaId);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(devType.equals("7")){
-                    mvpPresenter.getNeedNFC(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//@@8.18
-                }else{
-                    mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//获取按照要求获取设备。。
-                }
-                SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaId",position);
-                SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaNum",((Area)arealist.get(position)).getAreaId());//@@5.18
-                TextView tv=(TextView)view;
-                tv.setTextColor(mContext.getResources().getColor(R.color.white));
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        arealist=shopTypes;
+//        String[] mItems=new String[shopTypes.size()];
+//        for(int i=0;i<arealist.size();i++){
+//            mItems[i]=((Area)arealist.get(i)).getAreaName();
+//        }
+//        ArrayAdapter<String> adapter=new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item, mItems);
+//        //绑定 Adapter到控件
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//        int selectedAreaId=SharedPreferencesManager.getInstance().getIntData(mContext,"selectedAreaId");
+//        if(selectedAreaId>=arealist.size()){
+//            selectedAreaId=0;//@@5.27切换帐号的时候区域数目不一样会闪退
+//        }
+//        spinner.setSelection(selectedAreaId);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if(devType.equals("7")){
+//                    mvpPresenter.getNeedNFC(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//@@8.18
+//                }else{
+//                    mvpPresenter.getNeedSmoke(userID, privilege + "", ((Area)arealist.get(position)).getAreaId(), "",devType);//获取按照要求获取设备。。
+//                }
+//                SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaId",position);
+//                SharedPreferencesManager.getInstance().putData(mContext,"selectedAreaNum",((Area)arealist.get(position)).getAreaId());//@@5.18
+//                TextView tv=(TextView)view;
+//                tv.setTextColor(mContext.getResources().getColor(R.color.white));
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
     }
 
     @Override
@@ -392,18 +411,18 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
 
     @Override
     public void getChoiceArea(Area area) {
-        mArea = area;
-        if (mArea != null && mArea.getAreaId() != null) {
-            add_fire.setVisibility(View.GONE);
-            search_fire.setVisibility(View.VISIBLE);
-        }
-        if (mArea.getAreaId() == null && mShopType == null) {
-            add_fire.setVisibility(View.VISIBLE);
-            search_fire.setVisibility(View.GONE);
-        } else if (mArea.getAreaId() == null && mShopType != null && mShopType.getPlaceTypeId() == null) {
-            add_fire.setVisibility(View.VISIBLE);
-            search_fire.setVisibility(View.GONE);
-        }
+//        mArea = area;
+//        if (mArea != null && mArea.getAreaId() != null) {
+//            add_fire.setVisibility(View.GONE);
+//            search_fire.setVisibility(View.VISIBLE);
+//        }
+//        if (mArea.getAreaId() == null && mShopType == null) {
+//            add_fire.setVisibility(View.VISIBLE);
+//            search_fire.setVisibility(View.GONE);
+//        } else if (mArea.getAreaId() == null && mShopType != null && mShopType.getPlaceTypeId() == null) {
+//            add_fire.setVisibility(View.VISIBLE);
+//            search_fire.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -445,7 +464,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
 
     private boolean visibility = false;
 
-    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition})
+    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.area_condition1})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_fire_btn://@@4.27
@@ -521,6 +540,72 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     areaCondition.closePopWindow();
                 } else {
                     mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+                    areaCondition.setClickable(false);
+                    areaCondition.showLoading();
+                }
+                break;
+            case R.id.area_condition1:
+                if (areaCondition.ifShow()) {
+                    areaCondition.closePopWindow();
+                } else {
+                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                    String url= ConstantValues.SERVER_IP_NEW+"getAreaInfo?userId="+userID+"&privilege="+privilege;
+                    StringRequest stringRequest = new StringRequest(url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(response);
+                                        if(jsonObject.getInt("errorCode")==0){
+                                            parent = new ArrayList<>();
+                                            map = new HashMap<>();
+                                            JSONArray jsonArrayParent=jsonObject.getJSONArray("areas");
+                                            for(int i=0;i<jsonArrayParent.length();i++){
+                                                JSONObject tempParent= jsonArrayParent.getJSONObject(i);
+                                                Area tempArea=new Area();
+                                                tempArea.setAreaId(tempParent.getString("areaId"));
+                                                tempArea.setAreaName(tempParent.getString("areaName"));
+                                                tempArea.setIsParent(1);
+                                                parent.add(tempArea);
+                                                List<Area> child = new ArrayList<>();
+                                                JSONArray jsonArrayChild=tempParent.getJSONArray("areas");
+                                                for(int j=0;j<jsonArrayChild.length();j++){
+                                                    JSONObject tempChild= jsonArrayChild.getJSONObject(j);
+                                                    Area tempAreaChild=new Area();
+                                                    tempAreaChild.setAreaId(tempChild.getString("areaId"));
+                                                    tempAreaChild.setAreaName(tempChild.getString("areaName"));
+                                                    tempAreaChild.setIsParent(0);
+                                                    child.add(tempAreaChild);
+                                                }
+                                                map.put(tempParent.getString("areaName"),child);
+                                            }
+                                        }
+                                        areaCondition.setItemsData2(parent,map,mvpPresenter);
+                                        areaCondition.setOnChildAreaChooceClickListener(new AreaChooceListView.OnChildAreaChooceClickListener() {
+                                            @Override
+                                            public void OnChildClick(Area info) {
+                                                if(devType.equals("7")){
+                                                    mvpPresenter.getNeedNFC(userID, privilege + "", info.getAreaId(), "",devType);//@@8.18
+                                                }else{
+                                                    mvpPresenter.getNeedSmoke(userID, privilege + "", info.getAreaId(), "",devType,info.getIsParent());//获取按照要求获取设备。。
+                                                }
+                                            }
+                                        });
+                                        areaCondition.showPopWindow();
+                                        areaCondition.setClickable(true);
+                                        areaCondition.closeLoading();
+//                                        mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("error","error");
+                        }
+                    });
+                    mQueue.add(stringRequest);
                     areaCondition.setClickable(false);
                     areaCondition.showLoading();
                 }

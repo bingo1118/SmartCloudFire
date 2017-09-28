@@ -134,11 +134,18 @@ public interface ApiStores {
                                      @Query("areaId") String areaId,@Query("page") String page,
                                      @Query("placeTypeId") String placeTypeId,@Query("devType") String devType);
 
+    //根据条件查询用户设备@@9.1 添加区域分级查询
+    @GET("getNeedDev")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedDev2(@Query("userId") String userId, @Query("privilege") String privilege,@Query("parentId") String parentId,
+                                     @Query("areaId") String areaId,@Query("page") String page,
+                                     @Query("placeTypeId") String placeTypeId,@Query("devType") String devType);
+
     //根据条件查询用户设备
     @GET("getNeedLossDev")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getNeedLossDev(@Query("userId") String userId, @Query("privilege") String privilege,
-                                     @Query("areaId") String areaId,@Query("page") String page,
+                                         @Query("parentId") String parentId,@Query("areaId") String areaId,@Query("page") String page,
                                      @Query("placeTypeId") String placeTypeId,@Query("devType") String devType);
 
     //根据条件查询用户所有设备（设备类型<11）
@@ -200,7 +207,7 @@ public interface ApiStores {
     Observable<HttpError> getNeedAlarm(@Query("userId") String userId, @Query("privilege") String privilege
             ,@Query("startTime") String startTime,@Query("endTime") String endTime
             ,@Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
-            ,@Query("page") String page);
+            ,@Query("page") String page,@Query("parentId") String parentId);
 
     //添加摄像头
     @GET("addCamera")
@@ -247,8 +254,12 @@ public interface ApiStores {
     @GET("getDevSummary")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<SmokeSummary> getDevSummary(@Query("userId") String userId, @Query("privilege") String privilege,
-                                             @Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
+                                           @Query("parentId") String parentId,@Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
                                                 ,@Query("devType") String devType);
+
+    @GET("getNFCSummary")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<SmokeSummary> getNFCSummary(@Query("areaId") String areaId);
 
     @GET("getAllElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -270,7 +281,7 @@ public interface ApiStores {
     @GET("getNeedElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<ElectricInfo<Electric>> getNeedElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
-                                                    @Query("areaId") String areaId, @Query("placeTypeId") String placeTypeId,
+                                                           @Query("parentId") String parentId,@Query("areaId") String areaId, @Query("placeTypeId") String placeTypeId,
                                                     @Query("page") String page);
 
     @FormUrlEncoded

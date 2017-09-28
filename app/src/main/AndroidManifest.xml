@@ -214,7 +214,10 @@
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity" />
-        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.NFC.NFCTraceActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.NFC.ChooseConditionActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity"></activity>
     </application>
 
 </manifest>

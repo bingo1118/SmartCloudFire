@@ -1,15 +1,26 @@
 package com.smart.cloud.fire.mvp.register.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.p2p.core.utils.MD5;
 import com.p2p.core.utils.MyUtils;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.register.model.RegisterModel;
 import com.smart.cloud.fire.mvp.register.view.RegisterView;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.T;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -94,15 +105,16 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                         String errorCode = model.getError_code();
                         switch (errorCode){
                             case "0":
-                                SharedPreferencesManager.getInstance().putData(mContext,
-                                        SharedPreferencesManager.SP_FILE_GWELL,
-                                        SharedPreferencesManager.KEY_RECENTPASS,
-                                        pwd);
-                                SharedPreferencesManager.getInstance().putData(mContext,
-                                        SharedPreferencesManager.SP_FILE_GWELL,
-                                        SharedPreferencesManager.KEY_RECENTNAME,
-                                        phoneNo);
-                                mvpView.register();//注册成功后跳转到欢迎页
+                                addUser(phoneNo,pwd,mContext);//@@9.28添加技威注册后在我司服务器添加账号信息
+//                                SharedPreferencesManager.getInstance().putData(mContext,
+//                                        SharedPreferencesManager.SP_FILE_GWELL,
+//                                        SharedPreferencesManager.KEY_RECENTPASS,
+//                                        pwd);
+//                                SharedPreferencesManager.getInstance().putData(mContext,
+//                                        SharedPreferencesManager.SP_FILE_GWELL,
+//                                        SharedPreferencesManager.KEY_RECENTNAME,
+//                                        phoneNo);
+//                                mvpView.register();//注册成功后跳转到欢迎页
                                 break;
                             case "6":
                                 mvpView.getDataFail("手机号已被注册");
@@ -129,6 +141,43 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                         mvpView.hideLoading();
                     }
                 }));
+    }
+
+    private void addUser(final String phoneNo, final String pwd, final Context mContext) {
+        final RequestQueue mQueue = Volley.newRequestQueue(mContext);
+        String url= ConstantValues.SERVER_IP_NEW+"AddUserAction?userId="+phoneNo+"&pwd="+pwd;
+        final StringRequest stringRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject=new JSONObject(response);
+                            if(jsonObject.getInt("errorCode")==0){
+                                SharedPreferencesManager.getInstance().putData(mContext,
+                                        SharedPreferencesManager.SP_FILE_GWELL,
+                                        SharedPreferencesManager.KEY_RECENTPASS,
+                                        pwd);
+                                SharedPreferencesManager.getInstance().putData(mContext,
+                                        SharedPreferencesManager.SP_FILE_GWELL,
+                                        SharedPreferencesManager.KEY_RECENTNAME,
+                                        phoneNo);
+                                mvpView.register();//注册成功后跳转到欢迎页
+                            }else{
+                                T.showShort(mContext,"注册错误");
+                            }
+                        } catch (JSONException e) {
+                            T.showShort(mContext,"注册错误");
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                T.showShort(mContext,"注册错误");
+                Log.e("error","error");
+            }
+        });
+        mQueue.add(stringRequest);
     }
 
 }

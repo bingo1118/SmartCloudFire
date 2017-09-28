@@ -108,9 +108,15 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
         }));
     }
 
-    public void getNeedSmoke(String userId, String privilege,String areaId,String placeTypeId,String devType){
+    public void getNeedSmoke(String userId, String privilege,String areaId,String placeTypeId,String devType,int isPrarent){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,"",placeTypeId,devType);
+        Observable mObservable=null;
+        if(isPrarent==1){
+            mObservable = apiStores1.getNeedDev2(userId,privilege,areaId,"","",placeTypeId,devType);
+        }else{
+            mObservable = apiStores1.getNeedDev2(userId,privilege,"",areaId,"",placeTypeId,devType);
+        }
+
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

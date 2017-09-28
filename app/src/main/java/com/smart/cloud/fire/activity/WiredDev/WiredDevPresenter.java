@@ -85,14 +85,14 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
             }
         }));
     }
-    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
-        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
+    public void getSmokeSummary(String userId,String privilege,String parentId,String areaId,String placeTypeId,String devType,final WiredDevView wiredDevView){
+        Observable mObservable = apiStores1.getDevSummary(userId,privilege,parentId,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    mvpView.getSmokeSummary(model);
+                    wiredDevView.getSmokeSummary(model);
                 }
             }
 
@@ -105,11 +105,11 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
             }
         }));
     }
-    public void getNeedLossSmoke(String userId, String privilege, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OfflineWiredDevFragment offLineDevFragment){
+    public void getNeedLossSmoke(String userId, String privilege,String parentId, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OfflineWiredDevFragment offLineDevFragment){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -145,11 +145,11 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
         }));
     }
     //@@6.29获取无线终端设备
-    public void getAllWiredDev(String userId, String privilege, String areaId, String page, String placeTypeId, String devType, final List<Smoke> list, final int type, boolean refresh, final WiredDevFragment wiredDevFragment){
+    public void getAllWiredDev(String userId, String privilege,String parentId, String areaId, String page, String placeTypeId, String devType, final List<Smoke> list, final int type, boolean refresh, final WiredDevFragment wiredDevFragment){
         if(!refresh){
             wiredDevFragment.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

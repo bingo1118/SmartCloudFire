@@ -1,6 +1,6 @@
 package com.smart.cloud.fire.activity.NFCDev;
 
-import com.smart.cloud.fire.activity.AllSmoke.AllSmokeView;
+import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.Electric;
@@ -11,11 +11,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpAreaResult;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.AllDevFragment.AllDevFragment;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Electric.ElectricFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.OffLineDevFragment.OffLineDevFragment;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistory;
 import com.smart.cloud.fire.rxjava.ApiCallback;
@@ -27,7 +23,6 @@ import java.util.regex.Pattern;
 
 import rx.Observable;
 import rx.functions.Func1;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Rain on 2017/8/16.
@@ -86,10 +81,18 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
     public void getPlaceTypeId(String userId, String privilege, final int type){
         Observable mObservable = null;
         if(type==1){
-            mObservable= apiStores1.getPlaceTypeId(userId,privilege,"").map(new Func1<HttpError,ArrayList<Object>>() {
+            mObservable= apiStores1.getNFCDeviceTypeId().map(new Func1<HttpError, ArrayList<ShopType>>() {
                 @Override
-                public ArrayList<Object> call(HttpError o) {
-                    return o.getPlaceType();
+                public ArrayList<ShopType> call(HttpError o) {
+                    ArrayList<ShopType> placeType=new ArrayList<>();//@@9.5
+                    ArrayList<NFCDeviceType> deviceType=o.getDeviceType();
+                    for(int i=0;i<deviceType.size();i++){
+                        ShopType shopType=new ShopType();
+                        shopType.setPlaceTypeName(deviceType.get(i).getPlaceTypeName());
+                        shopType.setPlaceTypeId(deviceType.get(i).getPlaceTypeId());
+                        placeType.add(shopType);
+                    }
+                    return placeType;
                 }
             });
         }else{
@@ -211,8 +214,8 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         mvpView.getChoiceArea(area);
     }
 
-    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
-        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
+    public void getSmokeSummary(String areaId){
+        Observable mObservable = apiStores1.getNFCSummary(areaId);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
@@ -511,33 +514,5 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         }));
     }
 
-    //    userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
-    public void getNeedElectricInfo(String userId, String privilege, String areaId, String placeTypeId, String page, final ElectricFragment electricFragment){
-        mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,areaId,placeTypeId,page);
-        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
-            @Override
-            public void onSuccess(ElectricInfo<Electric> model) {
-                int resultCode = model.getErrorCode();
-                if(resultCode==0){
-                    List<Electric> electricList = model.getElectric();
-                    electricFragment.getDataSuccess(electricList,false);
-                }else{
-                    List<Electric> electricList = new ArrayList<>();
-                    electricFragment.getDataSuccess(electricList,false);
-                    electricFragment.getDataFail("无数据");
-                }
-            }
 
-            @Override
-            public void onFailure(int code, String msg) {
-                mvpView.getDataFail("网络错误，请检查网络");
-            }
-
-            @Override
-            public void onCompleted() {
-                mvpView.hideLoading();
-            }
-        }));
-    }
 }

@@ -138,6 +138,10 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生高水压报警 水压值："+alarmFamily+"kpa";
                             }else if(alarmType==209){
                                 message="发生低水压报警 水压值："+alarmFamily+"kpa";
+                            }else if(alarmType==217){
+                                message="发生水压升高报警 水压值："+alarmFamily+"kpa";
+                            }else if(alarmType==210){
+                                message="发生水压降低报警 水压值："+alarmFamily+"kpa";
                             }else{
                                 message="电量低，请更换电池";
                             }

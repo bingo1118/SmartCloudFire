@@ -289,8 +289,32 @@
                         android:textColorHint="@color/hint_color_text"
                         android:textColor="@color/text_view_and_kuang"
                         />
-
                 </RelativeLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="拍照上传"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:background="@drawable/edit_view_bg">
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/photo_image"
+                        android:background="@drawable/add_photo"/>
+                </RelativeLayout>
+
             </RelativeLayout>
 
 

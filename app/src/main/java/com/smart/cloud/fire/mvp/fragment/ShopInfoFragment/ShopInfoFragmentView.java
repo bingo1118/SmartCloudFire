@@ -12,26 +12,15 @@ import java.util.List;
  */
 public interface ShopInfoFragmentView {
     void getDataSuccess(List<?> smokeList,boolean research);
-
     void getDataFail(String msg);
-
     void showLoading();
-
     void hideLoading();
-
     void onLoadingMore(List<?> smokeList);
-
     void getAreaType(ArrayList<?> shopTypes,int type);
-
     void getAreaTypeFail(String msg,int type);
-
     void unSubscribe(String type);
-
     void getLostCount(String count);
-
     void getChoiceArea(Area area);
-
     void getChoiceShop(ShopType shopType);
-
     void getSmokeSummary(SmokeSummary smokeSummary);
 }

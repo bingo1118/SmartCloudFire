@@ -22,4 +22,5 @@ public interface ElectricDevView {
     void getChoiceArea(Area area);
     void getChoiceShop(ShopType shopType);
     void onLoadingMore(List<?> smokeList);
+    void getLostCount(String count);
 }

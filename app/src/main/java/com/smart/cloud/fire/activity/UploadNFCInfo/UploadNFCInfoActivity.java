@@ -3,9 +3,14 @@ package com.smart.cloud.fire.activity.UploadNFCInfo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -13,11 +18,14 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -31,12 +39,16 @@ import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.uploadFile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,9 +72,13 @@ public class UploadNFCInfoActivity extends Activity {
     EditText device_type_name;//@@类型
     @Bind(R.id.memo_name)
     EditText memo_name;//@@备注
+    @Bind(R.id.photo_image)
+    ImageView photo_image;//@@拍照上传
     private Context mContext;
     private int privilege;
     private String userID;
+    private String areaId;//@@9.27
+    private String uploadTime;
 
     private boolean mWriteMode = false;
     NfcAdapter mNfcAdapter;
@@ -75,6 +91,7 @@ public class UploadNFCInfoActivity extends Activity {
     private String deviceState="1";
     String lon="";
     String lat="";
+    private String imageFilePath;
 
 
     @Override
@@ -91,7 +108,7 @@ public class UploadNFCInfoActivity extends Activity {
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter==null) {
             toast("设备不支持NFC功能");
-            return;
+//            return;
         }
         initView();
         initNFC();
@@ -105,34 +122,68 @@ public class UploadNFCInfoActivity extends Activity {
                     toast("请先录入设备标签信息");
                     return;
                 }
-                RequestQueue mQueue = Volley.newRequestQueue(mContext);
-                String url= ConstantValues.SERVER_IP_NEW+"addNFCRecord?userId="+userID+"&uid="+uid_name.getText().toString()
-                        +"&longitude="+lon+"&latitude="+lat+"&devicestate="+deviceState+"&memo="+ URLEncoder.encode(memo_name.getText().toString());
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    int errorCode=response.getInt("errorCode");
-                                    if(errorCode==0){
-                                        toast("上传成功");
-                                        clearView();
-                                    }else if(errorCode==1){
-                                        toast("参数错误");
-                                    }else{
-                                        toast("上传失败");
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
+                new Thread(new Runnable() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        toast("网络错误");
+                    public void run() {
+                        File file = new File(imageFilePath); //这里的path就是那个地址的全局变量
+                        uploadTime=System.currentTimeMillis()+"";
+                        boolean isSuccess=uploadFile(file,userID,areaId,uploadTime);
+                        if(isSuccess){
+                            RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                            String url= ConstantValues.SERVER_IP_NEW+"addNFCRecord?userId="+userID+"&uid="+uid_name.getText().toString()
+                                    +"&longitude="+lon+"&latitude="+lat+"&devicestate="+deviceState+"&memo="+ URLEncoder.encode(memo_name.getText().toString())
+                                    +"&photo1="+areaId+URLEncoder.encode("\\")+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                int errorCode=response.getInt("errorCode");
+                                                if(errorCode==0){
+                                                    toast("上传成功");
+                                                    clearView();
+                                                }else if(errorCode==1){
+                                                    toast("参数错误");
+                                                }else{
+                                                    toast("上传失败");
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    toast("网络错误");
+                                }
+                            });
+                            mQueue.add(jsonObjectRequest);
+                        }else{
+                            toast("上传失败");
+                        }
                     }
-                });
-                mQueue.add(jsonObjectRequest);
+                }).start();
+
+            }
+        });
+
+        photo_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(imageFilePath==null){
+                    imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/filename.jpg";
+                    File temp = new File(imageFilePath);
+                    Uri imageFileUri = Uri.fromFile(temp);//获取文件的Uri
+                    Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//跳转到相机Activity
+                    it.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageFileUri);//告诉相机拍摄完毕输出图片到指定的Uri
+                    startActivityForResult(it, 102);
+                }else{
+                    //使用Intent
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(new File(imageFilePath)), "image/*");
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -161,6 +212,9 @@ public class UploadNFCInfoActivity extends Activity {
         addFireAddress.setText("");
         area_name.setText("");
         device_type_name.setText("");
+        memo_name.setText("");
+        photo_image.setImageResource(R.drawable.add_photo);
+        imageFilePath=null;
     }
 
     private void initNFC() {
@@ -182,6 +236,48 @@ public class UploadNFCInfoActivity extends Activity {
         mWriteTagFilters = new IntentFilter[] { tagDetected };
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 102:
+                if (resultCode == Activity.RESULT_OK) {
+
+                    Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
+                    photo_image.setImageBitmap(bmp);
+                }
+                break;
+            case 103:
+                Bitmap bm = null;
+                // 外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
+                ContentResolver resolver = getContentResolver();
+
+                try {
+                    Uri originalUri = data.getData(); // 获得图片的uri
+
+                    bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
+
+                    // 这里开始的第二部分，获取图片的路径：
+
+                    String[] proj = {MediaStore.Images.Media.DATA};
+
+                    // 好像是android多媒体数据库的封装接口，具体的看Android文档
+                    @SuppressWarnings("deprecation")
+                    Cursor cursor = managedQuery(originalUri, proj, null, null, null);
+                    // 按我个人理解 这个是获得用户选择的图片的索引值
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    // 将光标移至开头 ，这个很重要，不小心很容易引起越界
+                    cursor.moveToFirst();
+                    // 最后根据索引值获取图片路径
+                    String path = cursor.getString(column_index);
+                    photo_image.setImageURI(originalUri);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -254,6 +350,7 @@ public class UploadNFCInfoActivity extends Activity {
             device_type_name.setText(jsonObject.getString("deviceTypeName"));
             lon=jsonObject.getString("longitude");
             lat=jsonObject.getString("latitude");
+            areaId=jsonObject.getString("areaId");//@@9.27
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -365,6 +462,24 @@ public class UploadNFCInfoActivity extends Activity {
         }
 
         return false;
+    }
+
+    public static boolean uploadFile(File imageFile,String userId,String areaId,String uploadtime) {
+        try {
+            String requestUrl = ConstantValues.SERVER_IP_NEW+"UploadFileAction";
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("username", userId);
+            params.put("areaId", areaId);
+            params.put("time", uploadtime);
+            FormFile formfile = new FormFile(imageFile.getName(), imageFile, "image", "application/octet-stream");
+            FileUtil.post(requestUrl, params, formfile);
+            System.out.println("Success");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Fail");
+            return false;
+        }
     }
 
 

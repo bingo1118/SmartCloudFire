@@ -10,6 +10,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.OffLineDevFragment.OffLineDevFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.SecurityFragment;
+import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 
@@ -126,9 +127,9 @@ public class SecurityDevPresenter extends BasePresenter<SecurityDevView> {
         }));
     }
     //@@5.13安防界面查询设备
-    public void getNeedSecurity(String userId, String privilege, String areaId, String placeTypeId, String devType,final SecurityFragment securityFragment){
+    public void getNeedSecurity(String userId, String privilege,String parentId, String areaId, String placeTypeId, String devType,final SecurityFragment securityFragment){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,areaId,"",placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,"",placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -158,14 +159,14 @@ public class SecurityDevPresenter extends BasePresenter<SecurityDevView> {
             }
         }));
     }
-    public void getSmokeSummary(String userId,String privilege,String areaId,String placeTypeId,String devType){
-        Observable mObservable = apiStores1.getDevSummary(userId,privilege,areaId,placeTypeId,devType);
+    public void getSmokeSummary(String userId,String privilege,String parentId,String areaId,String placeTypeId,String devType, final ShopInfoFragmentView allDevFragment){
+        Observable mObservable = apiStores1.getDevSummary(userId,privilege,parentId,areaId,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    mvpView.getSmokeSummary(model);
+                    allDevFragment.getSmokeSummary(model);
                 }
             }
 
@@ -178,11 +179,11 @@ public class SecurityDevPresenter extends BasePresenter<SecurityDevView> {
             }
         }));
     }
-    public void getNeedLossSmoke(String userId, String privilege, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OfflineSecurityDevFragment offLineDevFragment){
+    public void getNeedLossSmoke(String userId, String privilege,String parentId, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OfflineSecurityDevFragment offLineDevFragment){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

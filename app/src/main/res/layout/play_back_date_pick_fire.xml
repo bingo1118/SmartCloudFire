@@ -46,7 +46,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="45dp"
 			android:orientation="horizontal">
-			<com.smart.cloud.fire.view.XCDropDownListViewFire
+			<com.smart.cloud.fire.view.AreaChooceListView
 				android:id="@+id/area_type_choice"
 				android:layout_width="0dp"
 				android:layout_weight="1"

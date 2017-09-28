@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
@@ -54,6 +56,14 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.smoke_total)
+    LinearLayout smokeTotal;//@@9.5
+    @Bind(R.id.total_num)
+    TextView totalNum;
+    @Bind(R.id.online_num)
+    TextView onlineNum;
+    @Bind(R.id.offline_num)
+    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private ShopSmokeAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -66,15 +76,6 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
     private int privilege;
     private AllSmokePresenter mShopInfoFragmentPresenter;
 
-//    @Bind(R.id.add_fire)
-//    ImageView addFire;//显示搜索界面按钮。。
-//    @Bind(R.id.search_fire)
-//    ImageView searchFire;//搜索按钮。。
-//    @Bind(R.id.area_condition)
-//    XCDropDownListViewMapSearch areaCondition;//区域下拉选择。。
-//    @Bind(R.id.shop_type_condition)
-//    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_dev, null);
@@ -82,16 +83,6 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         return view;
     }
 
-//    @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire})
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.add_fire:
-//
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -103,8 +94,10 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         privilege = MyApp.app.getPrivilege();
         page = "1";
         list = new ArrayList<>();
+        smokeTotal.setVisibility(View.VISIBLE);
         refreshListView();
         mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,false,AllDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",AllDevFragment.this);//@@9.5
     }
 
     private void refreshListView() {
@@ -127,7 +120,7 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
             page = "1";
             list.clear();
             mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);
-            mvpPresenter.getSmokeSummary(userID,privilege+"","","","1");
+            mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",AllDevFragment.this);
         }
     });
 
@@ -135,12 +128,32 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            if (research) {
-                if(shopSmokeAdapter!=null){
-                    shopSmokeAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
+//            if (research) {
+//                if(shopSmokeAdapter!=null){
+//                    shopSmokeAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
+//                }
+//                return;
+//            }
+            if(research){//@@9.5 条件查询分页
+                if(shopSmokeAdapter==null){
+                    return;
+                }
+                int count = shopSmokeAdapter.getItemCount();
+//                int itemCount = lastVisibleItem+2;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
+                    if(loadMoreCount>=20){
+                        page = Integer.parseInt(page) + 1 + "";
+//                        mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);//@@7.17
+                        mvpPresenter.getNeedSmoke(userID, privilege + "", page
+                                ,((AllSmokeActivity)getActivity()).getParentId1()
+                                ,((AllSmokeActivity)getActivity()).getAreaId1()
+                                ,((AllSmokeActivity)getActivity()).getShopTypeId1(),"1", AllDevFragment.this);//显示设备。
+                    }else{
+                        T.showShort(mContext,"已经没有更多数据了");
+                    }
                 }
                 return;
-            }
+            }//@@9.5
             if(shopSmokeAdapter==null){
                 return;
             }
@@ -149,7 +162,7 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
             if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
                 if(loadMoreCount>=20){
                     page = Integer.parseInt(page) + 1 + "";
-                    mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);//@@7.17
+                    mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,false,AllDevFragment.this);//@@7.17
                 }else{
                     T.showShort(mContext,"已经没有更多数据了");
                 }
@@ -179,6 +192,9 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
     @Override
     public void getDataSuccess(List<?> smokeList,boolean search) {
         research = search;
+        if(search!=false&&!page.equals("1")){
+            page="1";
+        }//@@9.5
         loadMoreCount = smokeList.size();
         list.clear();
         list.addAll((List<Smoke>)smokeList);
@@ -242,7 +258,9 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-
+        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

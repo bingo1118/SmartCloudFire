@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,11 +15,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeView;
 import com.smart.cloud.fire.activity.Map.MapActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
@@ -28,10 +35,17 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.SecurityFragm
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.view.AreaChooceListView;
 import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +69,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     private ShopType mShopType;
     private Area mArea;
     private String areaId = "";
+    private String parentId="";//@@9.1
     private String shopTypeId = "";
 
     @Bind(R.id.add_fire)
@@ -62,7 +77,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     @Bind(R.id.lin1)
     LinearLayout lin1;//搜素界面。。
     @Bind(R.id.area_condition)
-    XCDropDownListViewMapSearch areaCondition;//区域下拉选择。。
+    AreaChooceListView areaCondition;//区域下拉选择。。
     @Bind(R.id.shop_type_condition)
     XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
     @Bind(R.id.smoke_total)
@@ -79,6 +94,9 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     ImageView searchFire;//搜索按钮。。
     @Bind(R.id.turn_map_btn)
     RelativeLayout turn_map_btn;
+
+    List<Area> parent = null;//@@8.31
+    Map<String, List<Area>> map = null;//@@8.31
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +115,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
             public void onClick(View v) {
                 title_lose_dev.setEnabled(true);
                 title_name_tv.setEnabled(false);
-                smokeTotal.setVisibility(View.VISIBLE);
+//                smokeTotal.setVisibility(View.VISIBLE);
                 mvpPresenter.unSubscribe("security");
                 position=FRAGMENT_SECURITY;//@@在线设备
             }
@@ -108,7 +126,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
             public void onClick(View v) {
                 title_name_tv.setEnabled(true);
                 title_lose_dev.setEnabled(false);
-                smokeTotal.setVisibility(View.VISIBLE);
+//                smokeTotal.setVisibility(View.VISIBLE);
                 mvpPresenter.unSubscribe("lostSmoke");
                 position=FRAGMENT_FIVE;//@@离线设备
             }
@@ -143,7 +161,54 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                    String url=ConstantValues.SERVER_IP_NEW+"/getAreaInfo?userId="+userID+"&privilege="+privilege;
+                    StringRequest stringRequest = new StringRequest(url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(response);
+                                        if(jsonObject.getInt("errorCode")==0){
+                                            parent = new ArrayList<>();
+                                            map = new HashMap<>();
+                                            JSONArray jsonArrayParent=jsonObject.getJSONArray("areas");
+                                            for(int i=0;i<jsonArrayParent.length();i++){
+                                                JSONObject tempParent= jsonArrayParent.getJSONObject(i);
+                                                Area tempArea=new Area();
+                                                tempArea.setAreaId(tempParent.getString("areaId"));
+                                                tempArea.setAreaName(tempParent.getString("areaName"));
+                                                tempArea.setIsParent(1);
+                                                parent.add(tempArea);
+                                                List<Area> child = new ArrayList<>();
+                                                JSONArray jsonArrayChild=tempParent.getJSONArray("areas");
+                                                for(int j=0;j<jsonArrayChild.length();j++){
+                                                    JSONObject tempChild= jsonArrayChild.getJSONObject(j);
+                                                    Area tempAreaChild=new Area();
+                                                    tempAreaChild.setAreaId(tempChild.getString("areaId"));
+                                                    tempAreaChild.setAreaName(tempChild.getString("areaName"));
+                                                    tempAreaChild.setIsParent(0);
+                                                    child.add(tempAreaChild);
+                                                }
+                                                map.put(tempParent.getString("areaName"),child);
+                                            }
+                                        }
+                                        areaCondition.setItemsData2(parent,map, securityDevPresenter);
+                                        areaCondition.showPopWindow();
+                                        areaCondition.setClickable(true);
+                                        areaCondition.closeLoading();
+//                                        mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("error","error");
+                        }
+                    });
+                    mQueue.add(stringRequest);
                     areaCondition.setClickable(false);
                     areaCondition.showLoading();
                 }
@@ -175,7 +240,13 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                     shopTypeCondition.searchClose();
                     visibility = false;
                     if (mArea != null && mArea.getAreaId() != null) {
-                        areaId = mArea.getAreaId();
+                        if(mArea.getIsParent()==1){
+                            parentId= mArea.getAreaId();//@@9.1
+                            areaId="";
+                        }else{
+                            areaId = mArea.getAreaId();
+                            parentId="";
+                        }
                     } else {
                         areaId = "";
                     }
@@ -187,13 +258,13 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                     //判断当前在哪个子fragment。。
                     switch (position) {
                         case FRAGMENT_SECURITY://@@5.13安防
-                            mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId,"4");
-                            mvpPresenter.getNeedSecurity(userID, privilege + "", areaId, shopTypeId,"4", securityFragment);//显示设备。。
+                            mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"4",securityFragment);
+                            mvpPresenter.getNeedSecurity(userID, privilege + "",parentId, areaId, shopTypeId,"4", securityFragment);//显示设备。。
                             break;
                         case FRAGMENT_FIVE://@@6.29
-                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", areaId, shopTypeId, "","4",false,0,null,offLineDevFragment);
+                            mvpPresenter.getNeedLossSmoke(userID, privilege + "",parentId, areaId, shopTypeId, "","4",false,0,null,offLineDevFragment);
 //                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", areaId, shopTypeId, "", false, offLineDevFragment);
-                            mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId,"4");
+                            mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"4",offLineDevFragment);
                             break;
                         default:
                             break;
@@ -231,8 +302,8 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
         showFragment(FRAGMENT_SECURITY);
         addFire.setVisibility(View.VISIBLE);
         addFire.setImageResource(R.drawable.search);
-        smokeTotal.setVisibility(View.VISIBLE);
-        securityDevPresenter.getSmokeSummary(userID,privilege+"","","","4");
+//        smokeTotal.setVisibility(View.VISIBLE);
+//        securityDevPresenter.getSmokeSummary(userID,privilege+"","","","","4",securityFragment);
     }
 
     public void showFragment(int index) {
@@ -305,14 +376,14 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     public void unSubscribe(String type) {
         switch (type) {
             case "security"://@@5.13安防设备
-                securityDevPresenter.getSmokeSummary(userID,privilege+"","","","4");
+//                securityDevPresenter.getSmokeSummary(userID,privilege+"","","","","4");
                 lin1.setVisibility(View.GONE);
                 searchFire.setVisibility(View.GONE);
                 addFire.setVisibility(View.VISIBLE);
                 showFragment(FRAGMENT_SECURITY);
                 break;
             case "lostSmoke":
-                securityDevPresenter.getSmokeSummary(userID,privilege+"","","","4");
+//                securityDevPresenter.getSmokeSummary(userID,privilege+"","","","","4");
                 lin1.setVisibility(View.GONE);
                 searchFire.setVisibility(View.GONE);
                 addFire.setVisibility(View.VISIBLE);

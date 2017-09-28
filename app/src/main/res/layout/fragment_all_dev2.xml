@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#e6e6e6"
     android:orientation="vertical">
+
+    <!-- 数量显示 -->
+    <include android:id="@+id/search_include" layout="@layout/include_search"/>
 
     <RelativeLayout
         android:background="#e6e6e6"

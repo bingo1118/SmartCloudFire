@@ -114,17 +114,53 @@ public class NFCDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             ((ItemViewHolder) holder).repeater_tv.setText(state);
             ((ItemViewHolder) holder).repeater_name_tv.setText("状态：");
-            String type="烟感";
-            switch (normalSmoke.getDeviceType()){
-                case "1":
-                    state="烟感";
-                    break;
-                case "5":
-                    state="电气";
-                    break;
-            }
-            ((ItemViewHolder) holder).type_tv.setText(type);
+//            String type="烟感";
+//            switch (normalSmoke.getDeviceType()){
+//                case "1":
+//                    type="消防控制室";
+//                    break;
+//                case "2":
+//                    type="消防水泵房";
+//                    break;
+//                case "3":
+//                    type="防排烟机房";
+//                    break;
+//                case "4":
+//                    type="自备发电机房";
+//                    break;
+//                case "5":
+//                    type="安全出口（防火门）";
+//                    break;
+//                case "6":
+//                    type="疏散通道";
+//                    break;
+//                case "7":
+//                    state="防火卷帘";
+//                    break;
+//                case "8":
+//                    type="应急照明灯";
+//                    break;
+//                case "9":
+//                    type="室内消火栓";
+//                    break;
+//                case "10":
+//                    type="灭火器";
+//                    break;
+//                case "11":
+//                    type="手动报警按钮";
+//                    break;
+//                case "12":
+//                    type="声光报警器";
+//                    break;
+//                case "13":
+//                    type="灯光疏散指示标志";
+//                    break;
+//            }
+            ((ItemViewHolder) holder).type_tv.setText(normalSmoke.getDeviceTypeName());
             ((ItemViewHolder) holder).area_tv.setText(normalSmoke.getAreaName());
+            ((ItemViewHolder) holder).addtime.setVisibility(View.VISIBLE);
+            ((ItemViewHolder) holder).addtime_tv.setVisibility(View.VISIBLE);
+            ((ItemViewHolder) holder).addtime_tv.setText(normalSmoke.getAddTime());
 
             ((ItemViewHolder) holder).manager_img.setVisibility(View.GONE);
             holder.itemView.setTag(position);
@@ -188,6 +224,10 @@ public class NFCDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView type_tv;
         @Bind(R.id.address_tv)
         TextView address_tv;
+        @Bind(R.id.addtime)
+        TextView addtime;
+        @Bind(R.id.addtime_tv)
+        TextView addtime_tv;
         @Bind(R.id.manager_img)
         ImageView manager_img;
         @Bind(R.id.item_lin)
