@@ -86,6 +86,7 @@ public class DemoIntentService extends GTIntentService {
                     break;
                 case 1://烟感
                 case 2://燃气
+                case 16://NB燃气
                 case 7://声光
                 case 10://水压@@4.28
                 case 11://红外
@@ -102,6 +103,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="烟感电量低，请更换电池";
                             }
                             break;
+                        case 16:
                         case 2:
                             message="燃气发生泄漏";
                             break;

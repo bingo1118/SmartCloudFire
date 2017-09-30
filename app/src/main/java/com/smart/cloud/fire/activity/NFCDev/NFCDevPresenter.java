@@ -214,8 +214,8 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         mvpView.getChoiceArea(area);
     }
 
-    public void getSmokeSummary(String areaId){
-        Observable mObservable = apiStores1.getNFCSummary(areaId);
+    public void getSmokeSummary(String userid,String privilege,String areaId){
+        Observable mObservable = apiStores1.getNFCSummary(userid,privilege,areaId);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {

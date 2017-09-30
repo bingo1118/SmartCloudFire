@@ -1,3 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\baidumapapi_base_v4_0_0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dc207932ddfb65566a157ca311a6a6dffc7fccab">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\baidumapapi_base_v4_0_0_ecd0b4f8384f6a917a455707a3b020ddb6b68e0b.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.squareup.leakcanary\leakcanary-android\1.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f4e7adebf49e683db82fb6efac2caaf3d768b8d4">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.squareup.leakcanary-leakcanary-android-1.3_109db6030f807034a9621925b7eb53f66ae49e60.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\httpmime-4.1.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ed8b5ee0167cb27dea55851259eb34b609f31df0">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\httpmime-4.1.2_98fd76bfe1654083eea7c11326022008abdc2580.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.0.1_6704e94a36a32d277e15d80e19c392d57f0f2c1f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\adapter-rxjava\2.0.0-beta4\bd49baf667542c7d06f71e598bdee7fe57272013\adapter-rxjava-2.0.0-beta4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="bd49baf667542c7d06f71e598bdee7fe57272013">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\adapter-rxjava-2.0.0-beta4_203458d4ec298106ec4a2e85ce8d29131793225b.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.getui\sdk\2.9.5.0\jars\libs\GetuiSDK2.9.5.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ba30d99b12b4b79e6304f06db9e4f4a57515f17f">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\GetuiSDK2.9.5.0_f594a90daa5e8ee24d54496ca0f4a63f1b7abcfc.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\locSDK_6.13.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2cdb37444b41b42e1ce5a8a27e5d3c22e1c57479">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\locSDK_6.13_0f70cce58fb13c46124e051275d056f28e52e6e0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\butterknife-7.0.1_06aa17625c4498d3a40d34a1719a86a7f288b7be.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\glide-3.7.0_8bb2dd5c1ec689393bef11410b75022c0ef3aaf5.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.getui\sdk\2.9.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="bbba9be49557afc65f2809e0cd4aafcc547d2817">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.getui-sdk-2.9.5.0_4cda8fc3aeae4d63326b4b61f2dc18e5c251c968.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.1.2\7052283359001bb108753cb0583a887d3bf94c82\okhttp-3.1.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="7052283359001bb108753cb0583a887d3bf94c82">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\okhttp-3.1.2_f3dd075dae1a82ad446b7cf71ab26d289594566c.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\io.reactivex\rxandroid\1.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d4c4b83de2f6412072d2a29b1b7a5b03edaad5ff">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\io.reactivex-rxandroid-1.1.0_5ecc7ce146593e547df8c7bbaa04de442b4228d6.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\universal-image-loader-1.9.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a85588bec3e2c4584d593d3f15df1677321bca72">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.3_2967b589cad49187af13108e526648c269514e36.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\baidumapapi_map_v4_0_0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="db4a1025ee9c6f95747aab4a69baa1391534d80e">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\baidumapapi_map_v4_0_0_bf8c8dab8ae47d6ad92e4f26193a649b39f75c35.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\zxing.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e88c14e6e7daa0fa65172a62b54ee6a16ff4162d">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\zxing_0c78cc668395c11fac788911c221cb2d370c87fa.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\okio-1.6.0_140a6f4efa0eb296b62b4baa1303d6e699fbb355.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-watcher\1.3\632482a61ad24b7ec864072945d221369f9a606\leakcanary-watcher-1.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0632482a61ad24b7ec864072945d221369f9a606">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\leakcanary-watcher-1.3_9d545918ddbd14b553e035bc276ca5dd1a2130d8.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\volley.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2b231086099f6b46ee21609e7eaba145ff58ac76">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\volley_651e494c6009cc003f345bb2d926a3bbb19afc98.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_b139355d213cda8d5a19328ddf790e76fd5d7ba3.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.0.1_e387e22c2b2360c1c4c3bcefa5d2d8e0f66848c0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.6.2\f1bc476cc167b18e66c297df599b2377131a8947\gson-2.6.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\gson-2.6.2_eb3853f30589f5d0c89d58c9ea79ff495f23aba8.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\baidumapapi_radar_v4_0_0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="81b00e6e2da11e12554d8cbf0acc23627fd1225b">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\baidumapapi_radar_v4_0_0_d5ba5a8098e5b310843d06bde673329edf0a9dc3.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_c10e0c59feb799f2f59ea561c68eecf62e509ee5.jar" />
+    </item>
+    <item
+        jar="E:\Android_SDK\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0_4d94d6a0ac0122f6bb88f80c98c6c0179d747197.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\baidumapapi_util_v4_0_0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1e9069435803e5a4f32dc429906def33a95aaf17">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\baidumapapi_util_v4_0_0_d225abac6d61468b732efe9b34556660557ec73e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\logging-interceptor\3.1.2\a1b4b8e4dc5f7bfa9186e79f9e267c1539a847b0\logging-interceptor-3.1.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a1b4b8e4dc5f7bfa9186e79f9e267c1539a847b0">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\logging-interceptor-3.1.2_f2c1623926185a3558f871663b7577117edd236d.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\baidumapapi_cloud_v4_0_0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e2aca735ca322917c5ee5fd40d663773391cf0a6">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\baidumapapi_cloud_v4_0_0_2dce997a4e74d2575e204bd5564d6e492f7124fb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\converter-gson\2.0.0-beta4\de5935a367ba5e343e9df786ac8fc0c7d52b5f0c\converter-gson-2.0.0-beta4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="de5935a367ba5e343e9df786ac8fc0c7d52b5f0c">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\converter-gson-2.0.0-beta4_cbdfa78f32d48af614c8966fe9eef6218450cb34.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.jakewharton.rxbinding\rxbinding\0.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ffc09f4e5bdebe068e5101f587dadc42b60fbfe4">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\com.jakewharton.rxbinding-rxbinding-0.4.0_46c8dd0d9ce7dd2c071d8f20e29d1c49f3e36d06.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\baidumapapi_search_v4_0_0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="08f97ee0e35fb17d405d29bf62eef305faffffcc">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\baidumapapi_search_v4_0_0_4f869713cf2ad8d034d2f3fe030cc0d1e03c3e10.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\hellocharts-library-1.5.8.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="700944cb3a8ce4fe543cfac1a9146a11cbf702dc">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\hellocharts-library-1.5.8_0dd6298974547535784263d5041d4081e7af4552.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\BaiduNaviSDK_3.1.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1ccced686a48c6e3f9799df8c9ff258d1891922a">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\BaiduNaviSDK_3.1.1_8073e693ebbb9a94c0012dc0c65e1fe2cf2c9b08.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\retrofit\2.0.0-beta4\739e00dea1f0ac04fdb9b6160d667e23cc50a791\retrofit-2.0.0-beta4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="739e00dea1f0ac04fdb9b6160d667e23cc50a791">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\retrofit-2.0.0-beta4_44340af2f86ea0b86462df26fda48dee0e4e79f2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-analyzer\1.3\c5399b18a672f7973c8a9b9d6b731a3a36e590cc\leakcanary-analyzer-1.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c5399b18a672f7973c8a9b9d6b731a3a36e590cc">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\leakcanary-analyzer-1.3_b33425ff22caa26a9d0a50503e4bca275fcc5ca3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\io.reactivex\rxjava\1.1.0\748f0546d5c3c27f1aef07270ffea0c45f0c42a4\rxjava-1.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="748f0546d5c3c27f1aef07270ffea0c45f0c42a4">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\rxjava-1.1.0_a6f6d31ddcdbcdf35e64687f96fc0978266765f0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Rain\.gradle\caches\modules-2\files-2.1\com.squareup.haha\haha\1.1\b7b2e61ee1ad2d1ac6ae3122de9c940fb0d0e635\haha-1.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b7b2e61ee1ad2d1ac6ae3122de9c940fb0d0e635">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\haha-1.1_60b36b877f4c0c8e1c6f123ac0a9daac28350c64.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\libs\ZBarDecoder.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="491976f010e6196c0b1a0470c4657f295ed933fc">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\ZBarDecoder_ebc5bee60cf5c9b02bb83717e3a0d930a9b3b955.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\SmartCloudFire\p2PCore\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="961646409ce25e45447dae949a3e9753383d740b">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\SmartCloudFire-p2PCore-unspecified_785738198b51bc4261b735efb2248c0eca273828.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1_90c75f075b627967881907245985a54686ca9efd.jar" />
+    </item>
+    <item
+        jar="D:\7.13second\SmartCloudFire\app\build\intermediates\exploded-aar\SmartCloudFire\p2PCore\unspecified\jars\libs\javabase64.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="abe8e988482633fbc0196f3cb9b523f32b6e8c4c">
+        <dex dex="D:\7.13second\SmartCloudFire\app\build\intermediates\pre-dexed\debug\javabase64_41a8f8a8b052c440050651086d3e01905fc35c5d.jar" />
+    </item>
+
+</items>

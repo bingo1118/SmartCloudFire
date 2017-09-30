@@ -88,6 +88,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     RelativeLayout zddw_btn;
     @Bind(R.id.xfwl_btn)
     RelativeLayout xfwl_btn;
+    @Bind(R.id.nfc_btn)
+    RelativeLayout nfc_btn;
     @Bind(R.id.home_alarm_lin)
     LinearLayout home_alarm_lin;
     @Bind(R.id.home_alarm_info_text)
@@ -158,6 +160,14 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     private void initView() {
+        if(MyApp.app.getPrivilege()==1){//@@9.29 1级权限显示
+            zddw_btn.setVisibility(View.GONE);
+            dqfh_btn.setVisibility(View.GONE);
+            xfwl_btn.setVisibility(View.GONE);
+            spjk_btn.setVisibility(View.GONE);
+            tjsb_btn.setVisibility(View.GONE);
+            nfc_btn.setVisibility(View.GONE);
+        }
         P2PHandler.getInstance().p2pInit(this,
                 new P2PListener(),
                 new SettingListener());

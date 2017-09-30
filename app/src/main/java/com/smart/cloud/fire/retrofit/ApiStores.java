@@ -259,7 +259,7 @@ public interface ApiStores {
 
     @GET("getNFCSummary")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<SmokeSummary> getNFCSummary(@Query("areaId") String areaId);
+    Observable<SmokeSummary> getNFCSummary(@Query("userId") String userId, @Query("privilege") String privilege,@Query("areaId") String areaId);
 
     @GET("getAllElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")

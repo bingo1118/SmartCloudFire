@@ -122,8 +122,10 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
 
         mContext=this;
         init();
-        addFire.setVisibility(View.VISIBLE);
-        addFire.setImageResource(R.drawable.search);
+        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+            addFire.setVisibility(View.VISIBLE);
+            addFire.setImageResource(R.drawable.search);
+        }
         title_name_tv=(TextView)findViewById(R.id.title_name) ;
         title_name_tv.setEnabled(false);
         title_name_tv.setOnClickListener(new View.OnClickListener() {

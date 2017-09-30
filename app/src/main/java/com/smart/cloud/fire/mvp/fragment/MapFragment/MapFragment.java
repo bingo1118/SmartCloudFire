@@ -120,6 +120,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
 //        mvpPresenter.getPlaceTypeId(userID, privilege + "", 3);//@@9.12
         if (privilege == 1) {
             add_fire.setVisibility(View.GONE);//权限为1时没有搜索功能。。
+            areaCondition.setVisibility(View.GONE);//@@9.29
+            mvpPresenter.getAllSmoke(userID, privilege + "");//@@9.29
         } else {
             add_fire.setVisibility(View.VISIBLE);
             add_fire.setImageResource(R.drawable.search);

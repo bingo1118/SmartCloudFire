@@ -118,6 +118,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                     }
                     break;
+                case 16:
                 case 2:
                     ((ItemViewHolder) holder).smokeMac.setText("燃气探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.ranqi);

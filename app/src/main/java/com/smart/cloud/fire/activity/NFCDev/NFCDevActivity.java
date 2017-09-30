@@ -129,7 +129,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
         addFire.setVisibility(View.VISIBLE);//@@8.17
         addFire.setImageResource(R.drawable.search);//@@8.17
         mvpPresenter.getNFCInfo(userID, "" + "", page, list, 1,false);
-        mvpPresenter.getSmokeSummary("");//@@8.17
+        mvpPresenter.getSmokeSummary(userID,privilege+"","");//@@8.17
     }
     private void refreshListView() {
         //设置刷新时动画的颜色，可以设置4个
@@ -151,7 +151,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 page = "1";
                 list.clear();
                 mvpPresenter.getNFCInfo(userID, "" + "", page, list, 1,true);
-                mvpPresenter.getSmokeSummary("");//@@8.17
+                mvpPresenter.getSmokeSummary(userID,privilege+"","");//@@8.17
             }
         });
 
@@ -309,7 +309,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                         shopTypeId = "";
                     }
                     mvpPresenter.getNeedNFC(userID, areaId,"");//显示设备。。
-                    mvpPresenter.getSmokeSummary(areaId);//显示总数。。;
+                    mvpPresenter.getSmokeSummary(userID,privilege+"",areaId);//显示总数。。;
                     mShopType = null;
                     mArea = null;
                 } else {

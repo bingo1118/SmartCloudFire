@@ -103,21 +103,23 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemViewHolder) holder).info_tv.setText(normalSmoke.getFaultInfo());
             ((ItemViewHolder) holder).alarm_time_tv.setText(normalSmoke.getFaultTime());
             ((ItemViewHolder) holder).station_name.setText("状态:");
-            ((ItemViewHolder) holder).photo1_image.setVisibility(View.VISIBLE);//@@9.28
-            String temp=normalSmoke.getPhoto1();
-            final String temp1=ConstantValues.NFC_IMAGES+normalSmoke.getPhoto1().replace("\\","/");
-            Glide.with(mContext)
+            if(normalSmoke.getPhoto1()!=null&&!normalSmoke.getPhoto1().equals("")){
+                ((ItemViewHolder) holder).photo1_image.setVisibility(View.VISIBLE);//@@9.28
+                String temp=normalSmoke.getPhoto1();
+                final String temp1=ConstantValues.NFC_IMAGES+normalSmoke.getPhoto1().replace("\\","/");
+                Glide.with(mContext)
 //                    .load("http://139.159.209.212:51091/nfcimages/2017/1506499353470.jpg").thumbnail((float)0.0001)
-                    .load(temp1).thumbnail(0.0001f)
-                    .into(((ItemViewHolder) holder).photo1_image);//@@9.28
-            ((ItemViewHolder) holder).photo1_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, NFCImageShowActivity.class);
-                    intent.putExtra("path",temp1);
-                    mContext.startActivity(intent);
-                }
-            });
+                        .load(temp1).thumbnail(0.0001f)
+                        .into(((ItemViewHolder) holder).photo1_image);//@@9.28
+                ((ItemViewHolder) holder).photo1_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, NFCImageShowActivity.class);
+                        intent.putExtra("path",temp1);
+                        mContext.startActivity(intent);
+                    }
+                });
+            }
             holder.itemView.setTag(position);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;

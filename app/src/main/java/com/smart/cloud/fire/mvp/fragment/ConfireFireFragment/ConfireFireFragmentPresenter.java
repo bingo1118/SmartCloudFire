@@ -197,8 +197,12 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         }else{
             switch (macStr){
                 case "R":
+                    if ((macStr.charAt(macStr.length()-1)+"").equals("R")){//@@9.29 区分NB
+                        deviceType="16";//@@NB燃气
+                    }else{
+                        deviceType="2";//@@燃气
+                    }
                     smokeMac = smokeMac.replace("R","");//燃气
-                    deviceType="2";
                     break;
                 case "Q":
                     smokeMac = smokeMac.replace("Q","");//电气火灾
