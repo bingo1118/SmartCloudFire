@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeView;
 import com.smart.cloud.fire.activity.Map.MapActivity;
+import com.smart.cloud.fire.activity.SecurityDev.OfflineSecurityDevFragment;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ConstantValues;
@@ -248,6 +249,7 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
                         }
                     } else {
                         areaId = "";
+                        parentId="";
                     }
                     if (mShopType != null && mShopType.getPlaceTypeId() != null) {
                         shopTypeId = mShopType.getPlaceTypeId();
@@ -255,18 +257,18 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
                         shopTypeId = "";
                     }
                     //判断当前在哪个子fragment。。
-                    switch (position) {
-                        case FRAGMENT_THREE:
+//                    switch (position) {
+//                        case FRAGMENT_THREE:
                             mvpPresenter.getNeedElectricInfo(userID, privilege + "",parentId, areaId,"", shopTypeId,"3",electricFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"3",electricFragment);
-                            break;
-                        case FRAGMENT_FIVE://@@6.29
+//                            break;
+//                        case FRAGMENT_FIVE://@@6.29
                             mvpPresenter.getNeedLossSmoke(userID, privilege + "",parentId, areaId, shopTypeId, "","3",false,0,null,offLineElectricDevFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"3",offLineElectricDevFragment);
-                            break;
-                        default:
-                            break;
-                    }
+//                            break;
+//                        default:
+//                            break;
+//                    }
                     mShopType = null;
                     mArea = null;
                 } else {
@@ -319,6 +321,8 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
             case FRAGMENT_THREE:
                 addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (electricFragment == null) {
+                    offLineElectricDevFragment = new OffLineElectricDevFragment();
+                    ft.add(R.id.fragment_content, offLineElectricDevFragment);
                     electricFragment = new ElectricFragment();
                     ft.add(R.id.fragment_content, electricFragment);
                 } else {
@@ -464,6 +468,12 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
     @Override
     public void getLostCount(String count) {
 
+    }
+
+    @Override
+    public void refreshView() {
+        electricFragment.refreshView();
+        offLineElectricDevFragment.refreshView();
     }
 
 }

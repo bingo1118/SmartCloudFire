@@ -110,7 +110,9 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
                 SerializableMap map= (SerializableMap) intent.getSerializableExtra("contactList");
                 Map<String,Integer> cameraList=map.getIntMap();
                 for(int i=0;i<list.size();i++){
-                    list.get(i).setIsOnline(cameraList.get(list.get(i).getCameraId()));
+                    if(cameraList.containsKey(list.get(i).getCameraId())){//@@10.18
+                        list.get(i).setIsOnline(cameraList.get(list.get(i).getCameraId()));
+                    }
                 }
                 shopCameraAdapter.notifyDataSetChanged();
             }
@@ -219,6 +221,12 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         loadMoreCount = smokeList.size();
         list.addAll((List<Camera>)smokeList);
         shopCameraAdapter.changeMoreStatus(ShopCameraAdapter.LOADING_MORE);
+
+        String[] cameralist=new String[smokeList.size()];//@@10.18
+        for(int i=0;i<smokeList.size();i++){
+            cameralist[i]=((List<Camera>)smokeList).get(i).getCameraId();
+        }//@@10.18
+        P2PHandler.getInstance().getFriendStatus(cameralist);//@@10.18
     }
 
     @Override
@@ -249,6 +257,11 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
+
+    }
+
+    @Override
+    public void refreshView() {
 
     }
 

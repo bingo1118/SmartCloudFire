@@ -58,6 +58,61 @@ import javax.crypto.spec.DESKeySpec;
 
 public class Utils {
 
+    public static String getDeviceTypeNeme(int devicetype){
+        String name="";
+        switch (devicetype){
+            case 1:
+                name="烟感";
+                break;
+            case 2:
+                name="燃气";
+                break;
+            case 5:
+                name="电气";
+                break;
+            case 7:
+                name="声光报警器";
+                break;
+            case 8:
+                name="手动报警器";
+                break;
+            case 9:
+                name="三江主机";
+                break;
+            case 10:
+                name="水压传感器";
+                break;
+            case 11:
+                name="红外传感器";
+                break;
+            case 12:
+                name="门磁传感器";
+                break;
+            case 13:
+                name="环境探测器";
+                break;
+            case 14:
+                name="GPS";
+                break;
+            case 15:
+                name="水浸传感器";
+                break;
+            case 16:
+                name="NB燃气传感器";
+                break;
+            case 17:
+                name="电梯";
+                break;
+            case 18:
+                name="喷淋设备";
+                break;
+            default:
+                name="其他";
+                break;
+        }
+        return name;
+    }
+
     /**
      * 验证是否是手机号码
      * @param input 手机号

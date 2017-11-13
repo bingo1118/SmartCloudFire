@@ -11,6 +11,7 @@ public class WiredSmokeHistory {
     private String faultType;
     private String faultDevDesc;
     private String photo1;
+    private String userid;//巡检人
 
     public String getFaultInfo() {
         return faultInfo;
@@ -66,5 +67,13 @@ public class WiredSmokeHistory {
 
     public void setPhoto1(String photo1) {
         this.photo1 = photo1;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

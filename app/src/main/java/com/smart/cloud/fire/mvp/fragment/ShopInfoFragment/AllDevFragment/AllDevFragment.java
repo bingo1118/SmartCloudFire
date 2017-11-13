@@ -94,7 +94,9 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         privilege = MyApp.app.getPrivilege();
         page = "1";
         list = new ArrayList<>();
-        smokeTotal.setVisibility(View.VISIBLE);
+        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+            smokeTotal.setVisibility(View.VISIBLE);
+        }
         refreshListView();
         mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,false,AllDevFragment.this);
         mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",AllDevFragment.this);//@@9.5
@@ -117,10 +119,8 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
     swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            page = "1";
-            list.clear();
-            mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);
-            mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",AllDevFragment.this);
+            ((AllSmokeActivity)getActivity()).refreshFragment();
+//            refreshView();
         }
     });
 
@@ -176,6 +176,13 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         }
     });
 }
+
+     public void refreshView() {
+        page = "1";
+        list.clear();
+        mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,true,AllDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",AllDevFragment.this);
+    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override

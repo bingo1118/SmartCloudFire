@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.platform.comapi.map.v;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistory;
@@ -103,14 +106,30 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemViewHolder) holder).info_tv.setText(normalSmoke.getFaultInfo());
             ((ItemViewHolder) holder).alarm_time_tv.setText(normalSmoke.getFaultTime());
             ((ItemViewHolder) holder).station_name.setText("状态:");
+            ((ItemViewHolder) holder).userid_rela.setVisibility(View.VISIBLE);
+            ((ItemViewHolder) holder).userid_tv.setText(normalSmoke.getUserid());
             if(normalSmoke.getPhoto1()!=null&&!normalSmoke.getPhoto1().equals("")){
                 ((ItemViewHolder) holder).photo1_image.setVisibility(View.VISIBLE);//@@9.28
                 String temp=normalSmoke.getPhoto1();
                 final String temp1=ConstantValues.NFC_IMAGES+normalSmoke.getPhoto1().replace("\\","/");
                 Glide.with(mContext)
 //                    .load("http://139.159.209.212:51091/nfcimages/2017/1506499353470.jpg").thumbnail((float)0.0001)
-                        .load(temp1).thumbnail(0.0001f)
-                        .into(((ItemViewHolder) holder).photo1_image);//@@9.28
+                        .load(temp1).thumbnail(0.00001f).listener(new RequestListener() {
+
+                    @Override
+                    public boolean onException(Exception arg0, Object arg1,
+                                               Target arg2, boolean arg3) {
+                        //加载图片出错
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Object arg0, Object arg1,
+                                                   Target arg2, boolean arg3, boolean arg4) {
+                        //加载图片成功
+                        ((ItemViewHolder) holder).photo1_image.setBackground(null);
+                        return false;
+                    }
+                }).into(((ItemViewHolder) holder).photo1_image);//@@9.28
                 ((ItemViewHolder) holder).photo1_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -119,6 +138,8 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         mContext.startActivity(intent);
                     }
                 });
+            }else{
+                ((ItemViewHolder) holder).photo1_image.setVisibility(View.GONE);//@@9.28
             }
             holder.itemView.setTag(position);
         } else if (holder instanceof FootViewHolder) {
@@ -171,10 +192,14 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView state_tv;//@@设备状态
         @Bind(R.id.info_tv)
         TextView info_tv;//@@设备详情
+        @Bind(R.id.userid_tv)
+        TextView userid_tv;//@@10.27巡检人
         @Bind(R.id.station_name)
         TextView station_name;
         @Bind(R.id.photo1_image)
         ImageView photo1_image;//@@9.28
+        @Bind(R.id.userid_rela)
+        RelativeLayout userid_rela;//@@10.27
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

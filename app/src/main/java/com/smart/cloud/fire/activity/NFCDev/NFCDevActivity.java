@@ -126,10 +126,11 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
         page = "1";
         list = new ArrayList<>();
         refreshListView();
+        areaCondition.setIfHavaChooseAll(false);//@@11.06
         addFire.setVisibility(View.VISIBLE);//@@8.17
         addFire.setImageResource(R.drawable.search);//@@8.17
-        mvpPresenter.getNFCInfo(userID, "" + "", page, list, 1,false);
-        mvpPresenter.getSmokeSummary(userID,privilege+"","");//@@8.17
+        mvpPresenter.getNFCInfo(userID, "", "",page, list, 1,false);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","");//@@8.17
     }
     private void refreshListView() {
         //设置刷新时动画的颜色，可以设置4个
@@ -150,8 +151,8 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
             public void onRefresh() {
                 page = "1";
                 list.clear();
-                mvpPresenter.getNFCInfo(userID, "" + "", page, list, 1,true);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","");//@@8.17
+                mvpPresenter.getNFCInfo(userID, "" ,"", page, list, 1,true);
+                mvpPresenter.getSmokeSummary(userID,privilege+"","","");//@@8.17
             }
         });
 
@@ -173,7 +174,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
                     if(loadMoreCount>=20){
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getNFCInfo(userID, "" + "", page, list, 1,true);//@@7.17
+                        mvpPresenter.getNFCInfo(userID, "" , "", page, list, 1,true);//@@7.17
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -308,8 +309,8 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                     } else {
                         shopTypeId = "";
                     }
-                    mvpPresenter.getNeedNFC(userID, areaId,"");//显示设备。。
-                    mvpPresenter.getSmokeSummary(userID,privilege+"",areaId);//显示总数。。;
+                    mvpPresenter.getNeedNFC(userID, areaId,"",shopTypeId);//显示设备。。
+                    mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId);//显示总数。。;
                     mShopType = null;
                     mArea = null;
                 } else {

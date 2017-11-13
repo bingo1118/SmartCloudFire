@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -17,8 +18,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.base.ui.MvpActivity;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Contact;
 import com.smart.cloud.fire.global.InitBaiduNavi;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
@@ -27,7 +34,11 @@ import com.smart.cloud.fire.pushmessage.PushWiredSmokeAlarmMsg;
 import com.smart.cloud.fire.ui.ApMonitorActivity;
 import com.smart.cloud.fire.utils.MusicManger;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.view.MyImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -69,6 +80,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     LinearLayout lin_principa1;
     @Bind(R.id.lin_principa2)
     LinearLayout lin_principa2;
+    @Bind(R.id.stop_alarm)
+    TextView stop_alarm;
 
     private Context mContext;
     private PushAlarmMsg mPushAlarmMsg;
@@ -124,6 +137,11 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
+        if(mPushAlarmMsg.getDeviceType()==18){
+            stop_alarm.setVisibility(View.VISIBLE);
+        }else{
+            stop_alarm.setVisibility(View.GONE);
+        }//@@11.01
         if(ifWiredSmoke==1){
             alarmLeadToBtn.setVisibility(View.GONE);
             lin_principa1.setVisibility(View.GONE);
@@ -142,7 +160,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
-            mAlarmType.setText(pushWiredSmokeAlarmMsg.getFaultDevDesc() +"发生"+ pushWiredSmokeAlarmMsg.getFaultType());
+
 //        switch (devType) {
 //            case 1:
 //
@@ -187,7 +205,16 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
-            mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
+//            mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
+            if(mPushAlarmMsg.getDeviceType()==18){
+                if(mPushAlarmMsg.getAlarmType()==202){
+                    mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg+"(喷淋阀已打开)");
+                }else{
+                    mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
+                }
+            }else{
+                mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
+            }//@@11.01
 //        switch (devType) {
 //            case 1:
 //
@@ -222,7 +249,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 
     private boolean musicOpenOrClose = true;
 
-    @OnClick({R.id.phone_lin_one, R.id.alarm_phone_lin_one, R.id.alarm_tc_image, R.id.alarm_music_image, R.id.alarm_do_it_btn})
+    @OnClick({R.id.phone_lin_one, R.id.alarm_phone_lin_one, R.id.alarm_tc_image, R.id.alarm_music_image, R.id.alarm_do_it_btn,R.id.stop_alarm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.phone_lin_one:
@@ -252,13 +279,38 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                 }
                 break;
             case R.id.alarm_do_it_btn:
-                Contact contact = new Contact();
+                final Contact contact = new Contact();
                 contact.contactPassword = cameraBean.getCameraPwd();
                 contact.contactId = cameraBean.getCameraId();
                 Intent i = new Intent(mContext, ApMonitorActivity.class);
                 i.putExtra("contact", contact);
                 startActivity(i);
                 finish();
+                break;
+            case R.id.stop_alarm:
+                RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                String url= ConstantValues.SERVER_IP_NEW+"StopAlarm?mac="+mPushAlarmMsg.getMac();
+                StringRequest stringRequest = new StringRequest(url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject=new JSONObject(response);
+                                    if(jsonObject.get("errorCode").equals(0)){
+                                        T.showShort(mContext,"已确认");
+                                        finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error","error");
+                    }
+                });
+                mQueue.add(stringRequest);
                 break;
             default:
                 break;

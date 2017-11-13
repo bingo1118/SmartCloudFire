@@ -108,10 +108,8 @@ public class OfflineSecurityDevFragment extends MvpFragment<SecurityDevPresenter
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
-                list.clear();
-                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "","", "", page+"","4",true,1,list,OfflineSecurityDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","4",OfflineSecurityDevFragment.this);
+//                refreshView();
+                ((SecurityDevActivity)getActivity()).refreshView();
             }
         });
 
@@ -227,6 +225,14 @@ public class OfflineSecurityDevFragment extends MvpFragment<SecurityDevPresenter
         totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
         onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
         offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+    }
+
+    @Override
+    public void refreshView() {
+        page = 1;
+        list.clear();
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "","", "", page+"","4",true,1,list,OfflineSecurityDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","4",OfflineSecurityDevFragment.this);
     }
 
     @Override

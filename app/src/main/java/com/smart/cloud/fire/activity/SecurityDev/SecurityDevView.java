@@ -23,4 +23,5 @@ public interface SecurityDevView {
     void getChoiceShop(ShopType shopType);
     void onLoadingMore(List<?> smokeList);
     void getLostCount(String count);
+    void refreshView();
 }

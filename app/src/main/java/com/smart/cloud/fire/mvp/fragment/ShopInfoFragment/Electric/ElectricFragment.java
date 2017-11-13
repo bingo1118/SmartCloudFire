@@ -113,10 +113,8 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = "1";
-                list.clear();
-                mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true,ElectricFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","3",ElectricFragment.this);
+//                refreshView();
+                ((ElectricDevActivity)getActivity()).refreshView();
             }
         });
 
@@ -151,11 +149,20 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
 
     }
 
+
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected ElectricDevPresenter createPresenter() {
         electricDevPresenter = new ElectricDevPresenter((ElectricDevActivity)getActivity());
         return electricDevPresenter;
+    }
+
+    public void refreshView() {
+        page = "1";
+        list.clear();
+        mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,true,ElectricFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","3",ElectricFragment.this);
     }
 
     @Override

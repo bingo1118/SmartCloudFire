@@ -516,6 +516,11 @@ public class ShopInfoFragment extends MvpFragment<ShopInfoFragmentPresenter> imp
     }
 
     @Override
+    public void refreshView() {
+
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         if (areaCondition.ifShow()) {

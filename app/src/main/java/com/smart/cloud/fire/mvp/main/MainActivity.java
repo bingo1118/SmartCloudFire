@@ -181,7 +181,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         SharedPreferencesManager.KEY_RECENTNAME);
                 int privilege = MyApp.app.getPrivilege();
                 String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
-                RequestQueue mQueue = Volley.newRequestQueue(MainActivity.this);
+                RequestQueue mQueue = Volley.newRequestQueue(MyApp.app);
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                         new Response.Listener<JSONObject>() {
                             @Override

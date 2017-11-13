@@ -28,6 +28,135 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </com.baidu.mapapi.map.MapView>
+
+    <RelativeLayout
+        android:id="@+id/id_marker_info"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="220dp"
+        android:layout_alignParentBottom="true"
+        android:background="#CC4e5a6b"
+        android:clickable="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp" >
+
+                <TextView
+                    android:id="@+id/info_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备名称:"
+                    android:textColor="#FFF5EB" />
+
+                <TextView
+                    android:id="@+id/info_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="烟感"
+                    android:layout_toRightOf="@id/info_name_text"
+                    android:textColor="#FFF5EB" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp" >
+
+                <TextView
+                    android:id="@+id/info_state_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备状态:"
+                    android:textColor="#FFF5EB" />
+
+                <TextView
+                    android:id="@+id/info_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待检"
+                    android:layout_toRightOf="@id/info_state_text"
+                    android:textColor="#FFF5EB" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp" >
+
+                <TextView
+                    android:id="@+id/info_userid_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="巡检账号:"
+                    android:textColor="#FFF5EB" />
+
+                <TextView
+                    android:id="@+id/info_userid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123456"
+                    android:layout_toRightOf="@id/info_userid_text"
+                    android:textColor="#FFF5EB" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp" >
+
+                <TextView
+                    android:id="@+id/info_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上次巡检时间:"
+                    android:textColor="#FFF5EB" />
+
+                <TextView
+                    android:id="@+id/info_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017-11-07 12:15:36"
+                    android:layout_toRightOf="@id/info_time_text"
+                    android:textColor="#FFF5EB" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp" >
+
+                <TextView
+                    android:id="@+id/info_memo_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="备注:"
+                    android:textColor="#FFF5EB" />
+
+                <TextView
+                    android:id="@+id/info_memo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_toRightOf="@id/info_memo_text"
+                    android:textColor="#FFF5EB" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
     <include layout="@layout/progress_bar"/>
 
 

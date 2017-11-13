@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.baidu.platform.comapi.map.v;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
+import com.smart.cloud.fire.activity.AllSmoke.AllSmokeView;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
@@ -87,7 +88,9 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
         privilege = MyApp.app.getPrivilege();
         page = 1;
         list = new ArrayList<>();
-        smokeTotal.setVisibility(View.VISIBLE);//@@9.5
+        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+            smokeTotal.setVisibility(View.VISIBLE);
+        }
         refreshListView();
         mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
         mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",OffLineDevFragment.this);//@@9.5
@@ -109,10 +112,8 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
-                list.clear();
-                mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",true,1,list,OffLineDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",OffLineDevFragment.this);
+//                refreshView();
+                ((AllSmokeActivity)getActivity()).refreshFragment();
             }
         });
 
@@ -168,6 +169,13 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
         });
     }
 
+    public void refreshView() {
+        page = 1;
+        list.clear();
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",true,1,list,OffLineDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",OffLineDevFragment.this);
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected AllSmokePresenter createPresenter() {
@@ -198,6 +206,9 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
 
     @Override
     public void getDataFail(String msg) {
+        list.clear();
+        shopSmokeAdapter = new ShopSmokeAdapter(mContext, list);
+        recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
         T.showShort(mContext,msg);
     }

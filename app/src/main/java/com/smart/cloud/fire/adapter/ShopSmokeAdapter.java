@@ -88,6 +88,18 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
             ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);//@@9.14
+            if(devType==18){
+                ((ItemViewHolder) holder).state_name_tv.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).state_tv.setVisibility(View.VISIBLE);
+                if(normalSmoke.getElectrState()==1){
+                    ((ItemViewHolder) holder).state_tv.setText("开");
+                }else{
+                    ((ItemViewHolder) holder).state_tv.setText("关");
+                }
+            }else{
+                ((ItemViewHolder) holder).state_name_tv.setVisibility(View.GONE);
+                ((ItemViewHolder) holder).state_tv.setVisibility(View.GONE);
+            }//@@11.01
             switch (devType){
                 case 1://烟感。。
                     if (netStates == 0) {//设备不在线。。
@@ -210,6 +222,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 18://喷淋@@10.31。。
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("喷淋："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("喷淋："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    break;
                 case 14://GPS设备@@8.8
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("GPS："+normalSmoke.getName()+"（已离线)");
@@ -305,6 +327,10 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ImageView right_into_image;
         @Bind(R.id.item_lin)
         LinearLayout item_lin;//@@8.8
+        @Bind(R.id.state_name_tv)
+        TextView state_name_tv;//@@11.01
+        @Bind(R.id.state_tv)
+        TextView state_tv;//@@11.01
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

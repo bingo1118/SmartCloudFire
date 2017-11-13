@@ -253,7 +253,9 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 if ((mShopType != null && mShopType.getPlaceTypeId() != null) || (mArea != null && mArea.getAreaId() != null)) {
                     lin1.setVisibility(View.GONE);
                     searchFire.setVisibility(View.GONE);
-                    addFire.setVisibility(View.VISIBLE);
+                    if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                        addFire.setVisibility(View.VISIBLE);
+                    }
                     areaCondition.searchClose();
                     shopTypeCondition.searchClose();
                     visibility = false;
@@ -266,6 +268,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                             parentId="";
                         }
                     } else {
+                        parentId="";//@@11.07
                         areaId = "";
                     }
                     if (mShopType != null && mShopType.getPlaceTypeId() != null) {
@@ -274,25 +277,25 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                         shopTypeId = "";
                     }
                     //判断当前在哪个子fragment。。
-                    switch (position) {
-                        case FRAGMENT_ONE:
+//                    switch (position) {
+//                        case FRAGMENT_ONE:
                             page="1";
                             mvpPresenter.getNeedSmoke(userID, privilege + "", "1",parentId,areaId, shopTypeId,"1", allDevFragment);//显示设备。。
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"1", allDevFragment);//显示总数。。
                             areaId_1=areaId;//@@9.6
                             parentId_1=parentId;
                             shopTypeId_1=shopTypeId;
-                            break;
-                        case FRAGMENT_FIVE://@@6.29
+//                            break;
+//                        case FRAGMENT_FIVE://@@6.29
                             mvpPresenter.getNeedLossSmoke(userID, privilege + "", parentId,areaId, shopTypeId, "1","1",false,0,null,offLineDevFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"1", offLineDevFragment);
                             areaId_2=areaId;//@@9.6
                             parentId_2=parentId;
                             shopTypeId_2=shopTypeId;
-                            break;
-                        default:
-                            break;
-                    }
+//                            break;
+//                        default:
+//                            break;
+//                    }
                     mShopType = null;
                     mArea = null;
                 } else {
@@ -324,8 +327,8 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         showFragment(FRAGMENT_ONE);
-        addFire.setVisibility(View.VISIBLE);
-        addFire.setImageResource(R.drawable.search);
+//        addFire.setVisibility(View.VISIBLE);
+//        addFire.setImageResource(R.drawable.search);
 //        smokeTotal.setVisibility(View.VISIBLE);
 //        mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", allDevFragment);
     }
@@ -343,8 +346,12 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
         }//@@5.5关闭下拉选项
         switch (index) {
             case FRAGMENT_ONE:
-                addFire.setVisibility(View.VISIBLE);//@@5.3
+                if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                    addFire.setVisibility(View.VISIBLE);
+                }
                 if (allDevFragment == null) {
+                    offLineDevFragment=new OffLineDevFragment();
+                    ft.add(R.id.fragment_content, offLineDevFragment);
                     allDevFragment = new AllDevFragment();
                     ft.add(R.id.fragment_content, allDevFragment);
                 } else {
@@ -352,7 +359,9 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 }
                 break;
             case FRAGMENT_FIVE:
-                addFire.setVisibility(View.VISIBLE);//@@5.3
+                if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                    addFire.setVisibility(View.VISIBLE);
+                }
                 if (offLineDevFragment == null) {
                     offLineDevFragment = new OffLineDevFragment();
                     ft.add(R.id.fragment_content, offLineDevFragment);
@@ -403,14 +412,18 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
 //                mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", allDevFragment);//@@9.5
                 lin1.setVisibility(View.GONE);
                 searchFire.setVisibility(View.GONE);
-                addFire.setVisibility(View.VISIBLE);
+                if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                    addFire.setVisibility(View.VISIBLE);
+                }
                 showFragment(FRAGMENT_ONE);
                 break;
             case "lostSmoke":
 //                mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", offLineDevFragment);//@@9.5
                 lin1.setVisibility(View.GONE);
                 searchFire.setVisibility(View.GONE);
-                addFire.setVisibility(View.VISIBLE);
+                if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                    addFire.setVisibility(View.VISIBLE);
+                }
                 showFragment(FRAGMENT_FIVE);
                 break;
             default:
@@ -455,14 +468,20 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
     public void getChoiceArea(Area area) {
         mArea = area;
         if (mArea != null && mArea.getAreaId() != null) {
-            addFire.setVisibility(View.GONE);
+            if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                addFire.setVisibility(View.GONE);
+            }
             searchFire.setVisibility(View.VISIBLE);
         }
         if (mArea.getAreaId() == null && mShopType == null) {
-            addFire.setVisibility(View.VISIBLE);
+            if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                addFire.setVisibility(View.VISIBLE);
+            }
             searchFire.setVisibility(View.GONE);
         } else if (mArea.getAreaId() == null && mShopType != null && mShopType.getPlaceTypeId() == null) {
-            addFire.setVisibility(View.VISIBLE);
+            if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                addFire.setVisibility(View.VISIBLE);
+            }
             searchFire.setVisibility(View.GONE);
         }
     }
@@ -471,14 +490,20 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
     public void getChoiceShop(ShopType shopType) {
         mShopType = shopType;
         if (mShopType != null && mShopType.getPlaceTypeId() != null) {
-            addFire.setVisibility(View.GONE);
+            if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                addFire.setVisibility(View.GONE);
+            }
             searchFire.setVisibility(View.VISIBLE);
         }
         if (mShopType.getPlaceTypeId() == null && mArea == null) {
-            addFire.setVisibility(View.VISIBLE);
+            if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                addFire.setVisibility(View.VISIBLE);
+            }
             searchFire.setVisibility(View.GONE);
         } else if (mShopType.getPlaceTypeId() == null && mArea != null && mArea.getAreaId() == null) {
-            addFire.setVisibility(View.VISIBLE);
+            if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+                addFire.setVisibility(View.VISIBLE);
+            }
             searchFire.setVisibility(View.GONE);
         }
     }
@@ -513,6 +538,11 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
 
     public String getPage() {
         return page;
+    }
+
+    public void refreshFragment(){
+        allDevFragment.refreshView();
+        offLineDevFragment.refreshView();
     }
 
 }

@@ -249,6 +249,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                         }
                     } else {
                         areaId = "";
+                        parentId="";
                     }
                     if (mShopType != null && mShopType.getPlaceTypeId() != null) {
                         shopTypeId = mShopType.getPlaceTypeId();
@@ -256,19 +257,19 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                         shopTypeId = "";
                     }
                     //判断当前在哪个子fragment。。
-                    switch (position) {
-                        case FRAGMENT_SECURITY://@@5.13安防
+//                    switch (position) {
+//                        case FRAGMENT_SECURITY://@@5.13安防
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"4",securityFragment);
                             mvpPresenter.getNeedSecurity(userID, privilege + "",parentId, areaId, shopTypeId,"4", securityFragment);//显示设备。。
-                            break;
-                        case FRAGMENT_FIVE://@@6.29
+//                            break;
+//                        case FRAGMENT_FIVE://@@6.29
                             mvpPresenter.getNeedLossSmoke(userID, privilege + "",parentId, areaId, shopTypeId, "","4",false,0,null,offLineDevFragment);
 //                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", areaId, shopTypeId, "", false, offLineDevFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"4",offLineDevFragment);
-                            break;
-                        default:
-                            break;
-                    }
+//                            break;
+//                        default:
+//                            break;
+//                    }
                     mShopType = null;
                     mArea = null;
                 } else {
@@ -321,6 +322,8 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
             case FRAGMENT_SECURITY:
                 addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (securityFragment == null) {
+                    offLineDevFragment = new OfflineSecurityDevFragment();
+                    ft.add(R.id.fragment_content, offLineDevFragment);
                     securityFragment = new SecurityFragment();
                     ft.add(R.id.fragment_content, securityFragment);
                 } else {
@@ -466,6 +469,12 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     @Override
     public void getLostCount(String count) {
 
+    }
+
+    @Override
+    public void refreshView() {
+        securityFragment.refreshView();
+        offLineDevFragment.refreshView();
     }
 
 }

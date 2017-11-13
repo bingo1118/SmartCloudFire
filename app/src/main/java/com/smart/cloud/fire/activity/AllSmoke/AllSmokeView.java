@@ -22,4 +22,5 @@ public interface AllSmokeView {
     void getChoiceArea(Area area);
     void getChoiceShop(ShopType shopType);
     void onLoadingMore(List<?> smokeList);
+    void refreshFragment();
 }

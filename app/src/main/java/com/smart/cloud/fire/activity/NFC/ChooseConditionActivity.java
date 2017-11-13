@@ -94,12 +94,13 @@ public class ChooseConditionActivity extends Activity {
 
         ButterKnife.bind(this);
         mContext=this;
+        areaCondition.setIfHavaChooseAll(false);
 
         initView();
     }
     private void initView() {
         title_text.setText("条件选择");
-        areaCondition.setEditText("区域选择");//@@9.12
+        areaCondition.setEditText("区域");//@@9.12
         radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

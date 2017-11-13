@@ -182,7 +182,8 @@ public interface ApiStores {
                                           @Field("placeTypeId") String placeTypeId, @Field("principal1") String principal1,
                                           @Field("principal1Phone") String principal1Phone, @Field("principal2") String principal2,
                                           @Field("principal2Phone") String principal2Phone, @Field("areaId") String areaId,
-                                          @Field("repeater") String repeater,@Field("camera") String camera,@Field("deviceType") String deviceType);
+                                          @Field("repeater") String repeater,@Field("camera") String camera,@Field("deviceType") String deviceType,
+                                          @Field("electrState") String electrState);
 
 //    @FormUrlEncoded
 //    @POST("addSmoke")
@@ -259,7 +260,9 @@ public interface ApiStores {
 
     @GET("getNFCSummary")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<SmokeSummary> getNFCSummary(@Query("userId") String userId, @Query("privilege") String privilege,@Query("areaId") String areaId);
+    Observable<SmokeSummary> getNFCSummary(@Query("userId") String userId, @Query("privilege") String privilege,
+                                           @Query("areaId") String areaId,@Query("period") String period,
+                                           @Query("devicetype") String devicetype);
 
     @GET("getAllElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -313,5 +316,7 @@ public interface ApiStores {
     //获取NFC
     @GET("getNFCInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getNFCInfo(@Query("userId") String userId, @Query("areaId") String areaId,@Query("page") String page);
+    Observable<HttpError> getNFCInfo(@Query("userId") String userId, @Query("areaId") String areaId,
+                                     @Query("page") String page,@Query("period") String period,
+                                     @Query("devicetype") String devicetype);
 }

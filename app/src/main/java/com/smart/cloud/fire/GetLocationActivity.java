@@ -31,6 +31,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.smart.cloud.fire.global.MyApp;
 
 import fire.cloud.smart.com.smartcloudfire.R;
 
@@ -84,7 +85,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
                 // 定义Maker坐标点
                 LatLng point = new LatLng(latitude, longitude);
                 // 构建MarkerOption，用于在地图上添加Marker
-                View viewA = LayoutInflater.from(mContext).inflate(
+                View viewA = LayoutInflater.from(MyApp.app).inflate(
                         R.layout.image_mark, null);
                 BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
                         .fromView(viewA);
@@ -120,7 +121,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
                 //获取点击的坐标地址
                 String address = arg0.getAddress();
                 location_address=address;
-                Toast.makeText(mContext,"地址:"+address+"\n"+"纬度:"+latLng.latitude+"\n"+"经度:"+latLng.longitude,Toast.LENGTH_LONG).show();
+                Toast.makeText(MyApp.app,"地址:"+address+"\n"+"纬度:"+latLng.latitude+"\n"+"经度:"+latLng.longitude,Toast.LENGTH_LONG).show();
                 System.out.println("address="+address);
             }
 
@@ -133,7 +134,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
     private void initMyLocation()
     {
         // 定位初始化
-        mLocationClient = new LocationClient(this);
+        mLocationClient = new LocationClient(MyApp.app);
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         // 设置定位的相关配置
@@ -206,7 +207,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
             // 设置定位数据
             mBaiduMap.setMyLocationData(locData);
             // 设置自定义图标
-            View viewA = LayoutInflater.from(mContext).inflate(
+            View viewA = LayoutInflater.from(MyApp.app).inflate(
                     R.layout.image_mark, null);
             BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
                     .fromView(viewA);
@@ -225,6 +226,27 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
             }
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        mMapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMapView.onDestroy();
+        if(mLocationClient!=null){
+            mLocationClient.stop();
+        }
+        super.onDestroy();
     }
 
 }

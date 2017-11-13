@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +41,14 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     RelativeLayout settingCameraRelative;
     @Bind(R.id.line_state)
     TextView lineState;
+    @Bind(R.id.nfc_radiogroup)
+    RadioGroup nfc_radiogroup;
+    @Bind(R.id.everymonth)
+    RadioButton everymonth;
+    @Bind(R.id.everyweek)
+    RadioButton everyweek;
+    @Bind(R.id.everyday)
+    RadioButton everyday;
     private Context mContext;
 
     @Override
@@ -63,6 +73,21 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
         String username = SharedPreferencesManager.getInstance().getData(mContext,
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
+        int peroid=SharedPreferencesManager.getInstance().getIntData(mContext,"NFC_period");//@@10.24
+        switch (peroid){
+            case 0:
+                everymonth.setChecked(true);
+                break;
+            case 1:
+                everyweek.setChecked(true);
+                break;
+            case 2:
+                everyday.setChecked(true);
+                break;
+            default:
+                everymonth.setChecked(true);
+                break;
+        }//@@10.24
         settingUserId.setText(userID);
         settingUserCode.setText(username);
         String state = MyApp.app.getPushState();
@@ -79,6 +104,28 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
 //            settingHelpRela.setVisibility(View.VISIBLE);//显示添加摄像机。。
             settingCameraRelative.setVisibility(View.VISIBLE);//显示绑定摄像机。。
         }
+        nfc_radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int period=0;
+                switch (checkedId){
+                    case R.id.everymonth:
+                        period=0;
+                        break;
+                    case R.id.everyweek:
+                        period=1;
+                        break;
+                    case R.id.everyday:
+                        period=2;
+                        break;
+                    default:
+                        period=0;
+                        break;
+                }
+                SharedPreferencesManager.getInstance().putData(mContext,"NFC_period",period);
+                T.showShort(mContext,"设置成功");
+            }
+        });
     }
 
     @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit, R.id.setting_camera_relative,R.id.setting_nfc})

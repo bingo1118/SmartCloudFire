@@ -46,7 +46,9 @@ import com.smart.cloud.fire.utils.uploadFile;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -94,6 +96,7 @@ public class UploadNFCInfoActivity extends Activity {
     String lon="";
     String lat="";
     private String imageFilePath;
+    File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/filename.jpg");//@@9.30
 
     Handler handler = new Handler() {//@@9.29
         public void handleMessage(Message msg) {
@@ -103,6 +106,9 @@ public class UploadNFCInfoActivity extends Activity {
                     break;
                 case 1:
                     mProgressBar.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    toast("图片上传失败");
                     break;
             }
             super.handleMessage(msg);
@@ -123,9 +129,12 @@ public class UploadNFCInfoActivity extends Activity {
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(f.exists()){
+            f.delete();
+        }//@@9.30
         if (mNfcAdapter==null) {
             toast("设备不支持NFC功能");
-//            return;
+            return;
         }
         initView();
         initNFC();
@@ -135,22 +144,30 @@ public class UploadNFCInfoActivity extends Activity {
         addFireDevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
                 if(uid_name.getText()==null||uid_name.getText().toString().equals("")){
                     toast("请先录入设备标签信息");
+                    Message message1 = new Message();
+                    message.what = 0;
+                    handler.sendMessage(message1);
                     return;
                 }
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Message message = new Message();
-                        message.what = 1;
-                        handler.sendMessage(message);
+
+
                         boolean isSuccess=false;
                         boolean isHavePhoto=false;
                         if(imageFilePath!=null){
                             File file = new File(imageFilePath); //这里的path就是那个地址的全局变量
                             uploadTime=System.currentTimeMillis()+"";
-                            isHavePhoto=true;
+                            if(f.exists()){
+                                isHavePhoto=true;
+                            }//@@11.07
                             isSuccess=uploadFile(file,userID,areaId,uploadTime);
                         }
                         RequestQueue mQueue = Volley.newRequestQueue(mContext);
@@ -163,7 +180,9 @@ public class UploadNFCInfoActivity extends Activity {
                                     +"&photo1="+areaId+URLEncoder.encode("\\")+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
                         }else{
                             if(isHavePhoto&&!isSuccess){
-                                toast("图片上传失败");
+                                Message message= new Message();
+                                message.what = 2;
+                                handler.sendMessage(message);
                             }
                             url= ConstantValues.SERVER_IP_NEW+"addNFCRecord?userId="+userID+"&uid="+uid_name.getText().toString()
                                     +"&longitude="+lon+"&latitude="+lat+"&devicestate="+deviceState+"&memo="+ URLEncoder.encode(memo_name.getText().toString())
@@ -177,8 +196,11 @@ public class UploadNFCInfoActivity extends Activity {
                                         try {
                                             int errorCode=response.getInt("errorCode");
                                             if(errorCode==0){
-                                                toast("上传成功");
+                                                toast("记录上传成功");
                                                 clearView();
+                                                if(f.exists()){
+                                                    f.delete();
+                                                }//@@9.30
                                             }else if(errorCode==1){
                                                 toast("参数错误");
                                             }else{
@@ -213,9 +235,9 @@ public class UploadNFCInfoActivity extends Activity {
         photo_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imageFilePath==null){
-                    imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/filename.jpg";
-                    File temp = new File(imageFilePath);
+                imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/filename.jpg";
+                File temp = new File(imageFilePath);
+                if(!temp.exists()){
                     Uri imageFileUri = Uri.fromFile(temp);//获取文件的Uri
                     Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//跳转到相机Activity
                     it.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageFileUri);//告诉相机拍摄完毕输出图片到指定的Uri
@@ -223,7 +245,7 @@ public class UploadNFCInfoActivity extends Activity {
                 }else{
                     //使用Intent
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(new File(imageFilePath)), "image/*");
+                    intent.setDataAndType(Uri.fromFile(temp), "image/*");
                     startActivity(intent);
                 }
 
@@ -285,6 +307,11 @@ public class UploadNFCInfoActivity extends Activity {
             case 102:
                 if (resultCode == Activity.RESULT_OK) {
                     Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
+                    try {
+                        saveFile(compressBySize(Environment.getExternalStorageDirectory().getAbsolutePath()+"/filename.jpg",150,200),Environment.getExternalStorageDirectory().getAbsolutePath()+"/filename.jpg");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     photo_image.setImageBitmap(bmp);
                 }
                 break;
@@ -320,6 +347,43 @@ public class UploadNFCInfoActivity extends Activity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    //@@10.12压缩图片尺寸
+    public Bitmap compressBySize(String pathName, int targetWidth,
+                                 int targetHeight) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;// 不去真的解析图片，只是获取图片的头部信息，包含宽高等；
+        Bitmap bitmap = BitmapFactory.decodeFile(pathName, opts);// 得到图片的宽度、高度；
+        float imgWidth = opts.outWidth;
+        float imgHeight = opts.outHeight;// 分别计算图片宽度、高度与目标宽度、高度的比例；取大于等于该比例的最小整数；
+        int widthRatio = (int) Math.ceil(imgWidth / (float) targetWidth);
+        int heightRatio = (int) Math.ceil(imgHeight / (float) targetHeight);
+        opts.inSampleSize = 1;
+        if (widthRatio > 1 || widthRatio > 1) {
+            if (widthRatio > heightRatio) {
+                opts.inSampleSize = widthRatio;
+            } else {
+                opts.inSampleSize = heightRatio;
+            }
+        }//设置好缩放比例后，加载图片进内容；
+        opts.inJustDecodeBounds = false;
+        bitmap = BitmapFactory.decodeFile(pathName, opts);
+        return bitmap;
+    }
+
+    //@@10.12存储文件到sd卡
+    public void saveFile(Bitmap bm, String fileName) throws Exception {
+        File dirFile = new File(fileName);//检测图片是否存在
+        if(dirFile.exists()){
+            dirFile.delete();  //删除原图片
+        }
+        File myCaptureFile = new File(fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));//100表示不进行压缩，70表示压缩率为30%
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        bos.flush();
+        bos.close();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -526,6 +590,6 @@ public class UploadNFCInfoActivity extends Activity {
 
 
     private void toast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
     }
 }

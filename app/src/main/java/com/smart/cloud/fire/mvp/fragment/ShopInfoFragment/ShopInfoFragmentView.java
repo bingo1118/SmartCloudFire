@@ -23,4 +23,5 @@ public interface ShopInfoFragmentView {
     void getChoiceArea(Area area);
     void getChoiceShop(ShopType shopType);
     void getSmokeSummary(SmokeSummary smokeSummary);
+    void refreshView();
 }

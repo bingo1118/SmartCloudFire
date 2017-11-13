@@ -108,10 +108,8 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
-                list.clear();
-                mvpPresenter.getNeedLossSmoke(userID, privilege + "", "","", "", page+"","2",true,1,list,OfflineWiredDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",OfflineWiredDevFragment.this);
+                ((WiredDevActivity)getActivity()).refreshView();
+//               refreshView();
             }
         });
 
@@ -210,6 +208,14 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
 
     @Override
     public void getLostCount(String count) {
+    }
+
+    @Override
+    public void refreshView() {
+        page = 1;
+        list.clear();
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "", "","", "", page+"","2",true,1,list,OfflineWiredDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",OfflineWiredDevFragment.this);
     }
 
     @Override

@@ -118,7 +118,7 @@
                 android:layout_toRightOf="@id/nfc_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NFC"
+                android:text="电子标签"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/camera_list_tv"
@@ -131,6 +131,62 @@
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
                 />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/dao_hang_bian_color"
+                android:layout_alignParentBottom="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting_nfc_period"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/list_item_color_bg">
+            <ImageView
+                android:id="@+id/nfc_period_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/zh_guanyu"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                />
+
+            <TextView
+                android:layout_toRightOf="@id/nfc_period_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电子巡检周期"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/camera_list_tv"
+                />
+            <RadioGroup
+                android:id="@+id/nfc_radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lead_right_zx"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/everymonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="每月"/>
+                <RadioButton
+                    android:id="@+id/everyweek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="每周"/>
+                <RadioButton
+                    android:id="@+id/everyday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="每天"/>
+            </RadioGroup>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"

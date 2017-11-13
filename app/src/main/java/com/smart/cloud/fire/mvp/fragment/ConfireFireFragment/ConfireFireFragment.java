@@ -105,6 +105,14 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     }
 
     private void init() {
+        addFireMac.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    mvpPresenter.getOneSmoke(userID, privilege + "", addFireMac.getText().toString());//@@5.5如果添加过该烟感则显示出原来的信息
+                }
+            }
+        });//@@10.18
         addCameraRelative.setVisibility(View.VISIBLE);
         addFireZjq.setEditTextHint("区域");
         addFireType.setEditTextHint("类型");
@@ -252,7 +260,9 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         addFireManTwo.setText(smoke.getPrincipal2());
         addFireManPhoneTwo.setText(smoke.getPrincipal2Phone());
         addFireZjq.setEditTextData(smoke.getAreaName());
+        addFireType.setEditTextData(smoke.getPlaceType());//@@10.18
         areaId=smoke.getAreaId()+"";
+        shopTypeId=smoke.getPlaceTypeId();//@@10.18
         Camera mCamera = smoke.getCamera();
         if (mCamera != null) {
             addCameraName.setText(mCamera.getCameraId());
@@ -297,7 +307,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
             mShopType = null;
             mArea = null;
             clearText();
-//            areaId = "";
+            areaId = "";
             shopTypeId = "";
             camera = "";
             addFireMac.setText("");
@@ -357,7 +367,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         addFireManPhone.setText("");
         addFireManTwo.setText("");
         addFireManPhoneTwo.setText("");
-//        addFireZjq.setEditTextData("");
+        addFireZjq.setEditTextData("");
         addFireType.setEditTextData("");
         addCameraName.setText("");
     }

@@ -249,6 +249,7 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
                         }
                     } else {
                         areaId = "";
+                        parentId="";
                     }
                     if (mShopType != null && mShopType.getPlaceTypeId() != null) {
                         shopTypeId = mShopType.getPlaceTypeId();
@@ -256,19 +257,19 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
                         shopTypeId = "";
                     }
                     //判断当前在哪个子fragment。。
-                    switch (position) {
-                        case FRAGMENT_TWO:
+//                    switch (position) {
+//                        case FRAGMENT_TWO:
                             mvpPresenter.getAllWiredDev(userID, privilege + "",parentId, areaId,"", shopTypeId, "2",null,1,false,wiredDevFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"2",wiredDevFragment);//显示总数。。
-                            break;
-                        case FRAGMENT_FIVE://@@6.29
+//                            break;
+//                        case FRAGMENT_FIVE://@@6.29
                             mvpPresenter.getNeedLossSmoke(userID, privilege + "",parentId,areaId, shopTypeId, "","2",false,0,null,offLineDevFragment);
 //                            mvpPresenter.getNeedLossSmoke(userID, privilege + "", areaId, shopTypeId, "", false, offLineDevFragment);
                             mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"2",offLineDevFragment);
-                            break;
-                        default:
-                            break;
-                    }
+//                            break;
+//                        default:
+//                            break;
+//                    }
                     mShopType = null;
                     mArea = null;
                 } else {
@@ -321,6 +322,8 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
             case FRAGMENT_TWO:
                 addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (wiredDevFragment == null) {
+                    offLineDevFragment = new OfflineWiredDevFragment();
+                    ft.add(R.id.fragment_content, offLineDevFragment);
                     wiredDevFragment = new WiredDevFragment();
                     ft.add(R.id.fragment_content, wiredDevFragment);
                 } else {
@@ -466,6 +469,12 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
     @Override
     public void getLostCount(String count) {
 
+    }
+
+    @Override
+    public void refreshView() {
+        wiredDevFragment.refreshView();
+        offLineDevFragment.refreshView();
     }
 
 }

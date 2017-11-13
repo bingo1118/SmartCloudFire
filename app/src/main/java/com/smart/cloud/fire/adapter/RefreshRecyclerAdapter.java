@@ -118,6 +118,22 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                     }
                     break;
+                case 18://@@10.31 喷淋
+                    ((ItemViewHolder) holder).smokeMac.setText("喷淋:");
+                    if (alarmType == 202) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_huojing);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    }else if(alarmType == 201){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    }else {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ddy);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }
+                    break;
                 case 16:
                 case 2:
                     ((ItemViewHolder) holder).smokeMac.setText("燃气探测器:");
@@ -166,6 +182,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     switch (alarmFamily){
+                        case 136:
                         case 36:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
                             break;
@@ -209,6 +226,9 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             break;
                         case 148:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);//@@6.28
+                            break;
+                        default:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_huojing);
                             break;
                     }
                     break;

@@ -112,11 +112,8 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = "1";
-                list.clear();
-//                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
-                mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true,WiredDevFragment.this);
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",WiredDevFragment.this);
+//                refreshView();
+                ((WiredDevActivity)getActivity()).refreshView();
             }
         });
 
@@ -206,6 +203,15 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
     @Override
     public void getLostCount(String count) {
 
+    }
+
+    @Override
+    public void refreshView() {
+        page = "1";
+        list.clear();
+//                mvpPresenter.getAllSmoke(userID, privilege + "", page, list, 1,true);
+        mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,true,WiredDevFragment.this);
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",WiredDevFragment.this);
     }
 
     @Override

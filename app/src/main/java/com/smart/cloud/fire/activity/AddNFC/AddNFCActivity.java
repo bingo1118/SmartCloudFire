@@ -15,11 +15,15 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -117,7 +121,8 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
     @Override
     protected void onNewIntent(Intent intent) {
         // NDEF exchange mode
-        if (!mWriteMode && NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+        if (!mWriteMode && (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
+                ||NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction()))) {//@@10.19
             byte[] myNFCID = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
             String UID = ByteArrayToHexString(myNFCID);
             addFireMac.setText(UID);
@@ -159,11 +164,11 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
 
         // Intent filters for reading a note from a tag or exchanging over p2p.
         IntentFilter ndefDetected = new IntentFilter(
-                NfcAdapter.ACTION_NDEF_DISCOVERED);
-        try {
-            ndefDetected.addDataType("text/plain");
-        } catch (IntentFilter.MalformedMimeTypeException e) {
-        }
+                NfcAdapter.ACTION_TAG_DISCOVERED);//@@ 10.19 原NDEF
+//        try {
+//            ndefDetected.addDataType("text/plain");
+//        } catch (IntentFilter.MalformedMimeTypeException e) {
+//        }//@@10.19 防止显示NDEF为空时读取不了标签ID
         mNdefExchangeFilters = new IntentFilter[] { ndefDetected };
 
         // Intent filters for writing to a tag
@@ -189,14 +194,30 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         disableNdefExchangeMode();
         enableTagWriteMode();
 
-        alertDialog=new AlertDialog.Builder(this).setTitle("接触标签进行写入操作")
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        disableTagWriteMode();
-                        enableNdefExchangeMode();
-                    }
-                }).create();
+
+        TextView textView=new TextView(mContext);//@@10.19
+        textView.setText("接触标签进行写入操作");
+        textView.setTextSize(18);
+        textView.setGravity(Gravity.CENTER);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setView(textView);
+        builder.setCancelable(true);
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                         @Override
+                                         public void onCancel(DialogInterface dialog) {
+                                             disableTagWriteMode();
+                                             enableNdefExchangeMode();
+                                         }
+                                     });
+//        alertDialog=new AlertDialog.Builder(this).setTitle("接触标签进行写入操作")
+//                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    @Override
+//                    public void onCancel(DialogInterface dialog) {
+//                        disableTagWriteMode();
+//                        enableNdefExchangeMode();
+//                    }
+//                }).create();
+        alertDialog=builder.create();
         alertDialog.show();
     }
 
@@ -268,15 +289,31 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
                 disableTagWriteMode();
                 enableNdefExchangeMode();
 
-                alertDialog=new AlertDialog.Builder(this).setTitle("接触标签获取UID")
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                disableTagWriteMode();
-                                enableNdefExchangeMode();
-                            }
-                        }).create();
+                TextView textView=new TextView(mContext);//@@10.19
+                textView.setText("接触标签进行写入操作");
+                textView.setTextSize(18);
+                textView.setGravity(Gravity.CENTER);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setView(textView);
+                builder.setCancelable(true);
+                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        disableTagWriteMode();
+                        enableNdefExchangeMode();
+                    }
+                });
+                alertDialog=builder.create();
                 alertDialog.show();
+//                alertDialog=new AlertDialog.Builder(this).setTitle("接触标签获取UID")
+//                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                            @Override
+//                            public void onCancel(DialogInterface dialog) {
+//                                disableTagWriteMode();
+//                                enableNdefExchangeMode();
+//                            }
+//                        }).create();
+//                alertDialog.show();
                 break;
             case R.id.location_image:
 //                mvpPresenter.startLocation();
@@ -437,6 +474,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         addFireAddress.setText("");
         addFireName.setText("");
         addFireType.setEditTextData("");
+        addFireZjq.setEditTextData("");//@@10.19
         addCameraName.setText("");
     }
     //@@NFC相关>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -538,9 +576,13 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
                 }
 
                 ndef.writeNdefMessage(message);
+                if (ndef.canMakeReadOnly()) {
+                    ndef.makeReadOnly();//@@设置标签为只读(慎用！！)
+                }
                 toast("写入数据成功.");
                 mvpPresenter.addNFC(userID, privilege + "", nfcInfo.getDeviceName(), nfcInfo.getUid(), nfcInfo.getAddress(),
                         nfcInfo.getLon(), nfcInfo.getLat(), nfcInfo.getDeviceTypeId(),nfcInfo.getAreaId());
+                mWriteMode=false;//@@10.19
                 return true;
             } else {
                 NdefFormatable format = NdefFormatable.get(tag);
@@ -560,6 +602,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             toast("写入数据失败");
         }finally {
             if(alertDialog!=null){

@@ -19,6 +19,7 @@
         android:background="@drawable/select_all"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:layout_marginRight="5dp"/>
 
 </RelativeLayout>

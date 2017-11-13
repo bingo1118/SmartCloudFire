@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.global.InitBaiduNavi;
@@ -31,6 +32,10 @@ public class ShowSmokeDialog {
     Activity context;
     @Bind(R.id.user_smoke_dialog_tv2)
     TextView userSmokeDialogTv2;
+    @Bind(R.id.user_smoke_dialog_tv5)
+    TextView userSmokeDialogTv5;//@@11.08
+    @Bind(R.id.user_smoke_dialog_tv6)
+    TextView userSmokeDialogTv6;//@@11.08
     @Bind(R.id.user_smoke_dialog_tv3)
     TextView userSmokeDialogTv3;
     @Bind(R.id.user_smoke_mark_principal)
@@ -95,6 +100,8 @@ public class ShowSmokeDialog {
         userSmokeMarkPhoneTv2.setVisibility(View.GONE);
         userSmokeMarkPrincipal2.setVisibility(View.GONE);
         userSmokeMarkPrincipal.setVisibility(View.GONE);
+        userSmokeDialogTv5.setVisibility(View.GONE);//@@11.08
+        userSmokeDialogTv6.setVisibility(View.GONE);//@@11.08
         userSmokeDialogTv2.setText(nfcsmoke.getDeviceName());
         userSmokeDialogTv3.setText(nfcsmoke.getAddress());
         user_smoke_dialog_tv4.setText("ID:"+nfcsmoke.getUid());//@@8.7
@@ -127,6 +134,8 @@ public class ShowSmokeDialog {
         userSmokeDialogTv2.setText(smoke.getName());
         userSmokeDialogTv3.setText(smoke.getAddress());
         user_smoke_dialog_tv4.setText("ID:"+smoke.getMac());//@@8.7
+        userSmokeDialogTv5.setText("区域:"+smoke.getAreaName());//@@11.08
+        userSmokeDialogTv6.setText("类型:"+ Utils.getDeviceTypeNeme(smoke.getDeviceType()));//@@11.08
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         dialog = builder.create();
         if(!dialog.isShowing()){

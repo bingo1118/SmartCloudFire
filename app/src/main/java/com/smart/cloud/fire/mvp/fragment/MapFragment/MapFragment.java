@@ -117,6 +117,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         devType=getActivity().getIntent().getStringExtra("devType");//@@7.21
+        if(devType.equals("7")){
+            areaCondition.setIfHavaChooseAll(false);
+        }//@@11.06
 //        mvpPresenter.getPlaceTypeId(userID, privilege + "", 3);//@@9.12
         if (privilege == 1) {
             add_fire.setVisibility(View.GONE);//权限为1时没有搜索功能。。
@@ -127,9 +130,10 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
             add_fire.setImageResource(R.drawable.search);
         }
         areaCondition.seteditTextColor("#ffffffff");//@@9.12
-        areaCondition.setEditText("区域选择");//@@9.12
+        areaCondition.setEditText("区域");//@@9.12
         areaCondition.setclear_choice(null,false);//@@9.12
 //        mvpPresenter.getAllSmoke(userID, privilege + "");//获取所有设备并显示。。
+        initLastMap();
     }
 
     @Override
@@ -252,6 +256,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 R.layout.image_zj_mark, null);//@@有线主机8.10
         View viewSJ = LayoutInflater.from(mContext).inflate(
                 R.layout.image_sj_mark, null);//@@水禁8.10
+        View viewPL = LayoutInflater.from(mContext).inflate(
+                R.layout.image_pl_mark, null);//@@喷淋
         BitmapDescriptor bdA = BitmapDescriptorFactory
                 .fromView(viewA);
         BitmapDescriptor bdDq = BitmapDescriptorFactory
@@ -284,6 +290,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 .fromView(viewZJ);//@@8.10
         BitmapDescriptor sjImage = BitmapDescriptorFactory
                 .fromView(viewSJ);//@@8.10
+        BitmapDescriptor plImage = BitmapDescriptorFactory
+                .fromView(viewPL);//@@11.02
         List<BitmapDescriptor> listView = new ArrayList<>();
         listView.add(bdA);
         listView.add(bdC);
@@ -301,6 +309,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         listView.add(hjtcqImage);
         listView.add(zjImage);
         listView.add(sjImage);
+        listView.add(plImage);
         return listView;
     }
 
@@ -466,7 +475,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
 
     private boolean visibility = false;
 
-    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.area_condition1})
+    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.area_condition1,R.id.text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_fire_btn://@@4.27
@@ -546,6 +555,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     areaCondition.showLoading();
                 }
                 break;
+            case R.id.text://@@11.13
             case R.id.area_condition1:
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
@@ -591,6 +601,15 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                                                 }else{
                                                     mvpPresenter.getNeedSmoke(userID, privilege + "", info.getAreaId(), "",devType,info.getIsParent());//获取按照要求获取设备。。
                                                 }
+                                                SharedPreferencesManager.getInstance().putData(mContext,
+                                                        "LASTAREANAME",
+                                                        devType,info.getAreaName());//@@11.13
+                                                SharedPreferencesManager.getInstance().putData(mContext,
+                                                        "LASTAREAID",
+                                                        devType,info.getAreaId());//@@11.13
+                                                SharedPreferencesManager.getInstance().putIntData(mContext,
+                                                        "LASTAREAISPARENT",
+                                                        devType,info.getIsParent());//@@11.13
                                             }
                                         });
                                         areaCondition.showPopWindow();
@@ -614,6 +633,26 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 break;
             default:
                 break;
+        }
+    }
+
+    private void initLastMap(){
+        String area_name=SharedPreferencesManager.getInstance().getData(mContext,
+                "LASTAREANAME",
+                devType);//@@11.13
+        String area_id=SharedPreferencesManager.getInstance().getData(mContext,
+                "LASTAREAID",
+                devType);//@@11.13
+        int isParent=SharedPreferencesManager.getInstance().getIntData(mContext,
+                "LASTAREAISPARENT",
+                devType);//@@11.13
+        if(area_name.length()>0){
+            if(devType.equals("7")){
+//                mvpPresenter.getNeedNFC(userID, privilege + "", area_id, "","");//@@8.18
+            }else{
+                mvpPresenter.getNeedSmoke(userID, privilege + "", area_id, "",devType,isParent);//获取按照要求获取设备。。
+                areaCondition.setEditText(area_name);
+            }
         }
     }
 

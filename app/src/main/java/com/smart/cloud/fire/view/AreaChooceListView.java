@@ -52,6 +52,8 @@ public class AreaChooceListView extends LinearLayout {
     List<Area> parent = null;
     Map<String, List<Area>> map = null;
 
+    private boolean ifHavaChooseAll=true;
+
     public AreaChooceListView(Context context) {
         this(context, null);
         // TODO Auto-generated constructor stub
@@ -186,6 +188,11 @@ public class AreaChooceListView extends LinearLayout {
         this.map=map;
         this.basePresenter = basePresenter;
     }
+
+    public void setIfHavaChooseAll(boolean ifHavaChooseAll) {
+        this.ifHavaChooseAll = ifHavaChooseAll;
+    }
+
     /**
      * 数据适配器
      * @author caizhiming
@@ -281,27 +288,29 @@ public class AreaChooceListView extends LinearLayout {
                     .findViewById(R.id.all_cheak);
             final Area info=parent.get(groupPosition);
             tv.setText(info.getAreaName());
-            if(isExpanded){
-                iv.setVisibility(VISIBLE);
-                iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        editText.setText(info.getAreaName());
-                        imageView.setVisibility(View.GONE);
-                        if(clear_choice_isShow){//@@9.12
-                            clear_choice.setVisibility(View.VISIBLE);
+            if(ifHavaChooseAll){
+                if(isExpanded){
+                    iv.setVisibility(VISIBLE);
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            editText.setText(info.getAreaName());
+                            imageView.setVisibility(View.GONE);
+                            if(clear_choice_isShow){//@@9.12
+                                clear_choice.setVisibility(View.VISIBLE);
+                            }
+                            if(basePresenter!=null){
+                                basePresenter.getArea(info);
+                            }
+                            if(onChildAreaChooceClickListener!=null){
+                                onChildAreaChooceClickListener.OnChildClick(info);
+                            }
+                            closePopWindow();
                         }
-                        if(basePresenter!=null){
-                            basePresenter.getArea(info);
-                        }
-                        if(onChildAreaChooceClickListener!=null){
-                            onChildAreaChooceClickListener.OnChildClick(info);
-                        }
-                        closePopWindow();
-                    }
-                });
-            }else{
-                iv.setVisibility(GONE);
+                    });
+                }else{
+                    iv.setVisibility(GONE);
+                }
             }
             return convertView;
         }

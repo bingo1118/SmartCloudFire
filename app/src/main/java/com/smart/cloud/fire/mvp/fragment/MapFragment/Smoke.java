@@ -46,6 +46,8 @@ public class Smoke implements Serializable {
     private Camera camera;
     private int areaId;
     private int deviceType;
+    private String placeTypeId;
+    private int electrState;//@@11.01
 
     public String getAddress() {
         return address;
@@ -205,5 +207,21 @@ public class Smoke implements Serializable {
 
     public void setDeviceType(int deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public String getPlaceTypeId() {
+        return placeTypeId;
+    }
+
+    public void setPlaceTypeId(String placeTypeId) {
+        this.placeTypeId = placeTypeId;
+    }
+
+    public int getElectrState() {
+        return electrState;
+    }
+
+    public void setElectrState(int electrState) {
+        this.electrState = electrState;
     }
 }

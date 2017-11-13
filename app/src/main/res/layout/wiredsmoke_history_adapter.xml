@@ -47,35 +47,53 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="报警原因："/>
+                        android:text="报警原因:"/>
                     <TextView
                         android:id="@+id/state_tv"
                         android:layout_toRightOf="@id/station_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:layout_marginLeft="5dp"
                         android:text="HJKDSA545FD"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/info_rela"
+                android:id="@+id/info_rela"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="详情:"/>
+                <TextView
+                    android:id="@+id/info_tv"
+                    android:layout_toRightOf="@id/info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="HJKDSA545FD"/>
+            </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/userid_rela"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/info"
+                        android:id="@+id/userid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#404040"
                         android:textSize="16sp"
-                        android:text="详情："/>
+                        android:text="巡检人:"/>
                     <TextView
-                        android:id="@+id/info_tv"
-                        android:layout_toRightOf="@id/info"
+                        android:id="@+id/userid_tv"
+                        android:layout_toRightOf="@id/userid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#404040"
                         android:textSize="16sp"
                         android:text="HJKDSA545FD"/>
                 </RelativeLayout>

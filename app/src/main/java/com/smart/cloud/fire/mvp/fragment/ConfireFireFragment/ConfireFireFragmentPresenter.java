@@ -80,6 +80,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "J":
                 smokeMac = smokeMac.replace("J","");
+                break;
             case "W"://@@5.5水压
                 smokeMac = smokeMac.replace("W","");
                 break;
@@ -94,6 +95,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "Y"://@@8.1水禁
                 smokeMac = smokeMac.replace("Y","");
+                break;
+            case "P"://@@10.31喷淋
+                smokeMac = smokeMac.replace("P","");
                 break;
         }
         if(smokeMac!=null&&smokeMac.length()>0){
@@ -117,6 +121,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     mvpView.hideLoading();
                 }
             }));
+        }else {//@@10.18
+            mvpView.hideLoading();
         }
     }
 
@@ -168,6 +174,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
     public void addSmoke(String userID,String privilege,String smokeName,String smokeMac,String address,String longitude,
                          String latitude,String placeAddress,String placeTypeId,String principal1,String principal1Phone,String principal2,
                          String principal2Phone,String areaId,String repeater,String camera){
+        int electrState=0;//@@8.26电气开关
         if(longitude.length()==0||latitude.length()==0){
             mvpView.addSmokeResult("请获取经纬度",1);
             return;
@@ -192,12 +199,14 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         String deviceType="1";//烟感。。
 
         String macStr = (String) smokeMac.subSequence(0, 1);
-        if(macStr.length()==15){
+        if(smokeMac.length()==15){
             deviceType="14";//GPS
+        }else if(smokeMac.equals(repeater)){
+            deviceType="126";//海湾主机
         }else{
             switch (macStr){
                 case "R":
-                    if ((macStr.charAt(macStr.length()-1)+"").equals("R")){//@@9.29 区分NB
+                    if ((smokeMac.charAt(smokeMac.length()-1)+"").equals("R")){//@@9.29 区分NB
                         deviceType="16";//@@NB燃气
                     }else{
                         deviceType="2";//@@燃气
@@ -205,6 +214,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("R","");//燃气
                     break;
                 case "Q":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("Q")){
+                        electrState=1;
+                    }//@@8.26
                     smokeMac = smokeMac.replace("Q","");//电气火灾
                     deviceType="5";
                     break;
@@ -240,13 +252,24 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("Y","");//水禁
                     deviceType="15";
                     break;
+                case "P":
+                    smokeMac = smokeMac.replace("P","");//10.31喷淋
+                    deviceType="18";
+                    electrState=2;//@@11.01 1开2关
+                    break;
             }
+            if(smokeMac.length()!=8){
+                mvpView.addSmokeResult("设备MAC号长度不正确",1);
+                return;
+            }//@@11.06限制MAC长度
         }
+
+
 
         mvpView.showLoading();
         Observable mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
                 longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
-                principal2Phone,areaId,repeater,camera,deviceType);
+                principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ConfireFireModel>() {
             @Override
             public void onSuccess(ConfireFireModel model) {

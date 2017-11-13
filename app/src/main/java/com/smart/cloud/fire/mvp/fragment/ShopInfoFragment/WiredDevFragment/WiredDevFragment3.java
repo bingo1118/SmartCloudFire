@@ -233,6 +233,11 @@ public class WiredDevFragment3 extends MvpFragment<ShopInfoFragmentPresenter> im
     }
 
     @Override
+    public void refreshView() {
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);

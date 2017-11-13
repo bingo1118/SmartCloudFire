@@ -111,10 +111,7 @@ public class SecurityFragment extends MvpFragment<SecurityDevPresenter> implemen
         swipereFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = "1";
-                list.clear();
-                mvpPresenter.getSecurityInfo(userID, privilege + "", page,"4", list, 1,true,SecurityFragment.this);//@@5.15
-                mvpPresenter.getSmokeSummary(userID,privilege+"","","","","4",SecurityFragment.this);
+                ((SecurityDevActivity)getActivity()).refreshView();
             }
         });
 
@@ -244,6 +241,14 @@ public class SecurityFragment extends MvpFragment<SecurityDevPresenter> implemen
         totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
         onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
         offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+    }
+
+    @Override
+    public void refreshView() {
+        page = "1";
+        list.clear();
+        mvpPresenter.getSecurityInfo(userID, privilege + "", page,"4", list, 1,true,SecurityFragment.this);//@@5.15
+        mvpPresenter.getSmokeSummary(userID,privilege+"","","","","4",SecurityFragment.this);
     }
 
     @Override

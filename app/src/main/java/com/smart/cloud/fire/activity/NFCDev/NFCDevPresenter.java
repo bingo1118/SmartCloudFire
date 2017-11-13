@@ -5,6 +5,7 @@ import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.ElectricInfo;
+import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
@@ -16,6 +17,7 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.Wired
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistory;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
+import com.smart.cloud.fire.utils.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,9 +165,9 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         }));
     }
 
-    public void getNeedNFC(String userId, String areaId, String page){
+    public void getNeedNFC(String userId, String areaId, String page,String devicetype){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"");
+        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"", SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"",devicetype);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -214,8 +216,9 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         mvpView.getChoiceArea(area);
     }
 
-    public void getSmokeSummary(String userid,String privilege,String areaId){
-        Observable mObservable = apiStores1.getNFCSummary(userid,privilege,areaId);
+    public void getSmokeSummary(String userid,String privilege,String areaId,String devicetype){
+        String period=SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"";
+        Observable mObservable = apiStores1.getNFCSummary(userid,privilege,areaId,period,devicetype);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
             @Override
             public void onSuccess(SmokeSummary model) {
@@ -235,11 +238,11 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         }));
     }
 
-    public void getNFCInfo(String userId, String areaId, String page, final List<NFCRecordBean> list, final int type,boolean refresh){
+    public void getNFCInfo(String userId, String areaId,String devicetype, String page, final List<NFCRecordBean> list, final int type,boolean refresh){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,page);
+        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,page,SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"",devicetype);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
