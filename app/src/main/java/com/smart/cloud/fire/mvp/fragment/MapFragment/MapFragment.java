@@ -648,11 +648,12 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 devType);//@@11.13
         if(area_name.length()>0){
             if(devType.equals("7")){
-//                mvpPresenter.getNeedNFC(userID, privilege + "", area_id, "","");//@@8.18
+                mvpPresenter.getNeedNFC(userID, privilege + "", area_id, "","");//@@8.18
             }else{
                 mvpPresenter.getNeedSmoke(userID, privilege + "", area_id, "",devType,isParent);//获取按照要求获取设备。。
-                areaCondition.setEditText(area_name);
+//                areaCondition.setEditText(area_name);
             }
+            areaCondition.setEditText(area_name);
         }
     }
 

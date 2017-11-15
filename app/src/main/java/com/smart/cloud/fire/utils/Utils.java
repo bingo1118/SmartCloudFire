@@ -356,6 +356,14 @@ public class Utils {
         return pattern.matcher(str).matches();
     }
 
+    public static boolean isNumOrEng(String str) {
+        if (null == str || "".equals(str)) {
+            return false;
+        }
+        boolean hasSymble = str.matches("^[\\da-zA-Z]*$");
+        return hasSymble;
+    }
+
     public static void deleteFile(File file) {
         if (file.isFile()) {
             file.delete();

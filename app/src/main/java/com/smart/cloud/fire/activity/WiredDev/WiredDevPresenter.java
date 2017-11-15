@@ -107,7 +107,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
     }
     public void getNeedLossSmoke(String userId, String privilege,String parentId, String areaId, String placeTypeId, final String page,String devType, boolean refresh, final int type, final List<Smoke> list, final OfflineWiredDevFragment offLineDevFragment){
         if(!refresh){
-            mvpView.showLoading();
+            offLineDevFragment.showLoading();
         }
         Observable mObservable = apiStores1.getNeedLossDev(userId,privilege,parentId,areaId,page,placeTypeId,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
@@ -140,7 +140,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
 
             @Override
             public void onCompleted() {
-                mvpView.hideLoading();
+                offLineDevFragment.hideLoading();
             }
         }));
     }

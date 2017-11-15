@@ -249,6 +249,12 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         SharedPreferencesManager.SP_FILE_GWELL,
                         SharedPreferencesManager.KEY_RECENTPASS,
                         "");
+                SharedPreferencesManager.getInstance().removeData(mContext,
+                        "LASTAREANAME");//@@11.13
+                SharedPreferencesManager.getInstance().removeData(mContext,
+                        "LASTAREAID");//@@11.13
+                SharedPreferencesManager.getInstance().removeData(mContext,
+                        "LASTAREAISPARENT");//@@11.13
                 PushManager.getInstance().stopService(getApplicationContext());
                 unbindAlias();
                 Intent in = new Intent(mContext, SplashActivity.class);

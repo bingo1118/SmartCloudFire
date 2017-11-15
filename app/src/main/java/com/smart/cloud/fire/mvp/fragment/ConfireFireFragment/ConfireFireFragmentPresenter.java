@@ -11,6 +11,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.service.LocationService;
+import com.smart.cloud.fire.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -262,6 +263,10 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 mvpView.addSmokeResult("设备MAC号长度不正确",1);
                 return;
             }//@@11.06限制MAC长度
+            if(!Utils.isNumOrEng(smokeMac)){
+                mvpView.addSmokeResult("设备MAC仅能含有数字或字母",1);
+                return;
+            }
         }
 
 

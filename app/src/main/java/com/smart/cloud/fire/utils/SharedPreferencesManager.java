@@ -178,6 +178,13 @@ public class SharedPreferencesManager {
         editor.commit();
     }
 
+    //@@11.14清空文件
+    public void removeData(Context context,String fileName){
+        SharedPreferences sf = context.getSharedPreferences(fileName, context.MODE_PRIVATE);
+        Editor editor = sf.edit();
+        editor.clear().commit();
+    }
+
     public long getLastAutoCheckUpdateTime(Context context){
         SharedPreferences sf = context.getSharedPreferences(FILE_NAME, context.MODE_PRIVATE);
         return sf.getLong(LAST_AUTO_CHECK_UPDATE_TIME, 0);
