@@ -325,7 +325,9 @@ public interface ApiStores {
                                         @Field("smokeName") String smokeName, @Field("uid") String uid,
                                           @Field("address") String address, @Field("longitude") String longitude,
                                           @Field("latitude") String latitude,
-                                          @Field("deviceType") String deviceType,@Field("areaId") String areaId);
+                                          @Field("deviceType") String deviceType,@Field("areaId") String areaId,
+                                        @Field("producer") String producer,
+                                        @Field("makeTime") String makeTime,@Field("workerPhone") String workerPhone);
 
     //获取NFC
     @GET("getNFCInfo")

@@ -207,17 +207,21 @@
         <activity
             android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevActivity" />
         <activity
             android:name="com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity" />
         <activity android:name="com.smart.cloud.fire.activity.NFC.NFCTraceActivity" />
         <activity android:name="com.smart.cloud.fire.activity.NFC.ChooseConditionActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity"
+            android:launchMode="singleTop"></activity>
     </application>
 
 </manifest>

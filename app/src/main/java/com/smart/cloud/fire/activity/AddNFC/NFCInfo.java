@@ -5,20 +5,96 @@ package com.smart.cloud.fire.activity.AddNFC;
  */
 public class NFCInfo {
 
-    String uid;
-    String lon;
-    String lat;
-    String areaId;
-    String areaName;
-    String deviceTypeId;
-    String deviceTypeName;
-    String deviceName;
-    String address;
+    String uid;//设备ID
+    String lon;//经度
+    String lat;//纬度
+    String areaId;//区域ID
+    String areaName;//区域名
+    String deviceTypeId;//设备类型号
+    String deviceTypeName;//设备类型名称
+    String deviceName;//设备名称
+    String address;//设备地址
+
+    String memo;//备注
+    String userId;//添加人账号
+    String addTime;//添加时间
+    String producer;//厂家
+    String makeTime;//生产日期
+    String overTime;//过期日期
+    String workerName;//巡检人
+    String workerPhone;//巡检人账号
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getWorkerPhone() {
+        return workerPhone;
+    }
+
+    public void setWorkerPhone(String workerPhone) {
+        this.workerPhone = workerPhone;
+    }
+
+    public String getWorkerName() {
+        return workerName;
+    }
+
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
+    }
+
+    public String getOverTime() {
+        return overTime;
+    }
+
+    public void setOverTime(String overTime) {
+        this.overTime = overTime;
+    }
+
+    public String getMakeTime() {
+        return makeTime;
+    }
+
+    public void setMakeTime(String makeTime) {
+        this.makeTime = makeTime;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public String getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+
 
     public NFCInfo() {
     }
 
-    public NFCInfo(String uid, String lon, String lat, String areaId, String areaName, String deviceTypeId, String deviceTypeName, String deviceName, String address) {
+    public NFCInfo(String uid, String lon, String lat, String areaId, String areaName, String deviceTypeId,
+                   String deviceTypeName, String deviceName, String address,String producer,String makeTime) {
 
         this.uid = uid;
         this.lon = lon;
@@ -29,6 +105,8 @@ public class NFCInfo {
         this.deviceTypeName = deviceTypeName;
         this.deviceName = deviceName;
         this.address = address;
+        this.producer=producer;
+        this.makeTime=makeTime;
     }
 
     public String getUid() {

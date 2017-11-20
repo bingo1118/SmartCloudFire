@@ -258,8 +258,13 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
                     }
                 }else{
                     List<NFCRecordBean> mSmokeList = new ArrayList<>();
-                    mvpView.getDataSuccess(mSmokeList,false);
-                    mvpView.getDataFail("无数据");
+//                    mvpView.getDataSuccess(mSmokeList,false);
+//                    mvpView.getDataFail("无数据");
+                    if(list==null||list.size()==0){//@@11.20
+                        mvpView.getDataSuccess(mSmokeList,false);
+                    }else if(list!=null&&list.size()>=20){
+                        mvpView.onLoadingMore(mSmokeList);
+                    }
                 }
             }
 

@@ -83,6 +83,65 @@
                     android:src="@drawable/saoma_selector"/>
             </RelativeLayout>
             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/producer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*厂家:"/>
+                <EditText
+                    android:id="@+id/producer_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="14sp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="6dp"
+                    android:hint="厂家"
+                    android:textColor="@color/text_view_and_kuang"
+                    android:textColorHint="@color/hint_color_text"
+                    android:imeOptions="actionNext"
+                    android:background="@drawable/edit_view_bg"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/makeTime_rela">
+                <TextView
+                    android:id="@+id/makeTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*生产日期:"/>
+                <TextView
+                    android:id="@+id/makeTime_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="14sp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:padding="6dp"
+                    android:text="生产日期"
+                    android:layout_toRightOf="@id/makeTime"
+                    android:textColor="@color/hint_color_text"
+                    android:imeOptions="actionNext"
+                    android:background="@drawable/edit_view_bg"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/add_camera_relative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,189 +176,235 @@
                 </RelativeLayout>
 
             </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/info_line"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:id="@+id/camera_pwd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*名称"/>
+                android:visibility="gone"
+                android:orientation="vertical">
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:background="@drawable/edit_view_bg">
-                    <EditText
-                        android:id="@+id/add_fire_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:textSize="14sp"
-                        android:background="@null"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:hint="名称"
-                        android:textColorHint="@color/hint_color_text"
-                        android:textColor="@color/text_view_and_kuang"
-                        />
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/camera_pwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="*名称"/>
+                    <RelativeLayout
+                        android:id="@+id/rela_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:background="@drawable/edit_view_bg">
+                        <EditText
+                            android:id="@+id/add_fire_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textSize="14sp"
+                            android:background="@null"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:hint="名称"
+                            android:textColorHint="@color/hint_color_text"
+                            android:textColor="@color/text_view_and_kuang"
+                            />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rela_lat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="120dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="*纬度"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:background="@drawable/edit_view_bg">
+                        <EditText
+                            android:id="@+id/add_fire_lat"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textSize="14sp"
+                            android:background="@null"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:editable="false"
+                            android:hint="@string/add_fire_lat"
+                            android:textColorHint="@color/hint_color_text"
+                            android:textColor="@color/text_view_and_kuang"
+                            android:imeOptions="actionNext"
+                            />
+                    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/location_image"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/tj_dw_selector"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rela_lng"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="120dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="*经度"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:background="@drawable/edit_view_bg">
+                        <EditText
+                            android:id="@+id/add_fire_lon"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textSize="14sp"
+                            android:background="@null"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:editable="false"
+                            android:hint="@string/add_fire_lon"
+                            android:textColorHint="@color/hint_color_text"
+                            android:textColor="@color/text_view_and_kuang"
+                            android:imeOptions="actionNext"
+                            />
+                    </RelativeLayout>
                 </RelativeLayout>
 
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="120dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="8dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*纬度"/>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@drawable/edit_view_bg">
-                    <EditText
-                        android:id="@+id/add_fire_lat"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:textSize="14sp"
-                        android:background="@null"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:editable="false"
-                        android:hint="@string/add_fire_lat"
-                        android:textColorHint="@color/hint_color_text"
-                        android:textColor="@color/text_view_and_kuang"
-                        android:imeOptions="actionNext"
-                        />
-                </RelativeLayout>
-                <ImageView
-                    android:id="@+id/location_image"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/tj_dw_selector"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="120dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="8dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*经度"/>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@drawable/edit_view_bg">
-                    <EditText
-                        android:id="@+id/add_fire_lon"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:textSize="14sp"
-                        android:background="@null"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:editable="false"
-                        android:hint="@string/add_fire_lon"
-                        android:textColorHint="@color/hint_color_text"
-                        android:textColor="@color/text_view_and_kuang"
-                        android:imeOptions="actionNext"
-                        />
-                </RelativeLayout>
-            </RelativeLayout>
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*地址"/>
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rela_address"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:background="@drawable/edit_view_bg">
-                    <EditText
-                        android:id="@+id/add_fire_address"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="*地址"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:background="@drawable/edit_view_bg">
+                        <EditText
+                            android:id="@+id/add_fire_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:background="@null"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:layout_centerVertical="true"
+                            android:hint="@string/add_fire_address"
+                            android:textColorHint="@color/hint_color_text"
+                            android:singleLine="false"
+                            android:textColor="@color/text_view_and_kuang"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rela_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="*区域"/>
+                    <com.smart.cloud.fire.view.XCDropDownListView
+                        android:id="@+id/add_fire_zjq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:background="@null"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp"
+                        android:layout_marginLeft="50dp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rela_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:hint="@string/add_fire_address"
-                        android:textColorHint="@color/hint_color_text"
-                        android:singleLine="false"
+                        android:text="*类型"/>
+                    <com.smart.cloud.fire.view.XCDropDownListView
+                        android:id="@+id/add_fire_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rela_worker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/workerPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="绑定巡检账号:"/>
+                    <EditText
+                        android:id="@+id/workerPhone_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:textSize="14sp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="6dp"
+                        android:layout_toRightOf="@id/workerPhone"
+                        android:hint="绑定巡检账号"
                         android:textColor="@color/text_view_and_kuang"
+                        android:textColorHint="@color/hint_color_text"
+                        android:imeOptions="actionNext"
+                        android:background="@drawable/edit_view_bg"
                         />
                 </RelativeLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*区域"/>
-                <com.smart.cloud.fire.view.XCDropDownListView
-                    android:id="@+id/add_fire_zjq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*类型"/>
-                <com.smart.cloud.fire.view.XCDropDownListView
-                    android:id="@+id/add_fire_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp" />
-            </RelativeLayout>
+            </LinearLayout>
+
+
 
 
 
@@ -309,10 +414,12 @@
         </LinearLayout>
     </ScrollView>
 
+
     <RelativeLayout
         android:id="@+id/add_fire_dev_btn"
         android:layout_width="150dp"
         android:layout_height="45dp"
+        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
@@ -326,5 +433,7 @@
             android:layout_centerInParent="true"
             />
     </RelativeLayout>
+
+
     <include layout="@layout/progress_bar"/>
 </RelativeLayout>

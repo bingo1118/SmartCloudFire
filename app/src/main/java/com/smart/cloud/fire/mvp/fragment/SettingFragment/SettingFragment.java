@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.MyApp;
@@ -39,6 +40,8 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     ProgressBar mProgressBar;
     @Bind(R.id.setting_camera_relative)
     RelativeLayout settingCameraRelative;
+    @Bind(R.id.nfc_mac_add)
+    RelativeLayout nfc_mac_add;//@@11.17
     @Bind(R.id.line_state)
     TextView lineState;
     @Bind(R.id.nfc_radiogroup)
@@ -104,6 +107,9 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
 //            settingHelpRela.setVisibility(View.VISIBLE);//显示添加摄像机。。
             settingCameraRelative.setVisibility(View.VISIBLE);//显示绑定摄像机。。
         }
+        if (privilege == 4) {
+            nfc_mac_add .setVisibility(View.VISIBLE);
+        }
         nfc_radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -128,7 +134,8 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
         });
     }
 
-    @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit, R.id.setting_camera_relative,R.id.setting_nfc})
+    @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit,
+            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.app_update:
@@ -156,6 +163,10 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
             case R.id.setting_nfc:
                 Intent intent3 = new Intent(mContext, UploadNFCInfoActivity.class);
                 startActivity(intent3);
+                break;
+            case R.id.nfc_mac_add:
+                Intent intent6 = new Intent(mContext, AddNFCMacActivity.class);
+                startActivity(intent6);
                 break;
             default:
                 break;
