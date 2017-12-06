@@ -202,6 +202,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         String macStr = (String) smokeMac.subSequence(0, 1);
         if(smokeMac.length()==15){
             deviceType="14";//GPS
+        }else if(smokeMac.length()==16){
+            deviceType="21";//loraOne烟感
         }else if(smokeMac.equals(repeater)){
             deviceType="126";//海湾主机
         }else{

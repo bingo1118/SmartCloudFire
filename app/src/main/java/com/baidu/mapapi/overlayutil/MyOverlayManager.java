@@ -44,6 +44,7 @@ public class MyOverlayManager extends OverlayManager {
         this.mapNormalNFC = mapNormalSmoke;
         this.mMapFragmentPresenter = mMapFragmentPresenter;
         this.viewList = viewList;
+        this.mapNormalSmoke=null;//@@11.29
     }
 
     @Override

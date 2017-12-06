@@ -93,11 +93,19 @@ public class DemoIntentService extends GTIntentService {
                 case 12://门磁
                 case 15://水禁
                 case 18://喷淋
+                case 21://LoraOne烟感
                 case 8://手报
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
                         case 1:
+                            if(alarmType==202) {
+                                message="发生烟雾报警";
+                            }else{
+                                message="烟感电量低，请更换电池";
+                            }
+                            break;
+                        case 21:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
                             }else{
@@ -297,6 +305,15 @@ public class DemoIntentService extends GTIntentService {
                             if(alarmType16!=0){
                                 alarmMsg = "电气探测器发出：合闸报警";
                             }
+                            break;
+                        case 49://短路报警
+                            alarmMsg = "电气探测器发出：短路报警";
+                            break;
+                        case 50://过热报警
+                            alarmMsg = "电气探测器发出：过热报警";
+                            break;
+                        case 51:
+                            alarmMsg = "电气探测器发出：分闸报警";
                             break;
                         default:
                             alarmMsg = "电气探测器发出：无该报警类型（测试）";

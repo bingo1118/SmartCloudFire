@@ -101,6 +101,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) holder).state_tv.setVisibility(View.GONE);
             }//@@11.01
             switch (devType){
+                case 21://@@12.01 Lora烟感
                 case 1://烟感。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName()+"（已离线)");

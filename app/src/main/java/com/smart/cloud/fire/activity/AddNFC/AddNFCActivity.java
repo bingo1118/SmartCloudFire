@@ -83,6 +83,8 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
     EditText addFireAddress;//设备地址。。
     @Bind(R.id.makeTime_edit)
     TextView makeTime_text;//生产时间@@11.16
+    @Bind(R.id.makeAddress_edit)
+    EditText makeAddress_edit;//生产地址@@11.28
     @Bind(R.id.scan_er_wei_ma)
     ImageView scanErWeiMa;
     @Bind(R.id.location_image)
@@ -124,7 +126,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
 
     private NFCInfo nfcInfo;
 
-    boolean isAddInfo=false;
+//    boolean isAddInfo=false;
 
 
     private static final int DATE_DIALOG_ID = 1;
@@ -150,7 +152,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter==null) {
             toast("设备不支持NFC功能");
-//            return;
+            return;
         }
         init();
         initNFC();
@@ -169,7 +171,8 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
             //创建Ndef对象
             NdefMessage[] msgs = getNdefMessages(intent);
             String body = new String(msgs[0].getRecords()[0].getPayload());
-            setNoteBody(body);
+//            setNoteBody(body);
+
 
             if(alertDialog!=null){
                 alertDialog.dismiss();
@@ -229,29 +232,30 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         RxView.clicks(addFireDevBtn).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                RequestQueue mQueue = Volley.newRequestQueue(mContext);
-                String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+addFireMac.getText().toString().trim();
-                StringRequest stringRequest = new StringRequest(url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                if(response.equals("0")){
-                                    if(isAddInfo){
-                                        addFire();
-                                    }else{
-                                        addFire2();
-                                    };
-                                }else{
-                                    T.showShort(mContext,"该标签未入库");
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                    }
-                });//@@11.20
-                mQueue.add(stringRequest);
+                addFire();
+//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
+//                String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+addFireMac.getText().toString().trim();
+//                StringRequest stringRequest = new StringRequest(url,
+//                        new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                if(response.equals("0")){
+//                                    if(isAddInfo){
+//                                        addFire();
+//                                    }else{
+//                                        addFire2();
+//                                    };
+//                                }else{
+//                                    T.showShort(mContext,"该标签未入库");
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.e("TAG", error.getMessage(), error);
+//                    }
+//                });//@@11.20
+//                mQueue.add(stringRequest);
             }
         });
         nfcInfo=new NFCInfo();
@@ -322,7 +326,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
             toast("请填写生产日期");
             return;
         }
-        nfcInfo=new NFCInfo(smokeMac,"","","","","","","","",producer,makeTime);
+        nfcInfo=new NFCInfo(smokeMac,"","","","","","","","",producer,makeTime,"","");
         writeNFC();
     }
 
@@ -345,6 +349,9 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
 
         String producer=producer_edit.getText().toString().trim();
         String makeTime=makeTime_text.getText().toString().trim();
+        String makeAddress=makeAddress_edit.getText().toString().trim();
+
+        String workerPhone=workerPhone_edit.getText().toString().trim();
 
         if(longitude.length()==0||latitude.length()==0){
             toast("请获取经纬度");
@@ -366,7 +373,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
             toast("请填选择类型");
             return;
         }
-        nfcInfo=new NFCInfo(smokeMac,longitude,latitude,areaId,mArea.getAreaName(),shopTypeId,nfcDeviceType.getPlaceTypeName(),smokeName,address,producer,makeTime);
+        nfcInfo=new NFCInfo(smokeMac,longitude,latitude,areaId,mArea.getAreaName(),shopTypeId,nfcDeviceType.getPlaceTypeName(),smokeName,address,producer,makeTime,makeAddress,workerPhone);
         writeNFC();
     }
 
@@ -588,6 +595,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         addFireType.setEditTextData("");
         addFireZjq.setEditTextData("");//@@10.19
         addCameraName.setText("");
+        makeAddress_edit.setText("");//@@11.28
     }
     //@@NFC相关>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     private void disableTagWriteMode() {
@@ -650,12 +658,12 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
             if(jsonObject.getString("producer").length()>0){
                 producer_edit.setText(jsonObject.getString("producer"));
                 makeTime_text.setText(jsonObject.getString("makeTime"));
-                isAddInfo=true;
+//                isAddInfo=true;
                 info_line.setVisibility(View.VISIBLE);
                 producer_edit.setEnabled(false);
                 makeTime_text.setEnabled(false);
             }else{
-                isAddInfo=false;
+//                isAddInfo=false;
                 info_line.setVisibility(View.GONE);
                 producer_edit.setEnabled(true);
                 makeTime_text.setEnabled(true);
@@ -703,7 +711,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
                 toast("写入数据成功.");
                 mvpPresenter.addNFC(userID, privilege + "", nfcInfo.getDeviceName(), nfcInfo.getUid(), nfcInfo.getAddress(),
                         nfcInfo.getLon(), nfcInfo.getLat(), nfcInfo.getDeviceTypeId(),nfcInfo.getAreaId(),nfcInfo.getProducer(),
-                        nfcInfo.getMakeTime(),nfcInfo.getWorkerPhone());
+                        nfcInfo.getMakeTime(),nfcInfo.getWorkerPhone(),nfcInfo.getMakeAddress());
                 mWriteMode=false;//@@10.19
                 return true;
             } else {

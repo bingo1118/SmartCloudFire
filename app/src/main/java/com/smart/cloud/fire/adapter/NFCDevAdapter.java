@@ -104,12 +104,15 @@ public class NFCDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             switch (normalSmoke.getDevicestate()){
                 case "0":
                     state="待检";
+                    ((ItemViewHolder) holder).repeater_tv.setTextColor(Color.BLACK);
                     break;
                 case "1":
                     state="合格";
+                    ((ItemViewHolder) holder).repeater_tv.setTextColor(Color.BLACK);
                     break;
                 case "2":
                     state="不合格";
+                    ((ItemViewHolder) holder).repeater_tv.setTextColor(Color.RED);
                     break;
             }
             ((ItemViewHolder) holder).repeater_tv.setText(state);

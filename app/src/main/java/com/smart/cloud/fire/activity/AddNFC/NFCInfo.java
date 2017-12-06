@@ -23,6 +23,17 @@ public class NFCInfo {
     String overTime;//过期日期
     String workerName;//巡检人
     String workerPhone;//巡检人账号
+    String makeAddress;//生产地址
+
+    public String getMakeAddress() {
+        return makeAddress;
+    }
+
+    public void setMakeAddress(String makeAddress) {
+        this.makeAddress = makeAddress;
+    }
+
+
 
     public String getMemo() {
         return memo;
@@ -94,7 +105,8 @@ public class NFCInfo {
     }
 
     public NFCInfo(String uid, String lon, String lat, String areaId, String areaName, String deviceTypeId,
-                   String deviceTypeName, String deviceName, String address,String producer,String makeTime) {
+                   String deviceTypeName, String deviceName, String address,String producer,String makeTime,
+                    String makeAddress,String workerPhone) {
 
         this.uid = uid;
         this.lon = lon;
@@ -107,6 +119,8 @@ public class NFCInfo {
         this.address = address;
         this.producer=producer;
         this.makeTime=makeTime;
+        this.makeAddress=makeAddress;
+        this.workerPhone=workerPhone;
     }
 
     public String getUid() {

@@ -195,16 +195,15 @@ public class UploadNFCInfoActivity extends Activity {
                                     public void onResponse(JSONObject response) {
                                         try {
                                             int errorCode=response.getInt("errorCode");
+                                            String error=response.getString("error");
                                             if(errorCode==0){
                                                 toast("记录上传成功");
                                                 clearView();
                                                 if(f.exists()){
                                                     f.delete();
                                                 }//@@9.30
-                                            }else if(errorCode==1){
-                                                toast("参数错误");
                                             }else{
-                                                toast("上传失败");
+                                                toast(error);
                                             }
                                             Message message = new Message();
                                             message.what = 0;

@@ -63,7 +63,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
-        mContext=this;
+        mContext=MyApp.app;
         btn_confirm=(Button)findViewById(R.id.confirm_btn);
         image_location=(ImageView)findViewById(R.id.location_image);
         btn_confirm.setOnClickListener(this);
@@ -134,7 +134,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
     private void initMyLocation()
     {
         // 定位初始化
-        mLocationClient = new LocationClient(MyApp.app);
+        mLocationClient = new LocationClient(getApplicationContext());
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         // 设置定位的相关配置

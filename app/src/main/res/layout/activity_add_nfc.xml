@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="*厂家:"/>
+                    android:text="厂家:"/>
                 <EditText
                     android:id="@+id/producer_edit"
                     android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="*生产日期:"/>
+                    android:text="生产日期:"/>
                 <TextView
                     android:id="@+id/makeTime_edit"
                     android:layout_width="match_parent"
@@ -137,6 +137,36 @@
                     android:text="生产日期"
                     android:layout_toRightOf="@id/makeTime"
                     android:textColor="@color/hint_color_text"
+                    android:imeOptions="actionNext"
+                    android:background="@drawable/edit_view_bg"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/makeAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="生产地址:"/>
+                <EditText
+                    android:id="@+id/makeAddress_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="14sp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:padding="6dp"
+                    android:hint="生产地址"
+                    android:layout_toRightOf="@id/makeAddress"
+                    android:textColor="@color/text_view_and_kuang"
+                    android:textColorHint="@color/hint_color_text"
                     android:imeOptions="actionNext"
                     android:background="@drawable/edit_view_bg"
                     />
@@ -180,7 +210,6 @@
                 android:id="@+id/info_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"

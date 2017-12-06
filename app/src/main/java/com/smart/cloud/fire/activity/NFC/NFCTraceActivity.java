@@ -166,14 +166,23 @@ public class NFCTraceActivity extends Activity {
                 R.layout.view_nfc_hg, null);
         BitmapDescriptor view_nfc_hg = BitmapDescriptorFactory
                 .fromView(view);
+        View view_bhg = LayoutInflater.from(mContext).inflate(
+                R.layout.view_nfc_bhg, null);
+        BitmapDescriptor view_nfc_bhg = BitmapDescriptorFactory
+                .fromView(view_bhg);
         for (int i = 0; i < traceNFCItems.size(); i++) {
             NFCRecordBean info=traceNFCItems.get(i);
             LatLng latLng = new LatLng(Double.parseDouble(info
                     .getLatitude()), Double.parseDouble(info
                     .getLongitude()));
             points.add(latLng);
-            overlayOptions = new MarkerOptions().position(latLng)
-                    .icon(view_nfc_hg).zIndex(5);
+            if(info.getDevicestate().equals("1")){
+                overlayOptions = new MarkerOptions().position(latLng)
+                        .icon(view_nfc_hg).zIndex(5);
+            }else{
+                overlayOptions = new MarkerOptions().position(latLng)
+                        .icon(view_nfc_bhg).zIndex(5);
+            }
             marker = (Marker) (mBaiduMap.addOverlay(overlayOptions));
             Bundle bundle = new Bundle();
             bundle.putSerializable("info", info);

@@ -111,10 +111,10 @@ public class AddNFCPresenter extends BasePresenter<AddNFCView> {
     }
 
     public void addNFC(String userID,String privilege,String smokeName,String smokeMac,String address,String longitude,
-                         String latitude,String placeTypeId,String areaId,String producer,String makeTime,String workerPhone){
+                         String latitude,String placeTypeId,String areaId,String producer,String makeTime,String workerPhone,String makeAddress){
         mvpView.showLoading();
         Observable mObservable = apiStores1.addNFC(userID,privilege,smokeName,smokeMac,address,
-                longitude,latitude,placeTypeId,areaId,producer,makeTime,workerPhone);
+                longitude,latitude,placeTypeId,areaId,producer,makeTime,workerPhone,makeAddress);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ConfireFireModel>() {
             @Override
             public void onSuccess(ConfireFireModel model) {

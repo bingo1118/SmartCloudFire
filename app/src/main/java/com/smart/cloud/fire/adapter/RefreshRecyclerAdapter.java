@@ -204,6 +204,12 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         case 48:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);//@@6.28
                             break;
+                        case 49:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.duanlu);
+                            break;
+                        case 50:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.guore);//@@6.28
+                            break;
                         case 143:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gy);
                             ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
@@ -222,6 +228,10 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             break;
                         case 147:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gw);
+                            ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
+                            break;
+                        case 51:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_fz);
                             ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+" (线路已断开)");
                             break;
                         case 148:
