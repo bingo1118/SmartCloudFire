@@ -100,7 +100,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 }else{
                     mvpView.hideLoading();
                     String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@7.12
-                    loginServer2(User,Pwd,userCID);//@@7.12 如果技威登录失败，也登陆我们服务器
+                    loginServer2(User,"",userCID);//@@7.12 如果技威登录失败，也登陆我们服务器@@12.12密码发空串，防止保存
 //                    mvpView.getDataFail("网络错误，请检查网络");
                 }
                 //@@6.29跳过技威登陆
