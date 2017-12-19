@@ -12,10 +12,17 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -23,11 +30,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeView;
 import com.smart.cloud.fire.activity.Map.MapActivity;
 import com.smart.cloud.fire.activity.NFC.ChooseConditionActivity;
+import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.adapter.NFCDevAdapter;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
@@ -324,12 +333,123 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 startActivity(intent);
                 break;
             case R.id.trace_search:
-                Intent intent1=new Intent(NFCDevActivity.this, ChooseConditionActivity.class);
-                startActivity(intent1);
+                showPopupWindow(view);
+//                Intent intent1=new Intent(NFCDevActivity.this, ChooseConditionActivity.class);
+//                startActivity(intent1);
                 break;
             default:
                 break;
         }
+    }
+
+    private void showPopupWindow(View view) {
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(mContext).inflate(
+                R.layout.nfc_device_menu, null);
+
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT , true);
+
+        RelativeLayout nfc_mac_add=(RelativeLayout)contentView.findViewById(R.id.nfc_mac_add);
+        if(privilege==4){
+            nfc_mac_add.setVisibility(View.VISIBLE);
+        }else{
+            nfc_mac_add.setVisibility(View.GONE);
+        }
+        nfc_mac_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent6 = new Intent(mContext, AddNFCMacActivity.class);
+                startActivity(intent6);
+                popupWindow.dismiss();
+            }
+        });
+
+
+        RadioGroup nfc_radiogroup=(RadioGroup)contentView.findViewById(R.id.nfc_radiogroup);
+        RadioButton everymonth=(RadioButton)contentView.findViewById(R.id.everymonth);
+        RadioButton everyweek=(RadioButton)contentView.findViewById(R.id.everyweek);
+        RadioButton everyday=(RadioButton)contentView.findViewById(R.id.everyday);
+        RelativeLayout track_rela=(RelativeLayout)contentView.findViewById(R.id.setting_nfc_track);
+        track_rela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(NFCDevActivity.this, ChooseConditionActivity.class);
+                startActivity(intent1);
+                popupWindow.dismiss();
+            }
+        });
+        RelativeLayout period_rela=(RelativeLayout)contentView.findViewById(R.id.setting_nfc_period);
+        RelativeLayout nfc_rela=(RelativeLayout)contentView.findViewById(R.id.setting_nfc);
+        nfc_rela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent3 = new Intent(mContext, UploadNFCInfoActivity.class);
+                startActivity(intent3);
+                popupWindow.dismiss();
+            }
+        });
+
+        int peroid=SharedPreferencesManager.getInstance().getIntData(mContext,"NFC_period");//@@10.24
+        switch (peroid){
+            case 0:
+                everymonth.setChecked(true);
+                break;
+            case 1:
+                everyweek.setChecked(true);
+                break;
+            case 2:
+                everyday.setChecked(true);
+                break;
+            default:
+                everymonth.setChecked(true);
+                break;
+        }//@@10.24
+
+        nfc_radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int period=0;
+                switch (checkedId){
+                    case R.id.everymonth:
+                        period=0;
+                        break;
+                    case R.id.everyweek:
+                        period=1;
+                        break;
+                    case R.id.everyday:
+                        period=2;
+                        break;
+                    default:
+                        period=0;
+                        break;
+                }
+                SharedPreferencesManager.getInstance().putData(mContext,"NFC_period",period);
+                T.showShort(mContext,"设置成功");
+            }
+        });
+
+
+
+
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.i("mengdd", "onTouch : ");
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        popupWindow.setBackgroundDrawable(getResources().getDrawable( R.drawable.list_item_color_bg));
+        // 设置好参数之后再show
+        popupWindow.showAsDropDown(view);
     }
 
 

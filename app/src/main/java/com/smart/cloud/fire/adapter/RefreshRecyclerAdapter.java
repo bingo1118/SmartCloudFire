@@ -120,7 +120,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 18://@@10.31 喷淋
                     ((ItemViewHolder) holder).smokeMac.setText("喷淋:");
-                    if (alarmType == 202) {
+                    if (alarmType == 202||alarmType==66) {
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_huojing);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));

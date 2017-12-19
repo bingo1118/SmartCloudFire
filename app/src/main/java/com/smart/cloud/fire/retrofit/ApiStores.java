@@ -289,11 +289,17 @@ public interface ApiStores {
                                                                @Query("smokeMac") String smokeMac);
 
 //    getElectricTypeInfo?userId=13428282520&privilege=2&smokeMac=32110533&electricType=6&electricNum=1&page=
+    @GET("getWaterHistoryInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<TemperatureTime> getWaterHistoryInfo(@Query("userId") String userId, @Query("privilege") String privilege,
+                                                    @Query("smokeMac") String smokeMac, @Query("page") String page);
+
     @GET("getElectricTypeInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<TemperatureTime> getElectricTypeInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                     @Query("smokeMac") String smokeMac, @Query("electricType") String electricType,
                                                     @Query("electricNum") String electricNum, @Query("page") String page);
+
 //    getNeedElectricInfo?userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
     @GET("getNeedElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")

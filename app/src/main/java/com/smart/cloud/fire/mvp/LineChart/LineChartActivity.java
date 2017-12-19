@@ -87,6 +87,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     private boolean haveDataed = true;
     private Map<Integer, String> data = new HashMap<>();
 
+    private String isWater=null;//@@12.15
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +102,13 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         electricMac = getIntent().getExtras().getString("electricMac");
         electricType = getIntent().getExtras().getInt("electricType") + "";
         electricNum = getIntent().getExtras().getInt("electricNum") + "";
+        isWater=getIntent().getExtras().getString("isWater");//@@12.15
         electricBeen = new ArrayList<>();
-        mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+        if(isWater==null){
+            mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+        }else{
+            mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+        }
         initView();
         initListener();
     }
@@ -192,6 +199,12 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 axisY.setName("温度值(℃)");
                 titleTv.setText("温度折线图");
                 break;
+            default:
+                if(isWater!=null){
+                    axisY.setName("水压值(kPa)");
+                    titleTv.setText("历史水压值折线图");
+                }
+                break;
         }
         axisX.setTextColor(Color.GRAY);//X轴灰色
         axisX.setMaxLabelChars(3);
@@ -235,9 +248,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
      */
     private void resetViewport(List<TemperatureTime.ElectricBean> tem) {
         //创建一个图标视图,大小为控件的最大大小
-        int value=0;
+        float value=0;
         if(tem!=null&&tem.size()>0){
-            value = Utils.getMax(tem)*2;
+            value = Utils.getMax(tem)*1.5f;
         }
         final Viewport v = new Viewport(mLineChartView.getMaximumViewport());
         v.left = 0;                             //坐标原点在左下
@@ -329,6 +342,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 case "9":
                     Toast.makeText(LineChartActivity.this, "温度值为: " + value.getY() + "℃", Toast.LENGTH_SHORT).show();
                     break;
+                default:
+                    if(isWater!=null){
+                        Toast.makeText(LineChartActivity.this, "水压值为: " + value.getY() + "kPa", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
             }
         }
 
@@ -352,7 +370,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     btnBefore.setClickable(true);
                     btnBefore.setBackgroundResource(R.drawable.before_selector);
                 }
-                mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                if(isWater==null){
+                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                }else{
+                    mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                }
                 break;
             case R.id.btn_before:
                 if (page > 1) {
@@ -361,7 +383,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         btnBefore.setClickable(false);
                         btnBefore.setBackgroundResource(R.mipmap.prve_an);
                     }
-                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                    if(isWater==null){
+                        mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                    }else{
+                        mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                    }
                 }
                 break;
             case R.id.btn_new:
@@ -370,7 +396,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 btnBefore.setBackgroundResource(R.mipmap.prve_an);
                 btnNext.setClickable(true);
                 btnNext.setBackgroundResource(R.drawable.next_selector);
-                mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                if(isWater==null){
+                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                }else{
+                    mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                }
                 break;
         }
     }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
+import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity;
@@ -212,6 +213,15 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, LineChartActivity.class);
+                            intent.putExtra("electricMac",normalSmoke.getMac());
+                            intent.putExtra("isWater","1");//@@是否为水压
+                            mContext.startActivity(intent);
+                        }
+                    });
                     break;
                 case 15://水浸设备@@8.3。。
                     if (netStates == 0) {//设备不在线。。

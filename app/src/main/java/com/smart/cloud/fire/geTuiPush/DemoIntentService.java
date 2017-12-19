@@ -113,7 +113,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 18://@@10.31 喷淋
-                            if(alarmType==202) {
+                            if(alarmType==202||alarmType==66) {
                                 message="发生报警";
                             }else if(alarmType==201){
                                 message="阀门已关闭";
