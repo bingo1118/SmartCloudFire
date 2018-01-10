@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -86,7 +88,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
     @Bind(R.id.offline_num)
     TextView offlineNum;
     @Bind(R.id.trace_search)
-    TextView trace_search;
+    ImageButton trace_search;
     private LinearLayoutManager linearLayoutManager;
     private NFCDevAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -136,6 +138,8 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
         list = new ArrayList<>();
         refreshListView();
         areaCondition.setIfHavaChooseAll(false);//@@11.06
+        areaCondition.setActivity(this);//@@12.21
+        shopTypeCondition.setActivity(this);//@@12.21
         addFire.setVisibility(View.VISIBLE);//@@8.17
         addFire.setImageResource(R.drawable.search);//@@8.17
         mvpPresenter.getNFCInfo(userID, "", "",page, list, 1,false);
@@ -196,6 +200,14 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
+    }
+
+    //@@12.20
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 
     @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire,R.id.turn_map_btn,R.id.trace_search})
@@ -443,6 +455,13 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 return false;
                 // 这里如果返回true的话，touch事件将被拦截
                 // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        backgroundAlpha(0.5f);//@@12.20开启时其他区域半透明
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
             }
         });
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框

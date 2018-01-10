@@ -59,7 +59,13 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedDev(userId,privilege,"",page,"","1");
+        Observable mObservable;
+//        if(privilege.equals("1")){
+//            mObservable = apiStores1.getAllSmoke(userId,privilege,page);//@@12.20
+//        }else{
+            mObservable = apiStores1.getNeedDev(userId,privilege,"",page,"","1");
+//        }
+
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -182,7 +188,7 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
                 }else{
 //                    List<Smoke> mSmokeList = new ArrayList<>();
 //                    offLineDevFragment.getDataSuccess(mSmokeList,false);
-                    offLineDevFragment.getDataFail("无数据");
+                    offLineDevFragment.getDataFail("无离线设备");
                 }
 
             }

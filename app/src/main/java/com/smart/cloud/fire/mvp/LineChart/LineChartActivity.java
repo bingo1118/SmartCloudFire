@@ -1,21 +1,37 @@
 package com.smart.cloud.fire.mvp.LineChart;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.base.ui.MvpActivity;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.TemperatureTime;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -52,8 +68,16 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     ImageView btnBefore;
     @Bind(R.id.title_tv)
     TextView titleTv;
+    @Bind(R.id.water_threshold)
+    TextView water_threshold;//@@2018.01.03水位阈值设置
     @Bind(R.id.btn_new)
     ImageView btnNew;
+    @Bind(R.id.yuzhi_line)
+    LinearLayout yuzhi_line;
+    @Bind(R.id.high_value)
+    TextView high_value;
+    @Bind(R.id.low_value)
+    TextView low_value;
     private LineChartPresenter lineChartPresenter;
 
     /*=========== 数据相关 ==========*/
@@ -107,6 +131,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         if(isWater==null){
             mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
         }else{
+            if(isWater.equals("2")){
+                water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
+                yuzhi_line.setVisibility(View.VISIBLE);
+                getYuzhi();
+            }
             mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
         }
         initView();
@@ -125,6 +154,35 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
          */
         mLineChartView.setViewportCalculationEnabled(false);
         mLineChartView.setZoomEnabled(false);
+    }
+
+    private void getYuzhi() {
+        RequestQueue mQueue = Volley.newRequestQueue(context);
+        String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+electricMac;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int errorCode=response.getInt("errorCode");
+                            if(errorCode==0){
+                                low_value.setText("低水位阈值："+response.getString("value207")+"m");
+                                high_value.setText("高水位阈值："+response.getString("value208")+"m");
+                            }else{
+                                low_value.setText("低水位阈值:未设置");
+                                high_value.setText("高水位阈值:未设置");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                T.showShort(context,"网络错误");
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
 
     /**
@@ -201,8 +259,13 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 break;
             default:
                 if(isWater!=null){
-                    axisY.setName("水压值(kPa)");
-                    titleTv.setText("历史水压值折线图");
+                    if(isWater.equals("1")){
+                        axisY.setName("水压值(kPa)");
+                        titleTv.setText("历史水压值折线图");
+                    }else{
+                        axisY.setName("水位值(m)");
+                        titleTv.setText("历史水位值折线图");
+                    }
                 }
                 break;
         }
@@ -250,7 +313,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         //创建一个图标视图,大小为控件的最大大小
         float value=0;
         if(tem!=null&&tem.size()>0){
-            value = Utils.getMax(tem)*1.5f;
+            value = Utils.getMaxFloat(tem)*1.5f;
         }
         final Viewport v = new Viewport(mLineChartView.getMaximumViewport());
         v.left = 0;                             //坐标原点在左下
@@ -344,7 +407,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     break;
                 default:
                     if(isWater!=null){
-                        Toast.makeText(LineChartActivity.this, "水压值为: " + value.getY() + "kPa", Toast.LENGTH_SHORT).show();
+                        if(isWater.equals("1")){
+                            Toast.makeText(LineChartActivity.this, "水压值为: " + value.getY() + "kPa", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(LineChartActivity.this, "水位值为: " + value.getY() + "m", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     break;
             }
@@ -361,7 +428,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         return lineChartPresenter;
     }
 
-    @OnClick({R.id.btn_next, R.id.btn_before,R.id.btn_new})
+    @OnClick({R.id.btn_next, R.id.btn_before,R.id.btn_new,R.id.water_threshold})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
@@ -401,6 +468,56 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 }else{
                     mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
                 }
+                break;
+            case R.id.water_threshold:
+                LayoutInflater inflater = getLayoutInflater();
+                   View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+                final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
+                final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
+                new AlertDialog.Builder(this).setView(layout)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String url="";
+                            try{
+                                float high=Float.parseFloat(high_value.getText().toString());
+                                float low=Float.parseFloat(low_value.getText().toString());
+                                if(low>high){
+                                    T.showShort(context,"低水位阈值不能高于高水位阈值");
+                                    return;
+                                }
+                                url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
+                            }catch(Exception e){
+                                e.printStackTrace();
+                                T.showShort(context,"输入数据格式有误");
+                                return;
+                            }
+                            RequestQueue mQueue = Volley.newRequestQueue(context);
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                int errorCode=response.getInt("errorCode");
+                                                if(errorCode==0){
+                                                    T.showShort(context,"设置成功");
+                                                    getYuzhi();
+                                                }else{
+                                                    T.showShort(context,"设置失败");
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    T.showShort(context,"网络错误");
+                                }
+                            });
+                            mQueue.add(jsonObjectRequest);
+                        }
+                    }).show();
                 break;
         }
     }

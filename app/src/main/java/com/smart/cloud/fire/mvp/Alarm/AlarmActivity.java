@@ -62,6 +62,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     Button alarmLeadToBtn;
     @Bind(R.id.alarm_type)
     TextView mAlarmType;
+    @Bind(R.id.alarm_mac)
+    TextView alarmMac;
     @Bind(R.id.alarm_time)
     TextView alarmTime;
     @Bind(R.id.alarm_info)
@@ -137,7 +139,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
-        if(mPushAlarmMsg.getDeviceType()==18){
+        if(mPushAlarmMsg.getDeviceType()==18||mPushAlarmMsg.getDeviceType()==19){
             stop_alarm.setVisibility(View.VISIBLE);
         }else{
             stop_alarm.setVisibility(View.GONE);
@@ -157,6 +159,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             }//@@7.10
             alarmInfo.setText("终端："+pushWiredSmokeAlarmMsg.getRepeater()+" \r编号："+pushWiredSmokeAlarmMsg.getFaultCode()+"\r详情："+ alarmMsg);
             alarmTime.setText(pushWiredSmokeAlarmMsg.getFaultTime());
+            alarmMac.setText(pushWiredSmokeAlarmMsg.getFaultCode());//@@2018.01.03
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
@@ -202,6 +205,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             smokeMarkPhoneTv.setText(mPushAlarmMsg.getPrincipal2Phone());
             alarmInfo.setText(mPushAlarmMsg.getPlaceAddress() + mPushAlarmMsg.getAddress());
             alarmTime.setText(mPushAlarmMsg.getAlarmTime());
+            alarmMac.setText("Mac:"+mPushAlarmMsg.getMac());//@@2018.01.03
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));

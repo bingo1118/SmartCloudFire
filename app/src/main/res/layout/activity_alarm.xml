@@ -84,6 +84,13 @@
         android:textColor="@color/hj_color_text"
         android:textSize="16sp" />
     <TextView
+        android:id="@+id/alarm_mac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="mac:"
+        android:textSize="12sp"/>
+    <TextView
         android:id="@+id/alarm_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

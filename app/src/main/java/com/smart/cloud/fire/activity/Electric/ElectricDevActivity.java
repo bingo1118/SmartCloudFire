@@ -133,6 +133,8 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
         });
         title_name_tv.setText("电气防火");
         title_lose_dev.setText("离线设备");
+        areaCondition.setActivity(this);//@@12.21
+        shopTypeCondition.setActivity(this);//@@12.21
     }
 
     @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire,R.id.turn_map_btn})

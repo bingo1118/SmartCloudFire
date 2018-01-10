@@ -206,6 +206,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             deviceType="21";//loraOne烟感
         }else if(smokeMac.equals(repeater)){
             deviceType="126";//海湾主机
+        }else if(smokeMac.contains("-")){
+            deviceType="31";//三江nb烟感
         }else{
             switch (macStr){
                 case "R":
@@ -236,8 +238,12 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     deviceType="9";
                     break;
                 case "W":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("W")){
+                        deviceType="19";//@@水位2018.01.02
+                    }else{
+                        deviceType="10";//@@水压
+                    }
                     smokeMac = smokeMac.replace("W","");//水压设备
-                    deviceType="10";
                     break;
                 case "L":
                     smokeMac = smokeMac.replace("L","");//红外设备

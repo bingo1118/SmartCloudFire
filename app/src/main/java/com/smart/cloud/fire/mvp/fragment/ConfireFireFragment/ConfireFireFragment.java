@@ -337,6 +337,9 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                     if (scanType == 0) {
                         addRepeaterMac.setText(scanResult);
                     } else {
+                        if(scanResult.contains("-")){
+                            scanResult=scanResult.substring(scanResult.lastIndexOf("=")+1);
+                        }//@@12.26三江nb-iot烟感
                         addFireMac.setText(scanResult);
                         clearText();
                         mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息

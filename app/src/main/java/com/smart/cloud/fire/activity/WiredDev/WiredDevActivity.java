@@ -133,6 +133,8 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
         });
         title_name_tv.setText("重点单位");
         title_lose_dev.setText("离线设备");
+        areaCondition.setActivity(this);//@@12.21
+        shopTypeCondition.setActivity(this);//@@12.21
     }
 
     @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire,R.id.turn_map_btn})

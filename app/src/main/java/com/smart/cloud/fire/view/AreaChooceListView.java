@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -52,6 +54,11 @@ public class AreaChooceListView extends LinearLayout {
     List<Area> parent = null;
     Map<String, List<Area>> map = null;
 
+    Activity a;
+    public void setActivity(Activity a){
+        this.a=a;
+    }
+
     private boolean ifHavaChooseAll=true;
 
     public AreaChooceListView(Context context) {
@@ -67,6 +74,7 @@ public class AreaChooceListView extends LinearLayout {
         // TODO Auto-generated constructor stub
         initView();
     }
+
 
     public void initView(){
         mContext = getContext();
@@ -138,6 +146,18 @@ public class AreaChooceListView extends LinearLayout {
         clear_choice.setVisibility(View.GONE);
     }
 
+
+    //@@12.20
+    public void backgroundAlpha(float bgAlpha)
+    {
+        if(a==null){
+            return;
+        }
+        WindowManager.LayoutParams lp = a.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        a.getWindow().setAttributes(lp);
+    }
+
     /**
      * 打开下拉列表弹窗
      */
@@ -150,8 +170,24 @@ public class AreaChooceListView extends LinearLayout {
         ExpandableListView mainlistview = (ExpandableListView) contentView
                 .findViewById(R.id.main_expandablelistview);
         mainlistview.setAdapter(new MyAdapter());
-        popupWindow = new PopupWindow(contentView,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        popupWindow = new PopupWindow(contentView,LayoutParams.WRAP_CONTENT,800,true);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable( R.drawable.list_item_color_bg));
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                popupWindow=null;
+            }
+        });//@@12.20
+        popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
+        backgroundAlpha(0.5f);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                popupWindow = null;
+            }
+        });
         popupWindow.showAsDropDown(this);
         editText.setOnClickListener(new OnClickListener() {//@@9.12
             @Override
@@ -164,6 +200,7 @@ public class AreaChooceListView extends LinearLayout {
             }
         });
     }
+
     /**
      * 关闭下拉列表弹窗
      */
@@ -171,6 +208,7 @@ public class AreaChooceListView extends LinearLayout {
         if(popupWindow!=null){
             popupWindow.dismiss();
             popupWindow = null;
+            backgroundAlpha(1f);
         }
     }
     /**

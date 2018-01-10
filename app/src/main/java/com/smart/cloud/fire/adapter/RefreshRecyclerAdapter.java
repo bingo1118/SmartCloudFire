@@ -106,16 +106,37 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
+                case 31:
                 case 1:
                     ((ItemViewHolder) holder).smokeMac.setText("烟感:");
                     if (alarmType == 202) {
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.yanwu);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
-                    } else {
+                    } else if(alarmType==67){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.zijian);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else {
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ddy);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }
+                    break;
+                case 19:
+                    ((ItemViewHolder) holder).smokeMac.setText("水位:");
+                    if (alarmType == 207) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.dishuiwei);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    } else if(alarmType == 208){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.gaoshuiwei);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else{
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }
                     break;
                 case 18://@@10.31 喷淋
@@ -181,7 +202,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     int alarmFamily = mNormalAlarmMessage.getAlarmFamily();
                     ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
-                    switch (alarmFamily){
+                    switch (alarmType){
                         case 136:
                         case 36:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
@@ -236,6 +257,9 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             break;
                         case 148:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);//@@6.28
+                            break;
+                        case 52:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.duanlu1);//@@12.26
                             break;
                         default:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_huojing);

@@ -38,7 +38,7 @@ public class FileUtil {
              }
         }
         StringBuilder textEntity = new StringBuilder();
-        for (Map.Entry<String, String> entry : params.entrySet()) {//�����ı����Ͳ�����ʵ������
+        for (Map.Entry<String, String> entry : params.entrySet()) {
             textEntity.append("--");
             textEntity.append(BOUNDARY);
             textEntity.append("\r\n");
@@ -53,7 +53,7 @@ public class FileUtil {
         int port = url.getPort()==-1 ? 80 : url.getPort();
         Socket socket = new Socket(InetAddress.getByName(url.getHost()), port);           
         OutputStream outStream = socket.getOutputStream();
-        //�������HTTP����ͷ�ķ���
+        //HTTP
         String requestmethod = "POST "+ url.getPath()+" HTTP/1.1\r\n";
         outStream.write(requestmethod.getBytes());
         String accept = "Accept: image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*\r\n";
@@ -90,7 +90,7 @@ public class FileUtil {
              }
              outStream.write("\r\n".getBytes());
         }
-        //���淢�����ݽ�����־����ʾ�����Ѿ�����
+
         outStream.write(endline.getBytes());
         
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

@@ -298,11 +298,27 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#dddddd"/>
-            <ImageButton
+            <RelativeLayout
+                android:id="@+id/zjgl_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#fff"/>
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/zjgl_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/shouye_anniu_zjgl"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="主机管理"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/zjgl_image"/>
+            </RelativeLayout>
 
         </LinearLayout>
     </LinearLayout>

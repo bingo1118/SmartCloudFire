@@ -132,6 +132,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         areaCondition.seteditTextColor("#ffffffff");//@@9.12
         areaCondition.setEditText("区域");//@@9.12
         areaCondition.setclear_choice(null,false);//@@9.12
+        areaCondition.setActivity(getActivity());//@@12.21
 //        mvpPresenter.getAllSmoke(userID, privilege + "");//获取所有设备并显示。。
         initLastMap();
     }

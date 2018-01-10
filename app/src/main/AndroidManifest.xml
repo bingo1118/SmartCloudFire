@@ -220,8 +220,10 @@
         <activity android:name="com.smart.cloud.fire.activity.NFC.NFCTraceActivity" />
         <activity android:name="com.smart.cloud.fire.activity.NFC.ChooseConditionActivity" />
         <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity"
-            android:launchMode="singleTop"></activity>
+        <activity
+            android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity"
+            android:launchMode="singleTop" />
+        <activity android:name="com.smart.cloud.fire.activity.Host.HostActivity"></activity>
     </application>
 
 </manifest>

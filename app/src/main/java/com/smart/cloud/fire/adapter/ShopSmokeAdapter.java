@@ -48,10 +48,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.listNormalSmoke = listNormalSmoke;
         this.mContext = mContext;
     }
-
-
-
-
     /**
      * item显示类型
      *
@@ -102,6 +98,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) holder).state_tv.setVisibility(View.GONE);
             }//@@11.01
             switch (devType){
+                case 31://@@12.26 三江iot烟感
                 case 21://@@12.01 Lora烟感
                 case 1://烟感。。
                     if (netStates == 0) {//设备不在线。。
@@ -212,13 +209,32 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
-                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
                     ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater","1");//@@是否为水压
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
+                case 19://水位设备@@2018.01.02
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水位探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水位探测器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, LineChartActivity.class);
+                            intent.putExtra("electricMac",normalSmoke.getMac());
+                            intent.putExtra("isWater","2");//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });

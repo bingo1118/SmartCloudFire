@@ -37,6 +37,7 @@ import com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.Camera.CameraDevActivity;
 import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
+import com.smart.cloud.fire.activity.Host.HostActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCDevActivity;
 import com.smart.cloud.fire.activity.Setting.MyZoomActivity;
 import com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity;
@@ -90,6 +91,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     RelativeLayout xfwl_btn;
     @Bind(R.id.nfc_btn)
     RelativeLayout nfc_btn;
+    @Bind(R.id.zjgl_btn)
+    RelativeLayout zjgl_btn;
     @Bind(R.id.home_alarm_lin)
     LinearLayout home_alarm_lin;
     @Bind(R.id.home_alarm_info_text)
@@ -115,7 +118,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.zddw_btn,
-            R.id.xfwl_btn,R.id.nfc_btn})
+            R.id.xfwl_btn,R.id.nfc_btn,R.id.zjgl_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_image:
@@ -154,6 +157,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 Intent intent_nfc = new Intent(mContext, NFCDevActivity.class);
                 startActivity(intent_nfc);
                 break;
+            case R.id.zjgl_btn:
+                Intent intent_zjgl= new Intent(mContext, HostActivity.class);
+                startActivity(intent_zjgl);
+                break;
             default:
                 break;
         }
@@ -167,6 +174,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             spjk_btn.setVisibility(View.GONE);
             tjsb_btn.setVisibility(View.GONE);
             nfc_btn.setVisibility(View.GONE);
+            zjgl_btn.setVisibility(View.GONE);
         }
         P2PHandler.getInstance().p2pInit(this,
                 new P2PListener(),

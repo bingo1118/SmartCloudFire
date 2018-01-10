@@ -1,10 +1,12 @@
 package com.smart.cloud.fire.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +40,22 @@ public class XCDropDownListViewMapSearch extends LinearLayout {
     private Context mContext;
     ProgressBar loading_prg_monitor;
     private RelativeLayout clear_choice;
+
+    Activity a;
+    public void setActivity(Activity a){
+        this.a=a;
+    }
+
+    //@@12.20
+    public void backgroundAlpha(float bgAlpha)
+    {
+        if(a==null){
+            return;
+        }
+        WindowManager.LayoutParams lp = a.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        a.getWindow().setAttributes(lp);
+    }
 
     public XCDropDownListViewMapSearch(Context context) {
         this(context, null);
@@ -131,8 +149,17 @@ public class XCDropDownListViewMapSearch extends LinearLayout {
         ListView listView = (ListView)contentView.findViewById(R.id.listView);
 
         listView.setAdapter(new XCDropDownListAdapter(getContext(), dataList));
-        popupWindow = new PopupWindow(contentView,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        popupWindow = new PopupWindow(contentView,LayoutParams.WRAP_CONTENT,800,true);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable( R.drawable.list_item_color_bg));
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                popupWindow=null;
+                backgroundAlpha(1f);
+            }
+        });//@@12.20
         popupWindow.setOutsideTouchable(true);
+        backgroundAlpha(0.5f);
         popupWindow.showAsDropDown(this);
     }
     /**

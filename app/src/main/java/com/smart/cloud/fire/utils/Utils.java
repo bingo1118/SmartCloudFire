@@ -972,6 +972,16 @@ public class Utils {
         return max;
     }
 
+    //@@2018.01.03同上方法
+    public static float getMaxFloat(List<TemperatureTime.ElectricBean> electricBeen){
+        float max =  Float.parseFloat(electricBeen.get(0).getElectricValue());
+        for(TemperatureTime.ElectricBean electricBean : electricBeen){
+            float value =Float.parseFloat(electricBean.getElectricValue());
+            if (max < value) max = value;
+        }
+        return max;
+    }
+
     public static String ByteArrayToHexString(byte [] inarray) { //converts byte arrays to string
         int i, j, in;
         String [] hex = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};

@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#DCDCDC">
+    android:background="#fff">
 
 
     <RelativeLayout
@@ -14,7 +14,7 @@
             android:id="@+id/nfc_track_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/zh_guanyu"
+            android:src="@drawable/gengduoxiala_guiji"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             />
@@ -45,7 +45,7 @@
             android:id="@+id/nfc_period_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/zh_guanyu"
+            android:src="@drawable/gengduoxiala_zhouqi"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             />
@@ -72,16 +72,19 @@
                 android:id="@+id/everymonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/login_btn"
                 android:text="每月"/>
             <RadioButton
                 android:id="@+id/everyweek"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/login_btn"
                 android:text="每周"/>
             <RadioButton
                 android:id="@+id/everyday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/login_btn"
                 android:text="每天"/>
         </RadioGroup>
         <TextView
@@ -100,7 +103,7 @@
             android:id="@+id/nfc_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/zh_guanyu"
+            android:src="@drawable/gengduoxiala_dianzibiaoqian"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             />
@@ -113,14 +116,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:textColor="@color/camera_list_tv"
-            />
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/lead_right_zx"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"
             />
         <TextView
             android:layout_width="match_parent"
@@ -139,7 +134,7 @@
             android:id="@+id/nfc_mac_add_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/zh_guanyu"
+            android:src="@drawable/gengduoxiala_nfc"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             />
@@ -152,14 +147,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:textColor="@color/camera_list_tv"
-            />
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/lead_right_zx"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"
             />
         <TextView
             android:layout_width="match_parent"
