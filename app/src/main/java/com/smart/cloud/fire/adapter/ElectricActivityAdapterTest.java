@@ -95,7 +95,8 @@ public class ElectricActivityAdapterTest extends RecyclerView.Adapter<RecyclerVi
             case 6:
                 String value = electric.getValue();
                 if (value.length() > 0) {
-                    ElectricOne = ElectricOne+1;
+//                    ElectricOne = ElectricOne+1;
+                    ElectricOne=electric.getId();//@@2018.01.22
                     String[] electricThreshold = electric.getElectricThreshold().split("\\\\");
                     String electricThresholdOne =null;
                     String electricThresholdTwo= null;
@@ -132,7 +133,8 @@ public class ElectricActivityAdapterTest extends RecyclerView.Adapter<RecyclerVi
             case 7:
                 String value7 = electric.getValue();
                 if (value7.length() > 0) {
-                    ElectricTwo = ElectricTwo+1;
+//                    ElectricTwo = ElectricTwo+1;
+                    ElectricTwo=electric.getId();//@@2018.01.22
                     if(electric.getElectricThreshold()!=null&&electric.getElectricThreshold().length()>0){
                         double electricThreshold = Double.parseDouble(electric.getElectricThreshold());
                         ((ItemViewHolder) holder).tvImage.setVisibility(View.VISIBLE);

@@ -280,7 +280,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 11://@@8.3
                     ((ItemViewHolder) holder).smokeMac.setText("红外探测器:");
-                    if (alarmType == 202) {
+                    if (alarmType == 202||alarmType == 206) {
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.baojing);//@@8.10
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
@@ -292,7 +292,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 12://@@8.3
                     ((ItemViewHolder) holder).smokeMac.setText("门磁探测器:");
-                    if (alarmType == 202) {
+                    if (alarmType == 202||alarmType == 205) {
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.baojing);//@@8.10
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
@@ -304,7 +304,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 15://@@8.3
                     ((ItemViewHolder) holder).smokeMac.setText("水浸探测器:");
-                    if (alarmType == 202) {
+                    if (alarmType == 202||alarmType == 221) {
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.baojing);//@@8.10
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));

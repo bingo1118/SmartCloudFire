@@ -140,6 +140,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 20://@@无线输入输出模块
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("无线输入输出模块："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("无线输入输出模块："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    break;
                 case 8://手动。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName()+"（已离线)");

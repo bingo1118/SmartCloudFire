@@ -216,6 +216,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                 }else{
                     mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
                 }
+            }else if(mPushAlarmMsg.getDeviceType()==119){
+                mAlarmType.setText("附近设备联动:"+mPushAlarmMsg.getName()+alarmMsg);
             }else{
                 mAlarmType.setText(mPushAlarmMsg.getName()+alarmMsg);
             }//@@11.01

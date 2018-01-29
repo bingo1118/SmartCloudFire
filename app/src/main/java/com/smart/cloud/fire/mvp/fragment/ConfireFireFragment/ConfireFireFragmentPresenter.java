@@ -100,6 +100,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             case "P"://@@10.31喷淋
                 smokeMac = smokeMac.replace("P","");
                 break;
+            case "K"://@@无线输入输出模块
+                smokeMac = smokeMac.replace("K","");
+                break;
         }
         if(smokeMac!=null&&smokeMac.length()>0){
             Observable mObservable = apiStores1.getOneSmoke(userId,smokeMac,privilege);
@@ -222,12 +225,20 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     if((smokeMac.charAt(smokeMac.length()-1)+"").equals("Q")){
                         electrState=1;
                     }//@@8.26
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("S")){
+                        electrState=3;
+                    }//@@2018.01.18 三相设备
                     smokeMac = smokeMac.replace("Q","");//电气火灾
+                    smokeMac = smokeMac.replace("S","");//电气火灾
                     deviceType="5";
                     break;
                 case "G":
                     smokeMac = smokeMac.replace("G","");//声光报警器 6
                     deviceType="7";
+                    break;
+                case "K":
+                    smokeMac = smokeMac.replace("K","");//@@无线输出输入模块2018.01.24
+                    deviceType="20";
                     break;
                 case "S":
                     smokeMac = smokeMac.replace("S","");//手动报警，显示 7

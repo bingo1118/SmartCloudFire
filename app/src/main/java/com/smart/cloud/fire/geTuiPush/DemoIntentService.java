@@ -85,6 +85,7 @@ public class DemoIntentService extends GTIntentService {
                     context.startActivity(wiredIntent);
                     break;
                 case 1://烟感
+                case 119://联动烟感
                 case 2://燃气
                 case 16://NB燃气
                 case 7://声光
@@ -109,6 +110,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="烟感电量低，请更换电池";
                             }
                             break;
+                        case 119:
                         case 1:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
@@ -133,7 +135,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 18://@@10.31 喷淋
-                            if(alarmType==202||alarmType==66) {
+                            if(alarmType==202||alarmType==66||alarmType==203) {
                                 message="发生报警";
                             }else if(alarmType==201){
                                 message="阀门已关闭";
@@ -152,21 +154,21 @@ public class DemoIntentService extends GTIntentService {
                             message="手动报警";
                             break;
                         case 11:
-                            if(alarmType==202) {
+                            if(alarmType==202||alarmType==206) {
                                 message="发生报警";
                             }else{
                                 message="红外电量低，请更换电池";
                             }
                             break;
                         case 12:
-                            if(alarmType==202) {
+                            if(alarmType==202||alarmType==205) {
                                 message="发生报警";
                             }else{
                                 message="门磁电量低，请更换电池";
                             }
                             break;
                         case 15://@@8.3
-                            if(alarmType==202) {
+                            if(alarmType==202||alarmType==221) {
                                 message="发生报警";
                             }else{
                                 message="水浸电量低，请更换电池";
