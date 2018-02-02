@@ -42,6 +42,7 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.Wired
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
 
 import org.json.JSONArray;
@@ -89,7 +90,9 @@ public class NFCDevHistoryActivity extends Activity{
 
 
     private void getNFCInfo(String uid) {
-        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"getNFCRecord?uid="+uid+"&page=";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {

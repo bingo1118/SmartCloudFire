@@ -23,6 +23,7 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,7 +135,9 @@ public class HostActivity extends Activity {
     }
 
     private void getData(String page1){
-        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"getRepeaterInfo?userId="+userID+"&privilege="+privilege+"&page="+page1;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {

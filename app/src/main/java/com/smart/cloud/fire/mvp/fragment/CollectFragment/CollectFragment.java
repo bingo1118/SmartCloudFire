@@ -37,6 +37,7 @@ import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.AreaChooceListView;
 import com.smart.cloud.fire.view.OnWheelScrollListener;
 import com.smart.cloud.fire.view.WheelView;
@@ -369,7 +370,9 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                 if (areaTypeChoice.ifShow()) {
                     areaTypeChoice.closePopWindow();
                 } else {
-                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                    RequestQueue mQueue = helper.getRequestQueue();
+//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String url= ConstantValues.SERVER_IP_NEW+"getAreaInfo?userId="+userID+"&privilege="+privilege;
                     StringRequest stringRequest = new StringRequest(url,
                             new Response.Listener<String>() {

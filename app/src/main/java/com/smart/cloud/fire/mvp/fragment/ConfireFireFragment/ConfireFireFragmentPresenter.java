@@ -84,6 +84,11 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "W"://@@5.5水压
                 smokeMac = smokeMac.replace("W","");
+                smokeMac = smokeMac.replace("A","");
+                smokeMac = smokeMac.replace("B","");
+                break;
+            case "N"://@@NB烟感
+                smokeMac = smokeMac.replace("N","");
                 break;
             case "L"://@@5.13红外
                 smokeMac = smokeMac.replace("L","");
@@ -205,8 +210,26 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         String macStr = (String) smokeMac.subSequence(0, 1);
         if(smokeMac.length()==15){
             deviceType="14";//GPS
-        }else if(smokeMac.length()==16){
-            deviceType="21";//loraOne烟感
+        }else if(smokeMac.length()==16||smokeMac.length()==18){
+            switch(macStr){
+                case "W":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("W")){
+                        deviceType="19";//@@水位2018.01.02
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("A")){
+                        deviceType="124";//@@拓普水位2018.01.30
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("B")){
+                        deviceType="125";//@@拓普水压2018.01.30
+                    }else{
+                        deviceType="10";//@@水压
+                    }
+                    smokeMac = smokeMac.replace("W","");//水压设备
+                    smokeMac = smokeMac.replace("A","");
+                    smokeMac = smokeMac.replace("B","");
+                    break;
+                default:
+                    deviceType="21";//loraOne烟感
+                    break;
+            }
         }else if(smokeMac.equals(repeater)){
             deviceType="126";//海湾主机
         }else if(smokeMac.contains("-")){
@@ -263,6 +286,10 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 case "M":
                     smokeMac = smokeMac.replace("M","");//门磁设备
                     deviceType="12";
+                    break;
+                case "N":
+                    smokeMac = smokeMac.replace("N","");//NB烟感设备
+                    deviceType="41";
                     break;
                 case "H":
                     smokeMac = smokeMac.replace("H","");//空气探测器

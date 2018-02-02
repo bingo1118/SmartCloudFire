@@ -98,6 +98,8 @@ public class DemoIntentService extends GTIntentService {
                 case 31://三江iot烟感
                 case 8://手报
                 case 19://水位
+                case 124://@@外接水位
+                case 125://@@外接水压
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
@@ -118,6 +120,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="烟感电量低，请更换电池";
                             }
                             break;
+                        case 124:
                         case 19:
                             if(alarmType==207) {
                                 message="发生低水位报警";
@@ -174,6 +177,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="水浸电量低，请更换电池";
                             }
                             break;
+                        case 125:
                         case 10://@@4.28
                             int alarmFamily = dataJson.getInt("alarmFamily");
                             if(alarmType==218) {

@@ -38,6 +38,7 @@ import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.BaiduMapUtil;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +81,9 @@ public class NFCTraceActivity extends Activity {
     }
 
     private void initTrace() {
-        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"getNFCTrace?areaId="+areaId+"&begintime="+begintime+"&endtime="+endtime;
         StringRequest stringRequest = new StringRequest(url,
                 new Response.Listener<String>() {

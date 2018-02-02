@@ -98,6 +98,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) holder).state_tv.setVisibility(View.GONE);
             }//@@11.01
             switch (devType){
+                case 41://@@NB烟感
                 case 31://@@12.26 三江iot烟感
                 case 21://@@12.01 Lora烟感
                 case 1://烟感。。
@@ -211,6 +212,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 125:
                 case 10://水压设备@@5.11。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
@@ -230,6 +232,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 124:
                 case 19://水位设备@@2018.01.02
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水位探测器："+normalSmoke.getName()+"（已离线)");

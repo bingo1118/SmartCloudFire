@@ -35,6 +35,7 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.Wired
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.AreaChooceListView;
 import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
 
@@ -163,7 +164,9 @@ public class WiredDevActivity extends MvpActivity<WiredDevPresenter> implements 
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                    RequestQueue mQueue = helper.getRequestQueue();
+//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String url=ConstantValues.SERVER_IP_NEW+"/getAreaInfo?userId="+userID+"&privilege="+privilege;
                     StringRequest stringRequest = new StringRequest(url,
                             new Response.Listener<String>() {

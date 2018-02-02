@@ -1,6 +1,9 @@
 package com.smart.cloud.fire.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +12,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.jakewharton.rxbinding.view.RxView;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.InitBaiduNavi;
+import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.CollectFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -86,7 +100,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final AlarmMessageModel mNormalAlarmMessage = messageModelList.get(position);
-            int alarmType = mNormalAlarmMessage.getAlarmType();
+            final int alarmType = mNormalAlarmMessage.getAlarmType();
             int ifDeal = mNormalAlarmMessage.getIfDealAlarm();
             ((ItemViewHolder) holder).alarmTimeTv.setText(mNormalAlarmMessage.getAlarmTime());
             ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName());
@@ -98,6 +112,58 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((ItemViewHolder) holder).userSmokeMarkPrincipalTwo.setText(mNormalAlarmMessage.getPrincipal2());
             ((ItemViewHolder) holder).userSmokeMarkPhoneTvTwo.setText(mNormalAlarmMessage.getPrincipal2Phone());
             ((ItemViewHolder) holder).mac_tv.setText("ID:"+mNormalAlarmMessage.getMac());
+            ((ItemViewHolder) holder).makesure_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
+                    builder.setTitle("警告:");
+                    builder.setMessage("确认上报该报警信息到上级？");
+                    builder.setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String username = SharedPreferencesManager.getInstance().getData(mContext,
+                                            SharedPreferencesManager.SP_FILE_GWELL,
+                                            SharedPreferencesManager.KEY_RECENTNAME);
+                                    String url= ConstantValues.SERVER_IP_NEW+"makeSureAlarm?userId="+username
+                                            +"&smokeMac="+mNormalAlarmMessage.getMac()+"&alarmType="+alarmType;
+                                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                                    RequestQueue mQueue = helper.getRequestQueue();
+                                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response) {
+                                                    try {
+                                                        int errorCode=response.getInt("errorCode");
+                                                        if(errorCode==0){
+                                                            T.showShort(MyApp.app,"上报成功");
+                                                        }else{
+                                                            T.showShort(MyApp.app,"上报失败");
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            T.showShort(MyApp.app,"上报失败");
+                                        }
+                                    });
+                                    mQueue.add(jsonObjectRequest);
+                                }
+                            });
+                    builder.setNegativeButton("关闭",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    // 显示
+                    builder.show();
+                }
+            });
             if (ifDeal == 0) {
                 ((ItemViewHolder) holder).dealAlarmActionTv.setText("取消报警");
                 ((ItemViewHolder) holder).dealAlarmActionTv.setVisibility(View.VISIBLE);
@@ -106,7 +172,9 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
+                case 41:
                 case 31:
+                case 21:
                 case 1:
                     ((ItemViewHolder) holder).smokeMac.setText("烟感:");
                     if (alarmType == 202) {
@@ -123,6 +191,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                     }
                     break;
+                case 124:
                 case 19:
                     ((ItemViewHolder) holder).smokeMac.setText("水位:");
                     if (alarmType == 207) {
@@ -162,6 +231,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
+                case 125:
                 case 10://@@4.28
                     int alarmFamily10 = mNormalAlarmMessage.getAlarmFamily();//@@水压值8.31
                     ((ItemViewHolder) holder).smokeMac.setText("水压探测器:");
@@ -425,6 +495,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView actionNowTv;
         @Bind(R.id.mac_tv)
         TextView mac_tv;
+        @Bind(R.id.makesure_text)
+        TextView makesure_text;
 
         public ItemViewHolder(View view) {
             super(view);

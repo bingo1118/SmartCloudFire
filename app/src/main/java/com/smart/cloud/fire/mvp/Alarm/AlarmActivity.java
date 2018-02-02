@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jakewharton.rxbinding.view.RxView;
@@ -28,6 +29,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Contact;
 import com.smart.cloud.fire.global.InitBaiduNavi;
+import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
 import com.smart.cloud.fire.pushmessage.PushWiredSmokeAlarmMsg;
@@ -35,6 +37,7 @@ import com.smart.cloud.fire.ui.ApMonitorActivity;
 import com.smart.cloud.fire.utils.MusicManger;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.MyImageView;
 
 import org.json.JSONException;
@@ -78,6 +81,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     TextView smokeMarkPhoneTv;
     @Bind(R.id.alarm_do_it_btn)
     Button alarmDoItBtn;
+    @Bind(R.id.make_sure_upload_btn)
+    Button make_sure_upload_btn;//@@报警上传
     @Bind(R.id.lin_principal)
     LinearLayout lin_principa1;
     @Bind(R.id.lin_principa2)
@@ -255,7 +260,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 
     private boolean musicOpenOrClose = true;
 
-    @OnClick({R.id.phone_lin_one, R.id.alarm_phone_lin_one, R.id.alarm_tc_image, R.id.alarm_music_image, R.id.alarm_do_it_btn,R.id.stop_alarm})
+    @OnClick({R.id.phone_lin_one, R.id.alarm_phone_lin_one, R.id.alarm_tc_image
+            , R.id.alarm_music_image, R.id.alarm_do_it_btn,R.id.stop_alarm,R.id.make_sure_upload_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.phone_lin_one:
@@ -294,7 +300,9 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                 finish();
                 break;
             case R.id.stop_alarm:
-                RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
                 String url= ConstantValues.SERVER_IP_NEW+"StopAlarm?mac="+mPushAlarmMsg.getMac();
                 StringRequest stringRequest = new StringRequest(url,
                         new Response.Listener<String>() {
@@ -317,6 +325,37 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                     }
                 });
                 mQueue.add(stringRequest);
+                break;
+            case R.id.make_sure_upload_btn:
+                String username = SharedPreferencesManager.getInstance().getData(mContext,
+                        SharedPreferencesManager.SP_FILE_GWELL,
+                        SharedPreferencesManager.KEY_RECENTNAME);
+                String url1= ConstantValues.SERVER_IP_NEW+"makeSureAlarm?userId="+username
+                        +"&smokeMac="+mPushAlarmMsg.getMac()+"&alarmType="+mPushAlarmMsg.getAlarmType();
+                VolleyHelper helper1=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue1 = helper1.getRequestQueue();
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url1, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        T.showShort(MyApp.app,"上报成功");
+                                    }else{
+                                        T.showShort(MyApp.app,"上报失败");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(MyApp.app,"上报失败");
+                    }
+                });
+                mQueue1.add(jsonObjectRequest);
                 break;
             default:
                 break;

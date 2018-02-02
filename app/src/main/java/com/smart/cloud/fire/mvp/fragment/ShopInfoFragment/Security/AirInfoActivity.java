@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.global.ConstantValues;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +59,9 @@ public class AirInfoActivity extends Activity {
         textView.setText(devPos);
         progressBar.setVisibility(View.VISIBLE);
         String url= ConstantValues.SERVER_IP_NEW+"getEnvironmentInfo?userId=&privilege=&page=&airMac="+devMac;
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {
                     @Override

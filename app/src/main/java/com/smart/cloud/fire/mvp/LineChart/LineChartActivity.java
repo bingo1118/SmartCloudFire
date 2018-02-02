@@ -29,6 +29,7 @@ import com.smart.cloud.fire.global.TemperatureTime;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -157,7 +158,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     }
 
     private void getYuzhi() {
-        RequestQueue mQueue = Volley.newRequestQueue(context);
+        VolleyHelper helper=VolleyHelper.getInstance(context);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(context);
         String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+electricMac;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {
@@ -492,7 +495,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                 T.showShort(context,"输入数据格式有误");
                                 return;
                             }
-                            RequestQueue mQueue = Volley.newRequestQueue(context);
+                            VolleyHelper helper=VolleyHelper.getInstance(context);
+                            RequestQueue mQueue = helper.getRequestQueue();
+//                            RequestQueue mQueue = Volley.newRequestQueue(context);
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                                     new Response.Listener<JSONObject>() {
                                         @Override

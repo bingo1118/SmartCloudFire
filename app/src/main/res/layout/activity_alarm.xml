@@ -45,24 +45,35 @@
             android:layout_centerVertical="true"
             />
         <Button
+            android:id="@+id/make_sure_upload_btn"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/alarm_do_it_btn"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/login_button_selector"
+            android:text="报警上报" />
+        <Button
             android:id="@+id/alarm_do_it_btn"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_marginTop="20dp"
             android:textColor="#ffffff"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/alarm_lead_to_btn"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/login_button_selector"
             android:text="查看视频" />
         <Button
             android:id="@+id/alarm_lead_to_btn"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
             android:background="@drawable/daohang_ed_bg"
             android:layout_marginTop="20dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
             android:textColor="@color/login_btn"
             android:text="@string/lead_to_btn" />

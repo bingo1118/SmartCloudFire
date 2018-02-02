@@ -58,12 +58,13 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
     private volatile boolean isFristLocation = true;
     Button btn_confirm;
     ImageView image_location;
+    GeoCoder geoCoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
-        mContext=MyApp.app;
+        mContext=getApplicationContext();
         btn_confirm=(Button)findViewById(R.id.confirm_btn);
         image_location=(ImageView)findViewById(R.id.location_image);
         btn_confirm.setOnClickListener(this);
@@ -72,6 +73,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
         mMapView=(MapView)findViewById(R.id.bmapView) ;
         mBaiduMap = mMapView.getMap();// 获得MapView
         initMyLocation();
+        geoCoder = GeoCoder.newInstance();
         mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -108,7 +110,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
     private void findAddress(final LatLng latLng) {
         this.selectedLatlng=latLng;
         //实例化一个地理编码查询对象
-        GeoCoder geoCoder = GeoCoder.newInstance();
+//        GeoCoder geoCoder = GeoCoder.newInstance();
         //设置反地理编码位置坐标
         ReverseGeoCodeOption op = new ReverseGeoCodeOption();
         op.location(latLng);
@@ -207,7 +209,7 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
             // 设置定位数据
             mBaiduMap.setMyLocationData(locData);
             // 设置自定义图标
-            View viewA = LayoutInflater.from(MyApp.app).inflate(
+            View viewA = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.image_mark, null);
             BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
                     .fromView(viewA);
@@ -245,7 +247,9 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
         mMapView.onDestroy();
         if(mLocationClient!=null){
             mLocationClient.stop();
+            mLocationClient.unRegisterLocationListener(mMyLocationListener);
         }
+        geoCoder.destroy();
         super.onDestroy();
     }
 

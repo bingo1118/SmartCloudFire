@@ -41,6 +41,7 @@ import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.utils.uploadFile;
 
 import org.json.JSONException;
@@ -170,7 +171,9 @@ public class UploadNFCInfoActivity extends Activity {
                             }//@@11.07
                             isSuccess=uploadFile(file,userID,areaId,uploadTime);
                         }
-                        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+//                        RequestQueue mQueue = Volley.newRequestQueue(mContext);
                         String url="";
                         if(isHavePhoto&&isSuccess){
                             File file = new File(imageFilePath);//9.29

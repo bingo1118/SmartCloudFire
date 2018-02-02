@@ -29,6 +29,7 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +72,9 @@ public class AddNFCMacActivity extends Activity {
         add_fire_dev_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
                 String url= ConstantValues.SERVER_IP_NEW+"addNFC?uid="+UID+"&userId="+userID;
                 StringRequest stringRequest = new StringRequest(url,
                         new Response.Listener<String>() {
@@ -126,7 +129,9 @@ public class AddNFCMacActivity extends Activity {
             byte[] myNFCID = getIntent().getByteArrayExtra(NfcAdapter.EXTRA_ID);
             UID = Utils.ByteArrayToHexString(myNFCID);
             uid_edit.setText(UID);
-            RequestQueue mQueue = Volley.newRequestQueue(mContext);
+            VolleyHelper helper=VolleyHelper.getInstance(mContext);
+            RequestQueue mQueue = helper.getRequestQueue();
+//            RequestQueue mQueue = Volley.newRequestQueue(mContext);
             String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+UID;
             StringRequest stringRequest = new StringRequest(url,
                     new Response.Listener<String>() {
@@ -175,7 +180,9 @@ public class AddNFCMacActivity extends Activity {
         UID = Utils.ByteArrayToHexString(myNFCID);
         uid_edit.setText(UID);
 
-        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+UID;
         StringRequest stringRequest = new StringRequest(url,
                 new Response.Listener<String>() {

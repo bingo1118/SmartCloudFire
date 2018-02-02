@@ -27,6 +27,7 @@ import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.AreaChooceListView;
 
 import org.json.JSONArray;
@@ -139,7 +140,9 @@ public class ChooseConditionActivity extends Activity {
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                    RequestQueue mQueue = helper.getRequestQueue();
+//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String userID= SharedPreferencesManager.getInstance().getData(mContext,
                             SharedPreferencesManager.SP_FILE_GWELL,
                             SharedPreferencesManager.KEY_RECENTNAME);

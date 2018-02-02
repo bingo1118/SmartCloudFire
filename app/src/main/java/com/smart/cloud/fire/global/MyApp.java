@@ -54,7 +54,11 @@ public class MyApp extends Application {
     }
 
     public  void setPrivilege(int privilege){
-        this.privilege = privilege;
+        if(privilege==6||privilege==7){
+            this.privilege=3;
+        }else{
+            this.privilege = privilege;
+        }
     }
 
     public int getPrivilege(){

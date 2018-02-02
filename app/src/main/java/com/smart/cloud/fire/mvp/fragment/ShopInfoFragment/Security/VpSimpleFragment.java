@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.global.ConstantValues;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +52,9 @@ public class VpSimpleFragment extends Fragment {
 	
 	private void initData(String mac) {
 		String url= ConstantValues.SERVER_IP_NEW+"getEnvironmentHistory"+"?airMac="+mac;
-		RequestQueue mQueue = Volley.newRequestQueue(getActivity());
+		VolleyHelper helper=VolleyHelper.getInstance(getActivity());
+		RequestQueue mQueue = helper.getRequestQueue();
+//		RequestQueue mQueue = Volley.newRequestQueue(getActivity());
 		JsonObjectRequest mJsonRequest = new JsonObjectRequest(Method.GET,
 				url, 
 				null, 

@@ -26,6 +26,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -242,7 +243,9 @@ public class HostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void restart(String repeater) {
-        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"resetRepeater?repeaterMac="+repeater;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {

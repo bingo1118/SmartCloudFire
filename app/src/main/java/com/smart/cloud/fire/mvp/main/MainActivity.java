@@ -51,6 +51,7 @@ import com.smart.cloud.fire.mvp.main.presenter.MainPresenter;
 import com.smart.cloud.fire.mvp.main.view.MainView;
 import com.smart.cloud.fire.service.RemoteService;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.yoosee.P2PListener;
 import com.smart.cloud.fire.yoosee.SettingListener;
 
@@ -189,7 +190,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         SharedPreferencesManager.KEY_RECENTNAME);
                 int privilege = MyApp.app.getPrivilege();
                 String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
-                RequestQueue mQueue = Volley.newRequestQueue(MyApp.app);
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+//                RequestQueue mQueue = Volley.newRequestQueue(MyApp.app);
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -281,7 +284,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         String url= ConstantValues.SERVER_IP_NEW+"loginOut?userId="+username+"&alias="+username+"&cid="+userCID+"&appId=1";//@@5.27添加app编号
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+//        RequestQueue mQueue = Volley.newRequestQueue(this);
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -330,6 +335,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         unregisterReceiver(mReceiver);
         super.onDestroy();
         getlastestAlarm.cancel();
+        VolleyHelper.getInstance(mContext).stopRequestQueue();
     }
 
     private void alarmInit() {
