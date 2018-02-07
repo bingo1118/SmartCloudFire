@@ -57,6 +57,12 @@ public class MyZoomActivity extends Activity {
         mContext.registerReceiver(mReceiver, filter);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mContext.unregisterReceiver(mReceiver);
+    }
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override

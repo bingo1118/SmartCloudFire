@@ -336,6 +336,17 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 case "9":
                     v.top = 80;
                     break;
+                default:
+                    if(isWater!=null){
+                        if(isWater.equals("1")){
+                            v.top=10;
+                        }else{
+                            v.top=10;
+                        }
+                    }else{
+                        v.top=100;
+                    }
+                    break;
             }
         }
 

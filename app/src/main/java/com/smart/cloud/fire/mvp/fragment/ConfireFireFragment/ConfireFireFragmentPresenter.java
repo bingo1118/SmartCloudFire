@@ -72,6 +72,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "Q":
                 smokeMac = smokeMac.replace("Q","");
+                smokeMac = smokeMac.replace("S","");
                 break;
             case "G":
                 smokeMac = smokeMac.replace("G","");

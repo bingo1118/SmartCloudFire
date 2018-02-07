@@ -100,6 +100,7 @@ public class DemoIntentService extends GTIntentService {
                 case 19://水位
                 case 124://@@外接水位
                 case 125://@@外接水压
+                case 41://NB烟感
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
@@ -113,6 +114,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 119:
+                        case 41:
                         case 1:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
