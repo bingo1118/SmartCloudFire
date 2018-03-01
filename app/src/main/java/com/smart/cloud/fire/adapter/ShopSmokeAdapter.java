@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
+import com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity;
@@ -212,7 +213,26 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 51://创安
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("创安燃气："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("创安燃气："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, ChuangAnActivity.class);
+                            intent.putExtra("Mac",normalSmoke.getMac());
+                            intent.putExtra("Position",normalSmoke.getName());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
                 case 125:
+                case 42:
                 case 10://水压设备@@5.11。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");

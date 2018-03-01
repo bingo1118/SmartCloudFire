@@ -9,6 +9,16 @@
         android:background="@color/login_btn"
         >
         <TextView
+            android:id="@+id/power_change_history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电源切换记录"
+            android:textColor="#fff"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

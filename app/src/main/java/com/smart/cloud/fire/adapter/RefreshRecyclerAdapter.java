@@ -232,6 +232,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
                 case 125:
+                case 42:
                 case 10://@@4.28
                     int alarmFamily10 = mNormalAlarmMessage.getAlarmFamily();//@@水压值8.31
                     ((ItemViewHolder) holder).smokeMac.setText("水压探测器:");

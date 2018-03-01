@@ -1,5 +1,6 @@
-package com.smart.cloud.fire.mvp.electric;
+package com.smart.cloud.fire.mvp.ChuangAn;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,15 +11,17 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.smart.cloud.fire.adapter.ChuangAnAdapter;
 import com.smart.cloud.fire.adapter.ElectricActivityAdapterTest;
 import com.smart.cloud.fire.base.ui.MvpActivity;
+import com.smart.cloud.fire.global.ChuangAnValue;
 import com.smart.cloud.fire.global.ElectricValue;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
-import com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity;
+import com.smart.cloud.fire.mvp.electric.ElectricPresenter;
+import com.smart.cloud.fire.mvp.electric.ElectricView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 
@@ -26,23 +29,18 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 
-/**
- * Created by Administrator on 2016/11/2.
- */
-public class ElectricActivity extends MvpActivity<ElectricPresenter> implements ElectricView {
+public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements ChuangAnView {
+
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.swipe_fresh_layout)
     SwipeRefreshLayout swipeFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.power_change_history_text)
-    TextView power_change_history_text;//@@8.28电源切换记录
-    private ElectricPresenter electricPresenter;
-    private ElectricActivityAdapterTest electricActivityAdapter;
+    private ChuangAnPresenter mPresenter;
+    private ChuangAnAdapter adapter;
     private Context mContext;
     private LinearLayoutManager linearLayoutManager;
     private String electricMac;
@@ -52,17 +50,16 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_electric);
+        setContentView(R.layout.activity_chuang_an);
         mContext=this;
-        electricMac = getIntent().getExtras().getString("ElectricMac");
+        electricMac = getIntent().getExtras().getString("Mac");
         userID = SharedPreferencesManager.getInstance().getData(mContext,
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
-        power_change_history_text.setVisibility(View.VISIBLE);//@@8.28
         ButterKnife.bind(this);
         refreshListView();
-        electricPresenter.getOneElectricInfo(userID,privilege+"",electricMac,false);
+        mPresenter.getOneElectricInfo(userID,privilege+"",electricMac,false);
     }
 
     private void refreshListView() {
@@ -81,48 +78,34 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         swipeFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                electricPresenter.getOneElectricInfo(userID,privilege+"",electricMac,true);
+                mPresenter.getOneElectricInfo(userID,privilege+"",electricMac,true);
             }
         });
     }
 
     @Override
-    protected ElectricPresenter createPresenter() {
-        electricPresenter = new ElectricPresenter(this);
-        return electricPresenter;
+    protected ChuangAnPresenter createPresenter() {
+        mPresenter = new ChuangAnPresenter(this);
+        return mPresenter;
     }
 
     @Override
-    public void getDataSuccess(List<ElectricValue.ElectricValueBean> smokeList) {
+    public void getDataSuccess(List<ChuangAnValue.ChuangAnValueBean> smokeList) {
         if(smokeList.size()==0){
             Toast.makeText(mContext,"无数据",Toast.LENGTH_SHORT).show();
         }//@@7.7
-        electricActivityAdapter = new ElectricActivityAdapterTest(mContext, smokeList, electricPresenter);
-        recyclerView.setAdapter(electricActivityAdapter);
+        adapter = new ChuangAnAdapter(mContext, smokeList, mPresenter);
+        recyclerView.setAdapter(adapter);
         swipeFreshLayout.setRefreshing(false);
-        electricActivityAdapter.setOnItemClickListener(new ElectricActivityAdapterTest.OnRecyclerViewItemClickListener(){
+        adapter.setOnItemClickListener(new ChuangAnAdapter.OnRecyclerViewItemClickListener(){
             @Override
-            public void onItemClick(View view, ElectricValue.ElectricValueBean data){
+            public void onItemClick(View view, ChuangAnValue.ChuangAnValueBean data){
                 Intent intent = new Intent(mContext, LineChartActivity.class);
                 intent.putExtra("electricMac",electricMac);
-                intent.putExtra("electricType",data.getElectricType());
                 intent.putExtra("electricNum",data.getId());
                 startActivity(intent);
             }
         });
-    }
-
-    @OnClick({R.id.power_change_history_text})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.power_change_history_text:
-                Intent intent=new Intent(mContext, ElectricChangeHistoryActivity.class);
-                intent.putExtra("mac",electricMac);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
     }
 
     @Override

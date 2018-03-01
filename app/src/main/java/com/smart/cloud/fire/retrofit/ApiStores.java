@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.retrofit;
 
+import com.smart.cloud.fire.global.ChuangAnValue;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.ElectricInfo;
 import com.smart.cloud.fire.global.ElectricValue;
@@ -287,6 +288,10 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<ElectricInfo<ElectricValue>> getOneElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                                @Query("smokeMac") String smokeMac);
+    @GET("getOneChuangAnInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ElectricInfo<ChuangAnValue.ChuangAnValueBean>> getOneChuangAnInfo(@Query("userId") String userId, @Query("privilege") String privilege,
+                                                                                 @Query("smokeMac") String smokeMac);
 
 //    getElectricTypeInfo?userId=13428282520&privilege=2&smokeMac=32110533&electricType=6&electricNum=1&page=
     @GET("getWaterHistoryInfo")
@@ -342,4 +347,9 @@ public interface ApiStores {
     Observable<HttpError> getNFCInfo(@Query("userId") String userId, @Query("areaId") String areaId,
                                      @Query("page") String page,@Query("period") String period,
                                      @Query("devicetype") String devicetype);
+
+    //获取电气设备切换设备
+    @GET("getEleNeedHis")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getEleNeedHis(@Query("smokeMac") String smokeMac,@Query("page") String page);
 }

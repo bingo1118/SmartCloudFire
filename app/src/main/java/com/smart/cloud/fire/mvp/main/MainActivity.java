@@ -172,7 +172,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             zddw_btn.setVisibility(View.GONE);
             dqfh_btn.setVisibility(View.GONE);
             xfwl_btn.setVisibility(View.GONE);
-            spjk_btn.setVisibility(View.GONE);
+//            spjk_btn.setVisibility(View.GONE);
             tjsb_btn.setVisibility(View.GONE);
             nfc_btn.setVisibility(View.GONE);
             zjgl_btn.setVisibility(View.GONE);

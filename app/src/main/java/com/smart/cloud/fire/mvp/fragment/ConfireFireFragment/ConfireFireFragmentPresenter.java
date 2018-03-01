@@ -87,6 +87,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("W","");
                 smokeMac = smokeMac.replace("A","");
                 smokeMac = smokeMac.replace("B","");
+                smokeMac = smokeMac.replace("C","");
                 break;
             case "N"://@@NB烟感
                 smokeMac = smokeMac.replace("N","");
@@ -108,6 +109,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "K"://@@无线输入输出模块
                 smokeMac = smokeMac.replace("K","");
+                break;
+            case "C"://@@创安
+                smokeMac = smokeMac.replace("C","");
                 break;
         }
         if(smokeMac!=null&&smokeMac.length()>0){
@@ -275,10 +279,13 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 case "W":
                     if((smokeMac.charAt(smokeMac.length()-1)+"").equals("W")){
                         deviceType="19";//@@水位2018.01.02
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("C")){
+                        deviceType="42";//@@NB水压
                     }else{
                         deviceType="10";//@@水压
                     }
                     smokeMac = smokeMac.replace("W","");//水压设备
+                    smokeMac = smokeMac.replace("C","");//水压设备
                     break;
                 case "L":
                     smokeMac = smokeMac.replace("L","");//红外设备
@@ -304,6 +311,10 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("P","");//10.31喷淋
                     deviceType="18";
                     electrState=2;//@@11.01 1开2关
+                    break;
+                case "C"://@@创安
+                    smokeMac = smokeMac.replace("C","");//10.31喷淋
+                    deviceType="51";
                     break;
             }
             if(smokeMac.length()!=8){

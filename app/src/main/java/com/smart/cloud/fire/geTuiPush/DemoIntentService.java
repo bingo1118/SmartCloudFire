@@ -18,6 +18,7 @@ import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.Alarm.AlarmActivity;
 import com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity;
+import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.pushmessage.DisposeAlarm;
 import com.smart.cloud.fire.pushmessage.GetUserAlarm;
@@ -66,6 +67,7 @@ public class DemoIntentService extends GTIntentService {
     @Override
     public void onReceiveMessageData(Context context, GTTransmitMessage gtTransmitMessage) {
         String msg = new String(gtTransmitMessage.getPayload());
+        boolean showDateChange=false;
         try {
             JSONObject dataJson = new JSONObject(msg);
             int deviceType = dataJson.getInt("deviceType");
@@ -90,6 +92,7 @@ public class DemoIntentService extends GTIntentService {
                 case 16://NB燃气
                 case 7://声光
                 case 10://水压@@4.28
+                case 42://@@NB水压2018.02.23
                 case 11://红外
                 case 12://门磁
                 case 15://水禁
@@ -101,9 +104,13 @@ public class DemoIntentService extends GTIntentService {
                 case 124://@@外接水位
                 case 125://@@外接水压
                 case 41://NB烟感
+                case 111://@@小主机，终端
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
+                        case 111:
+                            message="主机处于备电状态";
+                            break;
                         case 31:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
@@ -180,6 +187,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 125:
+                        case 42:
                         case 10://@@4.28
                             int alarmFamily = dataJson.getInt("alarmFamily");
                             if(alarmType==218) {
@@ -187,22 +195,30 @@ public class DemoIntentService extends GTIntentService {
                             }else if(alarmType==209){
                                 message="发生低水压报警 水压值："+alarmFamily+"kpa";
                             }else if(alarmType==217){
-                                message="发生水压升高报警 水压值："+alarmFamily+"kpa";
+                                message="发生水压升高,水压值："+alarmFamily+"kpa";
+                                showDateChange=true;
                             }else if(alarmType==210){
-                                message="发生水压降低报警 水压值："+alarmFamily+"kpa";
+                                message="发生水压降低,水压值："+alarmFamily+"kpa";
+                                showDateChange=true;
                             }else{
                                 message="电量低，请更换电池";
                             }
                             break;
                     }
-                    PushAlarmMsg mPushAlarmMsg = jsJson(dataJson);
-                    Random random1 = new Random();
-                    showDownNotification(context,message,mPushAlarmMsg,random1.nextInt(),AlarmActivity.class);
-                    Intent intent1 = new Intent(context, AlarmActivity.class);
-                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent1.putExtra("mPushAlarmMsg",mPushAlarmMsg);
-                    intent1.putExtra("alarmMsg",message);
-                    context.startActivity(intent1);
+                    if(showDateChange==true){
+                        PushAlarmMsg mPushAlarmMsg = jsJson(dataJson);
+                        Random random1 = new Random();
+                        showDataChangeNotification(context,message,mPushAlarmMsg,random1.nextInt(),LineChartActivity.class);
+                    }else{
+                        PushAlarmMsg mPushAlarmMsg = jsJson(dataJson);
+                        Random random1 = new Random();
+                        showDownNotification(context,message,mPushAlarmMsg,random1.nextInt(),AlarmActivity.class);
+                        Intent intent1 = new Intent(context, AlarmActivity.class);
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent1.putExtra("mPushAlarmMsg",mPushAlarmMsg);
+                        intent1.putExtra("alarmMsg",message);
+                        context.startActivity(intent1);
+                    }
                     break;
                 case 5://电气
                     PushAlarmMsg pushAlarmMsg1 = jsJson(dataJson);
@@ -506,6 +522,37 @@ public class DemoIntentService extends GTIntentService {
             Intent it=new Intent(context,clazz);
             it.putExtra("mPushAlarmMsg",mPushAlarmMsg);
             it.putExtra("alarmMsg",message);
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent contentIntent=PendingIntent.getActivity(context, id, it, PendingIntent.FLAG_CANCEL_CURRENT);
+            m_builder.setContentIntent(contentIntent);
+        }
+        //执行通知
+        nm.notify(id, m_builder.build());
+    }
+
+    //@@2018.02.24水压变化通知
+    private void showDataChangeNotification(Context context, String message, Serializable mPushAlarmMsg, int id, Class clazz){
+        NotificationCompat.Builder m_builder = new NotificationCompat.Builder(context);
+        m_builder.setContentTitle(((PushAlarmMsg)mPushAlarmMsg).getName()+message); // 主标题
+
+        //从系统服务中获得通知管理器
+        NotificationManager nm=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //具体的通知内容
+
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher); // 将PNG图片转
+        m_builder.setLargeIcon(icon);
+
+        m_builder.setSmallIcon(R.mipmap.ic_launcher); //设置小图标
+        m_builder.setWhen(System.currentTimeMillis());
+        m_builder.setAutoCancel(true);
+        long[] vibrates = {0, 1000, 1000, 1000};
+        m_builder.mNotification.vibrate = vibrates;
+        if(clazz!=null){
+            m_builder.setContentText("点击查看详情"); //设置主要内容
+            //通知消息与Intent关联
+            Intent it=new Intent(context,clazz);
+            it.putExtra("electricMac",((PushAlarmMsg)mPushAlarmMsg).getMac());
+            it.putExtra("isWater","1");//@@是否为水压
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent contentIntent=PendingIntent.getActivity(context, id, it, PendingIntent.FLAG_CANCEL_CURRENT);
             m_builder.setContentIntent(contentIntent);

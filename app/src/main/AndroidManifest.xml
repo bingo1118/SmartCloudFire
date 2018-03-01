@@ -204,6 +204,7 @@
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity" />
         <activity android:name="com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity" />
         <activity android:name="com.smart.cloud.fire.activity.NFC.NFCActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity" />
         <activity
             android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -223,7 +224,8 @@
         <activity
             android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.Host.HostActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.Host.HostActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity"></activity>
     </application>
 
 </manifest>

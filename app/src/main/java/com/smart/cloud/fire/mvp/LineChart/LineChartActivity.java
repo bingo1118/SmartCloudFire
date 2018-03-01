@@ -194,7 +194,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     private void setPointsValues(List<TemperatureTime.ElectricBean> list) {
         data.clear();
         for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
+            for (int j = 0; j < (list.size()+1); ++j) {
                 if (j > 0 && j < 7) {
                     String str = list.get(j - 1).getElectricValue();
                     if (electricType.equals("7")) {
@@ -217,7 +217,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         for (int i = 0; i < numberOfLines; ++i) {
             //节点的值
             List<PointValue> values = new ArrayList<>();
-            for (int j = 0; j < numberOfPoints; ++j) {
+            for (int j = 0; j < (list.size()+1); ++j) {
                 if (j > 0 && j < 7) {
                     values.add(new PointValue(j, randomNumbersTab[i][j]));
                     axisValuesX.add(new AxisValue(j).setLabel(getTime(list.get(j-1).getElectricTime())));
@@ -264,10 +264,10 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 if(isWater!=null){
                     if(isWater.equals("1")){
                         axisY.setName("水压值(kPa)");
-                        titleTv.setText("历史水压值折线图");
+                        titleTv.setText("历史水压值折线图(Mac:"+electricMac+")");
                     }else{
                         axisY.setName("水位值(m)");
-                        titleTv.setText("历史水位值折线图");
+                        titleTv.setText("历史水位值折线图(Mac:"+electricMac+")");
                     }
                 }
                 break;
@@ -305,8 +305,12 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
 //    }
 
     private String getTime(String str) {
-        String strings = str.substring(5, str.length());
-        return strings;
+        if(str.length()<5){
+            return "";
+        }else{
+            String strings = str.substring(5, str.length());
+            return strings;
+        }
     }
 
     /**
@@ -372,7 +376,12 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 TemperatureTime.ElectricBean tElectricBean = temperatureTimes.get(i);
                 electricBeen.add(tElectricBean);
             }
-        }else if(len < 6&&electricBeen.size()==0){
+        }else if(len>0&&len < 6&&electricBeen.size()==0){
+            btnNext.setClickable(false);
+            btnNext.setBackgroundResource(R.mipmap.next_an);
+            electricBeen.clear();
+            electricBeen.addAll(temperatureTimes);
+        }else{
             T.showShort(mActivity,"无数据");
         }
         setPointsValues(electricBeen);

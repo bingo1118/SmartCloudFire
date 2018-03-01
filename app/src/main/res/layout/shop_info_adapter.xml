@@ -131,14 +131,28 @@
                 android:layout_below="@id/address_name_tv"
                 android:layout_toRightOf="@id/addtime"
                 android:text="2017-09-16"/>
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/manager_img"
-                android:background="@drawable/manager_img_selector"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"/>
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/manager_img"
+                    android:background="@drawable/manager_img_selector"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"/>
+                <ImageView
+                    android:id="@+id/power_button"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/sblb_qddy"
+                    android:layout_below="@id/manager_img"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
