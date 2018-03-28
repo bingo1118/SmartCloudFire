@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity;
+import com.smart.cloud.fire.activity.PayActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.MyApp;
@@ -53,6 +54,9 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     @Bind(R.id.everyday)
     RadioButton everyday;
     private Context mContext;
+
+    @Bind(R.id.setting_pay)
+    RelativeLayout setting_pay;//@@2018.03.14
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -135,13 +139,17 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     }
 
     @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit,
-            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add})
+            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add,R.id.setting_pay})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.app_update:
                 mvpPresenter.checkUpdate(mContext);
 //                getActivity().finish();//@@7.13
                 break;
+//            case R.id.setting_pay:
+//                Intent intent9 = new Intent(mContext, PayActivity.class);
+//                startActivity(intent9);
+//                break;
             case R.id.setting_help_about:
                 Intent intent = new Intent(mContext, AboutActivity.class);
                 startActivity(intent);

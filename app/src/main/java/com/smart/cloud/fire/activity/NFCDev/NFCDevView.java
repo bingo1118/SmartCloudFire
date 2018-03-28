@@ -3,6 +3,7 @@ package com.smart.cloud.fire.activity.NFCDev;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
+import com.smart.cloud.fire.global.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public interface NFCDevView {
     void getChoiceArea(Area area);
 
     void getChoiceShop(ShopType shopType);
+
+    void getChoiceState(State stateType);
 
     void getSmokeSummary(SmokeSummary smokeSummary);
 }

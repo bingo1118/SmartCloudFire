@@ -48,6 +48,7 @@ import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
+import com.smart.cloud.fire.global.State;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
@@ -106,18 +107,24 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
     ImageView addFire;//显示搜索界面按钮。。
     @Bind(R.id.lin1)
     LinearLayout lin1;//搜素界面。。
+    @Bind(R.id.lin2)
+    LinearLayout lin2;//搜素界面。。
     @Bind(R.id.area_condition)
     AreaChooceListView areaCondition;//区域下拉选择。。
     @Bind(R.id.shop_type_condition)
-    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
+    XCDropDownListViewMapSearch shopTypeCondition;//设备类型下拉选择。。
+    @Bind(R.id.state_condition)
+    XCDropDownListViewMapSearch stateCondition;//状态下拉选择。。
     @Bind(R.id.search_fire)
     ImageView searchFire;//搜索按钮。。
     private boolean visibility = false;
     private ShopType mShopType;
+    private State mState;
     private Area mArea;
     private String areaId = "";
     private String parentId="";//@@9.1
     private String shopTypeId = "";
+    private String stateTypeId = "";
 
     List<Area> parent = null;//@@8.31
     Map<String, List<Area>> map = null;//@@8.31
@@ -141,9 +148,10 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
         areaCondition.setIfHavaChooseAll(false);//@@11.06
         areaCondition.setActivity(this);//@@12.21
         shopTypeCondition.setActivity(this);//@@12.21
+        stateCondition.setActivity(this);
         addFire.setVisibility(View.VISIBLE);//@@8.17
         addFire.setImageResource(R.drawable.search);//@@8.17
-        mvpPresenter.getNFCInfo(userID, "", "",page, list, 1,false);
+        mvpPresenter.getNFCInfo(userID, "", "",page, list, 1,false,null);
         mvpPresenter.getSmokeSummary(userID,privilege+"","","");//@@8.17
     }
     private void refreshListView() {
@@ -165,7 +173,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
             public void onRefresh() {
                 page = "1";
                 list.clear();
-                mvpPresenter.getNFCInfo(userID, "" ,"", page, list, 1,true);
+                mvpPresenter.getNFCInfo(userID, "" ,"", page, list, 1,true,null);
                 mvpPresenter.getSmokeSummary(userID,privilege+"","","");//@@8.17
             }
         });
@@ -188,7 +196,7 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == count) {
                     if(loadMoreCount>=20){
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getNFCInfo(userID, "" , "", page, list, 1,true);//@@7.17
+                        mvpPresenter.getNFCInfo(userID, "" , "", page, list, 1,true,null);//@@7.17
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }
@@ -211,26 +219,33 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
         getWindow().setAttributes(lp);
     }
 
-    @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire,R.id.turn_map_btn,R.id.trace_search})
+    @OnClick({R.id.state_condition,R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire,R.id.turn_map_btn,R.id.trace_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_fire://显示查询条件按钮。。
                 if (visibility) {
                     visibility = false;
                     lin1.setVisibility(View.GONE);
+                    lin2.setVisibility(View.GONE);
                     if (areaCondition.ifShow()) {
                         areaCondition.closePopWindow();
                     }
                     if (shopTypeCondition.ifShow()) {
                         shopTypeCondition.closePopWindow();
                     }
+                    if (stateCondition.ifShow()) {
+                        stateCondition.closePopWindow();
+                    }
                 } else {
                     visibility = true;
                     areaCondition.setEditText("");
                     shopTypeCondition.setEditText("");
+                    stateCondition.setEditText("");
                     areaCondition.setEditTextHint("区域");
                     shopTypeCondition.setEditTextHint("类型");
+                    stateCondition.setEditTextHint("状态");
                     lin1.setVisibility(View.VISIBLE);
+                    lin2.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.area_condition://地区类型下拉列表。。
@@ -300,6 +315,15 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                     shopTypeCondition.showLoading();
                 }
                 break;
+            case R.id.state_condition://状态下拉列表。。
+                if (stateCondition.ifShow()) {
+                    stateCondition.closePopWindow();
+                } else {
+                    stateCondition.setClickable(false);
+                    stateCondition.showLoading();
+                    getStateType();
+                }
+                break;
             case R.id.search_fire://查询按钮
                 if (!Utils.isNetworkAvailable(this)) {
                     return;
@@ -307,15 +331,21 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                 if (shopTypeCondition.ifShow()) {
                     shopTypeCondition.closePopWindow();
                 }
+                if (stateCondition.ifShow()) {
+                    stateCondition.closePopWindow();
+                }
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 }
-                if ((mShopType != null && mShopType.getPlaceTypeId() != null) || (mArea != null && mArea.getAreaId() != null)) {
+                if ((mShopType != null && mShopType.getPlaceTypeId() != null) || (mArea != null && mArea.getAreaId() != null)
+                        || (mState != null && mState.getStateId() != null)) {
                     lin1.setVisibility(View.GONE);
+                    lin2.setVisibility(View.GONE);
                     searchFire.setVisibility(View.GONE);
                     addFire.setVisibility(View.VISIBLE);
                     areaCondition.searchClose();
                     shopTypeCondition.searchClose();
+                    stateCondition.searchClose();
                     visibility = false;
                     if (mArea != null && mArea.getAreaId() != null) {
                         if(mArea.getIsParent()==1){
@@ -333,12 +363,19 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
                     } else {
                         shopTypeId = "";
                     }
-                    mvpPresenter.getNeedNFC(userID, areaId,"",shopTypeId);//显示设备。。
+                    if (mState != null && mState.getStateId() != null) {
+                        stateTypeId = mState.getStateId();
+                    } else {
+                        stateTypeId = "";
+                    }
+                    mvpPresenter.getNeedNFC(userID, areaId,"",shopTypeId,stateTypeId);//显示设备。。
                     mvpPresenter.getSmokeSummary(userID,privilege+"",areaId,shopTypeId);//显示总数。。;
                     mShopType = null;
                     mArea = null;
+                    stateTypeId=null;
                 } else {
                     lin1.setVisibility(View.GONE);
+                    lin2.setVisibility(View.GONE);
                     return;
                 }
                 break;
@@ -376,6 +413,18 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
             public void onClick(View v) {
                 Intent intent6 = new Intent(mContext, AddNFCMacActivity.class);
                 startActivity(intent6);
+                popupWindow.dismiss();
+            }
+        });
+
+        RelativeLayout nfc_all_history=(RelativeLayout)contentView.findViewById(R.id.nfc_all_history);
+        nfc_all_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, NFCDevHistoryActivity.class);
+                intent.putExtra("uid","");
+                intent.putExtra("name","历史巡检记录");
+                mContext.startActivity(intent);
                 popupWindow.dismiss();
             }
         });
@@ -535,6 +584,26 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
         }
     }
 
+    public void getStateType() {
+        ArrayList<Object>  shopTypes=new ArrayList<>();
+        State a=new State();
+        a.setStateId("1");
+        a.setStateName("合格");
+        shopTypes.add(a);
+        State b=new State();
+        b.setStateId("2");
+        b.setStateName("不合格");
+        shopTypes.add(b);
+        State c=new State();
+        c.setStateId("0");
+        c.setStateName("待检");
+        shopTypes.add(c);
+        stateCondition.setItemsData( shopTypes, nfcDevPresenter);
+        stateCondition.showPopWindow();
+        stateCondition.setClickable(true);
+        stateCondition.closeLoading();
+    }
+
     @Override
     public void getAreaTypeFail(String msg, int type) {
         T.showShort(mContext, msg);
@@ -582,6 +651,22 @@ public class NFCDevActivity extends MvpActivity<NFCDevPresenter> implements NFCD
             addFire.setVisibility(View.VISIBLE);
             searchFire.setVisibility(View.GONE);
         } else if (mShopType.getPlaceTypeId() == null && mArea != null && mArea.getAreaId() == null) {
+            addFire.setVisibility(View.VISIBLE);
+            searchFire.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getChoiceState(State stateType) {
+        mState = stateType;
+        if (mState != null && mState.getStateId() != null) {
+            addFire.setVisibility(View.GONE);
+            searchFire.setVisibility(View.VISIBLE);
+        }
+        if (mState.getStateId() == null && mArea == null) {
+            addFire.setVisibility(View.VISIBLE);
+            searchFire.setVisibility(View.GONE);
+        } else if (mState.getStateId() == null && mArea != null && mArea.getAreaId() == null) {
             addFire.setVisibility(View.VISIBLE);
             searchFire.setVisibility(View.GONE);
         }

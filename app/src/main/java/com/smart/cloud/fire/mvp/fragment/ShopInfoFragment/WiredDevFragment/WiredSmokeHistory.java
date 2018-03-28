@@ -12,6 +12,8 @@ public class WiredSmokeHistory {
     private String faultDevDesc;
     private String photo1;
     private String userid;//巡检人
+    private String deviceName;
+    private String areaName;
 
     public String getFaultInfo() {
         return faultInfo;
@@ -75,5 +77,21 @@ public class WiredSmokeHistory {
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

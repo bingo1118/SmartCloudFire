@@ -55,10 +55,13 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         if (Utils.isNumeric(User)) {
             userId = "+86-"+User;
         }else{
-            mvpView.getDataFail("用户不存在");
-            mvpView.hideLoading();
-            return;
+            userId = User;
         }
+//        else{
+//            mvpView.getDataFail("用户不存在");
+//            mvpView.hideLoading();
+//            return;
+//        }
         Observable<LoginModel> observable = apiStores[value].loginYooSee(userId, password, "1", "3", AppVersion);
         addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
             @Override
@@ -68,13 +71,15 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     editSharePreference(context,model,User,Pwd);//存储技威用户数据
                     //登陆内部服务器获取用户权限
                     String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@5.27
-                    loginServer2(User,Pwd,userCID);
+                    loginServer2(User,Pwd,userCID,"1");
 //                    loginServer(User);//@@6.16
                 }else{
+                    String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@2018.03.15
                     mvpView.hideLoading();
                     switch (errorCode){
                         case "2":
-                            T.showShort(context,"用户不存在");
+//                            T.showShort(context,"用户不存在");
+                            loginServer2(User,Pwd,userCID,"0");
                             break;
                         case "3":
                             T.showShort(context,"密码错误");
@@ -83,7 +88,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             T.showShort(context,"用户名不能为空");
                             break;
                         default:
-                            T.showShort(context,"用户名或密码错误");//@@4.27
+//                            T.showShort(context,"用户名或密码错误");//@@4.27
+                            loginServer2(User,Pwd,userCID,"0");
                             break;
                     }
                     if(type==0){
@@ -100,7 +106,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 }else{
                     mvpView.hideLoading();
                     String userCID = SharedPreferencesManager.getInstance().getData(context,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@7.12
-                    loginServer2(User,"",userCID);//@@7.12 如果技威登录失败，也登陆我们服务器@@12.12密码发空串，防止保存
+                    loginServer2(User,"",userCID,"1");//@@7.12 如果技威登录失败，也登陆我们服务器@@12.12密码发空串，防止保存
 //                    mvpView.getDataFail("网络错误，请检查网络");
                 }
                 //@@6.29跳过技威登陆
@@ -157,8 +163,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * 登陆内部服务器，获取信息到Login Model，errorCode=0表示登陆成功，设置权限。。
      * @param userId
      */
-    private void loginServer2(final String userId, final String pwd, String cid){
-        Observable<LoginModel> observable = apiStores1.login2(userId,pwd,cid,"1");//@@5.27添加app编号
+    private void loginServer2(final String userId, final String pwd, String cid,String ifregister){
+        Observable<LoginModel> observable = apiStores1.login2(userId,pwd,cid,"1",ifregister);//@@5.27添加app编号
         addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<LoginModel>() {
             @Override
             public void onSuccess(LoginModel model) {
@@ -184,6 +190,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             SharedPreferencesManager.KEY_RECENT_PRIVILEGE, model.getPrivilege());
                     //跳转到主界面
                     mvpView.getDataSuccess(model);
+                }else if(errorCode==1){
+                    mvpView.getDataFail("用户名或密码错误");
+                }else if(errorCode==2){
+                    mvpView.getDataFail("没有此用户");
                 }else{
                     //跳转到登陆界面
                     mvpView.getDataFail("登录失败，请重新登录");

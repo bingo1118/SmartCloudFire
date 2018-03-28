@@ -10,6 +10,7 @@ import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.ShopType;
+import com.smart.cloud.fire.global.State;
 import com.smart.cloud.fire.retrofit.ApiStores;
 import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.utils.T;
@@ -53,6 +54,11 @@ public class BasePresenter<V> implements Presenter<V> {
 
     @Override
     public void getShop(ShopType shopType) {
+
+    }
+
+    @Override
+    public void getState(State state) {
 
     }
 

@@ -145,7 +145,7 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
 
     public void getNeedNFC(String userId, String privilege,String areaId,String placeTypeId,String devType){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"",SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"","");
+        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"",SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"","","");
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

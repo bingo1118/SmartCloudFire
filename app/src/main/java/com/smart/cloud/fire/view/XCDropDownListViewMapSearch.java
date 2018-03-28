@@ -21,6 +21,7 @@ import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ShopType;
+import com.smart.cloud.fire.global.State;
 
 import java.util.ArrayList;
 
@@ -103,6 +104,9 @@ public class XCDropDownListViewMapSearch extends LinearLayout {
                     }
                     if (object instanceof ShopType) {
                         basePresenter.getShop(new ShopType());
+                    }
+                    if (object instanceof State) {
+                        basePresenter.getState(new State());
                     }
                     imageView.setVisibility(View.VISIBLE);
                     clear_choice.setVisibility(View.GONE);
@@ -246,6 +250,23 @@ public class XCDropDownListViewMapSearch extends LinearLayout {
                         imageView.setVisibility(View.GONE);
                         clear_choice.setVisibility(View.VISIBLE);
                         basePresenter.getArea(mArea);
+                        closePopWindow();
+                    }
+                });
+            }else if(object instanceof State){
+                final State mArea = (State)object;
+                // 设置数据
+                listItemView.tv.setText(mArea.getStateName());
+                final String text = mArea.getStateName();
+                listItemView.layout.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        editText.setText(text);
+                        imageView.setVisibility(View.GONE);
+                        clear_choice.setVisibility(View.VISIBLE);
+                        basePresenter.getState(mArea);
                         closePopWindow();
                     }
                 });

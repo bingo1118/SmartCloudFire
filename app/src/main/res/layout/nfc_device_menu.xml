@@ -125,6 +125,8 @@
             />
     </RelativeLayout>
 
+
+
     <RelativeLayout
         android:id="@+id/nfc_mac_add"
         android:layout_width="match_parent"
@@ -151,11 +153,39 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/dao_hang_bian_color"
+            android:background="@color/white"
             android:layout_alignParentBottom="true"
             />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/nfc_all_history"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/nfc_all_history_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/open_door_p"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            />
 
+        <TextView
+            android:layout_toRightOf="@id/nfc_all_history_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="历史巡检记录"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/camera_list_tv"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
 
 </LinearLayout>

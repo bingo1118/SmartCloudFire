@@ -41,9 +41,55 @@
                 android:layout_marginTop="3dp"
                 android:orientation="vertical">
                 <RelativeLayout
+                    android:id="@+id/device_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    >
+                    <TextView
+                        android:id="@+id/device_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#6f6f6f"
+                        android:text="名称:"/>
+                    <TextView
+                        android:id="@+id/device_name_tv"
+                        android:layout_toRightOf="@id/device_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:text="HJKDSA545FD"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/area_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    >
+                    <TextView
+                        android:id="@+id/area_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#6f6f6f"
+                        android:text="区域:"/>
+                    <TextView
+                        android:id="@+id/area_name_tv"
+                        android:layout_toRightOf="@id/area_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:text="HJKDSA545FD"/>
+                </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/alarm_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
                     <TextView
                         android:id="@+id/station_name"
                         android:layout_width="wrap_content"

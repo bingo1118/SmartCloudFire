@@ -225,7 +225,8 @@
             android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity"
             android:launchMode="singleTop" />
         <activity android:name="com.smart.cloud.fire.activity.Host.HostActivity" />
-        <activity android:name="com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.PayActivity"></activity>
     </application>
 
 </manifest>

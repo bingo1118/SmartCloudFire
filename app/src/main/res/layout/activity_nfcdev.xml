@@ -65,29 +65,51 @@
         android:background="#e6e6e6">
 
         <LinearLayout
-            android:id="@+id/lin1"
+        android:id="@+id/lin1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+            android:visibility="gone"
+        android:background="#e6e6e6">
+        <com.smart.cloud.fire.view.AreaChooceListView
+            android:id="@+id/area_condition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2"
+            />
+        <com.smart.cloud.fire.view.XCDropDownListViewMapSearch
+            android:id="@+id/shop_type_condition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lin2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_below="@id/lin1"
             android:background="#e6e6e6">
-            <com.smart.cloud.fire.view.AreaChooceListView
-                android:id="@+id/area_condition"
+
+            <com.smart.cloud.fire.view.XCDropDownListViewMapSearch
+                android:id="@+id/state_condition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
-                android:layout_weight="2"
-                />
-            <com.smart.cloud.fire.view.XCDropDownListViewMapSearch
-                android:id="@+id/shop_type_condition"
+                android:layout_weight="2"/>
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"/>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/lin_search"
             android:layout_width="match_parent"
@@ -127,7 +149,7 @@
             android:visibility="gone"
             android:background="#e6e6e6"
             android:orientation="horizontal"
-            android:layout_below="@id/lin1">
+            android:layout_below="@id/lin2">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

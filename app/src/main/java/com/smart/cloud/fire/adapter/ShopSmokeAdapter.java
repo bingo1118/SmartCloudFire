@@ -86,6 +86,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
             ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);//@@9.14
+            ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
             if(devType==18){
                 ((ItemViewHolder) holder).state_name_tv.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).state_tv.setVisibility(View.VISIBLE);
@@ -391,6 +392,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView state_name_tv;//@@11.01
         @Bind(R.id.state_tv)
         TextView state_tv;//@@11.01
+        @Bind(R.id.rssi_value)
+        TextView rssi_value;//@@2018.03.07
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

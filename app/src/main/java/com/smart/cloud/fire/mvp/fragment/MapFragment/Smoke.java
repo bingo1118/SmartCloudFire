@@ -48,6 +48,7 @@ public class Smoke implements Serializable {
     private int deviceType;
     private String placeTypeId;
     private int electrState;//@@11.01
+    private String rssivalue;//@@2018.03.07
 
     public String getAddress() {
         return address;
@@ -223,5 +224,14 @@ public class Smoke implements Serializable {
 
     public void setElectrState(int electrState) {
         this.electrState = electrState;
+    }
+
+
+    public String getRssivalue() {
+        return rssivalue;
+    }
+
+    public void setRssivalue(String rssivalue) {
+        this.rssivalue = rssivalue;
     }
 }

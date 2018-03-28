@@ -96,17 +96,17 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
      * @param type
      * @param refresh
      */
-    public void getAllElectricInfo(String userId, String privilege, String page, String devType, final List<Electric> list, final int type, boolean refresh, final ElectricFragment electricFragment){
+    public void getAllElectricInfo(String userId, String privilege, String page, String devType, final List<Smoke> list, final int type, boolean refresh, final ElectricFragment electricFragment){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getAllElectricInfo(userId,privilege,page);
-        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
+        Observable mObservable = apiStores1.getNeedDev(userId,privilege,"",page,"","3");
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
-            public void onSuccess(ElectricInfo<Electric> model) {
+            public void onSuccess(HttpError model) {
                 int result=model.getErrorCode();
                 if(result==0){
-                    List<Electric> electricList = model.getElectric();
+                    List<Smoke> electricList = model.getSmoke();
                     if(type==1){
                         if(list==null||list.size()==0){
                             electricFragment.getDataSuccess(electricList,false);
@@ -160,16 +160,16 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
     //    userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
     public void getNeedElectricInfo(String userId, String privilege, String parentId,String areaId, String placeTypeId, String page,String devType, final ElectricFragment electricFragment){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedElectricInfo(userId,privilege,parentId,areaId,page,placeTypeId);
-        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<Electric>>() {
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,"3");
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
-            public void onSuccess(ElectricInfo<Electric> model) {
+            public void onSuccess(HttpError model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    List<Electric> electricList = model.getElectric();
+                    List<Smoke> electricList = model.getSmoke();
                     electricFragment.getDataSuccess(electricList,false);
                 }else{
-                    List<Electric> electricList = new ArrayList<>();
+                    List<Smoke> electricList = new ArrayList<>();
                     electricFragment.getDataSuccess(electricList,false);
                     electricFragment.getDataFail("无数据");
                 }

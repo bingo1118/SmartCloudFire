@@ -102,8 +102,12 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     state="不合格";
                     break;
             }
+            ((ItemViewHolder) holder).device_name.setVisibility(View.VISIBLE);
+            ((ItemViewHolder) holder).area_name.setVisibility(View.VISIBLE);
             ((ItemViewHolder) holder).state_tv.setText(state);
             ((ItemViewHolder) holder).info_tv.setText(normalSmoke.getFaultInfo());
+            ((ItemViewHolder) holder).area_name_tv.setText(normalSmoke.getAreaName());
+            ((ItemViewHolder) holder).device_name_tv.setText(normalSmoke.getDeviceName());
             ((ItemViewHolder) holder).alarm_time_tv.setText(normalSmoke.getFaultTime());
             ((ItemViewHolder) holder).station_name.setText("状态:");
             ((ItemViewHolder) holder).userid_rela.setVisibility(View.VISIBLE);
@@ -188,6 +192,10 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.alarm_time_tv)
         TextView alarm_time_tv;//@@时间
+        @Bind(R.id.device_name_tv)
+        TextView device_name_tv;//@@设备名称
+        @Bind(R.id.area_name_tv)
+        TextView area_name_tv;//@@设备区域
         @Bind(R.id.state_tv)
         TextView state_tv;//@@设备状态
         @Bind(R.id.info_tv)
@@ -200,6 +208,10 @@ public class NFCHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ImageView photo1_image;//@@9.28
         @Bind(R.id.userid_rela)
         RelativeLayout userid_rela;//@@10.27
+        @Bind(R.id.device_name)
+        RelativeLayout device_name;//@@10.27
+        @Bind(R.id.area_name)
+        RelativeLayout area_name;//@@10.27
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

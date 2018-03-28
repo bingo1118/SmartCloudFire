@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -49,26 +51,25 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     private int load_more_status = 0;
     private LayoutInflater mInflater;
     private Context mContext;
-    private List<Electric> listNormalSmoke;
+    private List<Smoke> listNormalSmoke;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(v,(Electric)v.getTag());
+            mOnItemClickListener.onItemClick(v,(Smoke)v.getTag());
         }
     }
 
     public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , Electric data);
+        void onItemClick(View view , Smoke data);
     }
 
-    public ElectricFragmentAdapter(Context mContext, List<Electric> listNormalSmoke) {
+    public ElectricFragmentAdapter(Context mContext, List<Smoke> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listNormalSmoke = listNormalSmoke;
-        this.mContext = mContext;
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
@@ -108,12 +109,14 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
-            final Electric normalSmoke = listNormalSmoke.get(position);
+            final Smoke normalSmoke = listNormalSmoke.get(position);
             ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
             ((ItemViewHolder) holder).repeater_tv.setText(normalSmoke.getRepeater());
             ((ItemViewHolder) holder).type_tv.setText(normalSmoke.getPlaceType());
             ((ItemViewHolder) holder).area_tv.setText(normalSmoke.getAreaName());
+
+            ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
 
 
 
@@ -140,7 +143,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
 
             final int privilege = MyApp.app.getPrivilege();
-            final int eleState = normalSmoke.getEleState();
+            final int eleState = normalSmoke.getElectrState();
             //if(privilege==3){//@@8.28权限3有切换电源功能
             switch (eleState){
                 case 1:
@@ -254,6 +257,9 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.power_button)
         ImageView power_button;//@@切换电源按钮
 
+        @Bind(R.id.rssi_value)
+        TextView rssi_value;//@@2018.03.07
+
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -276,7 +282,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     //添加数据
-    public void addItem(List<Electric> smokeList) {
+    public void addItem(List<Smoke> smokeList) {
         //mTitles.add(position, data);
         //notifyItemInserted(position);
         smokeList.addAll(listNormalSmoke);
@@ -285,7 +291,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void addMoreItem(List<Electric> smokeList) {
+    public void addMoreItem(List<Smoke> smokeList) {
         listNormalSmoke.addAll(smokeList);
         notifyDataSetChanged();
     }
@@ -305,7 +311,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void changepower(final int eleState, final Electric normalSmoke){
+    public void changepower(final int eleState, final Smoke normalSmoke){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         if(eleState==1){
             builder.setMessage("确认切断电源吗？");
@@ -327,7 +333,12 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }else{
                     url=ConstantValues.SERVER_IP_NEW+"fireSystem/ackControl?smokeMac="+normalSmoke.getMac()+"&eleState=1&userId="+userID;
                 }
-                Toast.makeText(mContext,"设置中，请稍候",Toast.LENGTH_SHORT).show();
+                final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                dialog1.setTitle("提示");
+                dialog1.setMessage("设置中，请稍候");
+                dialog1.setCanceledOnTouchOutside(false);
+                dialog1.show();
+//                Toast.makeText(mContext,"设置中，请稍候",Toast.LENGTH_SHORT).show();
                 StringRequest stringRequest = new StringRequest(url,
                         new Response.Listener<String>() {
                             @Override
@@ -338,10 +349,10 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                                     if(errorCode==0){
                                         switch (eleState){
                                             case 2:
-                                                normalSmoke.setEleState(1);
+                                                normalSmoke.setElectrState(1);
                                                 break;
                                             case 1:
-                                                normalSmoke.setEleState(2);
+                                                normalSmoke.setElectrState(2);
                                                 break;
                                         }
                                         notifyDataSetChanged();
@@ -352,17 +363,21 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
+                                dialog1.dismiss();
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog1.dismiss();
                         Toast.makeText(mContext,"设置超时",Toast.LENGTH_SHORT).show();
                     }
                 });
-                stringRequest.setRetryPolicy(new DefaultRetryPolicy(20000,
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+//                        0,
+//                        0.0f));
                 mQueue.add(stringRequest);
                 dialog.dismiss();
             }

@@ -31,6 +31,7 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.electric.ElectricActivity;
+import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
@@ -69,7 +70,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
     private int privilege;
     private LinearLayoutManager linearLayoutManager;
     private int lastVisibleItem;
-    private List<Electric> list;
+    private List<Smoke> list;
     private int loadMoreCount;
     private boolean research = false;
     private String page;
@@ -174,14 +175,14 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
     public void getDataSuccess(List<?> smokeList,boolean search) {
         loadMoreCount = smokeList.size();
         list.clear();
-        list.addAll((List<Electric>)smokeList);
+        list.addAll((List<Smoke>)smokeList);
         electricFragmentAdapter = new ElectricFragmentAdapter(mContext, list);
         recyclerView.setAdapter(electricFragmentAdapter);
         swipereFreshLayout.setRefreshing(false);
         electricFragmentAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
         electricFragmentAdapter.setOnItemClickListener(new ElectricFragmentAdapter.OnRecyclerViewItemClickListener(){
             @Override
-            public void onItemClick(View view, Electric data){
+            public void onItemClick(View view, Smoke data){
                 Intent intent = new Intent(mContext, ElectricActivity.class);
                 intent.putExtra("ElectricMac",data.getMac());
                 startActivity(intent);
@@ -211,7 +212,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
     @Override
     public void onLoadingMore(List<?> smokeList) {
         loadMoreCount = smokeList.size();
-        list.addAll((List<Electric>)smokeList);
+        list.addAll((List<Smoke>)smokeList);
         electricFragmentAdapter.changeMoreStatus(ShopSmokeAdapter.LOADING_MORE);
     }
 

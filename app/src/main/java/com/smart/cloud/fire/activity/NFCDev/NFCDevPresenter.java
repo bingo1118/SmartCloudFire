@@ -8,6 +8,7 @@ import com.smart.cloud.fire.global.ElectricInfo;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
+import com.smart.cloud.fire.global.State;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpAreaResult;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
@@ -165,9 +166,9 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         }));
     }
 
-    public void getNeedNFC(String userId, String areaId, String page,String devicetype){
+    public void getNeedNFC(String userId, String areaId, String page,String devicetype,String devicestate){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"", SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"",devicetype);
+        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,"", SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"",devicetype,devicestate);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -211,6 +212,12 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
     }
 
     @Override
+    public void getState(State stateType) {
+        super.getState(stateType);
+        mvpView.getChoiceState(stateType);
+    }
+
+    @Override
     public void getArea(Area area) {
         super.getArea(area);
         mvpView.getChoiceArea(area);
@@ -238,11 +245,11 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         }));
     }
 
-    public void getNFCInfo(String userId, String areaId,String devicetype, String page, final List<NFCRecordBean> list, final int type,boolean refresh){
+    public void getNFCInfo(String userId, String areaId,String devicetype, String page, final List<NFCRecordBean> list, final int type,boolean refresh,String devicestate){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,page,SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"",devicetype);
+        Observable mObservable = apiStores1.getNFCInfo(userId,areaId,page,SharedPreferencesManager.getInstance().getIntData(MyApp.app,"NFC_period")+"",devicetype,devicestate);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

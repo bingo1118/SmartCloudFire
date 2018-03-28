@@ -144,7 +144,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
-        if(mPushAlarmMsg.getDeviceType()==18||mPushAlarmMsg.getDeviceType()==19){
+        if(mPushAlarmMsg.getDeviceType()==18||mPushAlarmMsg.getDeviceType()==19||
+                mPushAlarmMsg.getDeviceType()==1||mPushAlarmMsg.getDeviceType()==5){
             stop_alarm.setVisibility(View.VISIBLE);
         }else{
             stop_alarm.setVisibility(View.GONE);

@@ -76,7 +76,7 @@ public class ChuangAnAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //进行判断显示类型，来创建返回不同的View
-        View view = mInflater.inflate(R.layout.electric_activity_adapter_test, parent, false);
+        View view = mInflater.inflate(R.layout.chuangan_activity_adapter_item, parent, false);
         //这边可以做一些属性设置，甚至事件监听绑定
         ItemViewHolder viewHolder = new ItemViewHolder(view);
         view.setOnClickListener(this);
@@ -101,7 +101,24 @@ public class ChuangAnAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ItemViewHolder) holder).electricAlarmValue.setText(electric.getTime());
 
             ((ItemViewHolder) holder).electricCurrentValue.setText(value);
-            ((ItemViewHolder) holder).electricStates.setText(electric.getState());
+            switch (electric.getState()){
+                case "0":
+                    ((ItemViewHolder) holder).electricStates.setText("正常");
+                    break;
+                case "1":
+                    ((ItemViewHolder) holder).electricStates.setText("空闲");
+                    break;
+                case "2":
+                    ((ItemViewHolder) holder).electricStates.setText("离线");
+                    break;
+                case "3":
+                    ((ItemViewHolder) holder).electricStates.setText("故障");
+                    break;
+                case "4":
+                    ((ItemViewHolder) holder).electricStates.setText("隔离");
+                    break;
+            }
+
         }
 
         holder.itemView.setTag(electric);

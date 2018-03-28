@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="PaySDK-1.0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.mob/PaySDK/1.0.0.1/jars/libs/alipaySdk-20170725.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.mob/PaySDK/1.0.0.1/jars/libs/PaySDK-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.mob/PaySDK/1.0.0.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.mob/PaySDK/1.0.0.1/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.mob/PaySDK/1.0.0.1/jars/libs/libammsdk.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

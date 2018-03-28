@@ -45,6 +45,8 @@ public class Electric {
     private int eleState;//@@电源开关8.25
     private String ifFault;//@@10.9是否故障
 
+    private String rssivalue;//@@2018.03.07
+
     public int getEleState() {
         return eleState;
     }
@@ -195,5 +197,13 @@ public class Electric {
 
     public void setRepeater(String repeater) {
         this.repeater = repeater;
+    }
+
+    public String getRssivalue() {
+        return rssivalue;
+    }
+
+    public void setRssivalue(String rssivalue) {
+        this.rssivalue = rssivalue;
     }
 }
