@@ -103,6 +103,7 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
                 Intent intent = new Intent(mContext, LineChartActivity.class);
                 intent.putExtra("electricMac",electricMac);
                 intent.putExtra("electricNum",data.getId());
+                intent.putExtra("isWater","chuangan");
                 startActivity(intent);
             }
         });

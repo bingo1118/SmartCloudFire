@@ -46,6 +46,62 @@ public class LineChartPresenter extends BasePresenter<LineChartView> {
         }));
     }
 
+    public void getTHDevInfoHistoryInfo(String mac,String page,String type,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable<TemperatureTime> mObservable = apiStores1.getTHDevInfoHistoryInfo(mac,page,type);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<TemperatureTime>() {
+            @Override
+            public void onSuccess(TemperatureTime model) {
+                int resultCode = model.getErrorCode();
+                if(resultCode==0){
+                    mvpView.getDataSuccess(model.getElectric());
+                }else{
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+//                mvpView.getDataFail("网络错误，请检查网络");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
+    public void getChuanganInfo(String userId,String privilege,String mac,String electricNum,String page,boolean refresh){
+        if(!refresh){
+            mvpView.showLoading();
+        }
+        Observable<TemperatureTime> mObservable = apiStores1.getChuanganHistoryInfo(userId,privilege,mac,electricNum,page);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<TemperatureTime>() {
+            @Override
+            public void onSuccess(TemperatureTime model) {
+                int resultCode = model.getErrorCode();
+                if(resultCode==0){
+                    mvpView.getDataSuccess(model.getElectric());
+                }else{
+                    mvpView.getDataFail("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+//                mvpView.getDataFail("网络错误，请检查网络");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
     public void getWaterHistoryInfo(String userId,String privilege,String mac,String page,boolean refresh){
         if(!refresh){
             mvpView.showLoading();

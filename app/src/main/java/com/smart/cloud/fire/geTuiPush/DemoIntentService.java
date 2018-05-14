@@ -105,11 +105,26 @@ public class DemoIntentService extends GTIntentService {
                 case 125://@@外接水压
                 case 41://NB烟感
                 case 111://@@小主机，终端
+                case 51://@@创安燃气
+                case 25://@@温湿度传感器
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
                         case 111:
                             message="主机处于备电状态";
+                            break;
+                        case 25:
+                            if(alarmType==307) {
+                                message="发生低温报警";
+                            }else if(alarmType==308){
+                                message="发生高温报警";
+                            }else if(alarmType==407){
+                                message="湿度过低";
+                            }else if(alarmType==408){
+                                message="湿度过高";
+                            }else{
+                                message="烟感电量低，请更换电池";
+                            }
                             break;
                         case 31:
                             if(alarmType==202) {
@@ -125,6 +140,28 @@ public class DemoIntentService extends GTIntentService {
                         case 1:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
+                            }else if(alarmType==103){
+                                message="发生温度报警";
+                            }else if(alarmType==104){
+                                message="发生温度报警恢复";
+                            }else if(alarmType==105){
+                                message="发生烟雾低电量报警";
+                            }else if(alarmType==106){
+                                message="发生烟雾低电量报警恢复";
+                            }else if(alarmType==107){
+                                message="发生低电量报警";
+                            }else if(alarmType==108){
+                                message="发生低电量报警恢复";
+                            }else if(alarmType==109){
+                                message="发生烟雾故障报警";
+                            }else if(alarmType==110){
+                                message="发生烟雾故障报警恢复";
+                            }else if(alarmType==111){
+                                message="发生温湿度故障报警";
+                            }else if(alarmType==112){
+                                message="发生温湿度故障报警恢复";
+                            }else if(alarmType==113){
+                                message="发生手动报警";
                             }else{
                                 message="烟感电量低，请更换电池";
                             }
@@ -155,6 +192,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="电量低，请更换电池";
                             }
                             break;
+                        case 51:
                         case 16:
                         case 2:
                             message="燃气发生泄漏";

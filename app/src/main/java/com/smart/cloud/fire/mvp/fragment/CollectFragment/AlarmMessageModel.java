@@ -40,6 +40,7 @@ public class AlarmMessageModel {
     private String principal2Phone;
     private int alarmFamily;
     private int deviceType;
+    private String alarmFamilys;
 
     public String getAddress() {
         return address;
@@ -175,5 +176,13 @@ public class AlarmMessageModel {
 
     public void setAlarmFamily(int alarmFamily) {
         this.alarmFamily = alarmFamily;
+    }
+
+    public String getAlarmFamilys() {
+        return alarmFamilys;
+    }
+
+    public void setAlarmFamilys(String alarmFamilys) {
+        this.alarmFamilys = alarmFamilys;
     }
 }

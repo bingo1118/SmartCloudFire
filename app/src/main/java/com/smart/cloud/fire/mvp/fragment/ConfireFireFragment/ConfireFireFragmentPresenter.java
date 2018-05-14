@@ -67,6 +67,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         mvpView.showLoading();
         String macStr = (String) smokeMac.subSequence(0, 1);
         switch (macStr){
+            case "T":
+                smokeMac = smokeMac.replace("T","");
+                break;
             case "R":
                 smokeMac = smokeMac.replace("R","");
                 break;
@@ -215,21 +218,26 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         String macStr = (String) smokeMac.subSequence(0, 1);
         if(smokeMac.length()==15){
             deviceType="14";//GPS
+//            deviceType="41";//海曼NB
         }else if(smokeMac.length()==16||smokeMac.length()==18){
             switch(macStr){
+                case "A":
+                    smokeMac = smokeMac.substring(1, smokeMac.length());//三江无线传输设备
+                    deviceType="119";
+                    break;
                 case "W":
                     if((smokeMac.charAt(smokeMac.length()-1)+"").equals("W")){
                         deviceType="19";//@@水位2018.01.02
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("A")){
                         deviceType="124";//@@拓普水位2018.01.30
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("B")){
                         deviceType="125";//@@拓普水压2018.01.30
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else{
                         deviceType="10";//@@水压
                     }
                     smokeMac = smokeMac.replace("W","");//水压设备
-                    smokeMac = smokeMac.replace("A","");
-                    smokeMac = smokeMac.replace("B","");
                     break;
                 default:
                     deviceType="21";//loraOne烟感
@@ -260,6 +268,14 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("S","");//电气火灾
                     deviceType="5";
                     break;
+                case "T":
+                    smokeMac = smokeMac.replace("T","");//温湿度设备
+                    deviceType="25";
+                    break;
+                case "A":
+                    smokeMac = smokeMac.substring(1, smokeMac.length());
+                    deviceType="119";
+                    break;
                 case "G":
                     smokeMac = smokeMac.replace("G","");//声光报警器 6
                     deviceType="7";
@@ -281,11 +297,11 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         deviceType="19";//@@水位2018.01.02
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("C")){
                         deviceType="42";//@@NB水压
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else{
                         deviceType="10";//@@水压
                     }
                     smokeMac = smokeMac.replace("W","");//水压设备
-                    smokeMac = smokeMac.replace("C","");//水压设备
                     break;
                 case "L":
                     smokeMac = smokeMac.replace("L","");//红外设备
@@ -313,11 +329,11 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     electrState=2;//@@11.01 1开2关
                     break;
                 case "C"://@@创安
-                    smokeMac = smokeMac.replace("C","");//10.31喷淋
+                    smokeMac = smokeMac.substring(1, smokeMac.length());
                     deviceType="51";
                     break;
             }
-            if(smokeMac.length()!=8){
+            if(smokeMac.length()<8){
                 mvpView.addSmokeResult("设备MAC号长度不正确",1);
                 return;
             }//@@11.06限制MAC长度
@@ -330,9 +346,17 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
 
 
         mvpView.showLoading();
-        Observable mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
-                longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
-                principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
+        Observable mObservable =null;
+//        if(smokeMac.length()==15){
+//            mObservable = apiStores1.addHeiMenSmoke(userID,smokeName,privilege,smokeMac,address,
+//                    longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
+//                    principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
+//        }else{
+             mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
+                    longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
+                    principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
+//        }
+
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ConfireFireModel>() {
             @Override
             public void onSuccess(ConfireFireModel model) {

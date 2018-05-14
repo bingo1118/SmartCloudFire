@@ -116,7 +116,12 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((ItemViewHolder) holder).type_tv.setText(normalSmoke.getPlaceType());
             ((ItemViewHolder) holder).area_tv.setText(normalSmoke.getAreaName());
 
-            ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
+            if(normalSmoke.getRssivalue().equals("0")){
+                ((ItemViewHolder) holder).rssi_value.setVisibility(View.GONE);
+            }else{
+                ((ItemViewHolder) holder).rssi_value.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
+            }
 
 
 

@@ -4,21 +4,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.GetLocationActivity;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -93,6 +104,50 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {//设备在线。。
                 ((ItemViewHolder) holder).smoke_name_text.setText("有线主机："+normalSmoke.getName());
                 ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+            }
+
+            if(devType==119){
+                if (netStates == 0) {//设备不在线。。
+                    ((ItemViewHolder) holder).smoke_name_text.setText("传输装置："+normalSmoke.getName()+"（已离线)");
+                    ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                } else {//设备在线。。
+                    ((ItemViewHolder) holder).smoke_name_text.setText("传输装置："+normalSmoke.getName());
+                    ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                }
+                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
+                        String url= ConstantValues.SERVER_IP_NEW+"cancelSound?repeaterMac="+normalSmoke.getMac();
+                        StringRequest stringRequest = new StringRequest(url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonObject=new JSONObject(response);
+                                            int errorCode=jsonObject.getInt("errorCode");
+//                                                if(errorCode==0){
+//                                                    T.showShort(mContext,"成功");
+//                                                }else{
+//                                                    T.showShort(mContext,"失败");
+//                                                }
+                                            T.showShort(mContext,jsonObject.getString("error"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TAG", error.getMessage(), error);
+                            }
+                        });
+                        mQueue.add(stringRequest);
+                    }
+                });
             }
 
 
@@ -188,6 +243,8 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView address_tv;
         @Bind(R.id.manager_img)
         ImageView manager_img;
+        @Bind(R.id.xy_button)
+        Button power_button;//@@2018.03.07
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

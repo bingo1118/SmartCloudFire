@@ -157,6 +157,16 @@
                     android:src="@drawable/sblb_qddy"
                     android:layout_below="@id/manager_img"
                     android:visibility="gone"/>
+                <Button
+                    android:id="@+id/xy_button"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/login_btn_bg"
+                    android:text="消音"
+                    android:textColor="#fff"
+                    android:textSize="10sp"
+                    android:layout_below="@id/manager_img"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </RelativeLayout>

@@ -188,6 +188,20 @@ public interface ApiStores {
                                           @Field("electrState") String electrState);
 
     //添加烟感
+    @FormUrlEncoded
+    @POST("addHeiMenSmoke")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ConfireFireModel> addHeiMenSmoke(@Field("userId") String userId, @Field("smokeName") String smokeName,
+                                          @Field("privilege") String privilege, @Field("smokeMac") String smokeMac,
+                                          @Field("address") String address, @Field("longitude") String longitude,
+                                          @Field("latitude") String latitude, @Field("placeAddress") String placeAddress,
+                                          @Field("placeTypeId") String placeTypeId, @Field("principal1") String principal1,
+                                          @Field("principal1Phone") String principal1Phone, @Field("principal2") String principal2,
+                                          @Field("principal2Phone") String principal2Phone, @Field("areaId") String areaId,
+                                          @Field("repeater") String repeater,@Field("camera") String camera,@Field("deviceType") String deviceType,
+                                          @Field("electrState") String electrState);
+
+    //添加烟感
 //    @FormUrlEncoded
 //    @GET("addSmoke")
 //    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -294,16 +308,26 @@ public interface ApiStores {
     Observable<ElectricInfo<ChuangAnValue.ChuangAnValueBean>> getOneChuangAnInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                                                  @Query("smokeMac") String smokeMac);
 
-//    getElectricTypeInfo?userId=13428282520&privilege=2&smokeMac=32110533&electricType=6&electricNum=1&page=
+//    getElectricTypeInfo?userId=13428282520&privilege=2&smokeMac=32110533&electricType=6&electricNum=1&page=post
     @GET("getWaterHistoryInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<TemperatureTime> getWaterHistoryInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                     @Query("smokeMac") String smokeMac, @Query("page") String page);
 
+    @GET("getTHDevInfoHistoryInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<TemperatureTime> getTHDevInfoHistoryInfo(@Query("mac") String smokeMac, @Query("page") String page, @Query("type") String tepe);
+
     @GET("getElectricTypeInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<TemperatureTime> getElectricTypeInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                     @Query("smokeMac") String smokeMac, @Query("electricType") String electricType,
+                                                    @Query("electricNum") String electricNum, @Query("page") String page);
+
+    @GET("getChuanganHistoryInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<TemperatureTime> getChuanganHistoryInfo(@Query("userId") String userId, @Query("privilege") String privilege,
+                                                    @Query("smokeMac") String smokeMac,
                                                     @Query("electricNum") String electricNum, @Query("page") String page);
 
 //    getNeedElectricInfo?userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page

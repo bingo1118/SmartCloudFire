@@ -82,7 +82,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             loginServer2(User,Pwd,userCID,"0");
                             break;
                         case "3":
-                            T.showShort(context,"密码错误");
+//                            T.showShort(context,"密码错误");
+                            loginServer2(User,Pwd,userCID,"0");
                             break;
                         case "9":
                             T.showShort(context,"用户名不能为空");
