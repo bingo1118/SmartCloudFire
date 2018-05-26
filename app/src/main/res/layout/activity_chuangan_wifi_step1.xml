@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:id="@+id/liuchengtu1_image"
+        android:background="@drawable/chazuo_hong_e"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  设备打开配置模式，手机连接WiFi。"
+        android:layout_below="@id/liuchengtu1_image"
+        android:textSize="28sp"
+        android:layout_margin="20dp"/>
+
+    <ImageView
+        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/next_action"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/next1"/>
+
+</RelativeLayout>

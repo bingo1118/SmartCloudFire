@@ -227,7 +227,10 @@
         <activity android:name="com.smart.cloud.fire.activity.Host.HostActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity" />
         <activity android:name="com.smart.cloud.fire.activity.PayActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity" />
+        <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep2Activity" />
+        <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep3Activity"></activity>
     </application>
 
 </manifest>

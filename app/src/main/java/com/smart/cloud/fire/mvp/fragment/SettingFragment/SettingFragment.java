@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity;
+import com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity;
 import com.smart.cloud.fire.activity.PayActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
@@ -53,6 +54,8 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     RadioButton everyweek;
     @Bind(R.id.everyday)
     RadioButton everyday;
+    @Bind(R.id.setting_help_wifi)
+    RelativeLayout setting_help_wifi;//@@2018.05.14 WiFi设置
     private Context mContext;
 
     @Bind(R.id.setting_pay)
@@ -139,7 +142,7 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     }
 
     @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit,
-            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add,R.id.setting_pay})
+            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add,R.id.setting_pay,R.id.setting_help_wifi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.app_update:
@@ -153,6 +156,10 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
             case R.id.setting_help_about:
                 Intent intent = new Intent(mContext, AboutActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.setting_help_wifi:
+                Intent intent_wifi = new Intent(mContext, ChuanganWifiStep1Activity.class);
+                startActivity(intent_wifi);
                 break;
             case R.id.setting_help_rela:
                 Intent intent2 = new Intent(mContext, AddCameraFirstActivity.class);

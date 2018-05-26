@@ -212,15 +212,15 @@ public class OneTHDevInfoActivity extends Activity {
                                                     e.printStackTrace();
                                                 }
                                             }
-                                        }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        T.showShort(mContext,"网络错误");
-                                    }
-                                });
-                                mQueue.add(jsonObjectRequest);
-                            }
-                        }).show();
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            T.showShort(mContext,"网络错误");
+        }
+    });
+    mQueue.add(jsonObjectRequest);
+}
+}).show();
                 break;
             case R.id.humidity_yuzhi_set:
                 LayoutInflater inflater2 = getLayoutInflater();
@@ -245,7 +245,7 @@ public class OneTHDevInfoActivity extends Activity {
                                         T.showShort(mContext,"低阈值不能高于高阈值");
                                         return;
                                     }
-                                    url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+mac+"&threshold207="+low+"&threshold208="+high+"&type=1";
+                                    url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+mac+"&threshold207="+low+"&threshold208="+high+"&type=2";
                                 }catch(Exception e){
                                     e.printStackTrace();
                                     T.showShort(mContext,"输入数据不完全或有误");

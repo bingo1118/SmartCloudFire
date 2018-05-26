@@ -172,6 +172,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).power_button.setText("消音");
                     }
                     break;
+                case 55:
                 case 31://@@12.26 三江iot烟感
                 case 21://@@12.01 Lora烟感
                 case 1://烟感。。
@@ -195,6 +196,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 53://NB电气
+                case 52://@@Lara电气设备
                 case 5://电气。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName()+"（已离线)");
@@ -305,10 +308,10 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
                 case 51://创安
                     if (netStates == 0) {//设备不在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("创安燃气："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setText("CA燃气："+normalSmoke.getName()+"（已离线)");
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
                     } else {//设备在线。。
-                        ((ItemViewHolder) holder).smoke_name_text.setText("创安燃气："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setText("CA燃气："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
@@ -338,6 +341,25 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater","1");//@@是否为水压
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
+                case 43://@@lora水压
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, LineChartActivity.class);
+                            intent.putExtra("electricMac",normalSmoke.getMac());
+                            intent.putExtra("isWater","3");//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });

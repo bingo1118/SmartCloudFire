@@ -13,10 +13,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.smart.cloud.fire.adapter.ChuangAnAdapter;
 import com.smart.cloud.fire.adapter.ElectricActivityAdapterTest;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ChuangAnValue;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.ElectricValue;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
@@ -24,8 +29,14 @@ import com.smart.cloud.fire.mvp.electric.ElectricPresenter;
 import com.smart.cloud.fire.mvp.electric.ElectricView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,6 +58,8 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
     private String userID;
     private int privilege;
 
+    Timer timer = new Timer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +73,43 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
         ButterKnife.bind(this);
         refreshListView();
         mPresenter.getOneElectricInfo(userID,privilege+"",electricMac,false);
+        getdataActive();//@@主动下发获取数据
+    }
+
+    private void getdataActive() {
+
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+                String url= ConstantValues.SERVER_IP_NEW+"getChuangAnData?mac="+electricMac;
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+//                                    if(errorCode==0){
+//                                        T.showShort(mContext,"设置成功");
+//                                    }else{
+//                                        T.showShort(mContext,"设置失败");
+//                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(mContext,"网络错误");
+                    }
+                });
+                mQueue.add(jsonObjectRequest);
+            }
+        };
+        timer.schedule(timerTask, 0, 60*1000);
+
     }
 
     private void refreshListView() {
@@ -123,5 +173,11 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
     @Override
     public void hideLoading() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
     }
 }

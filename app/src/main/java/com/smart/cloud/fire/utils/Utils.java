@@ -58,6 +58,7 @@ import javax.crypto.spec.DESKeySpec;
 
 public class Utils {
 
+
     public static String getDeviceTypeNeme(int devicetype){
         String name="";
         switch (devicetype){
@@ -495,7 +496,6 @@ public class Utils {
      */
     public static String bytesToHexString(byte[] src) {
         StringBuilder stringBuilder = new StringBuilder("");
-        stringBuilder.append("[");
         if (src == null || src.length <= 0) {
             return null;
         }
@@ -506,11 +506,7 @@ public class Utils {
                 stringBuilder.append(0);
             }
             stringBuilder.append(hv);
-            if (i != src.length - 1) {
-                stringBuilder.append(", ");
-            }
         }
-        stringBuilder.append("]");
         return stringBuilder.toString();
     }
 

@@ -333,10 +333,18 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         SharedPreferencesManager.KEY_RECENTNAME);
                 RequestQueue mQueue = Volley.newRequestQueue(mContext);
                 String url="";
-                if(eleState==1){
-                    url= ConstantValues.SERVER_IP_NEW+"fireSystem/ackControl?smokeMac="+normalSmoke.getMac()+"&eleState=2&userId="+userID;
+                if(normalSmoke.getDeviceType()==53){
+                    if(eleState==1){
+                        url= ConstantValues.SERVER_IP_NEW+"fireSystem/EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=2&appId=1";
+                    }else{
+                        url=ConstantValues.SERVER_IP_NEW+"fireSystem/EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=1&appId=1";
+                    }
                 }else{
-                    url=ConstantValues.SERVER_IP_NEW+"fireSystem/ackControl?smokeMac="+normalSmoke.getMac()+"&eleState=1&userId="+userID;
+                    if(eleState==1){
+                        url= ConstantValues.SERVER_IP_NEW+"fireSystem/ackControl?smokeMac="+normalSmoke.getMac()+"&eleState=2&userId="+userID;
+                    }else{
+                        url=ConstantValues.SERVER_IP_NEW+"fireSystem/ackControl?smokeMac="+normalSmoke.getMac()+"&eleState=1&userId="+userID;
+                    }
                 }
                 final ProgressDialog dialog1 = new ProgressDialog(mContext);
                 dialog1.setTitle("提示");

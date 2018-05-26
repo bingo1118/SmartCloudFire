@@ -172,6 +172,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
+                case 55:
                 case 41:
                 case 31:
                 case 21:
@@ -276,13 +277,14 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
                 case 51:
-                    ((ItemViewHolder) holder).smokeMac.setText("创安燃气:");
+                    ((ItemViewHolder) holder).smokeMac.setText("CA燃气:");
                     ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(线路"+mNormalAlarmMessage.getAlarmFamilys()+")");
                     ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.ranqi);
                     ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
                 case 125:
+                case 43:
                 case 42:
                 case 10://@@4.28
                     int alarmFamily10 = mNormalAlarmMessage.getAlarmFamily();//@@水压值8.31
@@ -320,6 +322,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             break;
                     }
                     break;
+                case 52:
+                case 53:
                 case 5:
                     ((ItemViewHolder) holder).smokeMac.setText("电气火灾探测器:");
                     int alarmFamily = mNormalAlarmMessage.getAlarmFamily();

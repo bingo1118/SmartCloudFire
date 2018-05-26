@@ -213,4 +213,11 @@
 
     <string name="air_you">优</string>
     <string name="null_data">--</string>
+    <string name="activity_add_device_introduce_input_wifi_psw">输入Wifi密码</string>
+    <string name="change_wifi">更换Wifi</string>
+    <string name="introducedNextOneActivity_wifi_cannot_null">wifi名称和密码不能为空</string>
+    <string name="introducedNextOneActivity_current_wifi">当前WiFi:</string>
+    <string name="choose_device_wifi">选择设备Wifi</string>
+    <string name="please_choose_right_devide_wifi">请选择正确的Wifi</string>
+    <string name="configuration_fail">配置失败</string>
 </resources>

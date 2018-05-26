@@ -13,42 +13,44 @@
         android:layout_margin="10dp"
         android:textSize="20sp"
         android:gravity="center"/>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_margin="8dp"
             android:id="@+id/high_value_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="高水位阈值(m):"/>
         <EditText
             android:id="@+id/high_value"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
-
-            android:padding="3dp"
-            android:background="@drawable/edit_view_bg"
-            android:layout_alignBaseline="@id/high_value_name"
-            android:layout_toRightOf="@id/high_value_name"/>
+            android:layout_weight="1"
+            android:background="@drawable/edit_view_bg"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_margin="8dp"
             android:id="@+id/low_value_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_below="@id/high_value_name"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="低水位阈值(m):"/>
         <EditText
             android:id="@+id/low_value"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:background="@drawable/edit_view_bg"
-            android:layout_alignBaseline="@id/low_value_name"
-            android:layout_toRightOf="@id/low_value_name"/>
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:background="@drawable/edit_view_bg"/>
+    </LinearLayout>
 
 </LinearLayout>

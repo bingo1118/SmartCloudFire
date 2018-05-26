@@ -185,6 +185,8 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
             public void onItemClick(View view, Smoke data){
                 Intent intent = new Intent(mContext, ElectricActivity.class);
                 intent.putExtra("ElectricMac",data.getMac());
+                intent.putExtra("devType",data.getDeviceType());
+                intent.putExtra("repeatMac",data.getRepeater());
                 startActivity(intent);
             }
         });

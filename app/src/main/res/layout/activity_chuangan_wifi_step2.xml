@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:id="@+id/liuchengtu2_image"
+        android:background="@drawable/chazuo_hong_e"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/liuchengtu2_image"
+        android:textSize="28sp"
+        android:text="配置当前Wifi信息"
+        android:layout_margin="20dp"/>
+
+
+    <RelativeLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="25dp"
+        android:layout_above="@+id/rela">
+
+    <TextView
+        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/wifi_name"
+        android:textSize="16sp"
+        android:layout_marginLeft="35dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/device_wifi_name"
+        android:textSize="16sp"
+        android:layout_marginLeft="35dp"
+        android:layout_centerVertical="true"
+        android:text="@string/change_wifi"
+        android:layout_below="@id/wifi_name"/>
+
+</RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_height="35dp"
+        android:layout_width="300dp"
+        android:id="@+id/rela"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@+id/next_action_two_btn"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/edit_view">
+
+    <EditText
+        android:layout_height="40dp"
+        android:layout_width="280dp"
+        android:id="@+id/wifi_pwd"
+        android:background="@null"
+        android:hint="@string/activity_add_device_introduce_input_wifi_psw"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
+
+    <Button android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:id="@+id/next_action_two_btn"
+        android:background="@drawable/next1"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>

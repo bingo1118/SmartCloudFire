@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:id="@+id/liuchengtu3_image"
+        android:background="@drawable/chazuo_hong_e"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/liuchengtu3_image"
+        android:textSize="28sp"
+        android:text="      选择设备Wifi信息，然后返回APP点击下一步。"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/wifi_name"
+        android:text="@string/choose_device_wifi"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/wifi_change_color"
+        android:layout_above="@+id/action_one"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:id="@+id/action_one"
+        android:background="@drawable/next1"
+        android:layout_alignParentBottom="true"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

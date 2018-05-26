@@ -108,7 +108,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         addFireMac.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus&&addFireMac.getText().toString().length()>0) {
                     mvpPresenter.getOneSmoke(userID, privilege + "", addFireMac.getText().toString());//@@5.5如果添加过该烟感则显示出原来的信息
                 }
             }
@@ -122,6 +122,11 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                 addFire();
             }
         });
+        Intent intent=getActivity().getIntent();
+        String mac=intent.getStringExtra("mac");
+        if (mac!=null){
+            addFireMac.setText(mac);
+        }
     }
 
     /**

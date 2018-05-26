@@ -116,7 +116,7 @@
                         android:id="@+id/test1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="湿度阈值设置"
+                        android:text="温度阈值设置"
                         android:textColor="#88dfff"
                         android:textSize="18sp" />
                     <ImageView

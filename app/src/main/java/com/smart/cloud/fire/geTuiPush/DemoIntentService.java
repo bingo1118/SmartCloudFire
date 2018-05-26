@@ -87,12 +87,14 @@ public class DemoIntentService extends GTIntentService {
                     context.startActivity(wiredIntent);
                     break;
                 case 1://烟感
+                case 55:
                 case 119://联动烟感
                 case 2://燃气
                 case 16://NB燃气
                 case 7://声光
                 case 10://水压@@4.28
                 case 42://@@NB水压2018.02.23
+                case 43:
                 case 11://红外
                 case 12://门磁
                 case 15://水禁
@@ -137,6 +139,7 @@ public class DemoIntentService extends GTIntentService {
                             break;
                         case 119:
                         case 41:
+                        case 55:
                         case 1:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
@@ -162,6 +165,8 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生温湿度故障报警恢复";
                             }else if(alarmType==113){
                                 message="发生手动报警";
+                            }else if(alarmType==67){
+                                message="发生自检报警";
                             }else{
                                 message="烟感电量低，请更换电池";
                             }
@@ -226,6 +231,7 @@ public class DemoIntentService extends GTIntentService {
                             break;
                         case 125:
                         case 42:
+                        case 43:
                         case 10://@@4.28
                             int alarmFamily = dataJson.getInt("alarmFamily");
                             if(alarmType==218) {
@@ -258,6 +264,8 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 53:
+                case 52:
                 case 5://电气
                     PushAlarmMsg pushAlarmMsg1 = jsJson(dataJson);
                     int alarmFamily = pushAlarmMsg1.getAlarmFamily();
