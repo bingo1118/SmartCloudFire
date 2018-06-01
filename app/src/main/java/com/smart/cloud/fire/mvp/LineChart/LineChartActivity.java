@@ -1,6 +1,7 @@
 package com.smart.cloud.fire.mvp.LineChart;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -180,8 +182,57 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     case R.id.yuzhi_set:
                         LayoutInflater inflater = getLayoutInflater();
                         View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+                        AlertDialog.Builder builder=new AlertDialog.Builder(context).setView(layout);
+                        final AlertDialog dialog=builder.create();
                         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
                         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
+                        Button commit=(Button)layout.findViewById(R.id.commit);
+                        commit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String url="";
+                                try{
+                                    float high=Float.parseFloat(high_value.getText().toString());
+                                    float low=Float.parseFloat(low_value.getText().toString());
+                                    if(low>high){
+                                        T.showShort(context,"低阈值不能高于高阈值");
+                                        return;
+                                    }
+                                    url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                    T.showShort(context,"输入数据不完全或有误");
+                                    return;
+                                }
+                                VolleyHelper helper=VolleyHelper.getInstance(context);
+                                RequestQueue mQueue = helper.getRequestQueue();
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                try {
+                                                    int errorCode=response.getInt("errorCode");
+//                                                            if(errorCode==0){
+//                                                                T.showShort(context,"设置成功");
+//                                                                getYuzhi();
+//                                                            }else{
+//                                                                T.showShort(context,"设置失败");
+//                                                            }
+                                                    T.showShort(context,response.getString("error"));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        T.showShort(context,"网络错误");
+                                    }
+                                });
+                                mQueue.add(jsonObjectRequest);
+                                dialog.dismiss();
+                            }
+                        });
                         TextView title=(TextView)layout.findViewById(R.id.title_text);
                         TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
                         TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
@@ -194,108 +245,58 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                             high_value_name.setText("高水位阈值（m）:");
                             low_value_name.setText("低水位阈值（m）:");
                         }
-                        new AlertDialog.Builder(context).setView(layout)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String url="";
-                                        try{
-                                            float high=Float.parseFloat(high_value.getText().toString());
-                                            float low=Float.parseFloat(low_value.getText().toString());
-                                            if(low>high){
-                                                T.showShort(context,"低阈值不能高于高阈值");
-                                                return;
-                                            }
-                                            url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
-                                        }catch(Exception e){
-                                            e.printStackTrace();
-                                            T.showShort(context,"输入数据不完全或有误");
-                                            return;
-                                        }
-                                        VolleyHelper helper=VolleyHelper.getInstance(context);
-                                        RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
-                                                new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
-                                                        try {
-                                                            int errorCode=response.getInt("errorCode");
-//                                                            if(errorCode==0){
-//                                                                T.showShort(context,"设置成功");
-//                                                                getYuzhi();
-//                                                            }else{
-//                                                                T.showShort(context,"设置失败");
-//                                                            }
-                                                            T.showShort(context,response.getString("error"));
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                T.showShort(context,"网络错误");
-                                            }
-                                        });
-                                        mQueue.add(jsonObjectRequest);
-                                    }
-                                }).show();
+                        dialog.show();
                         break;
                     case R.id.bodongyuzhi_set:
                         LayoutInflater inflater1 = getLayoutInflater();
                         View layout1 = inflater1.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+                        AlertDialog.Builder builder1=new AlertDialog.Builder(context).setView(layout1);
+                        final AlertDialog dialog1=builder1.create();
                         final EditText high_value1=(EditText)layout1.findViewById(R.id.high_value);
                         final EditText low_value1=(EditText)layout1.findViewById(R.id.low_value);
                         TextView title1=(TextView)layout1.findViewById(R.id.title_text);
                         TextView high_value_name1=(TextView)layout1.findViewById(R.id.high_value_name);
                         TextView low_value_name1=(TextView)layout1.findViewById(R.id.low_value_name);
+                        Button commit1=(Button)layout1.findViewById(R.id.commit);
+                        commit1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String url="";
+                                try{
+                                    int high=(int)Float.parseFloat(high_value1.getText().toString());
+                                    int low=(int)Float.parseFloat(low_value1.getText().toString());
+                                    url= ConstantValues.SERVER_IP_NEW+"set_water_wave_Control?smokeMac="+electricMac+"&waveValue="+high+"&waveTime="+low;
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                    T.showShort(context,"输入数据不完全或有误");
+                                    return;
+                                }
+                                VolleyHelper helper=VolleyHelper.getInstance(context);
+                                RequestQueue mQueue = helper.getRequestQueue();
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                try {
+                                                    T.showShort(context,response.getString("error"));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        T.showShort(context,"网络错误");
+                                    }
+                                });
+                                mQueue.add(jsonObjectRequest);
+                                dialog1.dismiss();
+                            }
+                        });
                         title1.setText("波动阈值设置");
                         high_value_name1.setText("波动阈值（kpa）:");
                         low_value_name1.setText("上传时间间隔（min）:");
-                        new AlertDialog.Builder(context).setView(layout1)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String url="";
-                                        try{
-                                            int high=(int)Float.parseFloat(high_value1.getText().toString());
-                                            int low=(int)Float.parseFloat(low_value1.getText().toString());
-                                            url= ConstantValues.SERVER_IP_NEW+"set_water_wave_Control?smokeMac="+electricMac+"&waveValue="+high+"&waveTime="+low;
-                                        }catch(Exception e){
-                                            e.printStackTrace();
-                                            T.showShort(context,"输入数据不完全或有误");
-                                            return;
-                                        }
-                                        VolleyHelper helper=VolleyHelper.getInstance(context);
-                                        RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
-                                                new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
-                                                        try {
-                                                            int errorCode=response.getInt("errorCode");
-//                                                            if(errorCode==0){
-//                                                                T.showShort(context,"设置成功");
-//                                                                getYuzhi();
-//                                                            }else{
-//                                                                T.showShort(context,"设置失败");
-//                                                            }
-                                                            T.showShort(context,response.getString("error"));
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                T.showShort(context,"网络错误");
-                                            }
-                                        });
-                                        mQueue.add(jsonObjectRequest);
-                                    }
-                                }).show();
+                        dialog1.show();
                         break;
                 }
                 return false;

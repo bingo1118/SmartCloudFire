@@ -335,9 +335,9 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                 String url="";
                 if(normalSmoke.getDeviceType()==53){
                     if(eleState==1){
-                        url= ConstantValues.SERVER_IP_NEW+"fireSystem/EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=2&appId=1";
+                        url= ConstantValues.SERVER_IP_NEW+"fireSystem/EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=2&appId=1&userId="+userID;
                     }else{
-                        url=ConstantValues.SERVER_IP_NEW+"fireSystem/EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=1&appId=1";
+                        url=ConstantValues.SERVER_IP_NEW+"fireSystem/EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=1&appId=1&userId="+userID;
                     }
                 }else{
                     if(eleState==1){

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.jakewharton.rxbinding.view.RxView;
@@ -76,6 +77,8 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     EditText addCameraName;
     @Bind(R.id.add_camera_relative)
     RelativeLayout addCameraRelative;
+    @Bind(R.id.device_type_name)
+    TextView device_type_name;
     private Context mContext;
     private int scanType = 0;//0表示扫描中继器，1表示扫描烟感
     private int privilege;
@@ -85,6 +88,9 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     private String areaId = "";
     private String shopTypeId = "";
     private String camera = "";
+
+    String mac="";
+    String devType="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -124,8 +130,12 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         });
         Intent intent=getActivity().getIntent();
         String mac=intent.getStringExtra("mac");
+        String devType=intent.getStringExtra("devType");
         if (mac!=null){
             addFireMac.setText(mac);
+            device_type_name.setVisibility(View.VISIBLE);
+            device_type_name.setText("设备类型:"+mvpPresenter.getDevTypeName(mac));
+            mvpPresenter.getOneSmoke(userID, privilege + "", mac);
         }
     }
 

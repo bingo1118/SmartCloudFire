@@ -339,8 +339,12 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     deviceType="12";
                     break;
                 case "N":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
+                        deviceType="56";//@@NB-iot烟感
+                    }else{
+                        deviceType="41";
+                    }
                     smokeMac = smokeMac.replace("N","");//NB烟感设备
-                    deviceType="41";
                     break;
                 case "H":
                     smokeMac = smokeMac.replace("H","");//空气探测器
@@ -374,7 +378,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
 
         mvpView.showLoading();
         Observable mObservable =null;
-        if(smokeMac.length()==15&&!deviceType.equals("55")){
+        if(smokeMac.length()==15&&deviceType.equals("41")){
             mObservable = apiStores1.addHeiMenSmoke(userID,smokeName,privilege,smokeMac,address,
                     longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
                     principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
@@ -416,5 +420,114 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
     @Override
     public void getShop(ShopType shopType) {
         mvpView.getChoiceShop(shopType);
+    }
+
+    public String getDevTypeName(String smokeMac){
+        String deviceType="未知设备";
+        String macStr = (String) smokeMac.subSequence(0, 1);
+        if(smokeMac.length()==15){
+//            deviceType="14";//GPS
+            deviceType="HM烟感";//海曼NB
+        }else if (smokeMac.length()==12){
+            deviceType="CA燃气";//创安
+        }else if(smokeMac.length()==16||smokeMac.length()==18){
+            switch(macStr){
+                case "A":
+                    deviceType="无线传输装置";
+                    break;
+                case "W":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("W")){
+                        deviceType="水位传感器";//@@水位2018.01.02
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("A")){
+                        deviceType="TP水位传感器";//@@拓普水位2018.01.30
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("B")){
+                        deviceType="TP水压传感器";//@@拓普水压2018.01.30
+                    }else{
+                        deviceType="水压传感器";//@@水压
+                    }
+                    smokeMac = smokeMac.replace("W","");//水压设备
+                    break;
+                case "Z":
+                    smokeMac = smokeMac.substring(1, smokeMac.length());//嘉德烟感
+                    deviceType="55";
+                    break;
+                default:
+                    deviceType="21";//loraOne烟感
+                    break;
+            }
+        }else if(smokeMac.contains("-")){
+            deviceType="SJ烟感";//三江nb烟感
+        }else{
+            switch (macStr){
+                case "R":
+                    if ((smokeMac.charAt(smokeMac.length()-1)+"").equals("R")){//@@9.29 区分NB
+                        deviceType="NB燃气探测器";//@@NB燃气
+                    }else{
+                        deviceType="燃气探测器";//@@燃气
+                    }
+                    break;
+                case "Q":
+                    deviceType="电气设备";
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("L")){
+                        deviceType="Lora电气设备";
+                    }//@@2018.05.15 Lara电气设备
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
+                        deviceType="NB电气设备";
+                    }//@@2018.05.15 Lara电气设备
+                    break;
+                case "T":
+                    deviceType="温湿度传感器";
+                    break;
+                case "A":
+                    deviceType="无线传输装置";
+                    break;
+                case "G":
+                    deviceType="声光报警器";
+                    break;
+                case "K":
+                    deviceType="无线输入输出模块";
+                    break;
+                case "S":
+                    deviceType="手动报警器";
+                    break;
+                case "J":
+                    deviceType="三江设备";
+                    break;
+                case "W":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("W")){
+                        deviceType="水位传感器";//@@水位2018.01.02
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("C")){
+                        deviceType="NB水压设备";//@@NB水压
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("L")){
+                        deviceType="Lara水压传感器";//@@Lara水压
+                    }else{
+                        deviceType="水压传感器";//@@水压
+                    }
+                    break;
+                case "L":
+                    deviceType="红外传感器";
+                    break;
+                case "M":
+                    deviceType="门磁传感器";
+                    break;
+                case "N":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
+                        deviceType="NB烟感";//@@NB-iot烟感
+                    }else{
+                        deviceType="NB烟感";
+                    }
+                    break;
+                case "H":
+                    deviceType="环境探测器";
+                    break;
+                case "Y":
+                    deviceType="水浸探测器";
+                    break;
+                case "P":
+                    deviceType="喷淋设备";
+                    break;
+            }
+        }
+        return deviceType;
     }
 }

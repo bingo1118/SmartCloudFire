@@ -887,4 +887,6 @@ package com.smart.cloud.fire.global;
         public static final int ACTIVITY_SENDSOUNDWAVEGUIDEACTIVITY=74;
     }
 
+
+
 }

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -127,6 +128,8 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                     case R.id.yuzhi_set:
                         LayoutInflater inflater = getLayoutInflater();
                         View layout = inflater.inflate(R.layout.electr_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+                        final AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
+                        final AlertDialog dialog =builder.create();
                         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
                         high_value.setText(yuzhi43);
                         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
@@ -135,96 +138,98 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                         overcurrentvalue.setText(yuzhi45);
                         final EditText Leakage_value=(EditText)layout.findViewById(R.id.Leakage_value);
                         Leakage_value.setText(yuzhi46);
-                        new AlertDialog.Builder(mContext).setView(layout)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String url="";
-                                        try{
-                                            int high=(int)Float.parseFloat(high_value.getText().toString());
-                                            int low=(int)Float.parseFloat(low_value.getText().toString());
-                                            float value45=Float.parseFloat(overcurrentvalue.getText().toString());
-                                            int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
-                                            if(low<145||low>220){
-                                                T.showShort(mContext,"欠压阈值设置范围为145-220V");
-                                                return;
-                                            }
-                                            if(high<220||high>280){
-                                                T.showShort(mContext,"过压阈值设置范围为220-280V");
-                                                return;
-                                            }
-                                            if(value45<1||value45>63){
-                                                T.showShort(mContext,"过流阈值设置范围为1-63A");
-                                                return;
-                                            }
-                                            if(value46<10||value46>90){
-                                                T.showShort(mContext,"漏电流阈值设置范围为10-90mA");
-                                                return;
-                                            }
-                                            if(low>high){
-                                                T.showShort(mContext,"欠压阈值不能高于过压阈值");
-                                                return;
-                                            }
-                                            if(devType==52){
-                                                url= ConstantValues.SERVER_IP_NEW+"ackControlCvls?Overvoltage="+high_value.getText().toString()
-                                                        +"&Undervoltage="+low_value.getText().toString()
-                                                        +"&Overcurrent="+value45
-                                                        +"&Leakage="+value46
-                                                        +"&repeaterMac="+repeatMac+"&smokeMac="+electricMac+"&userId="+userID;
-                                            }else if(devType==53){
-                                                url= ConstantValues.SERVER_IP_NEW+"EasyIot_Uool_control?Overvoltage="+high_value.getText().toString()
-                                                        +"&Undervoltage="+low_value.getText().toString()
-                                                        +"&Overcurrent="+value45
-                                                        +"&Leakage="+value46
-                                                        +"&appId=1&devSerial="+electricMac;
-                                            }else{
-                                                Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
-                                                return;
-                                            }
+                        Button commit=(Button)(Button)layout.findViewById(R.id.commit);
+                        commit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String url="";
+                                try{
+                                    int high=(int)Float.parseFloat(high_value.getText().toString());
+                                    int low=(int)Float.parseFloat(low_value.getText().toString());
+                                    float value45=Float.parseFloat(overcurrentvalue.getText().toString());
+                                    int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
+                                    if(low<145||low>220){
+                                        T.showShort(mContext,"欠压阈值设置范围为145-220V");
+                                        return;
+                                    }
+                                    if(high<220||high>280){
+                                        T.showShort(mContext,"过压阈值设置范围为220-280V");
+                                        return;
+                                    }
+                                    if(value45<1||value45>63){
+                                        T.showShort(mContext,"过流阈值设置范围为1-63A");
+                                        return;
+                                    }
+                                    if(value46<10||value46>90){
+                                        T.showShort(mContext,"漏电流阈值设置范围为10-90mA");
+                                        return;
+                                    }
+                                    if(low>high){
+                                        T.showShort(mContext,"欠压阈值不能高于过压阈值");
+                                        return;
+                                    }
+                                    if(devType==52){
+                                        url= ConstantValues.SERVER_IP_NEW+"ackControlCvls?Overvoltage="+high_value.getText().toString()
+                                                +"&Undervoltage="+low_value.getText().toString()
+                                                +"&Overcurrent="+value45
+                                                +"&Leakage="+value46
+                                                +"&repeaterMac="+repeatMac+"&smokeMac="+electricMac+"&userId="+userID;
+                                    }else if(devType==53){
+                                        url= ConstantValues.SERVER_IP_NEW+"EasyIot_Uool_control?Overvoltage="+high_value.getText().toString()
+                                                +"&Undervoltage="+low_value.getText().toString()
+                                                +"&Overcurrent="+value45
+                                                +"&Leakage="+value46
+                                                +"&appId=1&devSerial="+electricMac+"&userId="+userID;
+                                    }else{
+                                        Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
 //                                            Toast.makeText(getApplicationContext(),"设置中，请稍后", Toast.LENGTH_SHORT).show();
-                                        }catch(Exception e){
-                                            e.printStackTrace();
-                                            T.showShort(mContext,"输入数据不完全或有误");
-                                            return;
-                                        }
-                                        final ProgressDialog dialog1 = new ProgressDialog(mContext);
-                                        dialog1.setTitle("提示");
-                                        dialog1.setMessage("设置中，请稍候");
-                                        dialog1.setCanceledOnTouchOutside(false);
-                                        dialog1.show();
-                                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                        RequestQueue mQueue = helper.getRequestQueue();
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                    T.showShort(mContext,"输入数据不完全或有误");
+                                    return;
+                                }
+                                final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                                dialog1.setTitle("提示");
+                                dialog1.setMessage("设置中，请稍候");
+                                dialog1.setCanceledOnTouchOutside(false);
+                                dialog1.show();
+                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                                RequestQueue mQueue = helper.getRequestQueue();
 //                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
-                                                new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
-                                                        try {
-                                                            int errorCode=response.getInt("errorCode");
-                                                            if(errorCode==0){
-                                                                T.showShort(mContext,"设置成功");
-                                                            }else{
-                                                                T.showShort(mContext,"设置失败");
-                                                            }
-                                                            getYuzhi(electricMac);
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        dialog1.dismiss();
-                                                    }
-                                                }, new Response.ErrorListener() {
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                        new Response.Listener<JSONObject>() {
                                             @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                T.showShort(mContext,"网络错误");
+                                            public void onResponse(JSONObject response) {
+                                                try {
+                                                    int errorCode=response.getInt("errorCode");
+                                                    if(errorCode==0){
+                                                        T.showShort(mContext,"设置成功");
+                                                    }else{
+                                                        T.showShort(mContext,"设置失败");
+                                                    }
+                                                    getYuzhi(electricMac);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
                                                 dialog1.dismiss();
                                             }
-                                        });
-                                        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
-                                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                                        mQueue.add(jsonObjectRequest);
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        T.showShort(mContext,"网络错误");
+                                        dialog1.dismiss();
                                     }
-                                }).show();
+                                });
+                                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                                mQueue.add(jsonObjectRequest);
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
                         break;
                 }
                 return false;

@@ -33,96 +33,164 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/chioce_text"
             android:layout_marginTop="15dp">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/sxcs_lin"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:orientation="vertical">-->
+                <!--<ImageButton-->
+                    <!--android:id="@+id/sxcs_btn"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="100dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@drawable/add_sxcs_selector"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="三小场所"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="16sp"/>-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/zddw_lin"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_toRightOf="@id/sxcs_lin"-->
+                <!--android:orientation="vertical">-->
+                <!--<ImageButton-->
+                    <!--android:id="@+id/zddw_btn"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="100dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@drawable/add_zddw_selector"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="重点单位"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="16sp"/>-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/dqfh_lin"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_below="@id/sxcs_lin"-->
+                <!--android:orientation="vertical">-->
+                <!--<ImageButton-->
+                    <!--android:id="@+id/dqfh_btn"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="100dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@drawable/add_dqfh_selector"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="电气防火"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="16sp"/>-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/xfwl_lin"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_toRightOf="@id/sxcs_lin"-->
+                <!--android:layout_below="@id/sxcs_lin"-->
+                <!--android:orientation="vertical">-->
+                <!--<ImageButton-->
+                    <!--android:id="@+id/xfwl_btn"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="100dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@drawable/add_xfwl_selector"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="消防物联"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="16sp"/>-->
+            <!--</LinearLayout>-->
+        <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_below="@id/chioce_text"-->
+        <!--android:layout_marginTop="15dp">-->
+        <!--<LinearLayout-->
+        <!--android:id="@+id/sxcs_lin"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:orientation="vertical">-->
+        <!--<ImageButton-->
+        <!--android:id="@+id/sxcs_btn"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@drawable/add_sxcs_selector"/>-->
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="三小场所"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="16sp"/>-->
+        <!--</LinearLayout>-->
+
             <LinearLayout
-                android:id="@+id/sxcs_lin"
+                android:id="@+id/sdtj_lin"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/sxcs_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/add_sxcs_selector"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="三小场所"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:textSize="16sp"/>
+            <ImageButton
+                android:id="@+id/sdsr_btn"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/add_sdsr_selector"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="手动添加"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="16sp"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/zddw_lin"
+                android:id="@+id/smsr_lin"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/sxcs_lin"
+                android:layout_toRightOf="@id/sdtj_lin"
                 android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/zddw_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/add_zddw_selector"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="重点单位"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:textSize="16sp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/dqfh_lin"
-                android:layout_width="150dp"
+            <ImageButton
+                android:id="@+id/smsr_btn"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/add_smsr_selector"/>
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="扫码添加"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/sxcs_lin"
-                android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/dqfh_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/add_dqfh_selector"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="电气防火"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:textSize="16sp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/xfwl_lin"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/sxcs_lin"
-                android:layout_below="@id/sxcs_lin"
-                android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/xfwl_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/add_xfwl_selector"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="消防物联"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:textSize="16sp"/>
+                android:gravity="center"
+                android:textSize="16sp"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/spjk_lin"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/dqfh_lin"
+                android:layout_below="@id/sdtj_lin"
                 android:orientation="vertical">
                 <ImageButton
                     android:id="@+id/spjk_btn"
@@ -143,8 +211,8 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/dqfh_lin"
-                android:layout_toRightOf="@id/spjk_lin"
+                android:layout_below="@id/sdtj_lin"
+                android:layout_toRightOf="@id/sdtj_lin"
                 android:orientation="vertical">
                 <ImageButton
                     android:id="@+id/nfc_btn"

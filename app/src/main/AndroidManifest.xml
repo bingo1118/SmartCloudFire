@@ -230,7 +230,8 @@
         <activity android:name="com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep2Activity" />
-        <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep3Activity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep3Activity" />
+        <activity android:name="com.obsessive.zbar.AddCaptureActivity"></activity>
     </application>
 
 </manifest>

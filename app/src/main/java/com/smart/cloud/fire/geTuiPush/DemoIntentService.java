@@ -29,6 +29,7 @@ import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.TimeFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +71,11 @@ public class DemoIntentService extends GTIntentService {
         boolean showDateChange=false;
         try {
             JSONObject dataJson = new JSONObject(msg);
+            String alarmTime=dataJson.getString("alarmTime");
+            //过滤30分钟前的报警
+            if((System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
+                return;
+            }
             int deviceType = dataJson.getInt("deviceType");
             switch (deviceType){
                 case 224:
@@ -316,7 +322,7 @@ public class DemoIntentService extends GTIntentService {
                                     alarmMsg = "电气探测器发出：故障报警";
                                     break;
                                 default:
-                                    alarmMsg = "电气探测器发出：故障报警(测试)";
+                                    alarmMsg = "电气探测器发出：故障报警";
                                     break;
                             }
                             break;
