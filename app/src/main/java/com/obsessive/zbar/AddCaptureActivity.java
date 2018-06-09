@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -199,6 +200,7 @@ public class AddCaptureActivity  extends Activity implements View.OnClickListene
     };
 
 
+    private boolean ifGetData=false;//@@2018.06.08 是否已经扫描到数据
 
     Camera.PreviewCallback previewCb = new Camera.PreviewCallback() {
         public void onPreviewFrame(byte[] data, Camera camera) {
@@ -234,12 +236,13 @@ public class AddCaptureActivity  extends Activity implements View.OnClickListene
                 }
             }
 
-            if (!TextUtils.isEmpty(resultStr)) {
+            if (!TextUtils.isEmpty(resultStr)&&!ifGetData) {
                 String devType=getDevType(resultStr);
                 Intent intent=new Intent(mContext,AddDevActivity.class);
                 intent.putExtra("devType",devType);
                 intent.putExtra("mac",resultStr);
                 startActivity(intent);
+                ifGetData=true;
                 finish();
             }
         }

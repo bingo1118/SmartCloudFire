@@ -112,6 +112,7 @@ public class DemoIntentService extends GTIntentService {
                 case 124://@@外接水位
                 case 125://@@外接水压
                 case 41://NB烟感
+                case 45://海曼NB气感
                 case 111://@@小主机，终端
                 case 51://@@创安燃气
                 case 25://@@温湿度传感器
@@ -130,8 +131,10 @@ public class DemoIntentService extends GTIntentService {
                                 message="湿度过低";
                             }else if(alarmType==408){
                                 message="湿度过高";
-                            }else{
+                            }else if(alarmType==193){
                                 message="烟感电量低，请更换电池";
+                            }else{
+                                message="发生未知类型报警";
                             }
                             break;
                         case 31:
@@ -139,12 +142,16 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生烟雾报警";
                             }else if(alarmType==67){
                                 message="发生自检报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="烟感电量低，请更换电池";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 119:
                         case 41:
+                        case 57:
+                        case 56:
                         case 55:
                         case 1:
                             if(alarmType==202) {
@@ -173,8 +180,10 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生手动报警";
                             }else if(alarmType==67){
                                 message="发生自检报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="烟感电量低，请更换电池";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 124:
@@ -183,15 +192,19 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生低水位报警";
                             }else if(alarmType==208){
                                 message="发生高水位报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="发生485故障";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 21:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="烟感电量低，请更换电池";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 18://@@10.31 喷淋
@@ -199,8 +212,29 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生报警";
                             }else if(alarmType==201){
                                 message="阀门已关闭";
-                            } else{
+                            } else if(alarmType==193){
                                 message="电量低，请更换电池";
+                            }else{
+                                message="发生未知类型报警";
+                            }
+                            break;
+                        case 45://@@海曼气感
+                            if(alarmType==71) {
+                                message="发生轻度泄露";
+                            }else if(alarmType==72){
+                                message="发生重度泄露";
+                            }else if(alarmType==73){
+                                message="发生短路报警";
+                            }else if(alarmType==74){
+                                message="发生开路报警";
+                            }else if(alarmType==75){
+                                message="发生机械手故障";
+                            } else if(alarmType==193){
+                                message="电量低，请更换电池";
+                            }else if(alarmType==70){
+                                message="发生报警恢复";
+                            }else{
+                                message="发生未知类型报警";
                             }
                             break;
                         case 51:
@@ -217,22 +251,28 @@ public class DemoIntentService extends GTIntentService {
                         case 11:
                             if(alarmType==202||alarmType==206) {
                                 message="发生报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="红外电量低，请更换电池";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 12:
                             if(alarmType==202||alarmType==205) {
                                 message="发生报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="门磁电量低，请更换电池";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 15://@@8.3
                             if(alarmType==202||alarmType==221) {
                                 message="发生报警";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
                             }else{
-                                message="水浸电量低，请更换电池";
+                                message="发生未知类型报警";
                             }
                             break;
                         case 125:
@@ -250,8 +290,10 @@ public class DemoIntentService extends GTIntentService {
                             }else if(alarmType==210){
                                 message="发生水压降低,水压值："+alarmFamily+"kpa";
                                 showDateChange=true;
-                            }else{
+                            }else if(alarmType==193){
                                 message="电量低，请更换电池";
+                            }else{
+                                message="发生未知类型报警";
                             }
                             break;
                     }

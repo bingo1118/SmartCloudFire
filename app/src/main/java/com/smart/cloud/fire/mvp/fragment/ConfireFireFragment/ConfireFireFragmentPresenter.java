@@ -97,6 +97,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "N"://@@NB烟感
                 smokeMac = smokeMac.replace("N","");
+                smokeMac = smokeMac.replace("R","");
+                smokeMac = smokeMac.replace("O","");
                 break;
             case "L"://@@5.13红外
                 smokeMac = smokeMac.replace("L","");
@@ -341,10 +343,16 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 case "N":
                     if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
                         deviceType="56";//@@NB-iot烟感
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("O")){
+                        deviceType="57";//@@onet烟感
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("R")){
+                        deviceType="45";//@@海曼气感
                     }else{
                         deviceType="41";
                     }
                     smokeMac = smokeMac.replace("N","");//NB烟感设备
+                    smokeMac = smokeMac.replace("O","");
+                    smokeMac = smokeMac.replace("R","");
                     break;
                 case "H":
                     smokeMac = smokeMac.replace("H","");//空气探测器
@@ -378,7 +386,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
 
         mvpView.showLoading();
         Observable mObservable =null;
-        if(smokeMac.length()==15&&deviceType.equals("41")){
+        if(smokeMac.length()==15&&(deviceType.equals("41")||deviceType.equals("45"))){
             mObservable = apiStores1.addHeiMenSmoke(userID,smokeName,privilege,smokeMac,address,
                     longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
                     principal2Phone,areaId,repeater,camera,deviceType,electrState+"");

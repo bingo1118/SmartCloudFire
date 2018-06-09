@@ -722,52 +722,56 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     high_value_name.setText("高水位阈值（m）:");
                     low_value_name.setText("低水位阈值（m）:");
                 }
-                new AlertDialog.Builder(this).setView(layout)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String url="";
-                            try{
-                                float high=Float.parseFloat(high_value.getText().toString());
-                                float low=Float.parseFloat(low_value.getText().toString());
-                                if(low>high){
-                                    T.showShort(context,"低水位阈值不能高于高水位阈值");
-                                    return;
-                                }
-                                url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
-                            }catch(Exception e){
-                                e.printStackTrace();
-                                T.showShort(context,"输入数据不完全或有误");
+                AlertDialog.Builder builder=new AlertDialog.Builder(this).setView(layout);
+                final AlertDialog dialog=builder.create();
+                Button commit=(Button)layout.findViewById(R.id.commit);
+                commit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url="";
+                        try{
+                            float high=Float.parseFloat(high_value.getText().toString());
+                            float low=Float.parseFloat(low_value.getText().toString());
+                            if(low>high){
+                                T.showShort(context,"低水位阈值不能高于高水位阈值");
                                 return;
                             }
-                            VolleyHelper helper=VolleyHelper.getInstance(context);
-                            RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
-                                    new Response.Listener<JSONObject>() {
-                                        @Override
-                                        public void onResponse(JSONObject response) {
-                                            try {
-                                                int errorCode=response.getInt("errorCode");
-                                                if(errorCode==0){
-                                                    T.showShort(context,"设置成功");
-                                                    getYuzhi();
-                                                }else{
-                                                    T.showShort(context,"设置失败");
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    T.showShort(context,"网络错误");
-                                }
-                            });
-                            mQueue.add(jsonObjectRequest);
+                            url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            T.showShort(context,"输入数据不完全或有误");
+                            return;
                         }
-                    }).show();
+                        VolleyHelper helper=VolleyHelper.getInstance(context);
+                        RequestQueue mQueue = helper.getRequestQueue();
+//                            RequestQueue mQueue = Volley.newRequestQueue(context);
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            int errorCode=response.getInt("errorCode");
+                                            if(errorCode==0){
+                                                T.showShort(context,"设置成功");
+                                                getYuzhi();
+                                            }else{
+                                                T.showShort(context,"设置失败");
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                T.showShort(context,"网络错误");
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
                 break;
         }
     }

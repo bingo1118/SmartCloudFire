@@ -2,6 +2,7 @@ package com.smart.cloud.fire.activity.AddDev;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import fire.cloud.smart.com.smartcloudfire.R;
 

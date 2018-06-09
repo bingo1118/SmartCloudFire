@@ -206,6 +206,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                                     int errorCode=response.getInt("errorCode");
                                                     if(errorCode==0){
                                                         T.showShort(mContext,"设置成功");
+                                                        electricPresenter.getOneElectricInfo(userID,privilege+"",electricMac,false);
                                                     }else{
                                                         T.showShort(mContext,"设置失败");
                                                     }

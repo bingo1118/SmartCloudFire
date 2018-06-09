@@ -172,7 +172,9 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).power_button.setText("消音");
                     }
                     break;
-                case 55:
+                case 56://@@NBIot烟感
+                case 57://@@
+                case 55://@@嘉德烟感
                 case 31://@@12.26 三江iot烟感
                 case 21://@@12.01 Lora烟感
                 case 1://烟感。。
@@ -192,6 +194,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
                     } else {//设备在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    break;
+                case 45://海曼气感
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("HM气感："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("HM气感："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
