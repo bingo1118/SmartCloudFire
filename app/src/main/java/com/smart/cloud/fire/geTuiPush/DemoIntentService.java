@@ -93,32 +93,49 @@ public class DemoIntentService extends GTIntentService {
                     context.startActivity(wiredIntent);
                     break;
                 case 1://烟感
-                case 55:
-                case 119://联动烟感
                 case 2://燃气
-                case 16://NB燃气
                 case 7://声光
+                case 8://手报
                 case 10://水压@@4.28
-                case 42://@@NB水压2018.02.23
-                case 43:
                 case 11://红外
                 case 12://门磁
                 case 15://水禁
+                case 16://NB燃气
                 case 18://喷淋
-                case 21://LoraOne烟感
-                case 31://三江iot烟感
-                case 8://手报
                 case 19://水位
+                case 21://LoraOne烟感
+                case 22://南京平台燃气
+                case 25://@@温湿度传感器
+                case 31://三江iot烟感
+                case 35://NB电弧
+                case 36://联通NB电弧
+                case 41://NB烟感
+                case 42://@@NB水压2018.02.23
+                case 43:
+                case 45://海曼NB气感
+                case 51://@@创安燃气
+                case 55:
+                case 56://NBiot烟感
+                case 57://onet烟感
+                case 69://恒星水位
+                case 70://恒星水压
+                case 111://@@小主机，终端
+                case 119://联动烟感
                 case 124://@@外接水位
                 case 125://@@外接水压
-                case 41://NB烟感
-                case 45://海曼NB气感
-                case 111://@@小主机，终端
-                case 51://@@创安燃气
-                case 25://@@温湿度传感器
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
+                        case 36:
+                        case 35:
+                            if(alarmType==53) {
+                                message="发生报警";
+                            }else if(alarmType==36){
+                                message="发生485故障";
+                            }else if(alarmType==54){
+                                message="发生探测器故障";
+                            }
+                            break;
                         case 111:
                             message="主机处于备电状态";
                             break;
@@ -182,11 +199,14 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生自检报警";
                             }else if(alarmType==193){
                                 message="电量低，请更换电池";
+                            }else if(alarmType==14){
+                                message="该设备已被拆除";
                             }else{
                                 message="发生未知类型报警";
                             }
                             break;
                         case 124:
+                        case 69:
                         case 19:
                             if(alarmType==207) {
                                 message="发生低水位报警";
@@ -194,6 +214,10 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生高水位报警";
                             }else if(alarmType==193){
                                 message="电量低，请更换电池";
+                            }else if(alarmType==136){
+                                message="发生通信故障";
+                            }else if(alarmType==36){
+                                message="发生故障";
                             }else{
                                 message="发生未知类型报警";
                             }
@@ -238,6 +262,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 51:
+                        case 22:
                         case 16:
                         case 2:
                             message="燃气发生泄漏";
@@ -276,6 +301,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 125:
+                        case 70:
                         case 42:
                         case 43:
                         case 10://@@4.28
@@ -290,6 +316,10 @@ public class DemoIntentService extends GTIntentService {
                             }else if(alarmType==210){
                                 message="发生水压降低,水压值："+alarmFamily+"kpa";
                                 showDateChange=true;
+                            }else if(alarmType==136){
+                                message="发生通信故障";
+                            }else if(alarmType==36){
+                                message="发生故障";
                             }else if(alarmType==193){
                                 message="电量低，请更换电池";
                             }else{
@@ -312,6 +342,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 59:
                 case 53:
                 case 52:
                 case 5://电气

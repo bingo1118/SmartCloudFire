@@ -20,9 +20,11 @@ package com.smart.cloud.fire.global;
 //    public static final String SERVER_IP_NEW ="http://139.159.209.212:51091/fireSystem/";
     //测试IP:
     public static final String SERVER_IP_NEW ="http://139.159.220.138:51091/fireSystem/";
+    //万科测试IP:
+//    public static final String SERVER_IP_NEW ="http://193.112.231.227:51091/vanke/";
 
     //2018正式新IP:139.199.58.208
-//    public static final String SERVER_IP_NEW ="http://139.199.58.208:51091/fireSystem/
+//    public static final String SERVER_IP_NEW ="http://139.199.58.208:51091/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://192.168.4.88:51091/fireSystem/";
     //测试IP:
     public static final String SERVER_IP_NEW_TEST="http://119.29.224.28:51090/fireSystem/";

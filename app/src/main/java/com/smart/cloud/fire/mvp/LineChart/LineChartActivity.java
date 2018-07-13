@@ -148,7 +148,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         }else if(isWater.equals("hum")){
             mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
         }else{
-            if(isWater.equals("2")||electricMac.length()>10){
+            if(isWater.equals("19")||isWater.equals("124")||electricMac.length()>10){
                 water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
                 yuzhi_line.setVisibility(View.VISIBLE);
                 getYuzhi();

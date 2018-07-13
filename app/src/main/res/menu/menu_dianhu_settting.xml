@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:id="@+id/clear_on"  android:title="开启消音"/>
+    <item  android:id="@+id/clear_off"  android:title="关闭消音"/>
+    <item  android:id="@+id/reset"  android:title="复位"/>
+    <item  android:id="@+id/cheak_myself"  android:title="自检"/>
+</menu>

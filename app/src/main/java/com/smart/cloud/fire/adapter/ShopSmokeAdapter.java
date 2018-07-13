@@ -1,8 +1,12 @@
 package com.smart.cloud.fire.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,7 +48,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import fire.cloud.smart.com.smartcloudfire.R;
 
-public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener, View.OnClickListener{
 
     public static final int PULLUP_LOAD_MORE = 0;//上拉加载更多
     public static final int LOADING_MORE = 1;//正在加载中
@@ -56,6 +60,40 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Smoke> listNormalSmoke;
+
+
+    public interface OnLongClickListener {
+        void onLongClick(View view, int position);
+    }
+    public interface OnClickListener{
+        void onClick(View view, int position);
+    }
+
+    private OnLongClickListener mOnLongClickListener = null;
+    private OnClickListener mOnClickListener=null;
+
+    public void setOnLongClickListener(OnLongClickListener listener) {
+        mOnLongClickListener = listener;
+    }
+
+    public void setOnClickListener(OnClickListener listener){
+        mOnClickListener=listener;
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (null != mOnLongClickListener) {
+            mOnLongClickListener.onLongClick(view, (int) view.getTag());
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(null!=mOnClickListener){
+            mOnClickListener.onClick(v,(int)v.getTag());
+        }
+    }
 
     public ShopSmokeAdapter(Context mContext, List<Smoke> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
@@ -77,6 +115,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final View view = mInflater.inflate(R.layout.shop_info_adapter, parent, false);
             //这边可以做一些属性设置，甚至事件监听绑定
             ItemViewHolder viewHolder = new ItemViewHolder(view);
+            view.setOnLongClickListener(this);//@@@
             return viewHolder;
         } else if (viewType == TYPE_FOOTER) {
             View foot_view = mInflater.inflate(R.layout.recycler_load_more_layout, parent, false);
@@ -133,6 +172,11 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                            dialog1.setTitle("提示");
+                            dialog1.setMessage("设置中，请稍候");
+                            dialog1.setCanceledOnTouchOutside(false);
+                            dialog1.show();
                             VolleyHelper helper=VolleyHelper.getInstance(mContext);
                             RequestQueue mQueue = helper.getRequestQueue();
                             String userid= SharedPreferencesManager.getInstance().getData(mContext,
@@ -152,14 +196,19 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                                                    T.showShort(mContext,"失败");
 //                                                }
                                                 T.showShort(mContext,jsonObject.getString("error"));
+                                                dialog1.dismiss();
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
+                                                T.showShort(mContext,"设置失败");
+                                                dialog1.dismiss();
                                             }
                                         }
                                     }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     Log.e("TAG", error.getMessage(), error);
+                                    T.showShort(mContext,"设置失败");
+                                    dialog1.dismiss();
                                 }
                             });
                             mQueue.add(stringRequest);
@@ -173,6 +222,63 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     break;
                 case 56://@@NBIot烟感
+                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                        ((ItemViewHolder) holder).power_button.setBackgroundColor(Color.GRAY);
+                        ((ItemViewHolder) holder).power_button.setClickable(false);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                        ((ItemViewHolder) holder).power_button.setBackgroundColor(Color.RED);
+                        ((ItemViewHolder) holder).power_button.setClickable(true);
+                        ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                                dialog1.setTitle("提示");
+                                dialog1.setMessage("设置中，请稍候");
+                                dialog1.setCanceledOnTouchOutside(false);
+                                dialog1.show();
+                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                                RequestQueue mQueue = helper.getRequestQueue();
+                                String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                                        SharedPreferencesManager.SP_FILE_GWELL,
+                                        SharedPreferencesManager.KEY_RECENTNAME);
+                                String url= ConstantValues.SERVER_IP_NEW+"EasyIot_erasure_control?userId="+userid+"&devSerial="+normalSmoke.getMac()+"&appId=1";
+                                StringRequest stringRequest = new StringRequest(url,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject jsonObject=new JSONObject(response);
+                                                    int errorCode=jsonObject.getInt("errorCode");
+//                                                if(errorCode==0){
+//                                                    T.showShort(mContext,"成功");
+//                                                }else{
+//                                                    T.showShort(mContext,"失败");
+//                                                }
+                                                    dialog1.dismiss();
+                                                    T.showShort(mContext,jsonObject.getString("error"));
+                                                } catch (JSONException e) {
+                                                    dialog1.dismiss();
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        dialog1.dismiss();
+                                        Log.e("TAG", error.getMessage(), error);
+                                    }
+                                });
+                                mQueue.add(stringRequest);
+                            }
+                        });
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    break;
                 case 57://@@
                 case 55://@@嘉德烟感
                 case 31://@@12.26 三江iot烟感
@@ -198,6 +304,23 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 22:
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+//                    ((ItemViewHolder) holder).category_group_lin.setOnLongClickListener(new View.OnLongClickListener() {
+//                        @Override
+//                        public boolean onLongClick(View v) {
+//                            showNormalDialog(normalSmoke.getMac());
+//                            return false;
+//                        }
+//                    });
+                    break;
                 case 45://海曼气感
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("HM气感："+normalSmoke.getName()+"（已离线)");
@@ -216,6 +339,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
                     } else {//设备在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    break;
+                case 36:
+                case 35://NB电弧
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("NB电弧："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("NB电弧："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;
@@ -326,17 +459,9 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("CA燃气："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
-                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(mContext, ChuangAnActivity.class);
-                            intent.putExtra("Mac",normalSmoke.getMac());
-                            intent.putExtra("Position",normalSmoke.getName());
-                            mContext.startActivity(intent);
-                        }
-                    });
                     break;
                 case 125:
+                case 70:
                 case 42:
                 case 10://水压设备@@5.11。。
                     if (netStates == 0) {//设备不在线。。
@@ -377,6 +502,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
                     break;
                 case 124:
+                case 69:
                 case 19://水位设备@@2018.01.02
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水位探测器："+normalSmoke.getName()+"（已离线)");
@@ -391,7 +517,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater","2");//@@是否为水压
+                            intent.putExtra("isWater",normalSmoke.getDeviceType()+"");//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });
@@ -425,6 +551,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;
+                case 126:
                 case 119://三江有线传输装置
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("传输装置："+normalSmoke.getName()+"（已离线)");
@@ -622,5 +749,66 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void changeMoreStatus(int status) {
         load_more_status = status;
         notifyDataSetChanged();
+    }
+
+    private void showNormalDialog(final String mac){
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(mContext);
+        normalDialog.setTitle("提示");
+        normalDialog.setMessage("确认删除该设备?");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                                SharedPreferencesManager.SP_FILE_GWELL,
+                                SharedPreferencesManager.KEY_RECENTNAME);
+                        String url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                        StringRequest stringRequest = new StringRequest(url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonObject=new JSONObject(response);
+                                            int errorCode=jsonObject.getInt("errorCode");
+                                                if(errorCode==0){
+                                                    for (Smoke s:listNormalSmoke) {
+                                                        if(s.getMac().equals(mac)){
+                                                            listNormalSmoke.remove(s);
+                                                            break;
+                                                        }
+                                                    }
+                                                    notifyDataSetChanged();
+                                                    T.showShort(mContext,"删除成功");
+                                                }else{
+                                                    T.showShort(mContext,"删除失败");
+                                                }
+                                            T.showShort(mContext,jsonObject.getString("error"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            T.showShort(mContext,"删除失败");
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TAG", error.getMessage(), error);
+                                T.showShort(mContext,"删除失败");
+                            }
+                        });
+                        mQueue.add(stringRequest);
+                    }
+                });
+        normalDialog.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //...To-do
+                    }
+                });
+        // 显示
+        normalDialog.show();
     }
 }

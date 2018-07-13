@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="三小场所"
+                    android:text="重点单位"
                     android:textSize="18sp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/sxcs_image"/>
@@ -143,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="重点单位"
+                    android:text="传输装置"
                     android:textSize="18sp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/zddw_image"/>

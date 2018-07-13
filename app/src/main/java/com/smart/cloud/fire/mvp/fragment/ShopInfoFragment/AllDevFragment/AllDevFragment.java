@@ -2,12 +2,16 @@ package com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.AllDevFragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +21,21 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.SmokeSummary;
+import com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
@@ -33,7 +43,11 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.XCDropDownListViewMapSearch;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,9 +220,89 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         list.clear();
         list.addAll((List<Smoke>)smokeList);
         shopSmokeAdapter = new ShopSmokeAdapter(mContext, list);
+        shopSmokeAdapter.setOnLongClickListener(new ShopSmokeAdapter.OnLongClickListener() {
+            @Override
+            public void onLongClick(View view, int position) {
+                Smoke smoke =list.get(position);
+                if(smoke.getDeviceType()==22){
+                    showNormalDialog(smoke.getMac(),position);
+                }
+            }
+        });
+        shopSmokeAdapter.setOnClickListener(new ShopSmokeAdapter.OnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Smoke smoke=list.get(position);
+                switch (smoke.getDeviceType()){
+                    case 51://@@创安燃气
+                        Intent intent = new Intent(mContext, ChuangAnActivity.class);
+                        intent.putExtra("Mac",smoke.getMac());
+                        intent.putExtra("Position",smoke.getName());
+                        mContext.startActivity(intent);
+                        break;
+
+                }
+            }
+        });
         recyclerView.setAdapter(shopSmokeAdapter);
         swipereFreshLayout.setRefreshing(false);
 //        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
+    }
+
+    private void showNormalDialog(final String mac, final int position){
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(mContext);
+        normalDialog.setTitle("提示");
+        normalDialog.setMessage("确认删除该设备?");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                                SharedPreferencesManager.SP_FILE_GWELL,
+                                SharedPreferencesManager.KEY_RECENTNAME);
+                        String url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                        StringRequest stringRequest = new StringRequest(url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonObject=new JSONObject(response);
+                                            int errorCode=jsonObject.getInt("errorCode");
+                                            if(errorCode==0){
+                                                list.remove(position);
+                                                shopSmokeAdapter.notifyDataSetChanged();
+                                                T.showShort(mContext,"删除成功");
+                                            }else{
+                                                T.showShort(mContext,"删除失败");
+                                            }
+                                            T.showShort(mContext,jsonObject.getString("error"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            T.showShort(mContext,"删除失败");
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TAG", error.getMessage(), error);
+                                T.showShort(mContext,"删除失败");
+                            }
+                        });
+                        mQueue.add(stringRequest);
+                    }
+                });
+        normalDialog.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //...To-do
+                    }
+                });
+        // 显示
+        normalDialog.show();
     }
 
     @Override

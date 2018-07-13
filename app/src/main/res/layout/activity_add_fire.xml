@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="集中器"/>
+                    android:text="终端"/>
                 <EditText
                     android:id="@+id/add_repeater_mac"
                     android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                     android:gravity="center_vertical"
                     android:padding="6dp"
                     android:layout_toLeftOf="@+id/scan_repeater_ma"
-                    android:hint="ID"
+                    android:hint="输入或扫描终端Mac地址"
                     android:textColor="@color/text_view_and_kuang"
                     android:textColorHint="@color/hint_color_text"
                     android:imeOptions="actionNext"
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="*探测器"/>
+                    android:text="*ID"/>
                 <EditText
                     android:id="@+id/add_fire_mac"
                     android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                     android:gravity="center_vertical"
                     android:padding="6dp"
                     android:layout_toLeftOf="@+id/scan_er_wei_ma"
-                    android:hint="ID"
+                    android:hint="输入或扫描传感器Mac地址"
                     android:textColor="@color/text_view_and_kuang"
                     android:textColorHint="@color/hint_color_text"
                     android:imeOptions="actionNext"

@@ -188,6 +188,10 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.zijian);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else if(alarmType==14){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.chaichu);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                     }else if(alarmType==103){
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.gaowen);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
@@ -246,7 +250,25 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }
                     break;
+                case 36:
+                case 35:
+                    ((ItemViewHolder) holder).smokeMac.setText("NB电弧:");
+                    if (alarmType == 53) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.baojing);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    } else if(alarmType == 36){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else if(alarmType == 54){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }
+                    break;
                 case 124:
+                case 69:
                 case 19:
                     ((ItemViewHolder) holder).smokeMac.setText("水位:");
                     if (alarmType == 207) {
@@ -261,6 +283,14 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_ddy);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else if(alarmType == 136){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    }else if(alarmType == 36){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }else{
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.weizhi);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
@@ -275,6 +305,10 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }else if(alarmType == 201){
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_hz);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    }else if(alarmType == 203){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_huojing);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }else if(alarmType == 193){
@@ -320,6 +354,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                     break;
                 case 16:
+                case 22:
                 case 2:
                     ((ItemViewHolder) holder).smokeMac.setText("燃气探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.ranqi);
@@ -334,6 +369,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
                 case 125:
+                case 70:
                 case 43:
                 case 42:
                 case 10://@@4.28
@@ -370,9 +406,20 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                             break;
+                        case 136:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                            ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                            ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                            break;
+                        case 36:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
+                            ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                            ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                            break;
 
                     }
                     break;
+                case 59:
                 case 52:
                 case 53:
                 case 5:

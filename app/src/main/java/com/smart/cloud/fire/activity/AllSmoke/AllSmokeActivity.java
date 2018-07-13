@@ -150,7 +150,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 position=FRAGMENT_FIVE;//@@离线设备
             }
         });
-        title_name_tv.setText("三小场所");
+        title_name_tv.setText("重点单位");
         title_lose_dev.setText("离线设备");
         areaCondition.setActivity(this);//@@12.21
         shopTypeCondition.setActivity(this);//@@12.21

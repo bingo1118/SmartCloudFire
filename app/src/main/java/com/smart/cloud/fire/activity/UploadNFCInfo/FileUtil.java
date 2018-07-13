@@ -18,7 +18,7 @@ import java.util.Map;
 public class FileUtil {
 
     public static boolean post(String path, Map<String, String> params, FormFile[] files) throws Exception{     
-        final String BOUNDARY = "---------------------------7da2137580612"; //���ݷָ���
+        final String BOUNDARY = "---------------------------7da2137580612";
         final String endline = "--" + BOUNDARY + "--\r\n";
         
         int fileDataLength = 0;

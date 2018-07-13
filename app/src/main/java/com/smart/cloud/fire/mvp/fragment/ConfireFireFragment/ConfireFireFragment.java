@@ -134,7 +134,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         if (mac!=null){
             addFireMac.setText(mac);
             device_type_name.setVisibility(View.VISIBLE);
-            device_type_name.setText("设备类型:"+mvpPresenter.getDevTypeName(mac));
+            device_type_name.setText("设备类型:"+devType);
             mvpPresenter.getOneSmoke(userID, privilege + "", mac);
         }
     }

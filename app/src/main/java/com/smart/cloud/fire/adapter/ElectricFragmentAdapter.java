@@ -6,10 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,16 +24,19 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,9 +114,94 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
      * @param position
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Smoke normalSmoke = listNormalSmoke.get(position);
+
+            int devType=normalSmoke.getDeviceType();
+            final int state = normalSmoke.getNetState();
+            switch (devType){
+                case 35:
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).setting_button.setVisibility(View.VISIBLE);
+                    if (state == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("电弧："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("电弧："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).setting_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showPopupMenu(((ItemViewHolder) holder).setting_button,normalSmoke.getMac());
+                        }
+                    });
+                    break;
+                default:
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).setting_button.setVisibility(View.GONE);
+                    if (state == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    final int privilege = MyApp.app.getPrivilege();
+                    final int eleState = normalSmoke.getElectrState();
+                    //if(privilege==3){//@@8.28权限3有切换电源功能
+                    switch (eleState){
+                        case 1:
+                            ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                            ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_qddy);
+                            break;
+                        case 2:
+                            ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                            ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_yqd);
+                            break;
+                        default:
+                            ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
+                            break;
+                    }
+                    ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(state==0){
+                                Toast.makeText(mContext,"设备不在线",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if(privilege!=3&&privilege!=4){
+                                Toast.makeText(mContext,"您没有该权限",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            if(eleState!=1){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                builder.setMessage("如未排除故障，合闸将造成严重事故!");
+                                builder.setTitle("警告");
+                                builder.setPositiveButton("我已知晓", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        changepower(2,normalSmoke);
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.create().show();
+                            }else{
+                                changepower(1,normalSmoke);
+                            }
+                        }
+                    });
+                    break;
+            }
+
             ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
             ((ItemViewHolder) holder).repeater_tv.setText(normalSmoke.getRepeater());
@@ -136,66 +228,6 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
                     intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
                     mContext.startActivity(intent);
-                }
-            });
-            final int state = normalSmoke.getNetState();
-            if (state == 0) {//设备不在线。。
-                ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName()+"（已离线)");
-                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
-            } else {//设备在线。。
-                ((ItemViewHolder) holder).smoke_name_text.setText("电气设备："+normalSmoke.getName());
-                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
-            }
-
-            final int privilege = MyApp.app.getPrivilege();
-            final int eleState = normalSmoke.getElectrState();
-            //if(privilege==3){//@@8.28权限3有切换电源功能
-            switch (eleState){
-                case 1:
-                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                    ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_qddy);
-                    break;
-                case 2:
-                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                    ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_yqd);
-                    break;
-                default:
-                    ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
-                    break;
-            }
-            ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(state==0){
-                        Toast.makeText(mContext,"设备不在线",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if(privilege!=3&&privilege!=4){
-                        Toast.makeText(mContext,"您没有该权限",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if(eleState!=1){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                        builder.setMessage("如未排除故障，合闸将造成严重事故!");
-                        builder.setTitle("警告");
-                        builder.setPositiveButton("我已知晓", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                changepower(2,normalSmoke);
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.create().show();
-                    }else{
-                        changepower(1,normalSmoke);
-                    }
                 }
             });
 
@@ -261,6 +293,10 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         ImageView manager_img;
         @Bind(R.id.power_button)
         ImageView power_button;//@@切换电源按钮
+        @Bind(R.id.right_into_image)
+        ImageView right_into_image;
+        @Bind(R.id.setting_button)
+        TextView setting_button;
 
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07
@@ -403,6 +439,84 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
         builder.create().show();
+    }
+
+
+    private void showPopupMenu(View view, final String mac) {
+        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+        dialog1.setTitle("提示");
+        dialog1.setMessage("设置中，请稍候");
+        dialog1.setCanceledOnTouchOutside(false);
+        // View当前PopupMenu显示的相对View的位置
+        PopupMenu popupMenu = new PopupMenu(mContext, view);
+        // menu布局
+        popupMenu.getMenuInflater().inflate(R.menu.menu_dianhu_settting, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int command=0;
+                switch (item.getItemId()) {
+                    case R.id.clear_on:
+                        command=4;
+                        break;
+                    case R.id.clear_off:
+                        command=5;
+                        break;
+                    case R.id.reset:
+                        command=6;
+                        break;
+                    case R.id.cheak_myself:
+                        command=7;
+                        break;
+                }
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+                String userID = SharedPreferencesManager.getInstance().getData(mContext,
+                        SharedPreferencesManager.SP_FILE_GWELL,
+                        SharedPreferencesManager.KEY_RECENTNAME);
+                String url= ConstantValues.SERVER_IP_NEW+"EasyIot_arc_electric?devSerial="+mac+
+                        "&userId="+userID+"&appId=1&arcValue="+command;
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        T.showShort(mContext,"设置成功");
+                                    }else{
+                                        T.showShort(mContext,"设置失败");
+                                    }
+                                    dialog1.dismiss();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    dialog1.dismiss();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(mContext,"网络错误");
+                        dialog1.dismiss();
+                    }
+                });
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                mQueue.add(jsonObjectRequest);
+                dialog1.show();
+
+                return false;
+            }
+        });
+        // PopupMenu关闭事件
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+
+        popupMenu.show();
     }
 
 }
