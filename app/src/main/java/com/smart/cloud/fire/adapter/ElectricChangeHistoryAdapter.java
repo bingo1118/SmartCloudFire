@@ -109,7 +109,7 @@ public class ElectricChangeHistoryAdapter extends RecyclerView.Adapter<RecyclerV
             }else{
                 ((ItemViewHolder) holder).electric_state.setText("分闸");
             }
-            ((ItemViewHolder) holder).electric_time.setText("时间:"+electric.getChangetime());
+            ((ItemViewHolder) holder).electric_time.setText(electric.getChangetime());
             ((ItemViewHolder) holder).electric_username.setText(electric.getUserName());
             holder.itemView.setTag(position);
         } else if (holder instanceof ShopSmokeAdapter.FootViewHolder) {

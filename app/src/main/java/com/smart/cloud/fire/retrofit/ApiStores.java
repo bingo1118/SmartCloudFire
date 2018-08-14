@@ -12,11 +12,18 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.register.model.RegisterModel;
 
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import retrofit2.Call;
+import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -377,4 +384,36 @@ public interface ApiStores {
     @GET("getEleNeedHis")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getEleNeedHis(@Query("smokeMac") String smokeMac,@Query("page") String page);
+
+    //确认报警上报
+    @GET("makeSureAlarm")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> makeSureAlarm(@Query("userId") String userId,@Query("smokeMac") String smokeMac,@Query("alarmType") String alarmType);
+
+    //设备消音
+    @GET("ackNB_IOT_Control")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> ackNB_IOT_Control(@Query("userId") String userId,@Query("smokeMac") String smokeMac,@Query("eleState") String eleState);
+
+    @Multipart
+    @POST("UploadFileAction")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<Result<String>> uploadImege(@Part("partList") List<MultipartBody.Part> partList);
+
+    @GET("nanjing_jiade_cancel")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Call<HttpError> nanjing_jiade_cancel(@Query("imeiValue") String imeiValue,@Query("deviceType") String deviceType);
+
+    @GET("ackNB_IOT_Control")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Call<HttpError> NB_IOT_Control(@Query("userId") String userId,@Query("smokeMac") String smokeMac,@Query("eleState") String eleState);
+
+    @GET("EasyIot_erasure_control")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Call<HttpError> EasyIot_erasure_control(@Query("userId") String userId,@Query("devSerial") String devSerial,@Query("appId") String appId);
+
+    @GET("cancelSound")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Call<HttpError> cancelSound(@Query("repeaterMac") String repeaterMac);
 }
+

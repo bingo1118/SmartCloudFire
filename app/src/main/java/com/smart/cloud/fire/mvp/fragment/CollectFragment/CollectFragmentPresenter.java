@@ -82,7 +82,7 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
             public void onSuccess(HttpError model) {
                 List<AlarmMessageModel> list = model.getAlarm();
                 if(list==null){
-                    mvpView.getDataFail("取消失败");
+//                    mvpView.getDataFail("取消失败");
                 }else{
                     int errorCode = model.getErrorCode();
                     if(errorCode==0){
@@ -90,9 +90,9 @@ public class CollectFragmentPresenter extends BasePresenter<CollectFragmentView>
 //                        mvpView.dealAlarmMsgSuccess(alarmMessageModels);
 //                        mvpView.updateAlarmMsgSuccess(alarmMessageModels);//@@5.18
                         mvpView.updateAlarmMsgSuccess(index);//@@5.18
-                        mvpView.getDataFail("取消成功");
+//                        mvpView.getDataFail("取消成功");
                     }else{
-                        mvpView.getDataFail("取消失败");
+//                        mvpView.getDataFail("取消失败");
                     }
                 }
             }

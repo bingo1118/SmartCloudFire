@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff"
+    >
+
+    <RelativeLayout
+        android:id="@+id/alarm_fk_center"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/alarm_fk_img"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:text="Working Time"
+            android:textSize="36sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:background="@color/text_color_blue"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/alarm_dao_hang_color"
+        >
+        <ImageView
+            android:id="@+id/alarm_tc_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/baojing_tc_selector"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/worktime_text"
+            android:text="8:00"
+            android:textSize="14sp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/stop_alarm"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:textColor="#fff"
+        android:padding="10dp"
+        android:background="@drawable/corner"
+        android:textSize="24sp"
+        android:text="确认"/>
+</LinearLayout>

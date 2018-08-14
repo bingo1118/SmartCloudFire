@@ -91,7 +91,7 @@ public class WiredSmokeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             if(normalSmoke.getHostType().equals("224")){
                 ((ItemViewHolder) holder).macTv.setText("区域:"+normalSmoke.getFaultCode()+"分区");//@@
-                ((ItemViewHolder) holder).equipmentDesc.setText(normalSmoke.getFaultDevDesc()+"号设备");
+                ((ItemViewHolder) holder).equipmentDesc.setText(normalSmoke.getFaultDevDesc()+"");
             }else{
                 ((ItemViewHolder) holder).macTv.setText("MAC:"+normalSmoke.getFaultCode());//@@
                 ((ItemViewHolder) holder).equipmentDesc.setText(normalSmoke.getFaultDevDesc());

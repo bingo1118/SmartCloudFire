@@ -73,6 +73,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             case "R":
                 smokeMac = smokeMac.replace("R","");
                 smokeMac = smokeMac.replace("N","");
+                smokeMac = smokeMac.replace("H","");
                 break;
             case "Q":
                 smokeMac = smokeMac.replace("Q","");
@@ -104,6 +105,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("Z","");
                 smokeMac = smokeMac.replace("H","");
                 smokeMac = smokeMac.replace("I","");
+                smokeMac = smokeMac.replace("J","");
                 break;
             case "L"://@@5.13红外
                 smokeMac = smokeMac.replace("L","");
@@ -280,11 +282,14 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         deviceType="16";//@@NB燃气
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
                         deviceType="22";
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("H")){
+                        deviceType="23";
                     }else{
                         deviceType="2";//@@燃气
                     }
                     smokeMac = smokeMac.replace("R","");//燃气
                     smokeMac = smokeMac.replace("N","");//燃气
+                    smokeMac = smokeMac.replace("H","");//燃气
                     break;
                 case "Q":
                     deviceType="5";
@@ -373,6 +378,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         deviceType="35";//@@电弧 电信
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("I")){
                         deviceType="36";//@@嘉德移动烟感
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("J")){
+                        deviceType="61";//@@嘉德南京平台烟感
                     }else{
                         deviceType="41";
                     }
@@ -382,6 +389,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("Z","");
                     smokeMac = smokeMac.replace("H","");
                     smokeMac = smokeMac.replace("I","");
+                    smokeMac = smokeMac.replace("J","");
                     break;
                 case "H":
                     smokeMac = smokeMac.replace("H","");//空气探测器

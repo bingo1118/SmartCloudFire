@@ -1,6 +1,7 @@
 package com.smart.cloud.fire.mvp.Alarm;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -83,6 +84,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     Button alarmDoItBtn;
     @Bind(R.id.make_sure_upload_btn)
     Button make_sure_upload_btn;//@@报警上传
+    @Bind(R.id.deal_voice_btn)
+    Button deal_voice_btn;//@@报警上传
     @Bind(R.id.lin_principal)
     LinearLayout lin_principa1;
     @Bind(R.id.lin_principa2)
@@ -144,12 +147,14 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
-        if(mPushAlarmMsg.getDeviceType()==18||mPushAlarmMsg.getDeviceType()==19||
-                mPushAlarmMsg.getDeviceType()==1||mPushAlarmMsg.getDeviceType()==5){
-            stop_alarm.setVisibility(View.VISIBLE);
-        }else{
-            stop_alarm.setVisibility(View.GONE);
-        }//@@11.01
+        if(mPushAlarmMsg!=null){
+            if(mPushAlarmMsg.getDeviceType()==18||mPushAlarmMsg.getDeviceType()==19||
+                    mPushAlarmMsg.getDeviceType()==1||mPushAlarmMsg.getDeviceType()==5){
+                stop_alarm.setVisibility(View.VISIBLE);
+            }else{
+                stop_alarm.setVisibility(View.GONE);
+            }//@@11.01
+        }
         if(ifWiredSmoke==1){
             alarmLeadToBtn.setVisibility(View.GONE);
             lin_principa1.setVisibility(View.GONE);
@@ -163,12 +168,19 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             if(alarmMsg.length()==0||alarmMsg==null||alarmMsg.equals("null")){
                 alarmMsg="";
             }//@@7.10
-            alarmInfo.setText("终端："+pushWiredSmokeAlarmMsg.getRepeater()+" \r编号："+pushWiredSmokeAlarmMsg.getFaultCode()+"\r详情："+ alarmMsg);
+            alarmInfo.setText("终端："+pushWiredSmokeAlarmMsg.getRepeater()+" \r编号："+pushWiredSmokeAlarmMsg.getFaultCode()+"\n详情："+ alarmMsg);
             alarmTime.setText(pushWiredSmokeAlarmMsg.getFaultTime());
-            alarmMac.setText(pushWiredSmokeAlarmMsg.getFaultCode());//@@2018.01.03
+            alarmMac.setText(pushWiredSmokeAlarmMsg.getFaultDevDesc());//@@2018.01.03
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
+            if(pushWiredSmokeAlarmMsg.getFaultCode().equals("0")){
+                mAlarmType.setText("主机发生:"+pushWiredSmokeAlarmMsg.getFaultDevDesc());
+                alarmMac.setText("mac:"+pushWiredSmokeAlarmMsg.getRepeater());//@@2018.01.03
+            }else{
+                mAlarmType.setText(this.alarmMsg);
+            }
+
 
 //        switch (devType) {
 //            case 1:
@@ -199,6 +211,69 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
 //                }
 //            });
         }else{
+            if(mPushAlarmMsg.getDeviceType()==58||mPushAlarmMsg.getDeviceType()==61){
+                deal_voice_btn.setVisibility(View.VISIBLE);
+                deal_voice_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                        dialog1.setTitle("提示");
+                        dialog1.setMessage("设置中，请稍候");
+                        dialog1.setCanceledOnTouchOutside(false);
+                        dialog1.show();
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                                SharedPreferencesManager.SP_FILE_GWELL,
+                                SharedPreferencesManager.KEY_RECENTNAME);
+                        String url="";
+                        switch (mPushAlarmMsg.getDeviceType()){
+                            case 41:
+                                url= ConstantValues.SERVER_IP_NEW+"ackNB_IOT_Control?userId="+userid+"&smokeMac="+mPushAlarmMsg.getMac()+"&eleState=1";
+                                break;
+                            case 58:
+                                url= ConstantValues.SERVER_IP_NEW+"nanjing_jiade_cancel?&imeiValue="+mPushAlarmMsg.getMac()+"&deviceType=58";
+                                break;
+                            case 61:
+                                url= ConstantValues.SERVER_IP_NEW+"nanjing_jiade_cancel?&imeiValue="+mPushAlarmMsg.getMac()+"&deviceType=61";
+                                break;
+
+                        }
+//                            String url= ConstantValues.SERVER_IP_NEW+"ackNB_IOT_Control?userId="+userid+"&smokeMac="+normalSmoke.getMac()+"&eleState=1";
+                        StringRequest stringRequest = new StringRequest(url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonObject=new JSONObject(response);
+                                            int errorCode=jsonObject.getInt("errorCode");
+//                                                if(errorCode==0){
+//                                                    T.showShort(mContext,"成功");
+//                                                }else{
+//                                                    T.showShort(mContext,"失败");
+//                                                }
+                                            T.showShort(mContext,jsonObject.getString("error"));
+                                            dialog1.dismiss();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            T.showShort(mContext,"设置失败");
+                                            dialog1.dismiss();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TAG", error.getMessage(), error);
+                                T.showShort(mContext,"设置失败");
+                                dialog1.dismiss();
+                            }
+                        });
+                        mQueue.add(stringRequest);
+                    }
+                });
+            }else{
+                deal_voice_btn.setVisibility(View.GONE);
+            }
             cameraBean = mPushAlarmMsg.getCamera();
             if(cameraBean!=null&&cameraBean.getCameraId()!=null&&cameraBean.getCameraPwd()!=null){
                 alarmDoItBtn.setVisibility(View.VISIBLE);

@@ -232,6 +232,9 @@
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep2Activity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep3Activity" />
         <activity android:name="com.obsessive.zbar.AddCaptureActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
 </manifest>

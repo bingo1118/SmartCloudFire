@@ -18,6 +18,7 @@ import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.Alarm.AlarmActivity;
 import com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity;
+import com.smart.cloud.fire.mvp.Alarm.WorkingTimeActivity;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.pushmessage.DisposeAlarm;
@@ -30,6 +31,7 @@ import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.TimeFormat;
+import com.ta.utdid2.android.utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,7 +75,16 @@ public class DemoIntentService extends GTIntentService {
             JSONObject dataJson = new JSONObject(msg);
             String alarmTime=dataJson.getString("alarmTime");
             //过滤30分钟前的报警
-            if((System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
+            if(!StringUtils.isEmpty(alarmTime)&&(System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
+                return;
+            }
+
+            int alarm = dataJson.getInt("alarmType");
+            if(alarm==80){
+                Intent wiredIntent = new Intent(context, WorkingTimeActivity.class);
+                wiredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                wiredIntent.putExtra("time",dataJson.getString("address"));
+                context.startActivity(wiredIntent);
                 return;
             }
             int deviceType = dataJson.getInt("deviceType");
@@ -117,6 +128,8 @@ public class DemoIntentService extends GTIntentService {
                 case 55:
                 case 56://NBiot烟感
                 case 57://onet烟感
+                case 58://嘉德移动烟感
+                case 61://嘉德南京烟感
                 case 69://恒星水位
                 case 70://恒星水压
                 case 111://@@小主机，终端
@@ -167,6 +180,8 @@ public class DemoIntentService extends GTIntentService {
                             break;
                         case 119:
                         case 41:
+                        case 61:
+                        case 58:
                         case 57:
                         case 56:
                         case 55:

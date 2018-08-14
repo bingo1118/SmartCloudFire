@@ -169,7 +169,7 @@ public class ElectricActivityAdapterTest extends RecyclerView.Adapter<RecyclerVi
                         if (Double.parseDouble(value8) - electricThreshold > 0) {
                             ((ItemViewHolder) holder).electricCurrentValue.setTextColor(Color.rgb(224, 47, 27));
                             ((ItemViewHolder) holder).electricStates.setTextColor(Color.rgb(224, 47, 27));
-                            ((ItemViewHolder) holder).electricStates.setText("漏电流");
+                            ((ItemViewHolder) holder).electricStates.setText("漏电");
                         } else {
                             ((ItemViewHolder) holder).electricCurrentValue.setTextColor(Color.rgb(18, 184, 245));
                             ((ItemViewHolder) holder).electricStates.setTextColor(Color.rgb(18, 184, 245));

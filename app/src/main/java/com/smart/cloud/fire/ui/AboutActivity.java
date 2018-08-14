@@ -7,6 +7,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.global.ConstantValues;
+
 import fire.cloud.smart.com.smartcloudfire.R;
 
 public class AboutActivity extends Activity{
@@ -21,7 +23,12 @@ public class AboutActivity extends Activity{
         mContext = this;
         about_version = (TextView) findViewById(R.id.about_version);
         String version =getlocalVersion();
-        about_version.setText(version);
+        if(ConstantValues.isThe148Service()){
+            about_version.setText(version+"(正式版)");
+        }else {
+            about_version.setText(version+"(测试版)");
+        }
+
     }
 
     private String getlocalVersion(){

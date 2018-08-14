@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,16 +25,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
+import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
+import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity;
+import com.smart.cloud.fire.retrofit.ApiStores;
+import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
@@ -47,6 +52,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import fire.cloud.smart.com.smartcloudfire.R;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener, View.OnClickListener{
 
@@ -145,6 +152,29 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) holder).rssi_value.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
             }
+            ((ItemViewHolder) holder).dev_hearttime_set.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder customizeDialog =
+                            new AlertDialog.Builder(mContext);
+                    final View dialogView = LayoutInflater.from(mContext)
+                            .inflate(R.layout.dev_heart_time_setting,null);
+                    customizeDialog.setView(dialogView);
+                    final EditText heartTime_edit=(EditText) dialogView.findViewById(R.id.hearttime_value);
+                    Button commit_btn=(Button)dialogView.findViewById(R.id.commit);
+                    commit_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(heartTime_edit.getText().length()>0){
+                                T.showShort(mContext,"设置成功");
+                            }else{
+                                T.showShort(mContext,"输入不合法");
+                            }
+                        }
+                    });
+                    customizeDialog.show();
+                }
+            });
             if(devType==18){
                 ((ItemViewHolder) holder).state_name_tv.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).state_tv.setVisibility(View.VISIBLE);
@@ -158,7 +188,19 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) holder).state_tv.setVisibility(View.GONE);
             }//@@11.01
             ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).category_group_lin.setOnClickListener(null);
+            ((ItemViewHolder) holder).dev_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String path=ConstantValues.NFC_IMAGES+"devimages/"+normalSmoke.getMac()+".jpg";
+                    Intent intent=new Intent(mContext, NFCImageShowActivity.class);
+                    intent.putExtra("path",path);
+                    mContext.startActivity(intent);
+                }
+            });
             switch (devType){
+                case 61://@@嘉德南京烟感
+                case 58://@@嘉德移动烟感
                 case 41://@@NB烟感
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("烟感："+normalSmoke.getName()+"（已离线)");
@@ -177,41 +219,37 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             dialog1.setMessage("设置中，请稍候");
                             dialog1.setCanceledOnTouchOutside(false);
                             dialog1.show();
-                            VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                            RequestQueue mQueue = helper.getRequestQueue();
                             String userid= SharedPreferencesManager.getInstance().getData(mContext,
                                     SharedPreferencesManager.SP_FILE_GWELL,
                                     SharedPreferencesManager.KEY_RECENTNAME);
-                            String url= ConstantValues.SERVER_IP_NEW+"ackNB_IOT_Control?userId="+userid+"&smokeMac="+normalSmoke.getMac()+"&eleState=1";
-                            StringRequest stringRequest = new StringRequest(url,
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                JSONObject jsonObject=new JSONObject(response);
-                                                int errorCode=jsonObject.getInt("errorCode");
-//                                                if(errorCode==0){
-//                                                    T.showShort(mContext,"成功");
-//                                                }else{
-//                                                    T.showShort(mContext,"失败");
-//                                                }
-                                                T.showShort(mContext,jsonObject.getString("error"));
-                                                dialog1.dismiss();
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                                T.showShort(mContext,"设置失败");
-                                                dialog1.dismiss();
-                                            }
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.e("TAG", error.getMessage(), error);
-                                    T.showShort(mContext,"设置失败");
-                                    dialog1.dismiss();
-                                }
-                            });
-                            mQueue.add(stringRequest);
+                            ApiStores apiStores1 = AppClient.retrofit(ConstantValues.SERVER_IP_NEW).create(ApiStores.class);
+                            Call<HttpError> call=null;
+                            switch (normalSmoke.getDeviceType()){
+                                case 41:
+                                    call=apiStores1.NB_IOT_Control(userid,normalSmoke.getMac(),"1");
+                                    break;
+                                case 58:
+                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"58");
+                                    break;
+                                case 61:
+                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"61");
+                                    break;
+                            }
+                            if (call != null) {
+                                call.enqueue(new Callback<HttpError>() {
+                                    @Override
+                                    public void onResponse(Call<HttpError> call, retrofit2.Response<HttpError> response) {
+                                        T.showShort(mContext,response.body().getError()+"");
+                                        dialog1.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<HttpError> call, Throwable t) {
+                                        T.showShort(mContext,"失败");
+                                        dialog1.dismiss();
+                                    }
+                                });
+                            }
                         }
                     });
                     if(normalSmoke.getElectrState()==1){
@@ -241,39 +279,26 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 dialog1.setMessage("设置中，请稍候");
                                 dialog1.setCanceledOnTouchOutside(false);
                                 dialog1.show();
-                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                RequestQueue mQueue = helper.getRequestQueue();
                                 String userid= SharedPreferencesManager.getInstance().getData(mContext,
                                         SharedPreferencesManager.SP_FILE_GWELL,
                                         SharedPreferencesManager.KEY_RECENTNAME);
-                                String url= ConstantValues.SERVER_IP_NEW+"EasyIot_erasure_control?userId="+userid+"&devSerial="+normalSmoke.getMac()+"&appId=1";
-                                StringRequest stringRequest = new StringRequest(url,
-                                        new Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
-                                                try {
-                                                    JSONObject jsonObject=new JSONObject(response);
-                                                    int errorCode=jsonObject.getInt("errorCode");
-//                                                if(errorCode==0){
-//                                                    T.showShort(mContext,"成功");
-//                                                }else{
-//                                                    T.showShort(mContext,"失败");
-//                                                }
-                                                    dialog1.dismiss();
-                                                    T.showShort(mContext,jsonObject.getString("error"));
-                                                } catch (JSONException e) {
-                                                    dialog1.dismiss();
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        dialog1.dismiss();
-                                        Log.e("TAG", error.getMessage(), error);
-                                    }
-                                });
-                                mQueue.add(stringRequest);
+                                ApiStores apiStores1 = AppClient.retrofit(ConstantValues.SERVER_IP_NEW).create(ApiStores.class);
+                                Call<HttpError> call=apiStores1.EasyIot_erasure_control(userid,normalSmoke.getMac(),"1");
+                                if (call != null) {
+                                    call.enqueue(new Callback<HttpError>() {
+                                        @Override
+                                        public void onResponse(Call<HttpError> call, retrofit2.Response<HttpError> response) {
+                                            T.showShort(mContext,response.body().getError()+"");
+                                            dialog1.dismiss();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<HttpError> call, Throwable t) {
+                                            T.showShort(mContext,"失败");
+                                            dialog1.dismiss();
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
@@ -305,6 +330,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 22:
+                case 23:
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName()+"（已离线)");
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
@@ -313,13 +339,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
-//                    ((ItemViewHolder) holder).category_group_lin.setOnLongClickListener(new View.OnLongClickListener() {
-//                        @Override
-//                        public boolean onLongClick(View v) {
-//                            showNormalDialog(normalSmoke.getMac());
-//                            return false;
-//                        }
-//                    });
                     break;
                 case 45://海曼气感
                     if (netStates == 0) {//设备不在线。。
@@ -573,34 +592,27 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                            RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
-                            String url= ConstantValues.SERVER_IP_NEW+"cancelSound?repeaterMac="+normalSmoke.getMac();
-                            StringRequest stringRequest = new StringRequest(url,
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                JSONObject jsonObject=new JSONObject(response);
-                                                int errorCode=jsonObject.getInt("errorCode");
-//                                                if(errorCode==0){
-//                                                    T.showShort(mContext,"成功");
-//                                                }else{
-//                                                    T.showShort(mContext,"失败");
-//                                                }
-                                                T.showShort(mContext,jsonObject.getString("error"));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.e("TAG", error.getMessage(), error);
-                                }
-                            });
-                            mQueue.add(stringRequest);
+                            final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                            dialog1.setTitle("提示");
+                            dialog1.setMessage("设置中，请稍候");
+                            dialog1.setCanceledOnTouchOutside(false);
+                            dialog1.show();
+                            ApiStores apiStores1 = AppClient.retrofit(ConstantValues.SERVER_IP_NEW).create(ApiStores.class);
+                            Call<HttpError> call=apiStores1.cancelSound(normalSmoke.getMac());
+                            if (call != null) {
+                                call.enqueue(new Callback<HttpError>() {
+                                    @Override
+                                    public void onResponse(Call<HttpError> call, retrofit2.Response<HttpError> response) {
+                                        T.showShort(mContext,response.body().getError()+"");
+                                        dialog1.dismiss();
+                                    }
+                                    @Override
+                                    public void onFailure(Call<HttpError> call, Throwable t) {
+                                        T.showShort(mContext,"失败");
+                                        dialog1.dismiss();
+                                    }
+                                });
+                            }
                         }
                     });
                     break;
@@ -617,8 +629,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
-//                    String phoneOne = normalSmoke.getPrincipal1Phone();
-//                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
                     Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
                     intent.putExtra("people1",normalSmoke.getPrincipal1());
                     intent.putExtra("people2",normalSmoke.getPrincipal2());
@@ -627,7 +637,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     mContext.startActivity(intent);
                 }
             });
-            holder.itemView.setTag(position);
+            ((ItemViewHolder) holder).category_group_lin.setOnLongClickListener(this);
+            ((ItemViewHolder) holder).category_group_lin.setTag(position);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
             switch (load_more_status) {
@@ -700,6 +711,10 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView rssi_value;//@@2018.03.07
         @Bind(R.id.xy_button)
         Button power_button;//@@2018.03.07
+        @Bind(R.id.dev_image)
+        TextView dev_image;//@@2018.03.07
+        @Bind(R.id.dev_hearttime_set)
+        TextView dev_hearttime_set;//@@2018.03.07
 
         public ItemViewHolder(View view) {
             super(view);
@@ -723,8 +738,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //添加数据
     public void addItem(List<Smoke> smokeList) {
-        //mTitles.add(position, data);
-        //notifyItemInserted(position);
         smokeList.addAll(listNormalSmoke);
         listNormalSmoke.removeAll(listNormalSmoke);
         listNormalSmoke.addAll(smokeList);
@@ -749,66 +762,5 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void changeMoreStatus(int status) {
         load_more_status = status;
         notifyDataSetChanged();
-    }
-
-    private void showNormalDialog(final String mac){
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(mContext);
-        normalDialog.setTitle("提示");
-        normalDialog.setMessage("确认删除该设备?");
-        normalDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
-                                SharedPreferencesManager.SP_FILE_GWELL,
-                                SharedPreferencesManager.KEY_RECENTNAME);
-                        String url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
-                        StringRequest stringRequest = new StringRequest(url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            JSONObject jsonObject=new JSONObject(response);
-                                            int errorCode=jsonObject.getInt("errorCode");
-                                                if(errorCode==0){
-                                                    for (Smoke s:listNormalSmoke) {
-                                                        if(s.getMac().equals(mac)){
-                                                            listNormalSmoke.remove(s);
-                                                            break;
-                                                        }
-                                                    }
-                                                    notifyDataSetChanged();
-                                                    T.showShort(mContext,"删除成功");
-                                                }else{
-                                                    T.showShort(mContext,"删除失败");
-                                                }
-                                            T.showShort(mContext,jsonObject.getString("error"));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            T.showShort(mContext,"删除失败");
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("TAG", error.getMessage(), error);
-                                T.showShort(mContext,"删除失败");
-                            }
-                        });
-                        mQueue.add(stringRequest);
-                    }
-                });
-        normalDialog.setNegativeButton("取消",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
-                    }
-                });
-        // 显示
-        normalDialog.show();
     }
 }

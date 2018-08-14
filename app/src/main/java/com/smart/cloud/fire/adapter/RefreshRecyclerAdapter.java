@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.jakewharton.rxbinding.view.RxView;
+import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.InitBaiduNavi;
 import com.smart.cloud.fire.global.MyApp;
@@ -355,6 +357,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 16:
                 case 22:
+                case 23:
                 case 2:
                     ((ItemViewHolder) holder).smokeMac.setText("燃气探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.ranqi);
@@ -572,6 +575,11 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             RxView.clicks(((ItemViewHolder) holder).dealAlarmActionTv).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
                 @Override
                 public void call(Void aVoid) {
+                    Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+                    intent.putExtra("mac",mNormalAlarmMessage.getMac());
+                    intent.putExtra("alarm",mNormalAlarmMessage.getAlarmType()+"");
+                    mContext.startActivity(intent);
+
                     collectFragmentPresenter.dealAlarm(userId, mNormalAlarmMessage.getMac(), privilege,messageModelList.indexOf(mNormalAlarmMessage));//@@5.19添加index位置参数
                 }
             });

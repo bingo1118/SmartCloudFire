@@ -17,6 +17,7 @@ import com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity;
 import com.smart.cloud.fire.activity.PayActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity;
 import com.smart.cloud.fire.ui.AboutActivity;
@@ -146,7 +147,11 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.app_update:
-                mvpPresenter.checkUpdate(mContext);
+                if(ConstantValues.SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
+                    mvpPresenter.checkUpdate(mContext);
+                }else{
+                    T.showShort(mContext,"该版本不支持版本更新");
+                }
 //                getActivity().finish();//@@7.13
                 break;
 //            case R.id.setting_pay:

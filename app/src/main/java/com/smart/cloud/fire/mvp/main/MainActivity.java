@@ -70,7 +70,7 @@ import fire.cloud.smart.com.smartcloudfire.R;
 /**
  * Created by Administrator on 2016/9/21.
  */
-public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
+public class  MainActivity extends MvpActivity<MainPresenter> implements MainView {
 
     private Context mContext;
     private AlertDialog dialog_update;

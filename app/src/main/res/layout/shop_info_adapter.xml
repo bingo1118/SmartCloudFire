@@ -128,6 +128,25 @@
                 android:layout_toRightOf="@id/address_name_tv"
                 android:text="广东省广州市黄浦区"/>
             <TextView
+                android:id="@+id/dev_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/blue"
+                android:layout_margin="5dp"
+                android:text="安装图片"
+                android:layout_below="@id/address_name_tv"/>
+            <TextView
+                android:id="@+id/dev_hearttime_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/blue"
+                android:layout_margin="5dp"
+                android:text="心跳时间设置"
+                android:visibility="gone"
+                android:layout_below="@id/dev_image"/>
+            <TextView
                 android:visibility="gone"
                 android:id="@+id/addtime"
                 android:layout_width="wrap_content"

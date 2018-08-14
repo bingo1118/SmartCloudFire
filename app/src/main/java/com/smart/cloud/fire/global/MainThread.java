@@ -49,6 +49,9 @@ public class MainThread {
     private UpdateInfo mUpdateInfo = new UpdateInfo();
     public int checkUpdate(long last_check_update_time) {
         try {
+            if(!ConstantValues.SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
+                return 1;
+            }
             long now_time = System.currentTimeMillis();
             //1000 * 60 * 60 * 12
             if ((now_time - last_check_update_time) > 1000 * 60 * 60 ) {
@@ -97,12 +100,14 @@ public class MainThread {
                         if(last_check_update_time!=-1&&serverCode.equals(SharedPreferencesManager.getInstance().getData(mContext,"ignoreVersion"))){
                             return 1;//@@7.12
                         }
-                        Intent i = new Intent("Constants.Action.ACTION_UPDATE");
-                        i.putExtra("url", mUpdateInfo.url);
-                        i.putExtra("message", mUpdateInfo.message);
-                        i.putExtra("ignoreVersion",serverCode );
-                        i.setPackage("fire.cloud.smart.com.smartcloudfire");//@@7.13只传当前应用
-                        MyApp.app.sendBroadcast(i);
+                        if(ConstantValues.SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
+                            Intent i = new Intent("Constants.Action.ACTION_UPDATE");
+                            i.putExtra("url", mUpdateInfo.url);
+                            i.putExtra("message", mUpdateInfo.message);
+                            i.putExtra("ignoreVersion",serverCode );
+                            i.setPackage("fire.cloud.smart.com.smartcloudfire");//@@7.13只传当前应用
+                            MyApp.app.sendBroadcast(i);
+                        }
                     }
                     if(last_check_update_time==-1&&result<1){
                         Intent i = new Intent("Constants.Action.ACTION_UPDATE_NO");

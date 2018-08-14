@@ -224,8 +224,10 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
             @Override
             public void onLongClick(View view, int position) {
                 Smoke smoke =list.get(position);
-                if(smoke.getDeviceType()==22){
-                    showNormalDialog(smoke.getMac(),position);
+                if(smoke.getDeviceType()==22||smoke.getDeviceType()==23||smoke.getDeviceType()==58||smoke.getDeviceType()==61){
+                    showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
+                }else{
+                    T.showShort(mContext,"该设备无法删除");
                 }
             }
         });
@@ -249,7 +251,7 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
 //        shopSmokeAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
     }
 
-    private void showNormalDialog(final String mac, final int position){
+    private void showNormalDialog(final String mac, final int deviceType, final int position){
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(mContext);
         normalDialog.setTitle("提示");
@@ -263,7 +265,15 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
                         String userid= SharedPreferencesManager.getInstance().getData(mContext,
                                 SharedPreferencesManager.SP_FILE_GWELL,
                                 SharedPreferencesManager.KEY_RECENTNAME);
-                        String url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                        String url="";
+                        switch (deviceType){
+                            case 58:
+                                url= ConstantValues.SERVER_IP_NEW+"deleteOneNetDevice?imei="+mac;
+                                break;
+                            default:
+                                url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                                break;
+                        }
                         StringRequest stringRequest = new StringRequest(url,
                                 new Response.Listener<String>() {
                                     @Override
