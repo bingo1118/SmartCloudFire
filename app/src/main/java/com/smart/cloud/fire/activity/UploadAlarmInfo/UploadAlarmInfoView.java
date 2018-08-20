@@ -5,4 +5,6 @@ package com.smart.cloud.fire.activity.UploadAlarmInfo;
  */
 public interface UploadAlarmInfoView {
     public void T(String t);
+
+    public void dealResult(String t,int resultCode);
 }

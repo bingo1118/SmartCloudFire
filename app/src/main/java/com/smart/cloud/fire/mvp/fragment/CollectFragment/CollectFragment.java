@@ -1,6 +1,7 @@
 package com.smart.cloud.fire.mvp.fragment.CollectFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
 import com.smart.cloud.fire.adapter.DateNumericAdapter;
 import com.smart.cloud.fire.adapter.RefreshRecyclerAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
@@ -143,6 +145,7 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
 
     List<Area> parent = null;//@@9.11
     Map<String, List<Area>> map = null;//@@9.11
+    private int deal_position;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -604,9 +607,32 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
             loadMoreCount=alarmMessageModels.size();
             messageModelList.addAll(alarmMessageModels);
             adapter = new RefreshRecyclerAdapter(getActivity(), messageModelList, collectFragmentPresenter, userID, privilege + "");
+            adapter.setOnClickListener(new RefreshRecyclerAdapter.onClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    if(view.getId()==R.id.deal_alarm_action_tv){
+                        Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+                        intent.putExtra("mac",messageModelList.get(position).getMac());
+                        intent.putExtra("alarm",messageModelList.get(position).getAlarmType()+"");
+                        getActivity().startActivityForResult(intent,6);
+                        deal_position=position;
+                    }
+                }
+            });
             demoRecycler.setAdapter(adapter);
             demoSwiperefreshlayout.setRefreshing(false);
             adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
+        }
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==6){
+            if(data!=null)
+            collectFragmentPresenter.dealAlarm(userID, messageModelList.get(deal_position).getMac(), privilege+"" ,deal_position);//@@5.19添加index位置参数
         }
     }
 

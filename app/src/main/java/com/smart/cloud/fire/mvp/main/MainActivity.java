@@ -34,6 +34,7 @@ import com.p2p.core.P2PHandler;
 import com.p2p.core.update.UpdateManager;
 import com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity;
 import com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity;
+import com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity;
 import com.smart.cloud.fire.activity.Camera.CameraDevActivity;
 import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
@@ -119,48 +120,53 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
     }
 
     @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.zddw_btn,
-            R.id.xfwl_btn,R.id.nfc_btn,R.id.zjgl_btn})
+            R.id.xfwl_btn,R.id.nfc_btn,R.id.zjgl_btn,R.id.alarm_msg})
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
+            case R.id.alarm_msg:
+                intent=new Intent(mContext, AlarmMsgActivity.class);
+                startActivity(intent);
+                break;
             case R.id.my_image:
-                Intent intent = new Intent(mContext, MyZoomActivity.class);
+                intent = new Intent(mContext, MyZoomActivity.class);
                 startActivity(intent);
                 break;
             case R.id.sxcs_btn:
-                Intent intent_sxcs = new Intent(mContext, AllSmokeActivity.class);
-                startActivity(intent_sxcs);
+                intent = new Intent(mContext, AllSmokeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tjsb_btn:
-                Intent intent_tjsb = new Intent(mContext, ChioceDevTypeActivity.class);
-                startActivity(intent_tjsb);
+                intent = new Intent(mContext, ChioceDevTypeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.alarm_history_lin:
-                Intent intent_history = new Intent(mContext, AlarmHistoryActivity.class);
-                startActivity(intent_history);
+                intent = new Intent(mContext, AlarmHistoryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.dqfh_btn:
-                Intent intent_dqfh = new Intent(mContext, ElectricDevActivity.class);
-                startActivity(intent_dqfh);
+                intent = new Intent(mContext, ElectricDevActivity.class);
+                startActivity(intent);
                 break;
             case R.id.spjk_btn:
-                Intent intent_spjk = new Intent(mContext, CameraDevActivity.class);
-                startActivity(intent_spjk);
+                intent = new Intent(mContext, CameraDevActivity.class);
+                startActivity(intent);
                 break;
             case R.id.zddw_btn:
-                Intent intent_zddw = new Intent(mContext, WiredDevActivity.class);
-                startActivity(intent_zddw);
+                intent = new Intent(mContext, WiredDevActivity.class);
+                startActivity(intent);
                 break;
             case R.id.xfwl_btn:
-                Intent intent_xfwl = new Intent(mContext, SecurityDevActivity.class);
-                startActivity(intent_xfwl);
+                intent = new Intent(mContext, SecurityDevActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nfc_btn:
-                Intent intent_nfc = new Intent(mContext, NFCDevActivity.class);
-                startActivity(intent_nfc);
+                intent = new Intent(mContext, NFCDevActivity.class);
+                startActivity(intent);
                 break;
             case R.id.zjgl_btn:
-                Intent intent_zjgl= new Intent(mContext, HostActivity.class);
-                startActivity(intent_zjgl);
+                intent= new Intent(mContext, HostActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

@@ -16,6 +16,7 @@ import com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity;
 import com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity;
 import com.smart.cloud.fire.activity.PayActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
+import com.smart.cloud.fire.activity.Video.RecordVideoActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
@@ -143,9 +144,13 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
     }
 
     @OnClick({R.id.app_update, R.id.setting_help_about, R.id.setting_help_rela, R.id.setting_help_exit,
-            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add,R.id.setting_pay,R.id.setting_help_wifi})
+            R.id.setting_camera_relative,R.id.setting_nfc,R.id.nfc_mac_add,R.id.setting_pay,R.id.setting_help_wifi,R.id.setting_image})
     public void onClick(View view) {
         switch (view.getId()) {
+//            case R.id.setting_image:
+//                Intent intent11=new Intent(getActivity(), RecordVideoActivity.class);
+//                getActivity().startActivity(intent11);
+//                break;
             case R.id.app_update:
                 if(ConstantValues.SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
                     mvpPresenter.checkUpdate(mContext);

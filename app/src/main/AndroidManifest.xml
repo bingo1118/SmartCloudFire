@@ -231,10 +231,14 @@
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep2Activity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep3Activity" />
-        <activity android:name="com.obsessive.zbar.AddCaptureActivity"></activity>
-        <activity android:name="com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name="com.obsessive.zbar.AddCaptureActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.smart.cloud.fire.activity.Video.RecordVideoActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.Video.VideoPreviewActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity"></activity>
     </application>
 
 </manifest>

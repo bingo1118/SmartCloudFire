@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -36,6 +37,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FileUtil;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FormFile;
+import com.smart.cloud.fire.activity.Video.RecordVideoActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
@@ -71,6 +73,8 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     EditText memo_name;//@@备注
     @Bind(R.id.photo_image)
     ImageView photo_image;//@@拍照上传
+    @Bind(R.id.video_upload)
+    ImageView video_upload;//@@视频上传
     private Context mContext;
     private int privilege;
     private String userID;
@@ -92,6 +96,9 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     String lat="";
     private String imageFilePath;
     File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/devalarm.jpg");//@@9.30
+    String video_path=Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/video/temp.mp4";
+
+    Intent intent_result;
 
     Handler handler = new Handler() {//@@9.29
         public void handleMessage(Message msg) {
@@ -107,6 +114,12 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                     break;
                 case 3:
                     toast("图片上传成功");
+                    break;
+                case 9:
+                    toast("视频上传失败");
+                    break;
+                case 8:
+                    toast("视频上传成功");
                     break;
                 case 4:
                     toast("上报失败");
@@ -170,6 +183,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                     @Override
                     public void run() {
                         boolean isSuccess=false;
+                        boolean isSuccess_video=false;
                         boolean isHavePhoto=false;
                         if(imageFilePath!=null){
                             File file = new File(imageFilePath); //这里的path就是那个地址的全局变量
@@ -188,8 +202,24 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                                 message.what = 2;
                                 handler.sendMessage(message);
                             }
-
                         }
+
+                        File video_file = new File(video_path);
+                        if(video_file!=null){
+                            if(video_file.isFile()){
+                                isSuccess_video=uploadFile(video_file,userID,areaId,uploadTime,mac,"devalarm_video");
+                                if(isSuccess_video){
+                                    Message message = new Message();
+                                    message.what = 8;
+                                    handler.sendMessage(message);
+                                }else{
+                                    Message message = new Message();
+                                    message.what = 9;
+                                    handler.sendMessage(message);
+                                }
+                            }
+                        }
+
                         String username = SharedPreferencesManager.getInstance().getData(mContext,
                                 SharedPreferencesManager.SP_FILE_GWELL,
                                 SharedPreferencesManager.KEY_RECENTNAME);
@@ -197,6 +227,9 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                             presenter.uploadAlarm(username,mac,alarm);
                         }else{
                             presenter.erasure(username,mac,"1");
+                        }
+                        if(video_file!=null){
+                            video_file.delete();
                         }
                     }
                 }).start();
@@ -221,6 +254,14 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                     startActivity(intent);
                 }
 
+            }
+        });
+
+        video_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent11=new Intent(UploadAlarmInfoActivity.this, RecordVideoActivity.class);
+                startActivityForResult(intent11,66);
             }
         });
 
@@ -273,6 +314,15 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
+            case 66:
+                File video_file = new File(video_path);
+                if(video_file.exists()){
+                    MediaMetadataRetriever media = new MediaMetadataRetriever();
+                    media.setDataSource(video_path);
+                    Bitmap bitmap = media.getFrameAtTime();
+                    video_upload.setImageBitmap(bitmap);
+                }
+                break;
             case 102:
                 if (resultCode == Activity.RESULT_OK) {
                     Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
@@ -413,6 +463,14 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
 
     @Override
     public void T(String t) {
+        T.showShort(mContext,t);
+    }
+
+    @Override
+    public void dealResult(String t, int resultCode) {
+        intent_result=new Intent();
+        intent_result.putExtra("isDeal",true);
+        setResult(1,intent_result);
         T.showShort(mContext,t);
     }
 }

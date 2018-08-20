@@ -122,7 +122,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final View view = mInflater.inflate(R.layout.shop_info_adapter, parent, false);
             //这边可以做一些属性设置，甚至事件监听绑定
             ItemViewHolder viewHolder = new ItemViewHolder(view);
-            view.setOnLongClickListener(this);//@@@
+            view.setOnLongClickListener(this);//@@
             return viewHolder;
         } else if (viewType == TYPE_FOOTER) {
             View foot_view = mInflater.inflate(R.layout.recycler_load_more_layout, parent, false);

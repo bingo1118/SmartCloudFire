@@ -247,6 +247,15 @@ public interface ApiStores {
             ,@Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
             ,@Query("page") String page,@Query("parentId") String parentId);
 
+    //条件查询获取用户报警任务
+    @GET("getNeedAlarmMessage")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedAlarmMsg(@Query("userId") String userId, @Query("privilege") String privilege
+            ,@Query("startTime") String startTime,@Query("endTime") String endTime
+            ,@Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
+            ,@Query("page") String page,@Query("parentId") String parentId,@Query("grade") String grade
+            ,@Query("distance") String distance,@Query("progress") String progress);
+
     //添加摄像头
     @GET("addCamera")
     Observable<HttpError> addCamera(@Query("cameraId") String cameraId, @Query("cameraName") String cameraName,

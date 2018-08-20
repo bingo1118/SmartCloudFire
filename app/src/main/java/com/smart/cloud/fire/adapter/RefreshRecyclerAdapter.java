@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
+import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.InitBaiduNavi;
 import com.smart.cloud.fire.global.MyApp;
@@ -42,7 +43,7 @@ import butterknife.ButterKnife;
 import fire.cloud.smart.com.smartcloudfire.R;
 import rx.functions.Action1;
 
-public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     public static final int PULLUP_LOAD_MORE = 0;//上拉加载更多
     public static final int LOADING_MORE = 1;//正在加载中
@@ -54,12 +55,12 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private LayoutInflater mInflater;
     private List<AlarmMessageModel> messageModelList;
     private Activity mContext;
-    private CollectFragmentPresenter collectFragmentPresenter;
+    private BasePresenter collectFragmentPresenter;
     private String userId;
     private String privilege;
 
     public RefreshRecyclerAdapter(Activity mContext, List<AlarmMessageModel> messageModelList
-            , CollectFragmentPresenter collectFragmentPresenter, String userId, String privilege) {
+            , BasePresenter collectFragmentPresenter, String userId, String privilege) {
         this.mInflater = LayoutInflater.from(mContext);
         this.messageModelList = messageModelList;
         this.mContext = mContext;
@@ -174,6 +175,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
+                case 61:
+                case 58:
                 case 56:
                 case 57:
                 case 55:
@@ -194,12 +197,18 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.chaichu);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else if(alarmType==15){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.fchf);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                     }else if(alarmType==103){
                         ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.gaowen);
                         ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
-                    }else if(alarmType==104){
-
+                    }else if(alarmType==102){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.huifu);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
                     }else if(alarmType==106){
 
                     }else if(alarmType==109){
@@ -571,18 +580,24 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     new InitBaiduNavi(reference.get(), smoke);
                 }
             });
+
+
             //取消报警
             RxView.clicks(((ItemViewHolder) holder).dealAlarmActionTv).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
                 @Override
                 public void call(Void aVoid) {
-                    Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
-                    intent.putExtra("mac",mNormalAlarmMessage.getMac());
-                    intent.putExtra("alarm",mNormalAlarmMessage.getAlarmType()+"");
-                    mContext.startActivity(intent);
-
-                    collectFragmentPresenter.dealAlarm(userId, mNormalAlarmMessage.getMac(), privilege,messageModelList.indexOf(mNormalAlarmMessage));//@@5.19添加index位置参数
+//                    Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+//                    intent.putExtra("mac",mNormalAlarmMessage.getMac());
+//                    intent.putExtra("alarm",mNormalAlarmMessage.getAlarmType()+"");
+//                    mContext.startActivity(intent);
+//
+//                    collectFragmentPresenter.dealAlarm(userId, mNormalAlarmMessage.getMac(), privilege,messageModelList.indexOf(mNormalAlarmMessage));//@@5.19添加index位置参数
                 }
             });
+
+            ((ItemViewHolder) holder).dealAlarmActionTv.setOnClickListener(this);
+            ((ItemViewHolder) holder).dealAlarmActionTv.setTag(position);
+
             RxView.clicks(((ItemViewHolder) holder).userSmokeMarkPhoneTv).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
                 @Override
                 public void call(Void aVoid) {
@@ -615,6 +630,23 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(mOnClickListener!=null){
+            mOnClickListener.onClick(view, (int) view.getTag());
+        }
+    }
+
+    public interface onClickListener{
+        public void onClick(View view, int position);
+    };
+
+    private onClickListener mOnClickListener;
+
+    public void setOnClickListener(onClickListener listener){
+        this.mOnClickListener=listener;
     }
 
     /**

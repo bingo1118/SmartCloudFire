@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="10dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="紧急程度:"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:textSize="14sp"/>
+    <RadioGroup
+        android:id="@+id/rg_grade"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rg_grade_jj"
+            style="@style/radio_alarm_msg"
+            android:text="紧急"/>
+        <RadioButton
+            android:id="@+id/rg_grade_yb"
+            style="@style/radio_alarm_msg"
+            android:text="一般"/>
+
+    </RadioGroup>
+</LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_color_gray"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="距离分类:"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="14sp"/>
+        <RadioGroup
+            android:id="@+id/rg_distance"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rg_distance_xy"
+                style="@style/radio_alarm_msg"
+                android:text="&lt;1000m"/>
+            <RadioButton
+                android:id="@+id/rg_distance_dy"
+                style="@style/radio_alarm_msg"
+                android:text="&gt;1000m"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_color_gray"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="进度分类:"
+            android:layout_gravity="center"
+            android:textSize="14sp"/>
+        <RadioGroup
+            android:id="@+id/rg_progress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rg_progress_wcl"
+                android:text="未处理"
+                style="@style/radio_alarm_msg"/>
+            <RadioButton
+                android:id="@+id/rg_progress_ycl"
+                style="@style/radio_alarm_msg"
+                android:text="已处理"/>
+            <RadioButton
+                android:id="@+id/rg_progress_ycs"
+                style="@style/radio_alarm_msg"
+                android:text="已超时"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/commit_btn"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="筛选"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:background="@color/hj_color_text"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

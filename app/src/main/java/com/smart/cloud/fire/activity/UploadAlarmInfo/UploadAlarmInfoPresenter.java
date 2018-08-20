@@ -27,6 +27,7 @@ public class UploadAlarmInfoPresenter extends BasePresenter<UploadAlarmInfoView>
     public UploadAlarmInfoPresenter(UploadAlarmInfoView view ) {
         attachView(view);
     }
+
     public void uploadAlarm(String username,String mac,String alarmType){
         Observable mObservable=apiStores1.makeSureAlarm(username,mac,alarmType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
@@ -34,7 +35,7 @@ public class UploadAlarmInfoPresenter extends BasePresenter<UploadAlarmInfoView>
             @Override
             public void onSuccess(HttpError model) {
                 int result=model.getErrorCode();
-                mvpView.T(model.getError());
+                mvpView.dealResult(model.getError(),result);
             }
 
             @Override

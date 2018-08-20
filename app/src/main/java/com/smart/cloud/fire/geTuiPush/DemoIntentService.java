@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.zxing.common.StringUtils;
 import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.PushManager;
 import com.igexin.sdk.message.GTCmdMessage;
@@ -31,7 +32,6 @@ import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.TimeFormat;
-import com.ta.utdid2.android.utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +75,7 @@ public class DemoIntentService extends GTIntentService {
             JSONObject dataJson = new JSONObject(msg);
             String alarmTime=dataJson.getString("alarmTime");
             //过滤30分钟前的报警
-            if(!StringUtils.isEmpty(alarmTime)&&(System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
+            if(null!=alarmTime&&(System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
                 return;
             }
 
@@ -216,6 +216,8 @@ public class DemoIntentService extends GTIntentService {
                                 message="电量低，请更换电池";
                             }else if(alarmType==14){
                                 message="该设备已被拆除";
+                            }else if(alarmType==15){
+                                message="发生防拆恢复报警";
                             }else{
                                 message="发生未知类型报警";
                             }
@@ -373,6 +375,7 @@ public class DemoIntentService extends GTIntentService {
                                 alarmMsg = "电气探测器发出：过压报警（测试）";
                             }
                             break;
+                        case 136:
                         case 36:
                             int alarmType36 = pushAlarmMsg1.getAlarmType();
                             switch (alarmType36){
