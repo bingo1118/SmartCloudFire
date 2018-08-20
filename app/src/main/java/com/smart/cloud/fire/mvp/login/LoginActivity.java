@@ -125,7 +125,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     }
 
     @Override
-    public void getDataSuccess(LoginModel model) {
+    public void getDataSuccess() {
         Intent intent = new Intent(mContext, MainActivity.class);
         startActivity(intent);
         finish();

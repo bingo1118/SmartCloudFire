@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Vibrator;
 import android.widget.RemoteViews;
 
@@ -16,6 +17,8 @@ import com.smart.cloud.fire.service.LocationService;
 import com.smart.cloud.fire.ui.ForwardDownActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.squareup.leakcanary.LeakCanary;
+
+import org.litepal.LitePal;
 
 import fire.cloud.smart.com.smartcloudfire.R;
 
@@ -45,6 +48,8 @@ public class MyApp extends Application {
 //        crashHandler.init(this);
         //检查内存是否泄漏初始化，正式版应该关闭
         LeakCanary.install(this);
+        LitePal.initialize(this);//数据库框架
+        SQLiteDatabase db = LitePal.getDatabase();
     }
 
     public NotificationManager getNotificationManager() {

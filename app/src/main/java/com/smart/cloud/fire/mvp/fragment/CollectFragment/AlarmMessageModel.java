@@ -1,9 +1,11 @@
 package com.smart.cloud.fire.mvp.fragment.CollectFragment;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * Created by Administrator on 2016/9/23.
  */
-public class AlarmMessageModel {
+public class AlarmMessageModel extends LitePalSupport {
 
     /**
      * address : 中国广东省广州市天河区黄埔大道西568号

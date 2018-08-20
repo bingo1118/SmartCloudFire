@@ -632,7 +632,9 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==6){
             if(data!=null)
-            collectFragmentPresenter.dealAlarm(userID, messageModelList.get(deal_position).getMac(), privilege+"" ,deal_position);//@@5.19添加index位置参数
+            collectFragmentPresenter.dealAlarmDetail(userID, messageModelList.get(deal_position).getMac(), privilege+"" ,deal_position,userID,
+                    data.getStringExtra("alarmTruth"),data.getStringExtra("dealDetail"),
+                    data.getStringExtra("image_path"),data.getStringExtra("video_path"));//@@5.19添加index位置参数
         }
     }
 
@@ -667,6 +669,7 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
 
     @Override
     public void updateAlarmMsgSuccess(int index) {
+
         adapter.setList(index);
     }
 

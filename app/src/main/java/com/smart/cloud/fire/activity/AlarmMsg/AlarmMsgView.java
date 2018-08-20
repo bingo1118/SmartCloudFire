@@ -26,5 +26,7 @@ public interface AlarmMsgView {
 
     void getDataByCondition(List<AlarmMessageModel> alarmMessageModels);
 
+    void getOfflineDataSuccess(List<AlarmMessageModel> alarmMessageModels);
+
 
 }

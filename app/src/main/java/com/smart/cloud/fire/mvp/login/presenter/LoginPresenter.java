@@ -2,14 +2,17 @@ package com.smart.cloud.fire.mvp.login.presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.p2p.core.utils.MD5;
 import com.p2p.core.utils.MyUtils;
+import com.smart.cloud.fire.SQLEntity.UserInfo;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Account;
 import com.smart.cloud.fire.global.AccountPersist;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.NpcCommon;
+import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
 import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.login.view.LoginView;
 import com.smart.cloud.fire.rxjava.ApiCallback;
@@ -18,6 +21,9 @@ import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
 
+import org.litepal.LitePal;
+
+import java.util.List;
 import java.util.Random;
 
 import rx.Observable;
@@ -43,6 +49,15 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      */
     public void loginYooSee(final String User, final String Pwd, final Context context, final int type) {
         this.context=context;//@@5.5
+        if(!NpcCommon.verifyNetwork(MyApp.app)){
+            UserInfo userinfo = LitePal.findFirst(UserInfo.class);
+            if(User.equals(userinfo.getUserid())&& Pwd.equals(userinfo.getPsw())){
+                login_success(userinfo.getUserid(),userinfo.getPsw(),userinfo.getPrivilege(),userinfo.getName());
+                T.showShort(MyApp.app,"离线登陆成功");
+            }else {
+                T.showShort(MyApp.app,"离线登陆失败");
+            }
+        }
         String AppVersion = MyUtils.getBitProcessingVersion();
         MD5 md = new MD5();
         String password = md.getMD5ofStr(Pwd);
@@ -139,7 +154,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             SharedPreferencesManager.SP_FILE_GWELL,
                             SharedPreferencesManager.KEY_RECENT_PRIVILEGE, model.getPrivilege());
                     //跳转到主界面
-                    mvpView.getDataSuccess(model);
+                    mvpView.getDataSuccess();
                 }else{
                     //跳转到登陆界面
                     mvpView.getDataFail("登录失败，请重新登录");
@@ -171,26 +186,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onSuccess(LoginModel model) {
                 int errorCode = model.getErrorCode();
                 if(errorCode==0){
-                    //获取到内部服务器的用户权限，并配置到MyAPP
-                    MyApp.app.setPrivilege(model.getPrivilege());
-                    SharedPreferencesManager.getInstance().putData(context,
-                            SharedPreferencesManager.SP_FILE_GWELL,
-                            SharedPreferencesManager.KEY_RECENTPASS,
-                            pwd);
-                    SharedPreferencesManager.getInstance().putData(context,
-                            SharedPreferencesManager.SP_FILE_GWELL,
-                            SharedPreferencesManager.KEY_RECENTNAME,
-                            userId);
-                    SharedPreferencesManager.getInstance().putData(context,
-                            SharedPreferencesManager.SP_FILE_GWELL,
-                            SharedPreferencesManager.KEY_RECENTPASS_NUMBER
-                            ,model.getName());//@@7.12 保存账号密码
-//                    @@5.5存储用户权限。。
-                    SharedPreferencesManager.getInstance().putIntData(context,
-                            SharedPreferencesManager.SP_FILE_GWELL,
-                            SharedPreferencesManager.KEY_RECENT_PRIVILEGE, model.getPrivilege());
-                    //跳转到主界面
-                    mvpView.getDataSuccess(model);
+                    login_success(userId,pwd,model.getPrivilege(),model.getName());
                 }else if(errorCode==1){
                     mvpView.getDataFail("用户名或密码错误");
                 }else if(errorCode==2){
@@ -211,6 +207,37 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 mvpView.hideLoading();
             }
         }));
+    }
+
+    private void login_success(String userId, String pwd, int privilege, String name) {
+        //获取到内部服务器的用户权限，并配置到MyAPP
+        MyApp.app.setPrivilege(privilege);
+        SharedPreferencesManager.getInstance().putData(context,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENTPASS,
+                pwd);
+        SharedPreferencesManager.getInstance().putData(context,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENTNAME,
+                userId);
+        SharedPreferencesManager.getInstance().putData(context,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENTPASS_NUMBER
+                ,name);//@@7.12 保存账号密码
+//                    @@5.5存储用户权限。。
+        SharedPreferencesManager.getInstance().putIntData(context,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENT_PRIVILEGE, privilege);
+        //跳转到主界面
+        mvpView.getDataSuccess();
+        SQLiteDatabase db = LitePal.getDatabase();
+        LitePal.deleteAll(UserInfo.class);
+        UserInfo userInfo=new UserInfo();
+        userInfo.setPrivilege(privilege);
+        userInfo.setPsw(pwd);
+        userInfo.setUserid(userId);
+        userInfo.setName(name);
+        userInfo.save();
     }
 
     //暂时没用。。
@@ -245,7 +272,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             switch (errorCode){
                                 case 0:
                                     MyApp.app.setPrivilege(model.getPrivilege());//设置权限。。
-                                    mvpView.getDataSuccess(model);//获取数据成功，跳转到主界面
+                                    mvpView.getDataSuccess();//获取数据成功，跳转到主界面
                                     break;
                                 default:
                                     if(type==0){

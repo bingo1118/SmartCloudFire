@@ -28,7 +28,7 @@ public class SplashActivity extends MvpActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void getDataSuccess(LoginModel model) {
+    public void getDataSuccess() {
         Intent intent = new Intent(mContext, MainActivity.class);
         startActivity(intent);
         finish();

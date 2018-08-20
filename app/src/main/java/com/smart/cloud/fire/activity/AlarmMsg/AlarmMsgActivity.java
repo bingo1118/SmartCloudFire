@@ -2,7 +2,9 @@ package com.smart.cloud.fire.activity.AlarmMsg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -21,15 +23,24 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.SQLEntity.AlarmMsg;
+import com.smart.cloud.fire.SQLEntity.UploadAlarmMsgTemp;
 import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
 import com.smart.cloud.fire.adapter.AlarmMsgAdapter;
 import com.smart.cloud.fire.adapter.RefreshRecyclerAdapter;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.global.NpcCommon;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
+import org.litepal.crud.LitePalSupport;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +111,49 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
         page = "1";
         title_tv.setText("全部任务");
         mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
+        if(NpcCommon.verifyNetwork(MyApp.app)){
+            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
+        }
         init();
+        dealWithTemp();
+    }
+
+    private void dealWithTemp() {
+        if(NpcCommon.verifyNetwork(MyApp.app)){
+            List<UploadAlarmMsgTemp> temps = LitePal.where(" mac like ? ",  "%").find(UploadAlarmMsgTemp.class);
+            if(temps.size()>0){
+                for (final UploadAlarmMsgTemp t:temps) {
+                    if(t.getImage_path().length()>0){
+                        final File imagetemp=new File(Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/image/"+t.getImage_path()+".jpg");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UploadAlarmInfoActivity.uploadFile(imagetemp,"","","",t.getImage_path(),"devalarm",t.getImage_path());
+                            }
+                        }).start();
+
+//                        imagetemp.delete();
+                    }
+                    if(t.getVideo_path().length()>0){
+                        final File imagetemp=new File(Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/videotemp/"+t.getVideo_path()+".mp4");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UploadAlarmInfoActivity.uploadFile(imagetemp,"","","",t.getVideo_path(),"devalarm_video",t.getVideo_path());
+                            }
+                        }).start();
+//                        imagetemp.delete();
+                    }
+
+                    mvpPresenter.dealAlarmDetail(userID, t.getMac(), privilege+"" ,deal_position,userID,
+                            t.getAlarmTruth(),t.getDealDetail(),
+                            t.getImage_path(),t.getVideo_path());
+                }
+                LitePal.deleteAll(UploadAlarmMsgTemp.class);
+                T.showShort(mContext,"离线数据上传完成");
+            }
+
+        }
     }
 
     private void init() {
@@ -355,7 +408,9 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==6){
             if(data!=null)
-                mvpPresenter.dealAlarm(userID, messageModelList.get(deal_position).getMac(), privilege+"" ,deal_position);//@@5.19添加index位置参数
+                mvpPresenter.dealAlarmDetail(userID, messageModelList.get(deal_position).getMac(), privilege+"" ,deal_position,userID,
+                        data.getStringExtra("alarmTruth"),data.getStringExtra("dealDetail"),
+                        data.getStringExtra("image_path"),data.getStringExtra("video_path"));//@@5.19添加index位置参数
         }
     }
 
@@ -413,6 +468,17 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
 //            adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
         }//@@7.13 添加条件查询分页
 
+    }
+
+    @Override
+    public void getOfflineDataSuccess(List<AlarmMessageModel> alarmMessageModels) {
+        SQLiteDatabase db = LitePal.getDatabase();
+        LitePal.deleteAll(AlarmMessageModel.class);
+        for (AlarmMessageModel model:alarmMessageModels) {
+            model.save();
+        }
+//        List<AlarmMessageModel> AlarmMsgs =LitePal.where(" mac like ? ",  "%").find(AlarmMessageModel.class);
+//        System.out.print(AlarmMsgs.size());
     }
 
 }

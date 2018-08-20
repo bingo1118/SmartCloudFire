@@ -174,6 +174,13 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> dealAlarm(@Query("userId") String userId, @Query("smokeMac") String smokeMac);
 
+    //处理报警消息详情
+    @GET("dealAlarmDetail")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> dealAlarmDetail(@Query("userId") String userId, @Query("smokeMac") String smokeMac,
+            @Query("dealPeople") String dealPeople, @Query("alarmTruth") String alarmTruth,
+            @Query("dealDetail") String dealDetail, @Query("image_path") String image_path, @Query("video_path") String video_path);
+
     //获取单个烟感信息
     @GET("getOneSmoke")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -35,23 +36,30 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.smart.cloud.fire.SQLEntity.UploadAlarmMsgTemp;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FileUtil;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FormFile;
 import com.smart.cloud.fire.activity.Video.RecordVideoActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.global.NpcCommon;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.LitePal;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,7 +99,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     IntentFilter[] mNdefExchangeFilters;
     private Tag mDetectedTag;
 
-    private String deviceState="1";
+    private String deviceState="0";
     String lon="";
     String lat="";
     private String imageFilePath;
@@ -99,6 +107,9 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     String video_path=Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/video/temp.mp4";
 
     Intent intent_result;
+
+    String image_name="";
+    String video_name="";
 
     Handler handler = new Handler() {//@@9.29
         public void handleMessage(Message msg) {
@@ -126,6 +137,9 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                     break;
                 case 5:
                     toast("上报成功");
+                    break;
+                case 66:
+                    toast("当前无网络，数据将在有网络时自动上传");
                     break;
             }
             super.handleMessage(msg);
@@ -182,6 +196,35 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        if(!NpcCommon.verifyNetwork(MyApp.app)){
+                            SQLiteDatabase db = LitePal.getDatabase();
+
+                            if(f.exists()){
+                                image_name=System.currentTimeMillis()+"";
+                                File imagetemp=new File(Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/image/");
+                                imagetemp.mkdirs();
+                                copy(f,imagetemp,image_name+".jpg");
+                            }
+                            File video_file = new File(video_path);
+                            if(video_file!=null){
+                                video_name=System.currentTimeMillis()+"";
+                                File videotemp=new File(Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/videotemp/");
+                                videotemp.mkdirs();
+                                copy(video_file,videotemp,video_name+".mp4");
+                            }
+                            UploadAlarmMsgTemp temp=new UploadAlarmMsgTemp();
+                            temp.setUserID(userID);
+                            temp.setAlarmTruth(deviceState);
+                            temp.setDealDetail(memo_name.getText().toString());
+                            temp.setImage_path(image_name);
+                            temp.setVideo_path(video_name);
+                            temp.setMac(mac);
+                            temp.save();
+                            Message message = new Message();
+                            message.what = 66;
+                            handler.sendMessage(message);
+                            return;
+                        }
                         boolean isSuccess=false;
                         boolean isSuccess_video=false;
                         boolean isHavePhoto=false;
@@ -191,7 +234,8 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                             if(f.exists()){
                                 isHavePhoto=true;
                             }//@@11.07
-                            isSuccess=uploadFile(file,userID,areaId,uploadTime,mac,"devalarm");
+                            image_name=System.currentTimeMillis()+"";
+                            isSuccess=uploadFile(file,userID,areaId,uploadTime,mac,"devalarm",image_name);
 //                            isSuccess=presenter.uploadImage(file,userID,"","",mac,"devalarm");
                             if(isSuccess){
                                 Message message = new Message();
@@ -207,7 +251,8 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                         File video_file = new File(video_path);
                         if(video_file!=null){
                             if(video_file.isFile()){
-                                isSuccess_video=uploadFile(video_file,userID,areaId,uploadTime,mac,"devalarm_video");
+                                video_name=System.currentTimeMillis()+"";
+                                isSuccess_video=uploadFile(video_file,userID,areaId,uploadTime,mac,"devalarm_video",video_name);
                                 if(isSuccess_video){
                                     Message message = new Message();
                                     message.what = 8;
@@ -277,7 +322,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                         deviceState="1";//报警
                         break;
                     case R.id.radio2:
-                        deviceState="2";//误报
+                        deviceState="0";//误报
                         break;
                 }
             }
@@ -437,14 +482,15 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
         }
     }
 
-    public static boolean uploadFile(File imageFile,String userId,String areaId,String uploadtime,String mac,String location) {
+    public static boolean uploadFile(File imageFile,String userId,String areaId,String uploadtime,String mac,String location,String name) {
         try {
             String requestUrl = ConstantValues.SERVER_IP_NEW+"UploadFileAction";
             Map<String, String> params = new HashMap<String, String>();
             params.put("username", userId);
             params.put("areaId", areaId);
             params.put("time", uploadtime);
-            params.put("mac", mac);
+//            params.put("mac", mac);
+            params.put("mac", name);//文件名
             params.put("location", location);
             FormFile formfile = new FormFile(imageFile.getName(), imageFile, "image", "application/octet-stream");
             FileUtil.post(requestUrl, params, formfile);
@@ -470,7 +516,50 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     public void dealResult(String t, int resultCode) {
         intent_result=new Intent();
         intent_result.putExtra("isDeal",true);
+        intent_result.putExtra("alarmTruth",deviceState);
+        intent_result.putExtra("dealDetail",memo_name.getText().toString());
+        intent_result.putExtra("image_path",image_name);
+        intent_result.putExtra("video_path",video_name);
         setResult(1,intent_result);
         T.showShort(mContext,t);
+    }
+
+     //拷贝一个目录或者文件到指定路径下
+    public static void copy(File source, File target,String name)
+    {
+        File tarpath = new File(target, name);
+        if (source.isDirectory())
+        {
+            tarpath.mkdir();
+            File[] dir = source.listFiles();
+            for (int i = 0; i < dir.length; i++)
+            {
+                copy(dir[i], tarpath,"");
+            }
+        }
+        else
+        {
+            try
+            {
+                InputStream is = new FileInputStream(source);
+                OutputStream os = new FileOutputStream(tarpath);
+                byte[] buf = new byte[1024];
+                int len = 0;
+                while ((len = is.read(buf)) != -1)
+                {
+                    os.write(buf, 0, len);
+                }
+                is.close();
+                os.close();
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

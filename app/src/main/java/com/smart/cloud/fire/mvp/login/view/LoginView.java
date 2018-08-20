@@ -6,7 +6,7 @@ import com.smart.cloud.fire.mvp.login.model.LoginModel;
  * Created by Administrator on 2016/9/19.
  */
 public interface LoginView {
-    void getDataSuccess(LoginModel model);
+    void getDataSuccess();
 
     void getDataFail(String msg);
 

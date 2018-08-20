@@ -57,6 +57,7 @@ public class UploadAlarmInfoPresenter extends BasePresenter<UploadAlarmInfoView>
             public void onSuccess(HttpError model) {
                 int result=model.getErrorCode();
                 mvpView.T(model.getError());
+                mvpView.dealResult(model.getError(),result);
             }
 
             @Override

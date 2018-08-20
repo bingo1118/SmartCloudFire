@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value="alarm_msg" />
+
+    <version value="1" />
+
+
+    <list>
+        <mapping class="com.smart.cloud.fire.SQLEntity.AlarmMsg" />
+        <mapping class="com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel" />
+        <mapping class="com.smart.cloud.fire.SQLEntity.UserInfo" />
+        <mapping class="com.smart.cloud.fire.SQLEntity.UploadAlarmMsgTemp" />
+    </list>
+
+</litepal>
