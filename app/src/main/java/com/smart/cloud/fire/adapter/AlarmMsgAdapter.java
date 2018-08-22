@@ -3,6 +3,7 @@ package com.smart.cloud.fire.adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.jakewharton.rxbinding.view.RxView;
+import com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.InitBaiduNavi;
@@ -132,6 +134,14 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((ItemViewHolder) holder).msg_progress_image.setBackgroundResource(R.drawable.bjrw_ycl);
                 ((ItemViewHolder) holder).msg_progress_tv.setText("已处理");
                 ((ItemViewHolder) holder).msg_progress_tv.setTextColor(Color.parseColor("#3681dd"));
+                ((ItemViewHolder) holder).msg_progress_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(mContext, DealMsgDetailActivity.class);
+                        intent.putExtra("id",mNormalAlarmMessage.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
@@ -409,7 +419,7 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
                 
             }
-            msg_contant+="发生报警，请尽快处理！";
+            msg_contant+="（设备号："+mNormalAlarmMessage.getMac()+")"+"发生报警，请尽快处理！";
             ((ItemViewHolder) holder).msg_contant_tv.setText(msg_contant);
             RxView.clicks(((ItemViewHolder) holder).msg_distance_tv).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
                 @Override

@@ -44,6 +44,13 @@ public class AlarmMessageModel extends LitePalSupport {
     private int deviceType;
     private String alarmFamilys;
 
+    private String dealPeople;
+    private String dealDetail;
+    private int alarmTruth;
+    private String image_path;
+    private String video_path;
+    private int id;
+
     public String getAddress() {
         return address;
     }
@@ -186,5 +193,53 @@ public class AlarmMessageModel extends LitePalSupport {
 
     public void setAlarmFamilys(String alarmFamilys) {
         this.alarmFamilys = alarmFamilys;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
+    }
+
+    public String getVideo_path() {
+        return video_path;
+    }
+
+    public void setVideo_path(String video_path) {
+        this.video_path = video_path;
+    }
+
+    public int getAlarmTruth() {
+        return alarmTruth;
+    }
+
+    public void setAlarmTruth(int alarmTruth) {
+        this.alarmTruth = alarmTruth;
+    }
+
+    public String getDealDetail() {
+        return dealDetail;
+    }
+
+    public void setDealDetail(String dealDetail) {
+        this.dealDetail = dealDetail;
+    }
+
+    public String getDealPeople() {
+        return dealPeople;
+    }
+
+    public void setDealPeople(String dealPeople) {
+        this.dealPeople = dealPeople;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

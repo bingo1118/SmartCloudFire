@@ -238,7 +238,8 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.smart.cloud.fire.activity.Video.RecordVideoActivity" />
         <activity android:name="com.smart.cloud.fire.activity.Video.VideoPreviewActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -39,8 +39,11 @@ public class AlarmMsgPresenter extends BasePresenter<AlarmMsgView> {
                 mvpView.getDataSuccess(AlarmMsgs);
                 T.showShort(MyApp.app,"加载完成");
                 mvpView.hideLoading();
-                return;
+            }else{
+                T.showShort(MyApp.app,"无缓存数据");
+                mvpView.hideLoading();
             }
+            return;
         }
         Observable observable=null;
         observable = apiStores1.getNeedAlarmMsg(userId,privilege,startTime,endTime,areaId,placeTypeId,page,parentId,grade,distance,progress);

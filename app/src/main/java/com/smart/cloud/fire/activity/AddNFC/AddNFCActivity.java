@@ -190,10 +190,6 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         super.onResume();
         // Sticky notes received from Android
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-//            NdefMessage[] messages = getNdefMessages(getIntent());
-//            byte[] payload = messages[0].getRecords()[0].getPayload();
-//            setNoteBody(new String(payload));
-//            setIntent(new Intent()); // Consume this intent.
             NdefMessage[] messages = getNdefMessages(getIntent());
             byte[] myNFCID = getIntent().getByteArrayExtra(NfcAdapter.EXTRA_ID);
             String UID = Utils.ByteArrayToHexString(myNFCID);

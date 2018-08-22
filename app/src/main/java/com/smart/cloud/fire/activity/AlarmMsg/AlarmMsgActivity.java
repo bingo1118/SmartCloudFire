@@ -76,7 +76,7 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
     private int lastVisibleItem;
 
     //startStr, endStr, areaId, placeTypeId
-    private int type=1;//@@是否是按条件查询 1 查询所有 2 条件查询
+    private int type=1;//@@是否是按条件查询 1 查询所有 2 条件查询 3 离线数据
     private String startStr;
     private String endStr;
     private String areaId;
@@ -109,10 +109,16 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         page = "1";
-        title_tv.setText("全部任务");
+
         mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
         if(NpcCommon.verifyNetwork(MyApp.app)){
             mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
+            title_tv.setText("全部任务");
+            search_image.setVisibility(View.VISIBLE);
+        }else{
+            type=3;
+            title_tv.setText("离线任务");
+            search_image.setVisibility(View.GONE);
         }
         init();
         dealWithTemp();
@@ -174,9 +180,18 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
             public void onRefresh() {
                 research = false;
                 page = "1";
-                title_tv.setText("全部任务");
+
+                if(!NpcCommon.verifyNetwork(MyApp.app)){
+                    type=3;
+                    title_tv.setText("离线任务");
+                    search_image.setVisibility(View.GONE);
+                }else{
+                    type=1;//@@7.12
+                    title_tv.setText("全部任务");
+                    search_image.setVisibility(View.VISIBLE);
+                }
                 mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
-                type=1;//@@7.12
+
                 mProgressBar.setVisibility(View.GONE);
             }
         });
@@ -190,7 +205,7 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                 }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
 //                    if (loadMoreCount >= 20 && research == false) {
-                    if (loadMoreCount >= 20 ) {//@@7.12
+                    if (loadMoreCount >= 20 && type!=3) {//@@7.12
                         page = Integer.parseInt(page) + 1 + "";
                         if(type==2){
                             mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 2, "", "", "", "","",grade+"",distance+"",progress+"");

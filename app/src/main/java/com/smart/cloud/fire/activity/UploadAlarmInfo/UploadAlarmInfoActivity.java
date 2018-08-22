@@ -99,7 +99,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     IntentFilter[] mNdefExchangeFilters;
     private Tag mDetectedTag;
 
-    private String deviceState="0";
+    private String deviceState="1";
     String lon="";
     String lat="";
     private String imageFilePath;
@@ -249,7 +249,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                         }
 
                         File video_file = new File(video_path);
-                        if(video_file!=null){
+                        if(video_file.exists()){
                             if(video_file.isFile()){
                                 video_name=System.currentTimeMillis()+"";
                                 isSuccess_video=uploadFile(video_file,userID,areaId,uploadTime,mac,"devalarm_video",video_name);
@@ -520,8 +520,14 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
         intent_result.putExtra("dealDetail",memo_name.getText().toString());
         intent_result.putExtra("image_path",image_name);
         intent_result.putExtra("video_path",video_name);
-        setResult(1,intent_result);
-        T.showShort(mContext,t);
+
+        if(resultCode==0){
+            setResult(1,intent_result);
+            T.showShort(mContext,"处理完成");
+            clearView();
+            finish();
+        }
+
     }
 
      //拷贝一个目录或者文件到指定路径下
