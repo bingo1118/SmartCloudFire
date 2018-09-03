@@ -47,7 +47,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import fire.cloud.smart.com.smartcloudfire.R;
 
-public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
+public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener,View.OnClickListener{
 
     public static final int PULLUP_LOAD_MORE = 0;//上拉加载更多
     public static final int LOADING_MORE = 1;//正在加载中
@@ -65,12 +65,32 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(v,(Smoke)v.getTag());
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
         }
     }
 
+    @Override
+    public boolean onLongClick(View view) {
+        if (null != mOnLongClickListener) {
+            mOnLongClickListener.onLongClick(view, (int) view.getTag());
+        }
+        return true;
+    }
+
+    public interface OnLongClickListener {
+        void onLongClick(View view, int position);
+    }
+
+
+    private OnLongClickListener mOnLongClickListener = null;
+
+    public void setOnLongClickListener(OnLongClickListener listener) {
+        mOnLongClickListener = listener;
+    }
+
+
     public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , Smoke data);
+        void onItemClick(View view , int data);
     }
 
     public ElectricFragmentAdapter(Context mContext, List<Smoke> listNormalSmoke) {
@@ -97,6 +117,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
             //这边可以做一些属性设置，甚至事件监听绑定
             ItemViewHolder viewHolder = new ItemViewHolder(view);
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
             return viewHolder;
         } else if (viewType == TYPE_FOOTER) {
             View foot_view = mInflater.inflate(R.layout.recycler_load_more_layout, parent, false);
@@ -230,8 +251,9 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     mContext.startActivity(intent);
                 }
             });
-
-            holder.itemView.setTag(normalSmoke);
+//            ((ItemViewHolder) holder).category_group_lin.setOnLongClickListener(this);
+//            ((ItemViewHolder) holder).category_group_lin.setTag(position);
+            holder.itemView.setTag(position);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
             switch (load_more_status) {
@@ -277,6 +299,8 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.category_group_lin)
+        LinearLayout category_group_lin;
         @Bind(R.id.smoke_name_text)
         TextView smoke_name_text;
         @Bind(R.id.mac_tv)
@@ -375,6 +399,12 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }else{
                         url=ConstantValues.SERVER_IP_NEW+"EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=1&appId=1&userId="+userID;
                     }
+                }else if(normalSmoke.getDeviceType()==75){
+                    if(eleState==1){
+                        url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType=75&devCmd=12";
+                    }else{
+                        url=ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType=75&devCmd=13";
+                    }
                 }else{
                     if(eleState==1){
                         url= ConstantValues.SERVER_IP_NEW+"ackControl?smokeMac="+normalSmoke.getMac()+"&eleState=2&userId="+userID;
@@ -443,6 +473,83 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
     private void showPopupMenu(View view, final String mac) {
+        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+        dialog1.setTitle("提示");
+        dialog1.setMessage("设置中，请稍候");
+        dialog1.setCanceledOnTouchOutside(false);
+        // View当前PopupMenu显示的相对View的位置
+        PopupMenu popupMenu = new PopupMenu(mContext, view);
+        // menu布局
+        popupMenu.getMenuInflater().inflate(R.menu.menu_dianhu_settting, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int command=0;
+                switch (item.getItemId()) {
+                    case R.id.clear_on:
+                        command=4;
+                        break;
+                    case R.id.clear_off:
+                        command=5;
+                        break;
+                    case R.id.reset:
+                        command=6;
+                        break;
+                    case R.id.cheak_myself:
+                        command=7;
+                        break;
+                }
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+                String userID = SharedPreferencesManager.getInstance().getData(mContext,
+                        SharedPreferencesManager.SP_FILE_GWELL,
+                        SharedPreferencesManager.KEY_RECENTNAME);
+                String url= ConstantValues.SERVER_IP_NEW+"EasyIot_arc_electric?devSerial="+mac+
+                        "&userId="+userID+"&appId=1&arcValue="+command;
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        T.showShort(mContext,"设置成功");
+                                    }else{
+                                        T.showShort(mContext,"设置失败");
+                                    }
+                                    dialog1.dismiss();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    dialog1.dismiss();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(mContext,"网络错误");
+                        dialog1.dismiss();
+                    }
+                });
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                mQueue.add(jsonObjectRequest);
+                dialog1.show();
+
+                return false;
+            }
+        });
+        // PopupMenu关闭事件
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+
+        popupMenu.show();
+    }
+
+    private void showPopupMenu_75(View view, final String mac) {
         final ProgressDialog dialog1 = new ProgressDialog(mContext);
         dialog1.setTitle("提示");
         dialog1.setMessage("设置中，请稍候");

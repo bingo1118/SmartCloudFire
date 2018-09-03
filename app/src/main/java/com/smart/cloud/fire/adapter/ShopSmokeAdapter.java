@@ -318,6 +318,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 72://防爆燃气
                 case 16://@@9.29
                 case 2://燃气。。
                     if (netStates == 0) {//设备不在线。。

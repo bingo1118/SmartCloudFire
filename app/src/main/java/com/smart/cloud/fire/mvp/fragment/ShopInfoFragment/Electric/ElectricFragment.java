@@ -3,13 +3,16 @@ package com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Electric;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.activity.Electric.ElectricDevActivity;
 import com.smart.cloud.fire.activity.Electric.ElectricDevPresenter;
 import com.smart.cloud.fire.activity.Electric.ElectricDevView;
@@ -26,6 +33,7 @@ import com.smart.cloud.fire.adapter.ShopCameraAdapter;
 import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
@@ -37,6 +45,10 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresen
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,10 +191,22 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
         electricFragmentAdapter = new ElectricFragmentAdapter(mContext, list);
         recyclerView.setAdapter(electricFragmentAdapter);
         swipereFreshLayout.setRefreshing(false);
+        electricFragmentAdapter.setOnLongClickListener(new ElectricFragmentAdapter.OnLongClickListener() {
+            @Override
+            public void onLongClick(View view, int position) {
+                Smoke smoke =list.get(position);
+                if(smoke.getDeviceType()==75){
+                    showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
+                }else{
+                    T.showShort(mContext,"该设备无法删除");
+                }
+            }
+        });
         electricFragmentAdapter.changeMoreStatus(ShopSmokeAdapter.NO_DATA);
         electricFragmentAdapter.setOnItemClickListener(new ElectricFragmentAdapter.OnRecyclerViewItemClickListener(){
             @Override
-            public void onItemClick(View view, Smoke data){
+            public void onItemClick(View view, int position){
+                Smoke data =list.get(position);
                 if(data.getDeviceType()!=35){
                     Intent intent = new Intent(mContext, ElectricActivity.class);
                     intent.putExtra("ElectricMac",data.getMac());
@@ -192,6 +216,71 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                 }
             }
         });
+        recyclerView.setAdapter(electricFragmentAdapter);
+    }
+
+    private void showNormalDialog(final String mac, final int deviceType, final int position){
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(mContext);
+        normalDialog.setTitle("提示");
+        normalDialog.setMessage("确认删除该设备?");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                                SharedPreferencesManager.SP_FILE_GWELL,
+                                SharedPreferencesManager.KEY_RECENTNAME);
+                        String url="";
+                        switch (deviceType){
+                            case 58:
+                                url= ConstantValues.SERVER_IP_NEW+"deleteOneNetDevice?imei="+mac;
+                                break;
+                            default:
+                                url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                                break;
+                        }
+                        StringRequest stringRequest = new StringRequest(url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonObject=new JSONObject(response);
+                                            int errorCode=jsonObject.getInt("errorCode");
+                                            if(errorCode==0){
+                                                list.remove(position);
+                                                electricFragmentAdapter.notifyDataSetChanged();
+                                                T.showShort(mContext,"删除成功");
+                                            }else{
+                                                T.showShort(mContext,"删除失败");
+                                            }
+                                            T.showShort(mContext,jsonObject.getString("error"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            T.showShort(mContext,"删除失败");
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TAG", error.getMessage(), error);
+                                T.showShort(mContext,"删除失败");
+                            }
+                        });
+                        mQueue.add(stringRequest);
+                    }
+                });
+        normalDialog.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //...To-do
+                    }
+                });
+        // 显示
+        normalDialog.show();
     }
 
     @Override

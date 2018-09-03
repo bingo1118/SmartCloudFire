@@ -27,7 +27,6 @@ import fire.cloud.smart.com.smartcloudfire.R;
 
 /**
  * 视频认证上传界面
- * Created by Wood on 2016/4/7.
  */
 public class VideoPreviewActivity extends Activity implements View.OnClickListener  {
     private static final String LOG_TAG = "VideoPreviewActivity";

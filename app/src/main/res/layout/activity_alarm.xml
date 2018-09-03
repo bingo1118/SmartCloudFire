@@ -92,6 +92,7 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/alarm_tb_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
@@ -217,14 +218,33 @@
                 android:text="12548454848"/>
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:id="@+id/stop_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textColor="#fff"
-        android:padding="10dp"
-        android:background="@color/login_btn"
-        android:visibility="gone"
-        android:text="确认报警"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/stop_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:background="@color/login_btn"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:text="暂停报警"/>
+        <Button
+            android:id="@+id/makesure_getalarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:background="@color/login_btn"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/stop_alarm"
+            android:layout_marginLeft="10dp"
+            android:text="确认收到"/>
+    </RelativeLayout>
+
 </LinearLayout>

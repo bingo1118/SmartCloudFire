@@ -112,7 +112,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         // menu布局
         popupMenu.getMenuInflater().inflate(R.menu.menu_electr, popupMenu.getMenu());
         // menu的item点击事件
-        if(devType!=52&&devType!=53){
+        if(devType!=52&&devType!=53&&devType!=75){
             MenuItem item=popupMenu.getMenu().findItem(R.id.yuzhi_set);
             item.setVisible(false);
         }
@@ -180,6 +180,12 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                                 +"&Overcurrent="+value45
                                                 +"&Leakage="+value46
                                                 +"&appId=1&devSerial="+electricMac+"&userId="+userID;
+                                    }else if(devType==75){
+                                        url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?Overvoltage="+high_value.getText().toString()
+                                                +"&Undervoltage="+low_value.getText().toString()
+                                                +"&Overcurrent="+value45
+                                                +"&Leakage="+value46
+                                                +"&deviceType=75&devCmd=14&imei="+electricMac;
                                     }else{
                                         Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
                                         return;

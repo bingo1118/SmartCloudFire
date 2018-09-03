@@ -135,10 +135,9 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                             @Override
                             public void run() {
                                 UploadAlarmInfoActivity.uploadFile(imagetemp,"","","",t.getImage_path(),"devalarm",t.getImage_path());
+                                imagetemp.delete();
                             }
                         }).start();
-
-//                        imagetemp.delete();
                     }
                     if(t.getVideo_path().length()>0){
                         final File imagetemp=new File(Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/videotemp/"+t.getVideo_path()+".mp4");
@@ -146,12 +145,12 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                             @Override
                             public void run() {
                                 UploadAlarmInfoActivity.uploadFile(imagetemp,"","","",t.getVideo_path(),"devalarm_video",t.getVideo_path());
+                                imagetemp.delete();
                             }
                         }).start();
-//                        imagetemp.delete();
                     }
 
-                    mvpPresenter.dealAlarmDetail(userID, t.getMac(), privilege+"" ,deal_position,userID,
+                    mvpPresenter.dealAlarmDetailTemp(userID, t.getMac(), privilege+"" ,deal_position,userID,
                             t.getAlarmTruth(),t.getDealDetail(),
                             t.getImage_path(),t.getVideo_path());
                 }
@@ -189,6 +188,7 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                     type=1;//@@7.12
                     title_tv.setText("全部任务");
                     search_image.setVisibility(View.VISIBLE);
+                    mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
                 }
                 mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
 
@@ -479,6 +479,18 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
             loadMoreCount=alarmMessageModels.size();
             messageModelList.addAll(alarmMessageModels);
             adapter = new AlarmMsgAdapter(this, messageModelList, presenter, userID, privilege + "");//@@9.11
+            adapter.setOnClickListener(new AlarmMsgAdapter.onClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    if(view.getId()==R.id.msg_deal_btn){
+                        Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+                        intent.putExtra("mac",messageModelList.get(position).getMac());
+                        intent.putExtra("alarm",messageModelList.get(position).getAlarmType()+"");
+                        startActivityForResult(intent,6);
+                        deal_position=position;
+                    }
+                }
+            });
             demoRecycler.setAdapter(adapter);//@@9.11
 //            adapter.changeMoreStatus(RefreshRecyclerAdapter.NO_DATA);
         }//@@7.13 添加条件查询分页

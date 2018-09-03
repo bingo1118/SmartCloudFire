@@ -329,7 +329,7 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
         mediaRecorder.setVideoSource(VideoSource.CAMERA);//视频源
         mediaRecorder.setAudioSource(AudioSource.MIC);//音频源
         mediaRecorder.setOutputFormat(OutputFormat.MPEG_4);//TODO 视频输出格式 也可设为3gp等其他格式
-        mediaRecorder.setAudioEncoder(AudioEncoder.AMR_NB);//音频格式
+        mediaRecorder.setAudioEncoder(AudioEncoder.AAC);//音频格式
         mediaRecorder.setVideoSize(mWidth, mHeight);//设置分辨率
 //        mediaRecorder.setVideoFrameRate(25);//TODO 设置每秒帧数 这个设置有可能会出问题，有的手机不支持这种帧率就会录制失败，这里使用默认的帧率，当然视频的大小肯定会受影响
 //        LogUtil.e(LOG_TAG,"手机支持的最大像素supportedPictureSizes===="+sizePicture);

@@ -23,12 +23,18 @@ android {
         applicationId "fire.cloud.smart.com.smartcloudfire"
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 28
-        versionName "4.3.21"
+        versionCode 30
+        versionName "4.3.23"
         manifestPlaceholders = [
+                //正式
                 GETUI_APP_ID    : "WUieDSVpdYAFJRxVSTpVA3",
                 GETUI_APP_KEY   : "81wzEpKaYp7vEzcFgDEWp2",
-                GETUI_APP_SECRET: "81wzEpKaYp7vEzcFgDEWp2",
+                GETUI_APP_SECRET: "qGM9DuOZnW51PL6hai9xB5",
+
+                //测试
+//                GETUI_APP_ID    : "pJoinMzN1q5FzNbbYJ25f3",
+//                GETUI_APP_KEY   : "R1SYtxOilj8qHZGXeMvCq4",
+//                GETUI_APP_SECRET: "itOMWaQZwg5KYU3YlEIJ48",
                 PACKAGE_NAME    : applicationId
         ]
 

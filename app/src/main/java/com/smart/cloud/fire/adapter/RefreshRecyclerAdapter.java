@@ -364,6 +364,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }
                     break;
+                case 72:
                 case 16:
                 case 22:
                 case 23:
@@ -431,6 +432,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     }
                     break;
+                case 75://南京电气
                 case 59:
                 case 52:
                 case 53:

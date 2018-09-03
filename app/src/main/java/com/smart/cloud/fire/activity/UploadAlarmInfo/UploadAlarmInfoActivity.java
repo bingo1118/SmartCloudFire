@@ -99,7 +99,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     IntentFilter[] mNdefExchangeFilters;
     private Tag mDetectedTag;
 
-    private String deviceState="1";
+    private String deviceState="4";//@@3 误报 4 报警
     String lon="";
     String lat="";
     private String imageFilePath;
@@ -139,7 +139,9 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                     toast("上报成功");
                     break;
                 case 66:
+                    clearView();
                     toast("当前无网络，数据将在有网络时自动上传");
+                    finish();
                     break;
             }
             super.handleMessage(msg);
@@ -167,6 +169,10 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
         if(f.exists()){
             f.delete();
         }//@@9.30
+        File v=new File(video_path);
+        if(v.exists()){
+            v.delete();
+        }
         initView();
         initNFC();
     }
@@ -211,6 +217,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                                 File videotemp=new File(Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/videotemp/");
                                 videotemp.mkdirs();
                                 copy(video_file,videotemp,video_name+".mp4");
+                                video_file.delete();
                             }
                             UploadAlarmMsgTemp temp=new UploadAlarmMsgTemp();
                             temp.setUserID(userID);
@@ -268,7 +275,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                         String username = SharedPreferencesManager.getInstance().getData(mContext,
                                 SharedPreferencesManager.SP_FILE_GWELL,
                                 SharedPreferencesManager.KEY_RECENTNAME);
-                        if(deviceState.equals("1")){
+                        if(deviceState.equals("4")){
                             presenter.uploadAlarm(username,mac,alarm);
                         }else{
                             presenter.erasure(username,mac,"1");
@@ -319,10 +326,10 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                 int radioButtonId = arg0.getCheckedRadioButtonId();
                 switch (radioButtonId){
                     case R.id.radio1:
-                        deviceState="1";//报警
+                        deviceState="4";//报警
                         break;
                     case R.id.radio2:
-                        deviceState="0";//误报
+                        deviceState="3";//误报
                         break;
                 }
             }

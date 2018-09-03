@@ -52,6 +52,7 @@ public class PushAlarmMsg implements Serializable{
     private String principal1Phone;
     private String principal2;
     private String principal2Phone;
+    private String uploadpeople;
 
     public String getAddress() {
         return address;
@@ -195,6 +196,14 @@ public class PushAlarmMsg implements Serializable{
 
     public void setPrincipal2Phone(String principal2Phone) {
         this.principal2Phone = principal2Phone;
+    }
+
+    public String getUploadpeople() {
+        return uploadpeople;
+    }
+
+    public void setUploadpeople(String uploadpeople) {
+        this.uploadpeople = uploadpeople;
     }
 
     public static class CameraBean implements Serializable{

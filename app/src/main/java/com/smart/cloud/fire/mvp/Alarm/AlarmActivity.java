@@ -92,6 +92,10 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     LinearLayout lin_principa2;
     @Bind(R.id.stop_alarm)
     TextView stop_alarm;
+    @Bind(R.id.alarm_tb_image)
+    ImageView alarm_tb_image;
+    @Bind(R.id.makesure_getalarm)
+    Button makesure_getalarm;
 
     private Context mContext;
     private PushAlarmMsg mPushAlarmMsg;
@@ -147,6 +151,50 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
+        final String uploadpeople=mPushAlarmMsg.getUploadpeople();
+        if(uploadpeople!=null&&uploadpeople.length()>0){
+            alarm_tb_image.setImageResource(R.drawable.upload_alarm);
+            makesure_getalarm.setVisibility(View.VISIBLE);
+            makesure_getalarm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                    RequestQueue mQueue = helper.getRequestQueue();
+                    String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENTNAME);
+                    String url= ConstantValues.SERVER_IP_NEW+"makeSureGetUpload?userId="+userid+"&uploadpeolpe="+uploadpeople;
+                    StringRequest stringRequest = new StringRequest(url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(response);
+                                        int errorCode=jsonObject.getInt("errorCode");
+                                                if(errorCode==0){
+                                                    T.showShort(mContext,"已回复");
+                                                }else{
+                                                    T.showShort(mContext,"失败");
+                                                }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        T.showShort(mContext,"设置失败");
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TAG", error.getMessage(), error);
+                            T.showShort(mContext,"设置失败");
+                        }
+                    });
+                    mQueue.add(stringRequest);
+                }
+            });
+        }else{
+            alarm_tb_image.setImageResource(R.drawable.baojing_tb);
+            makesure_getalarm.setVisibility(View.GONE);
+        }
         if(mPushAlarmMsg!=null){
             if(mPushAlarmMsg.getDeviceType()==18||mPushAlarmMsg.getDeviceType()==19||
                     mPushAlarmMsg.getDeviceType()==1||mPushAlarmMsg.getDeviceType()==5){

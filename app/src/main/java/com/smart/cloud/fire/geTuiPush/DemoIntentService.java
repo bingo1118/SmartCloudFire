@@ -1,14 +1,19 @@
 package com.smart.cloud.fire.geTuiPush;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.zxing.common.StringUtils;
 import com.igexin.sdk.GTIntentService;
@@ -32,6 +37,7 @@ import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.TimeFormat;
+import com.smart.cloud.fire.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +86,14 @@ public class DemoIntentService extends GTIntentService {
             }
 
             int alarm = dataJson.getInt("alarmType");
+            if(alarm==999){
+                AlertDialog dialog=new AlertDialog.Builder(this)
+                        .setTitle("提示")
+                        .setMessage("上报已被确认收到！")
+                        .setPositiveButton("确定", null).create();
+                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                dialog.show();
+            }
             if(alarm==80){
                 Intent wiredIntent = new Intent(context, WorkingTimeActivity.class);
                 wiredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -132,6 +146,7 @@ public class DemoIntentService extends GTIntentService {
                 case 61://嘉德南京烟感
                 case 69://恒星水位
                 case 70://恒星水压
+                case 72://防爆燃气
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -214,6 +229,8 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生自检报警";
                             }else if(alarmType==193){
                                 message="电量低，请更换电池";
+                            }else if(alarmType==194){
+                                message="低电压已恢复";
                             }else if(alarmType==14){
                                 message="该设备已被拆除";
                             }else if(alarmType==15){
@@ -278,6 +295,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 72:
                         case 51:
                         case 22:
                         case 16:
@@ -359,6 +377,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 75://南京电气
                 case 59:
                 case 53:
                 case 52:
@@ -573,6 +592,7 @@ public class DemoIntentService extends GTIntentService {
         mPushAlarmMsg.setDeviceType(dataJson.getInt("deviceType"));
         mPushAlarmMsg.setAlarmFamily(dataJson.getInt("alarmFamily"));
         try{
+            mPushAlarmMsg.setUploadpeople(dataJson.getString("uploadpeople"));
             JSONObject jsonObject =  dataJson.getJSONObject("camera");
             if(jsonObject!=null) {
                 PushAlarmMsg.CameraBean cameraBean = new PushAlarmMsg.CameraBean();

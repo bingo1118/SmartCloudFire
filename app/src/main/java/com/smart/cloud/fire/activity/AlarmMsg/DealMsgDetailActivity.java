@@ -64,6 +64,15 @@ public class DealMsgDetailActivity extends Activity {
         setContentView(R.layout.activity_deal_msg_detail);
         ButterKnife.bind(this);
         mContext=this;
+        MediaController  mediaco=new MediaController(this);
+        mediaco.setVisibility(View.GONE );
+        video_upload.setMediaController(mediaco);
+        video_upload.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                video_upload.start();
+            }
+        });
         initData();
     }
 
@@ -99,7 +108,7 @@ public class DealMsgDetailActivity extends Activity {
         try {
             mac_et.setText(alarm.getString("mac"));
             alarmtype_et.setText("报警");
-            if("1".equals(alarm.getString("alarmTruth"))){
+            if("1".equals(alarm.getString("alarmTruth"))||"4".equals(alarm.getString("alarmTruth"))){
                 stute_et.setText("实报");
             }else{
                 stute_et.setText("误报");
@@ -110,7 +119,15 @@ public class DealMsgDetailActivity extends Activity {
 
             if(alarm.getString("image_path")!=null&&alarm.getString("image_path").length()>0&&!alarm.getString("image_path").equals("null")){
                 image_rela.setVisibility(View.VISIBLE);
-                String temp1= "http://139.159.220.138:51091//"+"devalarm//"+alarm.getString("image_path")+".jpg";
+                final String temp1= ConstantValues.NFC_IMAGES+"devalarm//"+alarm.getString("image_path")+".jpg";
+                image_rela.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i=new Intent(mContext,TestSafetyActivity.class);
+                        i.putExtra("filepath",temp1);
+                        mContext.startActivity(i);
+                    }
+                });
                 Glide.with(this)
                         .load(temp1).thumbnail(0.000001f)
                         .into(photo_image);//@@9.28
@@ -120,8 +137,16 @@ public class DealMsgDetailActivity extends Activity {
 
             if(null!=alarm.getString("video_path")&&alarm.getString("video_path").length()>0&&!alarm.getString("video_path").equals("null")){
                 video_rela.setVisibility(View.VISIBLE);
-                String path= null;
-                path = "http://139.159.220.138:51091//"+"devalarm_video//"+ alarm.getString("video_path")+".mp4";
+                final String path = ConstantValues.NFC_IMAGES+"devalarm_video//"+ alarm.getString("video_path")+".mp4";
+                video_rela.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i=new Intent(mContext,TestSafetyActivity.class);
+                        i.putExtra("filepath",path);
+                        mContext.startActivity(i);
+                    }
+                });
+
 
                 video_upload.setVideoURI(Uri.parse(path));
                 MediaController mediaController=new MediaController(this);
