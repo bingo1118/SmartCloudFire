@@ -105,4 +105,22 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+
+    <style parent="android:TextAppearance.Medium" name="Bubble.TextAppearance.Dark">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff7f7f7f</item>
+    </style>
+
+
+    <style parent="Bubble.TextAppearance.Dark" name="Bubble.TextAppearance.Light">
+        <item name="android:textColor">#ffeeeeee</item>
+    </style>
+
+
+    <style parent="android:TextAppearance" name="ClusterIcon.TextAppearance">
+        <item name="android:textColor">#ffeeeeee</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

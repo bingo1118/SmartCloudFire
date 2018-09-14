@@ -231,9 +231,11 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             if(normalSmoke.getRssivalue().equals("0")){
                 ((ItemViewHolder) holder).rssi_value.setVisibility(View.GONE);
+                ((ItemViewHolder) holder).rssi_image.setVisibility(View.GONE);
             }else{
                 ((ItemViewHolder) holder).rssi_value.setVisibility(View.VISIBLE);
-                ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
+                ((ItemViewHolder) holder).rssi_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).rssi_value.setText(normalSmoke.getRssivalue());
             }
 
 
@@ -241,18 +243,19 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
-//                    String phoneOne = normalSmoke.getPrincipal1Phone();
-//                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
-                    Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
-                    intent.putExtra("people1",normalSmoke.getPrincipal1());
-                    intent.putExtra("people2",normalSmoke.getPrincipal2());
-                    intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
-                    intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
-                    mContext.startActivity(intent);
+                    if(normalSmoke.getPrincipal1()!=null&&normalSmoke.getPrincipal1().length()>0){
+                        Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
+                        intent.putExtra("people1",normalSmoke.getPrincipal1());
+                        intent.putExtra("people2",normalSmoke.getPrincipal2());
+                        intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
+                        intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
+                        mContext.startActivity(intent);
+                    }else{
+                        T.showShort(mContext,"无联系人信息");
+                    }
+
                 }
             });
-//            ((ItemViewHolder) holder).category_group_lin.setOnLongClickListener(this);
-//            ((ItemViewHolder) holder).category_group_lin.setTag(position);
             holder.itemView.setTag(position);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
@@ -321,6 +324,8 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         ImageView right_into_image;
         @Bind(R.id.setting_button)
         TextView setting_button;
+        @Bind(R.id.rssi_image)
+        ImageView rssi_image;
 
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07

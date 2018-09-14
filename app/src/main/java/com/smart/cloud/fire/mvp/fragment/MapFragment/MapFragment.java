@@ -188,7 +188,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         if(mMyOverlayManager==null){
             mMyOverlayManager = new MyOverlayManager();
         }
-        mMyOverlayManager.init(mBaiduMap,smokeList, mMapFragmentPresenter,viewList);
+        mMyOverlayManager.init(mContext,mBaiduMap,smokeList, mMapFragmentPresenter,viewList);
         mMyOverlayManager.removeFromMap();
         mBaiduMap.setOnMarkerClickListener(mMyOverlayManager);
         mMyOverlayManager.addToMap();

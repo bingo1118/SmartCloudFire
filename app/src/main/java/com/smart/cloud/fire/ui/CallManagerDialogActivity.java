@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.smart.cloud.fire.utils.T;
@@ -25,6 +26,10 @@ public class CallManagerDialogActivity extends Activity {
     TextView phone1_text;
     @Bind(R.id.phone2_text)
     TextView phone2_text;
+    @Bind(R.id.maneger1_rela)
+    RelativeLayout maneger1_rela;
+    @Bind(R.id.maneger2_rela)
+    RelativeLayout maneger2_rela;
 
     Context mContext;
 
@@ -39,11 +44,18 @@ public class CallManagerDialogActivity extends Activity {
 
     private void initView() {
         Intent intent=getIntent();
+        String people2=intent.getStringExtra("people2");
+        if(people2!=null&&people2.length()>0){
+            people2_text.setText(people2);
+            phone2_text.setText(intent.getStringExtra("phone2"));
+        }else{
+            maneger2_rela.setVisibility(View.GONE);
+        }
         people1_text.setText(intent.getStringExtra("people1"));
-        people2_text.setText(intent.getStringExtra("people2"));
         phone1_text.setText(intent.getStringExtra("phone1"));
-        phone2_text.setText(intent.getStringExtra("phone2"));
-        phone1_text.setOnClickListener(new View.OnClickListener() {
+
+
+        maneger1_rela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phoneNum=getIntent().getStringExtra("phone1");
@@ -57,7 +69,7 @@ public class CallManagerDialogActivity extends Activity {
                 }
 
         });
-        phone2_text.setOnClickListener(new View.OnClickListener() {
+        maneger2_rela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phoneNum=getIntent().getStringExtra("phone2");

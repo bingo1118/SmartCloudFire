@@ -4,8 +4,11 @@ package com.baidu.mapapi.overlayutil;
  * Created by Administrator on 2016/7/28.
  */
 
+import android.content.Context;
 import android.os.Bundle;
 
+import com.baidu.mapapi.clusterutil.clustering.ClusterManager;
+import com.baidu.mapapi.clusterutil.clustering.view.DeviceItem;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.Marker;
@@ -22,20 +25,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyOverlayManager extends OverlayManager {
+    private Context mContext;
+    private BaiduMap mBaiduMap;
     private static List<Smoke> mapNormalSmoke;
     private MapFragmentPresenter mMapFragmentPresenter;
     private List<BitmapDescriptor> viewList;
 
     private static List<NFCRecordBean> mapNormalNFC;//@@8.18
 
+
+
     public  MyOverlayManager(){
     }
 
-    public void init(BaiduMap baiduMap,List<Smoke> mapNormalSmoke, MapFragmentPresenter mMapFragmentPresenter,List<BitmapDescriptor> viewList){
+    public void init(Context context,BaiduMap baiduMap,List<Smoke> mapNormalSmoke, MapFragmentPresenter mMapFragmentPresenter,List<BitmapDescriptor> viewList){
         initBaiduMap(baiduMap);
         this.mapNormalSmoke = mapNormalSmoke;
         this.mMapFragmentPresenter = mMapFragmentPresenter;
         this.viewList = viewList;
+        mContext=context;
+        mBaiduMap=baiduMap;
     }
 
     //@@8.18
@@ -205,6 +214,7 @@ public class MyOverlayManager extends OverlayManager {
         return overlayOptionses;
     }
 
+
     private void markMap(LatLng latLng,List<OverlayOptions> overlayOptions,int alarmState,
                          ArrayList<BitmapDescriptor> bitmapDescriptors,BitmapDescriptor bitmapDescriptor, Bundle bundle){
         if(alarmState==0){
@@ -217,6 +227,7 @@ public class MyOverlayManager extends OverlayManager {
                     .perspective(true));
 //                    .animateType(MarkerOptions.MarkerAnimateType.drop));//取消下落动画。。
         }
+
     }
 }
 

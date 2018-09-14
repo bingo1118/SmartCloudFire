@@ -4,6 +4,7 @@ import com.smart.cloud.fire.global.ChuangAnValue;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.ElectricInfo;
 import com.smart.cloud.fire.global.ElectricValue;
+import com.smart.cloud.fire.global.ProofGasHistoryEntity;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.global.TemperatureTime;
 import com.smart.cloud.fire.mvp.fragment.ConfireFireFragment.ConfireFireModel;
@@ -186,6 +187,12 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<ConfireFireModel> getOneSmoke(@Query("userId") String userId, @Query("smokeMac") String smokeMac,
                                              @Query("privilege") String privilege);
+
+    //获取燃气历史数据
+    @GET("getGasHistoryInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ProofGasHistoryEntity> getGasHistoryInfo(@Query("userId") String userId, @Query("privilege") String privilege,
+                                                        @Query("smokeMac") String smokeMac, @Query("page") String page);
 
     //添加烟感
     @FormUrlEncoded

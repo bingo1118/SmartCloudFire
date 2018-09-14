@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.global.ProofGasEntity;
 import com.smart.cloud.fire.global.TemperatureTime;
 import com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -147,8 +148,14 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
             mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
         }else if(isWater.equals("hum")){
             mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
+        }else if(isWater.equals("gas")){
+            mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
         }else{
             if(isWater.equals("19")||isWater.equals("124")||electricMac.length()>10){
+                water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
+                yuzhi_line.setVisibility(View.VISIBLE);
+                getYuzhi();
+            }else if(isWater.equals("10")){
                 water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
                 yuzhi_line.setVisibility(View.VISIBLE);
                 getYuzhi();
@@ -236,7 +243,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         TextView title=(TextView)layout.findViewById(R.id.title_text);
                         TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
                         TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
-                        if(isWater.equals("1")||isWater.equals("3")){
+                        if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
                             title.setText("水压阈值设置");
                             high_value_name.setText("高水压阈值（kpa）:");
                             low_value_name.setText("低水压阈值（kpa）:");
@@ -338,7 +345,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
-                                if(isWater.equals("1")||isWater.equals("3")){
+                                if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
                                     low_value.setText("低水压阈值："+response.getString("value207")+"kpa");
                                     high_value.setText("高水压阈值："+response.getString("value208")+"kpa");
                                 }else{
@@ -442,7 +449,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 break;
             default:
                 if(isWater!=null){
-                    if(isWater.equals("1")||isWater.equals("3")){
+                    if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
                         axisY.setName("水压值(kPa)");
                         titleTv.setText("历史水压值折线图");
                     }else if(isWater.equals("chuangan")){
@@ -454,6 +461,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     }else if(isWater.equals("hum")){
                         axisY.setName("湿度值（%）");
                         titleTv.setText("历史湿度折线图");
+                    }else if(isWater.equals("gas")){
+                        axisY.setName("燃气值");
+                        titleTv.setText("历史燃气值折线图");
                     }else{
                         axisY.setName("水位值(m)");
                         titleTv.setText("历史水位值折线图");
@@ -596,6 +606,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         mProgressBar.setVisibility(View.GONE);
     }
 
+
     /**
      * 节点触摸监听
      */
@@ -619,7 +630,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     break;
                 default:
                     if(isWater!=null){
-                        if(isWater.equals("1")||isWater.equals("3")){
+                        if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
                             Toast.makeText(LineChartActivity.this, "水压值为: " + value.getY() + "kPa", Toast.LENGTH_SHORT).show();
                         }else if(isWater.equals("tem")){
                             Toast.makeText(LineChartActivity.this, "温度值为: " + value.getY() + "℃", Toast.LENGTH_SHORT).show();
@@ -627,6 +638,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                             Toast.makeText(LineChartActivity.this, "湿度值为: " + value.getY() + "%", Toast.LENGTH_SHORT).show();
                         }else if(isWater.equals("chuangan")){
                             Toast.makeText(LineChartActivity.this, "燃气值为: " + value.getY() + "%", Toast.LENGTH_SHORT).show();
+                        }else if(isWater.equals("gas")){
+                            Toast.makeText(LineChartActivity.this, "燃气值为: " + value.getY() , Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(LineChartActivity.this, "水位值为: " + value.getY() + "m", Toast.LENGTH_SHORT).show();
                         }
@@ -663,6 +676,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
                 }else if(isWater.equals("hum")){
                     mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
+                }else if(isWater.equals("gas")){
+                    mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
                 }else{
                     mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
                 }
@@ -682,6 +697,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
                     }else if(isWater.equals("hum")){
                         mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
+                    }else if(isWater.equals("gas")){
+                        mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
                     }else{
                         mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
                     }
@@ -701,6 +718,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
                 }else if(isWater.equals("hum")){
                     mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
+                }else if(isWater.equals("gas")){
+                    mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
                 }else{
                     mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
                 }
@@ -713,7 +732,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 TextView title=(TextView)layout.findViewById(R.id.title_text);
                 TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
                 TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
-                if(isWater.equals("1")||isWater.equals("3")){
+                if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
                     title.setText("水压阈值设置");
                     high_value_name.setText("高水压阈值（kpa）:");
                     low_value_name.setText("低水压阈值（kpa）:");

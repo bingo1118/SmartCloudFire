@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.mvp.LineChart;
 
+import com.smart.cloud.fire.global.ProofGasEntity;
 import com.smart.cloud.fire.global.TemperatureTime;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface LineChartView {
     void showLoading();
 
     void hideLoading();
+
 }

@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
+import com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
@@ -148,9 +149,31 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);//@@9.14
             if(normalSmoke.getRssivalue()==null||normalSmoke.getRssivalue().equals("0")){
                 ((ItemViewHolder) holder).rssi_value.setVisibility(View.GONE);
+                ((ItemViewHolder) holder).rssi_image.setVisibility(View.GONE);
             }else{
                 ((ItemViewHolder) holder).rssi_value.setVisibility(View.VISIBLE);
-                ((ItemViewHolder) holder).rssi_value.setText("RSSI:"+normalSmoke.getRssivalue());
+                ((ItemViewHolder) holder).rssi_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).rssi_value.setText(normalSmoke.getRssivalue());
+            }
+            ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+            int voltage=normalSmoke.getLowVoltage();
+            if(voltage==0){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.GONE);
+            }else if(voltage>0&&voltage<10){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p0);
+            }else if(voltage>=10&&voltage<30){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p1);
+            }else if(voltage>=30&&voltage<60){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p2);
+            }else if(voltage>=60&&voltage<80){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p3);
+            }else if(voltage>=80){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p4);
             }
             ((ItemViewHolder) holder).dev_hearttime_set.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -318,7 +341,26 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 73://南京7020燃气
                 case 72://防爆燃气
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, OneGasInfoActivity.class);
+                            intent.putExtra("Mac",normalSmoke.getMac());
+                            intent.putExtra("devType",normalSmoke.getDeviceType());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
                 case 16://@@9.29
                 case 2://燃气。。
                     if (netStates == 0) {//设备不在线。。
@@ -372,6 +414,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;
+                case 26://万科温湿度
                 case 25://温湿度传感器
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("温湿度设备："+normalSmoke.getName()+"（已离线)");
@@ -483,7 +526,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 case 125:
                 case 70:
                 case 42:
-                case 10://水压设备@@5.11。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
@@ -498,6 +540,25 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater","1");//@@是否为水压
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
+                case 10://水压设备@@5.11。。
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, LineChartActivity.class);
+                            intent.putExtra("electricMac",normalSmoke.getMac());
+                            intent.putExtra("isWater",normalSmoke.getDeviceType()+"");//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });
@@ -523,6 +584,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
                 case 124:
                 case 69:
+                case 46:
+                case 44://万科水位
                 case 19://水位设备@@2018.01.02
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水位探测器："+normalSmoke.getName()+"（已离线)");
@@ -542,6 +605,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 27://万科水浸
                 case 15://水浸设备@@8.3。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水浸："+normalSmoke.getName()+"（已离线)");
@@ -630,12 +694,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
-                    intent.putExtra("people1",normalSmoke.getPrincipal1());
-                    intent.putExtra("people2",normalSmoke.getPrincipal2());
-                    intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
-                    intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
-                    mContext.startActivity(intent);
+                    if(normalSmoke.getPrincipal1()!=null&&normalSmoke.getPrincipal1().length()>0){
+                        Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
+                        intent.putExtra("people1",normalSmoke.getPrincipal1());
+                        intent.putExtra("people2",normalSmoke.getPrincipal2());
+                        intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
+                        intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
+                        mContext.startActivity(intent);
+                    }else{
+                        T.showShort(mContext,"无联系人信息");
+                    }
                 }
             });
             ((ItemViewHolder) holder).category_group_lin.setOnLongClickListener(this);
@@ -716,6 +784,10 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView dev_image;//@@2018.03.07
         @Bind(R.id.dev_hearttime_set)
         TextView dev_hearttime_set;//@@2018.03.07
+        @Bind(R.id.voltage_image)
+        ImageView voltage_image;
+        @Bind(R.id.rssi_image)
+        ImageView rssi_image;
 
         public ItemViewHolder(View view) {
             super(view);

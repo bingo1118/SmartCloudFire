@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -169,6 +170,8 @@ public class OneTHDevInfoActivity extends Activity {
                 View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
                 final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
                 final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
+                Button commit=(Button) layout.findViewById(R.id.commit);
+                commit.setVisibility(View.GONE);
                 TextView title=(TextView)layout.findViewById(R.id.title_text);
                 TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
                 TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
@@ -211,22 +214,24 @@ public class OneTHDevInfoActivity extends Activity {
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
                                                 }
-                                            }
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            T.showShort(mContext,"网络错误");
+                                                    }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    T.showShort(mContext,"网络错误");
+                }
+            });
+            mQueue.add(jsonObjectRequest);
         }
-    });
-    mQueue.add(jsonObjectRequest);
-}
-}).show();
+        }).show();
                 break;
             case R.id.humidity_yuzhi_set:
                 LayoutInflater inflater2 = getLayoutInflater();
                 View layout2 = inflater2.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
                 final EditText high_value2=(EditText)layout2.findViewById(R.id.high_value);
                 final EditText low_value2=(EditText)layout2.findViewById(R.id.low_value);
+                Button commit1=(Button) layout2.findViewById(R.id.commit);
+                commit1.setVisibility(View.GONE);
                 TextView title2=(TextView)layout2.findViewById(R.id.title_text);
                 TextView high_value_name2=(TextView)layout2.findViewById(R.id.high_value_name);
                 TextView low_value_name2=(TextView)layout2.findViewById(R.id.low_value_name);

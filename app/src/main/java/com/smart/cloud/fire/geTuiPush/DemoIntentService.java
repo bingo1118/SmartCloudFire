@@ -86,14 +86,6 @@ public class DemoIntentService extends GTIntentService {
             }
 
             int alarm = dataJson.getInt("alarmType");
-            if(alarm==999){
-                AlertDialog dialog=new AlertDialog.Builder(this)
-                        .setTitle("提示")
-                        .setMessage("上报已被确认收到！")
-                        .setPositiveButton("确定", null).create();
-                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                dialog.show();
-            }
             if(alarm==80){
                 Intent wiredIntent = new Intent(context, WorkingTimeActivity.class);
                 wiredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -131,13 +123,17 @@ public class DemoIntentService extends GTIntentService {
                 case 21://LoraOne烟感
                 case 22://南京平台燃气
                 case 25://@@温湿度传感器
+                case 26://@@万科温度
+                case 27://@@万科水浸
                 case 31://三江iot烟感
                 case 35://NB电弧
                 case 36://联通NB电弧
                 case 41://NB烟感
                 case 42://@@NB水压2018.02.23
                 case 43:
+                case 44://万科水位
                 case 45://海曼NB气感
+                case 46:
                 case 51://@@创安燃气
                 case 55:
                 case 56://NBiot烟感
@@ -147,6 +143,7 @@ public class DemoIntentService extends GTIntentService {
                 case 69://恒星水位
                 case 70://恒星水压
                 case 72://防爆燃气
+                case 73://南京7020燃气
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -167,6 +164,7 @@ public class DemoIntentService extends GTIntentService {
                         case 111:
                             message="主机处于备电状态";
                             break;
+                        case 26:
                         case 25:
                             if(alarmType==307) {
                                 message="发生低温报警";
@@ -203,6 +201,14 @@ public class DemoIntentService extends GTIntentService {
                         case 1:
                             if(alarmType==202) {
                                 message="发生烟雾报警";
+                            }else if(alarmType==14){
+                                message="该设备已被拆除";
+                            }else if(alarmType==15||alarmType==20){
+                                message="发生防拆恢复报警";
+                            }else if(alarmType==67){
+                                message="发生自检报警";
+                            }else if(alarmType==69){
+                                message="发生报警恢复";
                             }else if(alarmType==103){
                                 message="发生温度报警";
                             }else if(alarmType==104){
@@ -225,22 +231,18 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生温湿度故障报警恢复";
                             }else if(alarmType==113){
                                 message="发生手动报警";
-                            }else if(alarmType==67){
-                                message="发生自检报警";
                             }else if(alarmType==193){
                                 message="电量低，请更换电池";
                             }else if(alarmType==194){
                                 message="低电压已恢复";
-                            }else if(alarmType==14){
-                                message="该设备已被拆除";
-                            }else if(alarmType==15){
-                                message="发生防拆恢复报警";
                             }else{
                                 message="发生未知类型报警";
                             }
                             break;
                         case 124:
                         case 69:
+                        case 46:
+                        case 44:
                         case 19:
                             if(alarmType==207) {
                                 message="发生低水位报警";
@@ -295,6 +297,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 73:
                         case 72:
                         case 51:
                         case 22:
@@ -326,6 +329,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 27:
                         case 15://@@8.3
                             if(alarmType==202||alarmType==221) {
                                 message="发生报警";
@@ -377,6 +381,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 76://NB直连电气
                 case 75://南京电气
                 case 59:
                 case 53:

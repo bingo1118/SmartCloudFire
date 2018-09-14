@@ -2,20 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fire.cloud.smart.com.smartcloudfire">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <!-- 外部存储读权限，调试工具加载本地补丁需要 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -74,6 +77,16 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="7GItMm71Df8oQNe4tusL3ms8RFIL1Ft7" />
         -->
+        <!--阿里热修复-->
+        <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="25056195" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="aa04f7515fa94b249efda5d6d23ab3e1" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCGG5sSHcDS90slFrVMS4K+G/dm5EAH4T/NbyaXwoNiPx3K22NzS+XsaAMF3fEopImhZPS0SeBDCFp0CAzCLJcCNZMv73ixLEMIcI3MoCdzgOWbUbCkzwilRrfPaeINURxCMlVW5mOeYpRgb82Jyj4J4QN976lo6q+xvlc99gqmHfXmQ3CP/9EXmIPqz+DYWJ6tlFf3kwGGOKezd1lpm37fjsSmiabtjDsRvvR2bZiTIfjCsJYPDOzvuejqFVrwWVRwy2KQRNifBLTc7ny41FvkQlA90Zm3yxyCQEmb/IaEFM4WVcEFQ02MvgjIq6H39UPwxnOPgEztv7fbIC324Ev3AgMBAAECggEAVNCQulxm3wXXWJWMA7yd6230gfZJKLKkj2CEn+Y9AZ25Udp+gyS1PVZq0wMSygmFobUfrgYq9zoJOuj8aLGar6MCe4aQZj0ACA5nH8sKKFqU3C5F8XWemiinh14HwTRTEuqSXmtHBZyDCpqq+0IVClpswvEXy2rhwyAGPQGmqnfN2A7ewPSSLtjgxFl9G+ZNc9CrqZs55hRZoI18xIZfJ3vxXJYl/lkZnlF1BtANE2+HQ+UZMx9UCZ8CFU3Q17UzRxIh6Y2vt5LhcYSW8Kv/qw/wsbxOcuAhc19xQW2KCWVBTzWEk12vR2V2y9oAGDy4WLlvz9flNHPGAJ3mjeUFgQKBgQC/RFBRuXS9liHOPqRp94IX+yNpHY8s5RruMZtId6r7yLG6b37f+ePh664LfowjS0yfOjNRdufsPbw6FzlU9B6zipbA4xGONVCV6TZ/csVwDOF0hY9IkGw2GFmiOAVjEnf+ZEMHKMF/CmrrP4cdRVK/GIYXDmFNY/O1xABBqabPyQKBgQCzfu/3KW9WSegPxDgayq4/YijLtMQE2MOZp/YStiHmkUkY4wu/27LfgGubyUEk0URo4QHn5beP1X+16Yo1rrb6dJ//Copxwt/96wjSy/6DvMwoDMVay0bcBAJk+e+n7A7ipFgTfO5+xvojAyJeidc8uFIYwOmznZrUKPzL9pWdvwKBgQCGdAlaSdqM45sEFvkRHNKw9PQhkovxbWSPCQQ13xmtQZneiz5PSKUvTbPdlKoCrY5BaHJm1AWZBpTo6SZ+V9W1NLlhAr52j3gEyhprYUz1xbg/ZxwgUJYhOODZrjPrPzJm/Cg6QiYzniknElNy+iZ++0hXsN4pvxe1MQFVJ2OCMQKBgQCszr3KT+rvwTGY1ElLiewd+6vZCoxZOjN+YFUpCI40w5UDT7uFF8frI2D2V9jO0GYzLsU99Ew4Psy4X0H/kth44gUTbpuBEKPDex9AisLbI83NlRX/5oqu0XFYs8PGAB8Ilj5xbKrUBU7WnHLfX4eH3tCzIi8dDNP+BAP1fc3nUwKBgQCbdvEIKJF7zXvYFV8K6olhUXBgUyFEm/thGXkaS+8AqFTuPpb9vhsF4u3qwC9e69Na6TI7SXAtQf/MS0FsfqztGyi5dmSzghsb1q4ZyWJkqqTk+IXmG8gL/FiYc9bVkmk6wP8QMsqifIxpJv/AlBxEbkLRj5Al8ECYGy9C5BT4IA==" />
 
         <activity
             android:name="com.smart.cloud.fire.mvp.login.SplashActivity"
@@ -191,8 +204,20 @@
         <activity android:name="com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity" />
         <activity
             android:name="com.smart.cloud.fire.ui.CallManagerDialogActivity"
-            android:label="设备负责人信息"
-            android:theme="@android:style/Theme.Holo.Dialog" />
+            android:theme="@style/android:Theme.Holo.Dialog.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- ATTENTION: This data URL was auto-generated. We recommend that you use the HTTP scheme.
+                  TODO: Change the host or pathPrefix as necessary. -->
+                <data
+                    android:host="smartcloudfire.com.smart.cloud.fire"
+                    android:pathPrefix="/callmanagerdialog"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.smart.cloud.fire.activity.Map.MapActivity" />
         <activity
             android:name="com.smart.cloud.fire.activity.AddDev.AddDevActivity"
@@ -240,8 +265,9 @@
         <activity android:name="com.smart.cloud.fire.activity.Video.RecordVideoActivity" />
         <activity android:name="com.smart.cloud.fire.activity.Video.VideoPreviewActivity" />
         <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity"></activity>
-        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.TestSafetyActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.TestSafetyActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity"></activity>
     </application>
 
 </manifest>

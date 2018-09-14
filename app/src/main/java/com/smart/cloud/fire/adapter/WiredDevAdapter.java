@@ -160,14 +160,16 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
                 public void onClick(View v) {
-//                    String phoneOne = normalSmoke.getPrincipal1Phone();
-//                    mShopInfoFragmentPresenter.telPhoneAction(mContext,phoneOne);
-                    Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
-                    intent.putExtra("people1",normalSmoke.getPrincipal1());
-                    intent.putExtra("people2",normalSmoke.getPrincipal2());
-                    intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
-                    intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
-                    mContext.startActivity(intent);
+                    if(normalSmoke.getPrincipal1()!=null&&normalSmoke.getPrincipal1().length()>0){
+                        Intent intent=new Intent(mContext, CallManagerDialogActivity.class);
+                        intent.putExtra("people1",normalSmoke.getPrincipal1());
+                        intent.putExtra("people2",normalSmoke.getPrincipal2());
+                        intent.putExtra("phone1",normalSmoke.getPrincipal1Phone());
+                        intent.putExtra("phone2",normalSmoke.getPrincipal2Phone());
+                        mContext.startActivity(intent);
+                    }else{
+                        T.showShort(mContext,"无联系人信息");
+                    }
                 }
             });
             //@@5.18

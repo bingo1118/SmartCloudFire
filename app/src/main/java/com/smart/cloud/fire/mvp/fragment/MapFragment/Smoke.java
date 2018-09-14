@@ -49,6 +49,7 @@ public class Smoke implements Serializable {
     private String placeTypeId;
     private int electrState;//@@11.01
     private String rssivalue;//@@2018.03.07
+    private int lowVoltage;//@@电池电量
 
     public String getAddress() {
         return address;
@@ -233,5 +234,14 @@ public class Smoke implements Serializable {
 
     public void setRssivalue(String rssivalue) {
         this.rssivalue = rssivalue;
+    }
+
+
+    public int getLowVoltage() {
+        return lowVoltage;
+    }
+
+    public void setLowVoltage(int lowVoltage) {
+        this.lowVoltage = lowVoltage;
     }
 }
