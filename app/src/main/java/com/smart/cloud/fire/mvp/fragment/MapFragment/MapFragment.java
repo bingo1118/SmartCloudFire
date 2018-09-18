@@ -24,10 +24,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.baidu.mapapi.clusterutil.clustering.ClusterManager;
+import com.baidu.mapapi.clusterutil.clustering.view.DeviceItem;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.overlayutil.MyOverlayManager;
 import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.base.ui.MvpFragment;
@@ -199,6 +202,19 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 mMyOverlayManager.zoomToSpan();
             }
         });
+
+//        ClusterManager mClusterManager=null;
+//        if(mClusterManager==null){
+//            mClusterManager = new ClusterManager<DeviceItem>(mContext, mBaiduMap);
+//            for(int i=0;i<smokeList.size();i++){
+//                double latitude = Double.parseDouble(smokeList.get(i).getLatitude());
+//                double longitude = Double.parseDouble(smokeList.get(i).getLongitude());
+//
+//                LatLng latLng = new LatLng(latitude, longitude);
+//                mClusterManager.addItem(new DeviceItem(latLng));
+//            }
+//        }
+//        mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
     }
 
     @Override

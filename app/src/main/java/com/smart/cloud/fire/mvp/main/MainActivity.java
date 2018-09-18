@@ -80,6 +80,8 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
     ImageView home_alarm_light;
     @Bind(R.id.my_image)
     ImageView my_image;
+    @Bind(R.id.sxcs_btn2)
+    RelativeLayout sxcs_btn2;
     @Bind(R.id.sxcs_btn)
     RelativeLayout sxcs_btn;
     @Bind(R.id.tjsb_btn)
@@ -88,6 +90,8 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
     RelativeLayout dqfh_btn;
     @Bind(R.id.spjk_btn)
     RelativeLayout spjk_btn;
+    @Bind(R.id.spjk_btn2)
+    RelativeLayout spjk_btn2;
     @Bind(R.id.zddw_btn)
     RelativeLayout zddw_btn;
     @Bind(R.id.xfwl_btn)
@@ -100,6 +104,10 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
     LinearLayout home_alarm_lin;
     @Bind(R.id.home_alarm_info_text)
     TextView home_alarm_info_text;
+    @Bind(R.id.main_line)
+    LinearLayout main_line;
+    @Bind(R.id.main_line1)
+    LinearLayout main_line1;
 
     Timer getlastestAlarm;
     AnimationDrawable anim ;
@@ -120,7 +128,7 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoIntentService.class);
     }
 
-    @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.zddw_btn,
+    @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.sxcs_btn2,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.spjk_btn2,R.id.zddw_btn,
             R.id.xfwl_btn,R.id.nfc_btn,R.id.zjgl_btn,R.id.alarm_msg})
     public void onClick(View view) {
         Intent intent;
@@ -133,6 +141,7 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
                 intent = new Intent(mContext, MyZoomActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.sxcs_btn2:
             case R.id.sxcs_btn:
                 intent = new Intent(mContext, AllSmokeActivity.class);
                 startActivity(intent);
@@ -149,6 +158,7 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
                 intent = new Intent(mContext, ElectricDevActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.spjk_btn2:
             case R.id.spjk_btn:
                 intent = new Intent(mContext, CameraDevActivity.class);
                 startActivity(intent);
@@ -176,13 +186,18 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
 
     private void initView() {
         if(MyApp.app.getPrivilege()==1){//@@9.29 1级权限显示
-            zddw_btn.setVisibility(View.GONE);
-            dqfh_btn.setVisibility(View.GONE);
-            xfwl_btn.setVisibility(View.GONE);
-//            spjk_btn.setVisibility(View.GONE);
-            tjsb_btn.setVisibility(View.GONE);
-            nfc_btn.setVisibility(View.GONE);
-            zjgl_btn.setVisibility(View.GONE);
+//            zddw_btn.setVisibility(View.GONE);
+//            dqfh_btn.setVisibility(View.GONE);
+//            xfwl_btn.setVisibility(View.GONE);
+////            spjk_btn.setVisibility(View.GONE);
+//            tjsb_btn.setVisibility(View.GONE);
+//            nfc_btn.setVisibility(View.GONE);
+//            zjgl_btn.setVisibility(View.GONE);
+            main_line.setVisibility(View.GONE);
+            main_line1.setVisibility(View.VISIBLE);
+        }else{
+            main_line1.setVisibility(View.GONE);
+            main_line.setVisibility(View.VISIBLE);
         }
         P2PHandler.getInstance().p2pInit(this,
                 new P2PListener(),
