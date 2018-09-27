@@ -350,13 +350,14 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("燃气探测器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
-                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
                     ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, OneGasInfoActivity.class);
                             intent.putExtra("Mac",normalSmoke.getMac());
                             intent.putExtra("devType",normalSmoke.getDeviceType());
+                            intent.putExtra("devName",normalSmoke.getName());
                             mContext.startActivity(intent);
                         }
                     });
@@ -525,6 +526,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
                 case 125:
                 case 70:
+                case 68:
                 case 42:
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");

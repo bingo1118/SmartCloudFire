@@ -140,6 +140,7 @@ public class DemoIntentService extends GTIntentService {
                 case 57://onet烟感
                 case 58://嘉德移动烟感
                 case 61://嘉德南京烟感
+                case 68://恒星法兰盘水压
                 case 69://恒星水位
                 case 70://恒星水压
                 case 72://防爆燃气
@@ -303,7 +304,13 @@ public class DemoIntentService extends GTIntentService {
                         case 22:
                         case 16:
                         case 2:
-                            message="燃气发生泄漏";
+                            if(alarmType==76){
+                                message="发生传感器故障";
+                            }else if(alarmType==77){
+                                message="发生串口通讯故障";
+                            }else{
+                                message="燃气发生泄漏";
+                            }
                             break;
                         case 7:
                             message="声光发出报警";
@@ -341,6 +348,7 @@ public class DemoIntentService extends GTIntentService {
                             break;
                         case 125:
                         case 70:
+                        case 68:
                         case 42:
                         case 43:
                         case 10://@@4.28
@@ -634,8 +642,9 @@ public class DemoIntentService extends GTIntentService {
 
     @Override
     public void onReceiveCommandResult(Context context, GTCmdMessage gtCmdMessage) {
-        System.out.print(gtCmdMessage);
+
     }
+
 
     private void goToServer(String cid,String userId){
         ApiStores apiStores = AppClient.retrofit(ConstantValues.SERVER_PUSH).create(ApiStores.class);

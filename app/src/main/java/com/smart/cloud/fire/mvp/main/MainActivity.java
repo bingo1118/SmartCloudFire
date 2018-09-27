@@ -48,6 +48,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MainService;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.mvp.BigData.BigDataActivity;
 import com.smart.cloud.fire.mvp.login.SplashActivity;
 import com.smart.cloud.fire.mvp.main.presenter.MainPresenter;
 import com.smart.cloud.fire.mvp.main.view.MainView;
@@ -128,11 +129,15 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoIntentService.class);
     }
 
-    @OnClick({R.id.my_image,R.id.sxcs_btn,R.id.sxcs_btn2,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.spjk_btn2,R.id.zddw_btn,
+    @OnClick({R.id.banner_image,R.id.my_image,R.id.sxcs_btn,R.id.sxcs_btn2,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.spjk_btn2,R.id.zddw_btn,
             R.id.xfwl_btn,R.id.nfc_btn,R.id.zjgl_btn,R.id.alarm_msg})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
+            case R.id.banner_image:
+                intent=new Intent(mContext, BigDataActivity.class);
+                startActivity(intent);
+                break;
             case R.id.alarm_msg:
                 intent=new Intent(mContext, AlarmMsgActivity.class);
                 startActivity(intent);

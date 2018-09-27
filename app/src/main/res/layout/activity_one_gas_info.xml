@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3e7fda"
+    android:background="@drawable/gas_gradiens"
     android:orientation="vertical">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/main_srl"
@@ -21,20 +21,29 @@
                 android:textColor="#fff"
                 android:text="123"
                 android:textSize="22sp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="5dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/update_time"
+                android:id="@+id/device_mac"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:text="123"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/update_state"
                 android:gravity="center"
                 android:textColor="#fff"
                 android:visibility="gone"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1.4">
                 <RelativeLayout
                     android:id="@+id/gas_rela"
                     android:layout_width="180dp"
@@ -54,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/gas_type"
                         android:text="--"
-                        android:textSize="22sp"
+                        android:textSize="18sp"
                         android:textColor="#fff"
                         android:layout_below="@id/gas_text"
                         android:layout_centerHorizontal="true"/>
@@ -81,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="20dp"
                     android:layout_below="@id/gas_rela"
                     android:orientation="horizontal"
                     android:id="@+id/temperature_yuzhi_set">
@@ -143,28 +152,71 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_margin="20dp"
                     android:id="@+id/switch_lin"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    <Switch
-                        android:id="@+id/state_switch"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:text="机械手开关"
-                        android:textColor="@color/white"
-                        android:layout_margin="20dp"/>
-                    <Switch
-                        android:id="@+id/unit_switch"
-                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/gas_switch_shape">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="机械手开关"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:textColor="#66a3f6"
+                            android:textSize="16sp"/>
+                        <Switch
+                            android:id="@+id/state_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_alignParentRight="true"
+                            android:padding="17dp"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="机械手自动关联开关"
-                        android:textColor="@color/white"
-                        android:layout_gravity="right"
-                        android:layout_margin="20dp" />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/gas_switch_shape">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="机械手自动关联开关"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:textColor="#66a3f6"
+                            android:textSize="16sp"/>
+                        <Switch
+                            android:id="@+id/unit_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_alignParentRight="true"
+                            android:padding="17dp" />
+                    </RelativeLayout>
+
+
                 </LinearLayout>
             </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/update_time"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:visibility="gone"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>

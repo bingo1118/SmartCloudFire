@@ -244,6 +244,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         if(smokeMac.length()==15){
 //            deviceType="14";//GPS
             deviceType="41";//海曼NB
+        }else if(smokeMac.length()==4){
+            deviceType="68";//恒星法兰盘水压
         }else if (smokeMac.length()==6){
             deviceType="70";//恒星水压
         }else if (smokeMac.length()==7){

@@ -102,7 +102,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         registerForContextMenu(more);
         ButterKnife.bind(this);
         refreshListView();
-        electricPresenter.getOneElectricInfo(userID,privilege+"",electricMac,false);
+        electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
         getYuzhi(electricMac);
     }
 
@@ -212,7 +212,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                                     int errorCode=response.getInt("errorCode");
                                                     if(errorCode==0){
                                                         T.showShort(mContext,"设置成功");
-                                                        electricPresenter.getOneElectricInfo(userID,privilege+"",electricMac,false);
+                                                        electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
                                                     }else{
                                                         T.showShort(mContext,"设置失败");
                                                     }
@@ -269,7 +269,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         swipeFreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                electricPresenter.getOneElectricInfo(userID,privilege+"",electricMac,true);
+                electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,true);
                 getYuzhi(electricMac);
             }
         });

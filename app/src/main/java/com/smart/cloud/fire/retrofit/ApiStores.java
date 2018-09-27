@@ -332,7 +332,7 @@ public interface ApiStores {
     @GET("getOneElectricInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<ElectricInfo<ElectricValue>> getOneElectricInfo(@Query("userId") String userId, @Query("privilege") String privilege,
-                                                               @Query("smokeMac") String smokeMac);
+                                                               @Query("smokeMac") String smokeMac,@Query("devType") String devType);
     @GET("getOneChuangAnInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<ElectricInfo<ChuangAnValue.ChuangAnValueBean>> getOneChuangAnInfo(@Query("userId") String userId, @Query("privilege") String privilege,

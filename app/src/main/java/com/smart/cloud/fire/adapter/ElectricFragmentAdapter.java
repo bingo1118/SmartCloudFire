@@ -181,6 +181,10 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                             ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
                             ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_yqd);
                             break;
+                        case 3:
+                            ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                            ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_szz);
+                            break;
                         default:
                             ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
                             break;
@@ -197,7 +201,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 return;
                             }
 
-                            if(eleState!=1){
+                            if(eleState==2){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                                 builder.setMessage("如未排除故障，合闸将造成严重事故!");
                                 builder.setTitle("警告");
@@ -215,7 +219,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                                     }
                                 });
                                 builder.create().show();
-                            }else{
+                            }else if(eleState==1){
                                 changepower(1,normalSmoke);
                             }
                         }

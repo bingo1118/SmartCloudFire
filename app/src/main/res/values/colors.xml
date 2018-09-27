@@ -30,6 +30,12 @@
 
     <color name="dialog_title_color">#a4979b</color>
     <color name="blue">#ff61a9e1</color>
+
+    <color name="wifi_acclerate_green">#15B96B</color>
+    <color name="transparent">#00000000</color>
+    <color name="wifi_acclerate_orange">#F29336</color>
+    <color name="wifi_acclerate_red">#EC6066</color>
+
     <color name="dialog_back_color">#90000000</color>
     <color name="text_color_gray">#818181</color><!-- 灰色-->
     <color name="camera_text_color_gray">#b3b3b3</color><!-- 灰色-->

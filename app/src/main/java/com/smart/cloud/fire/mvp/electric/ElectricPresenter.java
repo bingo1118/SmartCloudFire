@@ -20,11 +20,11 @@ public class ElectricPresenter extends BasePresenter<ElectricView>{
         attachView(electricView);
     }
 
-    public void getOneElectricInfo(String userId,String privilege,String mac,boolean refresh){
+    public void getOneElectricInfo(String userId,String privilege,String devType,String mac,boolean refresh){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getOneElectricInfo(userId,privilege,mac);
+        Observable mObservable = apiStores1.getOneElectricInfo(userId,privilege,mac,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ElectricInfo<ElectricValue>>() {
             @Override
             public void onSuccess(ElectricInfo<ElectricValue> model) {

@@ -51,9 +51,16 @@ public class OneGasInfoActivity extends Activity {
     Switch state_switch;
     @Bind(R.id.unit_switch)
     Switch unit_switch;
+    @Bind(R.id.update_state)
+    TextView update_state;
+    @Bind(R.id.device_mac)
+    TextView device_mac;
 
     String smokeMac;
     int devType;
+    String smokeName;
+
+    private CompoundButton.OnCheckedChangeListener listener1,listener2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,7 @@ public class OneGasInfoActivity extends Activity {
 
         ButterKnife.bind(this);
         mContext=this;
+        smokeName=getIntent().getStringExtra("devName");
         smokeMac=getIntent().getStringExtra("Mac");
         devType=getIntent().getIntExtra("devType",72);
         switch (devType){
@@ -94,26 +102,51 @@ public class OneGasInfoActivity extends Activity {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
                                 JSONObject object=response.getJSONArray("history").getJSONObject(0);
-                                device_name.setText(object.getString("proofGasMac"));
+                                device_name.setText(smokeName);
                                 gas_type.setText(object.getString("proofGasType"));
+                                device_mac.setText("ID:"+smokeMac);
+                                if(devType==73){
+                                    update_state.setVisibility(View.VISIBLE);
+                                    switch (object.getString("proofGasTemp")){
+                                        case "1":
+                                            update_state.setText("状态:报警");
+                                            break;
+                                        case "2":
+                                            update_state.setText("状态:机械手故障");
+                                            break;
+                                        case "3":
+                                            update_state.setText("状态:通讯故障");
+                                            break;
+                                        case "4":
+                                            update_state.setText("状态:主电");
+                                            break;
+                                        case "5":
+                                            update_state.setText("状态:备电");
+                                            break;
+                                        default:
+                                            update_state.setText("状态:主电");
+                                            break;
+                                    }
+                                }
                                 temperature_text.setText(object.getString("proofGasTemp")+"℃");
-                                gas_text.setText(object.getString("proofGasMmol")+object.getString("proofGasUnit"));
+
                                 if(object.getString("proofGasTime")!=null){
                                     update_time.setVisibility(View.VISIBLE);
                                     update_time.setText("更新时间:"+object.getString("proofGasTime"));
                                 }
                                 if(devType==73){
+                                    gas_text.setText(object.getString("proofGasMmol"));
                                     if(object.getString("proofGasState").equals("1")){
                                         state_switch.setChecked(true);
                                     }else{
                                         state_switch.setChecked(false);
                                     }
                                     if(object.getString("proofGasUnit").equals("1")){
-                                        state_switch.setChecked(true);
+                                        unit_switch.setChecked(true);
                                     }else{
-                                        state_switch.setChecked(false);
+                                        unit_switch.setChecked(false);
                                     }
-                                    state_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    listener1=new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                             if(isChecked){
@@ -122,8 +155,9 @@ public class OneGasInfoActivity extends Activity {
                                                 sendCom(17);
                                             }
                                         }
-                                    });
-                                    unit_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    };
+                                    state_switch.setOnCheckedChangeListener(listener1);
+                                    listener2=new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                             if(isChecked){
@@ -132,7 +166,10 @@ public class OneGasInfoActivity extends Activity {
                                                 sendCom(19);
                                             }
                                         }
-                                    });
+                                    };
+                                    unit_switch.setOnCheckedChangeListener(listener2);
+                                }else{
+                                    gas_text.setText(object.getString("proofGasMmol")+object.getString("proofGasUnit"));
                                 }
                             }else{
                                 T.showShort(mContext,"无数据");
@@ -150,7 +187,7 @@ public class OneGasInfoActivity extends Activity {
         mQueue.add(jsonObjectRequest);
     }
 
-    private void sendCom(int i) {
+    private void sendCom(final int i) {
         VolleyHelper helper=VolleyHelper.getInstance(mContext);
         RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"nanjing_ranqi_7020?imeiValue="+smokeMac+"&deviceType="+devType+"&state="+i;
@@ -164,6 +201,7 @@ public class OneGasInfoActivity extends Activity {
                                 T.showShort(mContext,"设置成功");
                             }else{
                                 T.showShort(mContext,"设置失败");
+                                resetSwitch(i);
                             }
                         } catch (JSONException e) {
                             T.showShort(mContext,"设置失败");
@@ -177,6 +215,27 @@ public class OneGasInfoActivity extends Activity {
             }
         });
         mQueue.add(jsonObjectRequest);
+    }
+
+    private void resetSwitch(int i) {
+        state_switch.setOnCheckedChangeListener(null);
+        unit_switch.setOnCheckedChangeListener(null);
+        switch (i){
+            case 16:
+                state_switch.setChecked(false);
+                break;
+            case 17:
+                state_switch.setChecked(true);
+                break;
+            case 18:
+                unit_switch.setChecked(false);
+                break;
+            case 19:
+                unit_switch.setChecked(true);
+                break;
+        }
+        state_switch.setOnCheckedChangeListener(listener1);
+        unit_switch.setOnCheckedChangeListener(listener2);
     }
 
     @OnClick({R.id.gas_history})

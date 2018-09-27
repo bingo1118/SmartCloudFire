@@ -17,7 +17,7 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 外部存储读权限，调试工具加载本地补丁需要 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -77,7 +77,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="7GItMm71Df8oQNe4tusL3ms8RFIL1Ft7" />
         -->
-        <!--阿里热修复-->
+        <!-- 阿里热修复 -->
         <meta-data
             android:name="com.taobao.android.hotfix.IDSECRET"
             android:value="25056195" />
@@ -204,14 +204,16 @@
         <activity android:name="com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity" />
         <activity
             android:name="com.smart.cloud.fire.ui.CallManagerDialogActivity"
-            android:theme="@style/android:Theme.Holo.Dialog.NoActionBar" >
+            android:theme="@style/android:Theme.Holo.Dialog.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- ATTENTION: This data URL was auto-generated. We recommend that you use the HTTP scheme.
-                  TODO: Change the host or pathPrefix as necessary. -->
+                <!--
+                  ATTENTION: This data URL was auto-generated. We recommend that you use the HTTP scheme.
+                  TODO: Change the host or pathPrefix as necessary.
+                -->
                 <data
                     android:host="smartcloudfire.com.smart.cloud.fire"
                     android:pathPrefix="/callmanagerdialog"
@@ -267,7 +269,9 @@
         <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity" />
         <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity" />
         <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.TestSafetyActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity" />
+        <activity android:name="com.smart.cloud.fire.BigData.BigDataActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.BigData.BigDataActivity"></activity>
     </application>
 
 </manifest>

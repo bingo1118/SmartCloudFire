@@ -382,9 +382,19 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case 23:
                 case 2:
                     ((ItemViewHolder) holder).smokeMac.setText("燃气探测器:");
-                    ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.ranqi);
-                    ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
-                    ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    if(alarmType==76){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.chuanganqi);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else if(alarmType==77){
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.tongxunguzhang);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.ddy_color_text));
+                    }else{
+                        ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.ranqi);
+                        ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                        ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
+                    }
                     break;
                 case 51:
                     ((ItemViewHolder) holder).smokeMac.setText("CA燃气:");
@@ -395,6 +405,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 125:
                 case 70:
+                case 68:
                 case 43:
                 case 42:
                 case 10://@@4.28
