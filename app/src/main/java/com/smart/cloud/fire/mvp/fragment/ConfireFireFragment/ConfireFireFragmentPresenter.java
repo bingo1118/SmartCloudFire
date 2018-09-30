@@ -100,6 +100,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("C","");
                 smokeMac = smokeMac.replace("L","");
                 smokeMac = smokeMac.replace("Y","");
+                smokeMac = smokeMac.replace("Z","");
                 break;
             case "N"://@@NB烟感
                 smokeMac = smokeMac.replace("N","");
@@ -376,12 +377,16 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("Y")){
                         deviceType="46";//@@NB防爆直连水位
                         smokeMac =smokeMac.substring(0,smokeMac.length()-1);
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("Z")){
+                        deviceType="44";//@@NB防爆直连水位
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else{
                         deviceType="10";//@@水压
                     }
                     smokeMac = smokeMac.replace("W","");//水压设备
                     smokeMac = smokeMac.replace("L","");//水压设备
                     smokeMac = smokeMac.replace("Y","");//水压设备
+                    smokeMac = smokeMac.replace("Z","");//水位设备
                     break;
                 case "L":
                     smokeMac = smokeMac.replace("L","");//红外设备

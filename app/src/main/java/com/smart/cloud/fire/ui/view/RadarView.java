@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
@@ -124,10 +125,12 @@ public class RadarView extends FrameLayout {
         mPaintSector = new Paint();
 
         mPaintSector.setAntiAlias(true);
-        RadialGradient radialGradient = new RadialGradient(getWidth() / 2, getHeight() / 2, bigR,
-                new int[]{Color.TRANSPARENT, 0x1eFFFFFF}, new float[]{0.0f, 1f}
-                , Shader.TileMode.CLAMP);
-        mPaintSector.setShader(radialGradient);
+//        RadialGradient radialGradient = new RadialGradient(getWidth() / 2, getHeight() / 2, bigR,
+//                new int[]{Color.TRANSPARENT, 0x1eFFFFFF}, new float[]{0.0f, 1f}
+//                , Shader.TileMode.CLAMP);
+//        mPaintSector.setShader(radialGradient);
+        Shader mShader = new SweepGradient(mWidth / 2, mHeight / 2, Color.TRANSPARENT, Color.WHITE);
+        mPaintSector.setShader(mShader);
 
 
         //画白色打分宽圆弧
@@ -180,6 +183,7 @@ public class RadarView extends FrameLayout {
         mThread.start();
         threadRunning = true;
         isstart = true;
+        this.setVisibility(VISIBLE);
     }
 
     public void stop() {
@@ -188,6 +192,7 @@ public class RadarView extends FrameLayout {
             isstart = false;
             mContext = null;
         }
+        this.setVisibility(GONE);
     }
 
     @Override

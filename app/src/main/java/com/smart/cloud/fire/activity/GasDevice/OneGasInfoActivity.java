@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -39,6 +40,8 @@ public class OneGasInfoActivity extends Activity {
     TextView update_time;
     @Bind(R.id.gas_text)
     TextView gas_text;
+    @Bind(R.id.gas_dw)
+    TextView gas_dw;
     @Bind(R.id.temperature_text)
     TextView temperature_text;
     @Bind(R.id.gas_type)
@@ -136,6 +139,7 @@ public class OneGasInfoActivity extends Activity {
                                 }
                                 if(devType==73){
                                     gas_text.setText(object.getString("proofGasMmol"));
+                                    gas_dw.setText("PPM");
                                     if(object.getString("proofGasState").equals("1")){
                                         state_switch.setChecked(true);
                                     }else{
@@ -149,27 +153,54 @@ public class OneGasInfoActivity extends Activity {
                                     listener1=new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                            long lastTime=SharedPreferencesManager.getInstance().getLongData(mContext,"GasControlTime",smokeMac);
+                                            if((System.currentTimeMillis()-lastTime)<20000){
+                                                T.showShort(mContext,"操作太频繁，请稍后再试");
+                                                if(isChecked){
+                                                    resetSwitch(16);
+                                                }else{
+                                                    resetSwitch(17);
+                                                }
+                                                return;
+                                            }
                                             if(isChecked){
                                                 sendCom(16);
                                             }else{
                                                 sendCom(17);
                                             }
+                                            SharedPreferencesManager.getInstance().putLongData(mContext,
+                                                    "GasControlTime",smokeMac,
+                                                    System.currentTimeMillis());
                                         }
                                     };
                                     state_switch.setOnCheckedChangeListener(listener1);
                                     listener2=new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                            long lastTime=SharedPreferencesManager.getInstance().getLongData(mContext,"GasControlTime",smokeMac);
+                                            if((System.currentTimeMillis()-lastTime)<20000){
+                                                T.showShort(mContext,"操作太频繁，请稍后再试");
+                                                if(isChecked){
+                                                    resetSwitch(18);
+                                                }else{
+                                                    resetSwitch(19);
+                                                }
+                                                return;
+                                            }
                                             if(isChecked){
                                                 sendCom(18);
                                             }else{
                                                 sendCom(19);
                                             }
+                                            SharedPreferencesManager.getInstance().putLongData(mContext,
+                                                    "GasControlTime",smokeMac,
+                                                    System.currentTimeMillis());
                                         }
                                     };
                                     unit_switch.setOnCheckedChangeListener(listener2);
                                 }else{
-                                    gas_text.setText(object.getString("proofGasMmol")+object.getString("proofGasUnit"));
+                                    gas_text.setText(object.getString("proofGasMmol"));
+                                    gas_dw.setText(object.getString("proofGasUnit"));
                                 }
                             }else{
                                 T.showShort(mContext,"无数据");

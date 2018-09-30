@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/wifi_acclerate_green"
-        android:visibility="visible">
+        android:visibility="visible" >
 
         <RelativeLayout
             android:id="@+id/check_layout_animator"
@@ -41,7 +41,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="100"
                     android:textColor="@color/white"
-                    android:textSize="48sp"/>
+                    android:textSize="38sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,8 +77,26 @@
             android:id="@+id/sum_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sum:100"
-            android:textSize="16sp"
+            android:text="您总共有3652个设备，掉线设备300个，离线率11.3%"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/sum_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="您总共有3652个设备，故障设备263个，故障率9.2%"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/sum_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="您总共有3652个设备，设备低电压16个，离线率0.6%"
+            android:textSize="12sp"
             android:gravity="center"
             android:padding="10dp"
             android:visibility="gone"/>

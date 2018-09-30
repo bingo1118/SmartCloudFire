@@ -18,6 +18,7 @@ public class SmokeSummary {
     private int errorCode;
     private int lossSmokeNumber;
     private int onlineSmokeNumber;
+    private int lowVoltageNumber;
 
     public int getAllSmokeNumber() {
         return allSmokeNumber;
@@ -57,5 +58,13 @@ public class SmokeSummary {
 
     public void setOnlineSmokeNumber(int onlineSmokeNumber) {
         this.onlineSmokeNumber = onlineSmokeNumber;
+    }
+
+    public int getLowVoltageNumber() {
+        return lowVoltageNumber;
+    }
+
+    public void setLowVoltageNumber(int lowVoltageNumber) {
+        this.lowVoltageNumber = lowVoltageNumber;
     }
 }
