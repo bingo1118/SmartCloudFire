@@ -112,7 +112,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         // menu布局
         popupMenu.getMenuInflater().inflate(R.menu.menu_electr, popupMenu.getMenu());
         // menu的item点击事件
-        if(devType!=52&&devType!=53&&devType!=75){
+        if(devType!=52&&devType!=53&&devType!=75&&devType!=77){
             MenuItem item=popupMenu.getMenu().findItem(R.id.yuzhi_set);
             item.setVisible(false);
         }
@@ -138,6 +138,16 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                         overcurrentvalue.setText(yuzhi45);
                         final EditText Leakage_value=(EditText)layout.findViewById(R.id.Leakage_value);
                         Leakage_value.setText(yuzhi46);
+                        TextView high_value_yuzhi_text=(TextView)layout.findViewById(R.id.high_value_yuzhi);
+                        TextView low_value_yuzhi_text=(TextView)layout.findViewById(R.id.low_value_yuzhi);
+                        TextView overcurrentvalue_yuzhi_text=(TextView)layout.findViewById(R.id.overcurrentvalue_yuzhi);
+                        TextView Leakage_value_yuzhi_text=(TextView)layout.findViewById(R.id.Leakage_value_yuzhi);
+                        if(devType==75||devType==77){
+                            high_value_yuzhi_text.setText("（230-320V）");
+                            low_value_yuzhi_text.setText("（100-200V）");
+                            overcurrentvalue_yuzhi_text.setText("（4-250A）");
+                            Leakage_value_yuzhi_text.setText("（30-1000mA）");
+                        }
                         Button commit=(Button)(Button)layout.findViewById(R.id.commit);
                         commit.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -148,26 +158,50 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                     int low=(int)Float.parseFloat(low_value.getText().toString());
                                     float value45=Float.parseFloat(overcurrentvalue.getText().toString());
                                     int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
-                                    if(low<145||low>220){
-                                        T.showShort(mContext,"欠压阈值设置范围为145-220V");
-                                        return;
+                                    if(devType==75||devType==77){
+                                        if(low<100||low>200){
+                                            T.showShort(mContext,"欠压阈值设置范围为100-200V");
+                                            return;
+                                        }
+                                        if(high<230||high>320){
+                                            T.showShort(mContext,"过压阈值设置范围为230-320V");
+                                            return;
+                                        }
+                                        if(value45<4||value45>250){
+                                            T.showShort(mContext,"过流阈值设置范围为4-250A");
+                                            return;
+                                        }
+                                        if(value46<30||value46>1000){
+                                            T.showShort(mContext,"漏电流阈值设置范围为30-1000mA");
+                                            return;
+                                        }
+                                        if(low>high){
+                                            T.showShort(mContext,"欠压阈值不能高于过压阈值");
+                                            return;
+                                        }
+                                    }else{
+                                        if(low<145||low>220){
+                                            T.showShort(mContext,"欠压阈值设置范围为145-220V");
+                                            return;
+                                        }
+                                        if(high<220||high>280){
+                                            T.showShort(mContext,"过压阈值设置范围为220-280V");
+                                            return;
+                                        }
+                                        if(value45<1||value45>63){
+                                            T.showShort(mContext,"过流阈值设置范围为1-63A");
+                                            return;
+                                        }
+                                        if(value46<10||value46>90){
+                                            T.showShort(mContext,"漏电流阈值设置范围为10-90mA");
+                                            return;
+                                        }
+                                        if(low>high){
+                                            T.showShort(mContext,"欠压阈值不能高于过压阈值");
+                                            return;
+                                        }
                                     }
-                                    if(high<220||high>280){
-                                        T.showShort(mContext,"过压阈值设置范围为220-280V");
-                                        return;
-                                    }
-                                    if(value45<1||value45>63){
-                                        T.showShort(mContext,"过流阈值设置范围为1-63A");
-                                        return;
-                                    }
-                                    if(value46<10||value46>90){
-                                        T.showShort(mContext,"漏电流阈值设置范围为10-90mA");
-                                        return;
-                                    }
-                                    if(low>high){
-                                        T.showShort(mContext,"欠压阈值不能高于过压阈值");
-                                        return;
-                                    }
+
                                     if(devType==52){
                                         url= ConstantValues.SERVER_IP_NEW+"ackControlCvls?Overvoltage="+high_value.getText().toString()
                                                 +"&Undervoltage="+low_value.getText().toString()
@@ -180,12 +214,12 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                                 +"&Overcurrent="+value45
                                                 +"&Leakage="+value46
                                                 +"&appId=1&devSerial="+electricMac+"&userId="+userID;
-                                    }else if(devType==75){
+                                    }else if(devType==75||devType==77){
                                         url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?Overvoltage="+high_value.getText().toString()
                                                 +"&Undervoltage="+low_value.getText().toString()
                                                 +"&Overcurrent="+value45
                                                 +"&Leakage="+value46
-                                                +"&deviceType=75&devCmd=14&imei="+electricMac;
+                                                +"&deviceType="+devType+"&devCmd=14&imei="+electricMac;
                                     }else{
                                         Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
                                         return;
@@ -296,6 +330,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 intent.putExtra("electricMac",electricMac);
                 intent.putExtra("electricType",data.getElectricType());
                 intent.putExtra("electricNum",data.getId());
+                intent.putExtra("devType",devType);
                 startActivity(intent);
             }
         });

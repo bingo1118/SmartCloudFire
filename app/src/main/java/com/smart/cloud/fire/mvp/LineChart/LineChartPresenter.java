@@ -23,11 +23,11 @@ public class LineChartPresenter extends BasePresenter<LineChartView> {
 //    @Query("userId") String userId, @Query("privilege") String privilege,
 //    @Query("smokeMac") String smokeMac, @Query("electricType") String electricType,
 //    @Query("electricNum") String electricNum, @Query("page") String page
-    public void getElectricTypeInfo(String userId,String privilege,String mac,String electricType,String electricNum,String page,boolean refresh){
+    public void getElectricTypeInfo(String userId,String privilege,String mac,String electricType,String electricNum,String page,boolean refresh,int devType){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable<TemperatureTime> mObservable = apiStores1.getElectricTypeInfo(userId,privilege,mac,electricType,electricNum,page);
+        Observable<TemperatureTime> mObservable = apiStores1.getElectricTypeInfo(userId,privilege,mac,electricType,electricNum,page,devType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<TemperatureTime>() {
             @Override
             public void onSuccess(TemperatureTime model) {
@@ -148,11 +148,11 @@ public class LineChartPresenter extends BasePresenter<LineChartView> {
                 if(resultCode==0){
                     List<TemperatureTime.ElectricBean> history=new ArrayList<TemperatureTime.ElectricBean>();
                     List<ProofGasEntity> history_temp=model.getHistory();
-                    TemperatureTime.ElectricBean electricBean=new TemperatureTime.ElectricBean();
                     for(int i=0;i<history_temp.size();i++){
+                        TemperatureTime.ElectricBean electricBean=new TemperatureTime.ElectricBean();
                         electricBean.setElectricTime(history_temp.get(i).getProofGasTime());
                         electricBean.setElectricValue(history_temp.get(i).getProofGasMmol());
-                        history.add(i,electricBean);
+                        history.add(electricBean);
                     }
                     mvpView.getDataSuccess(history);
                 }else{

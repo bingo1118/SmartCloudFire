@@ -455,6 +455,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     }
                     break;
+                case 77:
                 case 76:
                 case 75://南京电气
                 case 59:

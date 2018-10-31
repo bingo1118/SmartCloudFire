@@ -5,6 +5,7 @@ import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.ElectricInfo;
 import com.smart.cloud.fire.global.ElectricValue;
 import com.smart.cloud.fire.global.ProofGasHistoryEntity;
+import com.smart.cloud.fire.global.SafeScore;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.global.TemperatureTime;
 import com.smart.cloud.fire.mvp.fragment.ConfireFireFragment.ConfireFireModel;
@@ -270,6 +271,13 @@ public interface ApiStores {
             ,@Query("page") String page,@Query("parentId") String parentId,@Query("grade") String grade
             ,@Query("distance") String distance,@Query("progress") String progress);
 
+    //条件查询获取用户报警任务2.0
+    @GET("getNeedOrderMsg")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getNeedOrderMsg(@Query("userId") String userId, @Query("privilege") String privilege
+            ,@Query("page") String page,@Query("grade") String grade
+            ,@Query("progress") String progress);
+
     //添加摄像头
     @GET("addCamera")
     Observable<HttpError> addCamera(@Query("cameraId") String cameraId, @Query("cameraName") String cameraName,
@@ -318,6 +326,10 @@ public interface ApiStores {
                                            @Query("parentId") String parentId,@Query("areaId") String areaId,@Query("placeTypeId") String placeTypeId
                                                 ,@Query("devType") String devType);
 
+    @GET("getSafeScore")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<SafeScore> getSafeScore(@Query("userId") String userId, @Query("privilege") String privilege);
+
     @GET("getNFCSummary")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<SmokeSummary> getNFCSummary(@Query("userId") String userId, @Query("privilege") String privilege,
@@ -352,7 +364,7 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<TemperatureTime> getElectricTypeInfo(@Query("userId") String userId, @Query("privilege") String privilege,
                                                     @Query("smokeMac") String smokeMac, @Query("electricType") String electricType,
-                                                    @Query("electricNum") String electricNum, @Query("page") String page);
+                                                    @Query("electricNum") String electricNum, @Query("page") String page, @Query("devType") int devType);
 
     @GET("getChuanganHistoryInfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -412,6 +424,13 @@ public interface ApiStores {
     @GET("makeSureAlarm")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> makeSureAlarm(@Query("userId") String userId,@Query("smokeMac") String smokeMac,@Query("alarmType") String alarmType);
+
+    //处理报警提交
+    @GET("submitOrder")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> submitOrder(@Query("userId") String userId,@Query("smokeMac") String smokeMac
+            ,@Query("alarmTruth") String alarmTruth,@Query("dealDetail") String dealDetail
+            ,@Query("imagePath") String imagePath,@Query("videoPath") String videoPath);
 
     //设备消音
     @GET("ackNB_IOT_Control")

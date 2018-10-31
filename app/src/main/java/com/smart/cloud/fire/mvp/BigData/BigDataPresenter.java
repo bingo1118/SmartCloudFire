@@ -1,6 +1,7 @@
 package com.smart.cloud.fire.mvp.BigData;
 
 import com.smart.cloud.fire.base.presenter.BasePresenter;
+import com.smart.cloud.fire.global.SafeScore;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.rxjava.ApiCallback;
@@ -30,6 +31,29 @@ public class BigDataPresenter extends BasePresenter<BigDataView>{
 
             @Override
             public void onFailure(int code, String msg) {
+            }
+
+            @Override
+            public void onCompleted() {
+            }
+        }));
+    }
+
+    public void getSafeScore(String userId, String privilege){
+        Observable mObservable = apiStores1.getSafeScore(userId,privilege);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SafeScore>() {
+            @Override
+            public void onSuccess(SafeScore model) {
+
+                int resultCode = model.getErrorCode();
+                if(resultCode==0){
+                    mvpView.getSafeScore(model);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                mvpView.getSafeScore(null);
             }
 
             @Override

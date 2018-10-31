@@ -21,12 +21,15 @@ import android.widget.TextView;
 
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.global.SafeScore;
 import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.ui.view.RadarView;
 import com.smart.cloud.fire.ui.view.RaderWheelView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
@@ -49,14 +52,29 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
     Button acclerateBtn;
     @Bind(R.id.check_layout_top)
     RelativeLayout check_layout_top;
+    @Bind(R.id.fault_rela)
+    RelativeLayout fault_rela;
+    @Bind(R.id.offline_rela)
+    RelativeLayout offline_rela;
+    @Bind(R.id.yangan_rela)
+    RelativeLayout yangan_rela;
+    @Bind(R.id.water_rela)
+    RelativeLayout water_rela;
+    @Bind(R.id.lowpower_rela)
+    RelativeLayout lowpower_rela;
+
+    @Bind(R.id.fault_text)
+    TextView fault_text;
+    @Bind(R.id.offline_text)
+    TextView offline_text;
+    @Bind(R.id.yangan_text)
+    TextView yangan_text;
+    @Bind(R.id.water_text)
+    TextView water_text;
+    @Bind(R.id.lowpower_text)
+    TextView lowpower_text;
     @Bind(R.id.score_tv)
     TextView score_tv;
-    @Bind(R.id.sum_text)
-    TextView sum_text;
-    @Bind(R.id.sum_text1)
-    TextView sum_text1;
-    @Bind(R.id.sum_text2)
-    TextView sum_text2;
 
     TranslateAnimation mShowAnim;
 
@@ -89,7 +107,7 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         mRadarView.start();
-        presenter.getSmokeSummary(userID,privilege+"","","","","");
+        presenter.getSafeScore(userID,privilege+"");
 //        mRadarView.stop();
     }
 
@@ -104,16 +122,17 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
     public void showBackground(int core) {
         if (core > 90 && core <= 100) {
             check_layout_top.setAlpha(1);
-            check_layout_top.setBackgroundColor(getResources().getColor(R.color.wifi_acclerate_green));
+            check_layout_top.setBackground(getResources().getDrawable(R.drawable.scan_back_hao));
         } else if (core >= 75 && core <= 90) {
             check_layout_top.setAlpha(1);
-            check_layout_top.setBackgroundColor(getResources().getColor(R.color.wifi_acclerate_orange));
+            check_layout_top.setBackground(getResources().getDrawable(R.drawable.scan_back_zhong));
 
         } else {
             check_layout_top.setAlpha(1);
-            check_layout_top.setBackgroundColor(getResources().getColor(R.color.wifi_acclerate_red));
+            check_layout_top.setBackground(getResources().getDrawable(R.drawable.scan_back_cha));
 
         }
+
         score_tv.setText(core+"");
         ScaleAnimation scaleAnimation=new ScaleAnimation(1,1.5f,1,1.5f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         scaleAnimation.setDuration(1000);
@@ -124,23 +143,74 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
 
     @Override
     public void getOnlineSummary(SmokeSummary model) {
-        core=100;
+
+    }
+
+    SafeScore model;
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 0:
+                    fault_rela.startAnimation(mShowAnim );
+                    fault_text.setText("一共"+model.getTotalSum()+"个设备");
+                    fault_rela.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    offline_rela.startAnimation(mShowAnim );
+                    offline_text.setText("离线有"+model.getOfflineSum()+"个设备");
+                    offline_rela.setVisibility(View.VISIBLE);
+                    core=core+(int)model.getOffline();
+                    showBackground(core);
+                    break;
+                case 2:
+                    yangan_rela.startAnimation(mShowAnim );
+                    yangan_text.setText("高频报警设备有"+model.getHistoriAlarmSum()+"个设备");
+                    yangan_rela.setVisibility(View.VISIBLE);
+                    core=core+(int)model.getHistoriAlarm();
+                    showBackground(core);
+                    break;
+                case 3:
+                    water_rela.startAnimation(mShowAnim );
+                    water_text.setText("实时报警设备有"+model.getRealtimeAlarmSum()+"个设备");
+                    water_rela.setVisibility(View.VISIBLE);
+                    core=core+(int)model.getRealtimeAlarm();
+                    showBackground(core);
+                    mRadarView.stop();
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void getSafeScore(final SafeScore model) {
+        this.model=model;
+        core=0;
+        showBackground(core);
         mShowAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF
                 ,-1.0f, Animation.RELATIVE_TO_SELF,0.0f);
         mShowAnim.setDuration(500);
-        sum_text.startAnimation(mShowAnim );
-        sum_text.setText("您一共"+model.getAllSmokeNumber()+"个设备，离线有"+model.getLossSmokeNumber()+"个设备，离线率"+model.getLossSmokeNumber()*100/model.getAllSmokeNumber()+"%");
-        sum_text.setVisibility(View.VISIBLE);
-        core=core-40*model.getLossSmokeNumber()/model.getAllSmokeNumber();
-        showBackground(core);
 
-        sum_text1.startAnimation(mShowAnim );
-        sum_text1.setText("您一共"+model.getAllSmokeNumber()+"个设备，低电压设备有"+model.getLowVoltageNumber()+"个，低电率"+model.getLowVoltageNumber()*100/model.getAllSmokeNumber()+"%");
-        sum_text1.setVisibility(View.VISIBLE);
-        core=core-40*model.getLowVoltageNumber()/model.getAllSmokeNumber();
-        showBackground(core);
 
-//        mRadarView.stop();
+        // 初始化定时器
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int i=0;
+            Message msg=new Message();
+            @Override
+            public void run() {
+                if(i>2){
+                    cancel();
+                }
+                Message msg=new Message();
+                msg.what=i;
+                handler.sendMessage(msg);
+                i++;
+            }
+        }, 1000, 2000);
+
+
     }
 }

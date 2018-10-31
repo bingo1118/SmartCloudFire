@@ -20,12 +20,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity;
+import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.InitBaiduNavi;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
@@ -115,8 +117,9 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ItemViewHolder) holder).msg_grade_tv.setText("紧急");
             ((ItemViewHolder) holder).msg_grade_tv.setTextColor(Color.parseColor("#fe0000"));
 
+            ((ItemViewHolder) holder).msg_progress_tv.setOnClickListener(null);
 
-            if (ifDeal == 0) {
+            if (ifDeal == 2) {
                 ((ItemViewHolder) holder).msg_deal_btn.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).msg_progress_image.setVisibility(View.GONE);
                 ((ItemViewHolder) holder).msg_progress_tv.setVisibility(View.GONE);
@@ -125,9 +128,25 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((ItemViewHolder) holder).msg_progress_image.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).msg_progress_tv.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).msg_progress_image.setBackgroundResource(R.drawable.bjrw_cs);
-                ((ItemViewHolder) holder).msg_progress_tv.setText("超时");
+                ((ItemViewHolder) holder).msg_progress_tv.setText("处理中");
+                ((ItemViewHolder) holder).msg_progress_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+                        PushAlarmMsg mPushAlarmMsg=new PushAlarmMsg();
+                        mPushAlarmMsg.setMac(mNormalAlarmMessage.getMac());
+                        mPushAlarmMsg.setName(mNormalAlarmMessage.getName());
+                        mPushAlarmMsg.setAddress(mNormalAlarmMessage.getAddress());
+                        mPushAlarmMsg.setAlarmTypeName(mNormalAlarmMessage.getAlarmTypeName());
+                        mPushAlarmMsg.setAlarmTime(mNormalAlarmMessage.getAlarmTime());
+                        intent.putExtra("mPushAlarmMsg",mPushAlarmMsg);
+                        intent.putExtra("mac",mNormalAlarmMessage.getMac());
+                        intent.putExtra("alarm",mNormalAlarmMessage.getAlarmType()+"");
+                        mContext.startActivityForResult(intent,6);
+                    }
+                });
                 ((ItemViewHolder) holder).msg_progress_tv.setTextColor(mContext.getResources().getColor(R.color.login_btn));
-            }else {
+            }else if(ifDeal==1){
                 ((ItemViewHolder) holder).msg_deal_btn.setVisibility(View.GONE);
                 ((ItemViewHolder) holder).msg_progress_image.setVisibility(View.VISIBLE);
                 ((ItemViewHolder) holder).msg_progress_tv.setVisibility(View.VISIBLE);
@@ -441,7 +460,7 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //                    intent.putExtra("mac",mNormalAlarmMessage.getMac());
 //                    intent.putExtra("alarm",mNormalAlarmMessage.getAlarmType()+"");
 //                    mContext.startActivity(intent);
-//
+
 //                    collectFragmentPresenter.dealAlarm(userId, mNormalAlarmMessage.getMac(), privilege,messageModelList.indexOf(mNormalAlarmMessage));//@@5.19添加index位置参数
                 }
             });

@@ -41,7 +41,6 @@ public class MyImageView extends ImageView{
             }
             if(null!=this.mPath){
 
-
                 //this.mBitmap = BitmapFactory.decodeFile(this.mPath);
                 this.mBitmap = ImageUtils.getBitmap(this.mPath, IMAGE_WIDTH_HEIGHT, IMAGE_WIDTH_HEIGHT);
                 this.setImageBitmap(mBitmap);

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#bc1c07"
+    >
+
+    <RelativeLayout
+        android:id="@+id/alarm_fk_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/alarm_fk_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/task_bg_selector"
+            android:scaleType="center"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            />
+        <ImageView
+            android:id="@+id/alarm_music_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/bj_yl"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/get_task_back_shape">
+
+        <ImageView
+            android:id="@+id/jinji_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/jinji"/>
+
+        <TextView
+            android:id="@+id/msg_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/jinji_image"
+            android:layout_alignTop="@id/jinji_image"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:text="鱼珠智谷A02发生烟雾报警，请尽快处理！"
+            android:layout_marginRight="10dp" />
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/mmap"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_margin="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/jinji_image">
+        </com.baidu.mapapi.map.MapView>
+
+        <RelativeLayout
+            android:id="@+id/daohan_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mmap"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/upload_alarm_button_selector"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="15dp"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:text="查看导航"/>
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/daohan_image"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/makesure_getalarm"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/daohan_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/login_btn_bg"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="15dp"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:text="立即处理"/>
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/lijichuli"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

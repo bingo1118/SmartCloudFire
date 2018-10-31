@@ -20,9 +20,11 @@ import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.PushManager;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
+import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.Alarm.AlarmActivity;
+import com.smart.cloud.fire.mvp.Alarm.GetTaskActivity;
 import com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity;
 import com.smart.cloud.fire.mvp.Alarm.WorkingTimeActivity;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
@@ -80,6 +82,18 @@ public class DemoIntentService extends GTIntentService {
         try {
             JSONObject dataJson = new JSONObject(msg);
             String alarmTime=dataJson.getString("alarmTime");
+            int pushStatus = 0;
+            if(dataJson.has("pushStatus")){
+                pushStatus=dataJson.getInt("pushStatus");
+            }
+
+            if(pushStatus==1){
+                Intent intent_task=new Intent(context, GetTaskActivity.class);
+                intent_task.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent_task.putExtra("mPushAlarmMsg",jsJson(dataJson));
+                context.startActivity(intent_task);
+                return;
+            }
             //过滤30分钟前的报警
             if(null!=alarmTime&&(System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
                 return;
@@ -210,6 +224,8 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生自检报警";
                             }else if(alarmType==69){
                                 message="发生报警恢复";
+                            }else if(alarmType==102){
+                                message="发生烟雾报警恢复";
                             }else if(alarmType==103){
                                 message="发生温度报警";
                             }else if(alarmType==104){
@@ -389,7 +405,8 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
-                case 76://NB直连电气
+                case 77://南京三相电气
+                case 76://NB直连三相电气
                 case 75://南京电气
                 case 59:
                 case 53:
@@ -604,6 +621,9 @@ public class DemoIntentService extends GTIntentService {
         mPushAlarmMsg.setAlarmTime(dataJson.getString("alarmTime"));
         mPushAlarmMsg.setDeviceType(dataJson.getInt("deviceType"));
         mPushAlarmMsg.setAlarmFamily(dataJson.getInt("alarmFamily"));
+        if(dataJson.has("alarmTypeName")){
+            mPushAlarmMsg.setAlarmTypeName(dataJson.getString("alarmTypeName"));
+        }
         try{
             mPushAlarmMsg.setUploadpeople(dataJson.getString("uploadpeople"));
             JSONObject jsonObject =  dataJson.getJSONObject("camera");

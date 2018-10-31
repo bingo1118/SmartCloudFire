@@ -48,6 +48,8 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MainService;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.global.SafeScore;
+import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.BigData.BigDataActivity;
 import com.smart.cloud.fire.mvp.login.SplashActivity;
 import com.smart.cloud.fire.mvp.main.presenter.MainPresenter;
@@ -135,8 +137,8 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
         Intent intent;
         switch (view.getId()) {
             case R.id.banner_image:
-                intent=new Intent(mContext, BigDataActivity.class);
-                startActivity(intent);
+//                intent=new Intent(mContext, BigDataActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.alarm_msg:
                 intent=new Intent(mContext, AlarmMsgActivity.class);
@@ -355,6 +357,16 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
             //moveTaskToBack(false);
             moveTaskToBack(true);//@@5.31
         }
+    }
+
+    @Override
+    public void getOnlineSummary(SmokeSummary model) {
+
+    }
+
+    @Override
+    public void getSafeScore(SafeScore model) {
+
     }
 
     @Override

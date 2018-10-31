@@ -28,6 +28,7 @@ public class UploadAlarmInfoPresenter extends BasePresenter<UploadAlarmInfoView>
         attachView(view);
     }
 
+
     public void uploadAlarm(String username,String mac,String alarmType){
         Observable mObservable=apiStores1.makeSureAlarm(username,mac,alarmType);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
@@ -40,6 +41,29 @@ public class UploadAlarmInfoPresenter extends BasePresenter<UploadAlarmInfoView>
 
             @Override
             public void onFailure(int code, String msg) {
+                mvpView.T("失败");
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        }));
+    }
+
+    public void submitOrder(String username,String mac,String alarmTruth,String dealDetail,String imagePath,String videoPath){
+        Observable mObservable=apiStores1.submitOrder(username,mac,alarmTruth,dealDetail,imagePath,videoPath);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+
+            @Override
+            public void onSuccess(HttpError model) {
+                int result=model.getErrorCode();
+                mvpView.dealResult(model.getError(),result);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+
                 mvpView.T("失败");
             }
 

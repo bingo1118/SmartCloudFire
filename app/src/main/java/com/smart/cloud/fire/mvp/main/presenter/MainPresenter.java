@@ -14,6 +14,8 @@ import android.widget.RadioGroup;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.base.ui.BaseFragment;
 import com.smart.cloud.fire.global.ConstantValues;
+import com.smart.cloud.fire.global.SafeScore;
+import com.smart.cloud.fire.global.SmokeSummary;
 import com.smart.cloud.fire.mvp.fragment.CallAlarmFragment.CallAlarmFragment;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.CollectFragment;
 import com.smart.cloud.fire.mvp.fragment.ConfireFireFragment.ConfireFireFragment;
@@ -21,6 +23,8 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.MapFragment;
 import com.smart.cloud.fire.mvp.fragment.SettingFragment.SettingFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
 import com.smart.cloud.fire.mvp.main.view.MainView;
+import com.smart.cloud.fire.rxjava.ApiCallback;
+import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.view.MyRadioButton;
 
@@ -29,6 +33,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import fire.cloud.smart.com.smartcloudfire.R;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/9/21.
@@ -257,5 +262,51 @@ public class MainPresenter extends BasePresenter<MainView> {
         } else {
             mvpView.exitBy2Click(isExit);
         }
+    }
+
+    public void getSmokeSummary(String userId, String privilege, String parentId, String areaId, String placeTypeId, String devType){
+            Observable mObservable = apiStores1.getDevSummary(userId,privilege,parentId,areaId,placeTypeId,devType);
+            addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SmokeSummary>() {
+            @Override
+            public void onSuccess(SmokeSummary model) {
+
+                int resultCode = model.getErrorCode();
+                if(resultCode==0){
+                    mvpView.getOnlineSummary(model);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+            }
+
+            @Override
+            public void onCompleted() {
+            }
+        }));
+    }
+
+    public void getSafeScore(String userId, String privilege){
+        Observable mObservable = apiStores1.getSafeScore(userId,privilege);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<SafeScore>() {
+            @Override
+            public void onSuccess(SafeScore model) {
+
+                int resultCode = model.getErrorCode();
+                if(resultCode==0){
+                    mvpView.getSafeScore(model);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+
+                mvpView.getSafeScore(null);
+            }
+
+            @Override
+            public void onCompleted() {
+            }
+        }));
     }
 }

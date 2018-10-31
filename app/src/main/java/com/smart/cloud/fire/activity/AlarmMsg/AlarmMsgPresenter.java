@@ -85,6 +85,62 @@ public class AlarmMsgPresenter extends BasePresenter<AlarmMsgView> {
         }));
     }
 
+    public void getNeedOrderMsg (String userId, String privilege, String page, String startTime, String endTime
+            , String grade,String progress, final int type){
+        mvpView.showLoading();
+        if(!NpcCommon.verifyNetwork(MyApp.app)){
+            T.showShort(MyApp.app,"无网络状态，加载缓存内容...");
+            List<AlarmMessageModel> AlarmMsgs = LitePal.where(" mac like ? ",  "%").find(AlarmMessageModel.class);
+            if(AlarmMsgs.size()>0){
+                mvpView.getDataSuccess(AlarmMsgs);
+                T.showShort(MyApp.app,"加载完成");
+                mvpView.hideLoading();
+            }else{
+                T.showShort(MyApp.app,"无缓存数据");
+                mvpView.hideLoading();
+            }
+            return;
+        }
+        Observable observable=null;
+        observable = apiStores1.getNeedOrderMsg(userId,privilege,page,grade,progress);
+
+        addSubscription(observable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                int errorCode = model.getErrorCode();
+                if(errorCode==0){
+                    List<AlarmMessageModel> alarmMessageModels = model.getAlarm();
+                    if(type==1){
+                        mvpView.getDataSuccess(alarmMessageModels);
+                    }else if(type==3){
+                        mvpView.getOfflineDataSuccess(alarmMessageModels);
+                    }else{
+                        mvpView.getDataByCondition(alarmMessageModels);
+                    }
+
+                }else{
+                    List<AlarmMessageModel> alarmMessageModels = new ArrayList<AlarmMessageModel>();//@@5.3
+                    if(type==3){
+                        mvpView.getOfflineDataSuccess(alarmMessageModels);
+                    }else{
+                        mvpView.getDataSuccess(alarmMessageModels);//@@5.3
+                        mvpView.getDataFail("无数据");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                mvpView.getDataFail("网络错误");
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
     public void dealAlarm(String userId, String smokeMac, String privilege, final int index){//@@5.19添加取消报警信息的位置
         mvpView.showLoading();
         Observable mObservable = apiStores1.dealAlarm(userId,smokeMac);

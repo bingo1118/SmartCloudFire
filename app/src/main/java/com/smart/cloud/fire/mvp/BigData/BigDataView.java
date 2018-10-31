@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.mvp.BigData;
 
+import com.smart.cloud.fire.global.SafeScore;
 import com.smart.cloud.fire.global.SmokeSummary;
 
 /**
@@ -8,4 +9,6 @@ import com.smart.cloud.fire.global.SmokeSummary;
 public interface BigDataView {
 
     void getOnlineSummary(SmokeSummary model);
+
+    void getSafeScore(SafeScore model);
 }

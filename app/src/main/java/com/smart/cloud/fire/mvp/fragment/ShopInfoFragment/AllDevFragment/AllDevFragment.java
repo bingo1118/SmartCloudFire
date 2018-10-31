@@ -242,7 +242,6 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
                         intent.putExtra("Position",smoke.getName());
                         mContext.startActivity(intent);
                         break;
-
                 }
             }
         });

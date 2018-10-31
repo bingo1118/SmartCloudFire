@@ -34,11 +34,13 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/add_fire_title">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_below="@id/add_fire_title"
+        android:background="@drawable/upload_alarm_stroke"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -46,88 +48,63 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:id="@+id/camera_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="ID"/>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:background="@drawable/edit_view_bg">
-                    <EditText
-                        android:id="@+id/uid_name"
-                        android:enabled="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:textSize="14sp"
-                        android:background="@null"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:hint="ID"
-                        android:textColorHint="@color/hint_color_text"
-                        android:textColor="@color/text_view_and_kuang"
-                        />
-                </RelativeLayout>
+                android:layout_margin="2dp"
+                android:background="@drawable/upload_alarm_title_shape">
+                <ImageView
+                    android:id="@+id/dealwithalarm_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/dealwithalarm"
+                    android:layout_margin="8dp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已生成工单，请尽快处理！"
+                    android:layout_centerVertical="true"
+                    android:textColor="#4c45d3"
+                    android:layout_toRightOf="@id/dealwithalarm_image"/>
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/msg_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试区的水压设备：NB测试设备（设备号:56235698）发生烟雾报警！"
+                android:layout_margin="20dp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/address_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地址:广东省广州市黄埔区鱼珠智谷"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间:2018.10.20 16:19:21"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="类型"/>
+                    android:text="状态:"
+                    android:textColor="#000"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:background="@drawable/edit_view_bg">
-                    <EditText
-                        android:id="@+id/device_type_name"
-                        android:enabled="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:textSize="14sp"
-                        android:background="@null"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:hint="类型"
-                        android:textColorHint="@color/hint_color_text"
-                        android:textColor="@color/text_view_and_kuang"
-                        />
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="状态"/>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp">
+                    android:layout_marginLeft="30dp">
                     <RadioGroup
                         android:id="@+id/radio_group"
                         android:layout_width="wrap_content"
@@ -144,7 +121,7 @@
                             android:id="@+id/radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginLeft="10dp"
                             android:text="误报"/>
                     </RadioGroup>
                 </RelativeLayout>
@@ -157,14 +134,16 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp">
                 <TextView
+                    android:id="@+id/mark_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="备注"/>
+                    android:text="备注:"
+                    android:textColor="#000"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
+                    android:layout_below="@id/mark_text"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/edit_view_bg">
                     <EditText
                         android:id="@+id/memo_name"
@@ -184,70 +163,72 @@
                 </RelativeLayout>
 
             </RelativeLayout>
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="拍照上传"/>
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp">
+                    android:layout_weight="1"
+                    android:background="@drawable/upload_camera_shape">
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:id="@+id/photo_image"
-                        android:src="@drawable/image_tip"/>
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/upload_alarm_camera"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/photo_image"
+                        android:textColor="@color/white"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="请从正面取证拍照"/>
+
                 </RelativeLayout>
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="视频上传"/>
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp">
+                    android:layout_weight="1"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/upload_video_shape">
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
                         android:id="@+id/video_upload"
-                        android:src="@drawable/video_tip"/>
+                        android:src="@drawable/upload_alarm_video"
+                        android:layout_centerHorizontal="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/video_upload"
+                        android:textColor="@color/white"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="请从正面取证录像"/>
                 </RelativeLayout>
+            </LinearLayout>
 
-            </RelativeLayout>
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="80dp" />
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/add_fire_dev_btn"
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="45dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/login_button_selector">
+        android:background="@drawable/upload_alarm_button_selector">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

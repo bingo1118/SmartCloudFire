@@ -34,8 +34,8 @@ public class RadarView extends FrameLayout {
     //旋转效果起始角度
     private int start = 0;
     private int Istart = 0;
-    private int bigR = 100;
-    private int smallR = 60;
+    private int bigR = 60;
+    private int smallR = 30;
     private int stoke = 7;
     private int lineWidth = 1;
 

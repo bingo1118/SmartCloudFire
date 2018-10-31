@@ -408,11 +408,14 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }else{
                         url=ConstantValues.SERVER_IP_NEW+"EasyIot_Switch_control?devSerial="+normalSmoke.getMac()+"&eleState=1&appId=1&userId="+userID;
                     }
-                }else if(normalSmoke.getDeviceType()==75){
+                }else if(normalSmoke.getDeviceType()==75||normalSmoke.getDeviceType()==77){
+                    String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                            SharedPreferencesManager.SP_FILE_GWELL,
+                            SharedPreferencesManager.KEY_RECENTNAME);
                     if(eleState==1){
-                        url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType=75&devCmd=12";
+                        url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType="+normalSmoke.getDeviceType()+"&devCmd=12&userid="+userid;
                     }else{
-                        url=ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType=75&devCmd=13";
+                        url=ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType="+normalSmoke.getDeviceType()+"&devCmd=13&userid"+userid;
                     }
                 }else{
                     if(eleState==1){

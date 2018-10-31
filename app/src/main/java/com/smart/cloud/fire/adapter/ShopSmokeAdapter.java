@@ -523,6 +523,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("CA燃气："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, ChuangAnActivity.class);
+                            intent.putExtra("Mac",normalSmoke.getMac());
+                            intent.putExtra("Position",normalSmoke.getName());
+                            mContext.startActivity(intent);
+                        }
+                    });
                     break;
                 case 125:
                 case 70:

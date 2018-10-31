@@ -19,7 +19,7 @@ package com.smart.cloud.fire.global;
     //测试IP:
 //    public static final String SERVER_IP_NEW ="http://139.159.209.212:51091/fireSystem/";
     //测试IP:
-//    public static final String SERVER_IP_NEW ="http://139.159.220.138:51091/fireSystem/";
+    public static final String SERVER_IP_NEW ="http://139.159.220.138:51091/fireSystem/";
     //万科测试IP:
 //    public static final String SERVER_IP_NEW ="http://193.112.231.227:51091/vanke/";
 
@@ -31,7 +31,9 @@ package com.smart.cloud.fire.global;
     //NB IP:
 //    public static final String SERVER_IP_NEW ="http://193.112.59.214:51091/fireSystem/";
     //正式IP:
-    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
+//    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
+    //正式2.0版本:
+//    public static final String SERVER_IP_NEW ="http://193.112.215.201:51091/fireSystem/";
     // 聊城IP:
 //    public static final String SERVER_IP_NEW ="http://61.133.116.241:51091/fireSystem/";
     //华为正式IP:

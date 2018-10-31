@@ -169,10 +169,6 @@
             android:label="@string/line_chart_activity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.smart.cloud.fire.mvp.LineChart.LineChartActivityTest"
-            android:label="@string/line_chart_activity"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name="com.smart.cloud.fire.mvp.electric.ElectricActivity"
             android:label="@string/line_chart_activity"
             android:theme="@style/AppTheme" />
@@ -270,8 +266,10 @@
         <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity" />
         <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.TestSafetyActivity" />
         <activity android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity" />
-        <activity android:name="com.smart.cloud.fire.BigData.BigDataActivity" />
-        <activity android:name="com.smart.cloud.fire.mvp.BigData.BigDataActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.mvp.BigData.BigDataActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.main.Main2Activity" />
+        <activity android:name="com.smart.cloud.fire.mvp.Alarm.GetTaskActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

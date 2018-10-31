@@ -28,6 +28,7 @@ public class AlarmMessageModel extends LitePalSupport {
     private String address;
     private String alarmTime;
     private int alarmType;
+    private String alarmTypeName;
     private String areaName;
     private int ifDealAlarm;
     private String latitude;
@@ -241,5 +242,13 @@ public class AlarmMessageModel extends LitePalSupport {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAlarmTypeName() {
+        return alarmTypeName;
+    }
+
+    public void setAlarmTypeName(String alarmTypeName) {
+        this.alarmTypeName = alarmTypeName;
     }
 }

@@ -124,6 +124,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     private Map<Integer, String> data = new HashMap<>();
 
     private String isWater=null;//@@12.15
+    private int devType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +140,10 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         electricType = getIntent().getExtras().getInt("electricType") + "";
         electricNum = getIntent().getExtras().getInt("electricNum") + "";
         isWater=getIntent().getExtras().getString("isWater");//@@12.15
+        devType=getIntent().getExtras().getInt("devType");
         electricBeen = new ArrayList<>();
         if(isWater==null){
-            mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+            mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
         }else if(isWater.equals("chuangan")){
             mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
         }else if(isWater.equals("tem")){
@@ -669,7 +671,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     btnBefore.setBackgroundResource(R.drawable.before_selector);
                 }
                 if(isWater==null){
-                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
                 }else if(isWater.equals("chuangan")){
                     mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
                 }else if(isWater.equals("tem")){
@@ -690,7 +692,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         btnBefore.setBackgroundResource(R.mipmap.prve_an);
                     }
                     if(isWater==null){
-                        mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                        mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
                     }else if(isWater.equals("chuangan")){
                         mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
                     }else if(isWater.equals("tem")){
@@ -711,7 +713,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 btnNext.setClickable(true);
                 btnNext.setBackgroundResource(R.drawable.next_selector);
                 if(isWater==null){
-                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false);
+                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
                 }else if(isWater.equals("chuangan")){
                     mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
                 }else if(isWater.equals("tem")){

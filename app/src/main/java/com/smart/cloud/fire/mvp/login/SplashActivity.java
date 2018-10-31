@@ -8,6 +8,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.login.presenter.LoginPresenter;
 import com.smart.cloud.fire.mvp.login.view.LoginView;
+import com.smart.cloud.fire.mvp.main.Main2Activity;
 import com.smart.cloud.fire.mvp.main.MainActivity;
 import com.smart.cloud.fire.utils.T;
 
@@ -29,7 +30,7 @@ public class SplashActivity extends MvpActivity<LoginPresenter> implements Login
 
     @Override
     public void getDataSuccess() {
-        Intent intent = new Intent(mContext, MainActivity.class);
+        Intent intent = new Intent(mContext, Main2Activity.class);
         startActivity(intent);
         finish();
     }

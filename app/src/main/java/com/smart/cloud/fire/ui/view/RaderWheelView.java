@@ -23,9 +23,9 @@ public class RaderWheelView extends FrameLayout {
     private int mWidth;
     private int mHeight;
     private Paint mPaintLine;
-    private int bigR = 100;
-    private int smallR = 50;
-    private int midR=75;
+    private int bigR = 60;
+    private int smallR = 30;
+    private int midR=45;
     private int stoke = 7;
     private int lineWidth = 1;
     private boolean stopRoate = false;
@@ -81,16 +81,16 @@ public class RaderWheelView extends FrameLayout {
 
         if (!stopRoate) {//停止转圈的时候，隐藏掉中间的小圈
             mPaintLine.setStrokeWidth(10);
-            mPaintLine.setColor(0x80FFFFFF);
+            mPaintLine.setColor(0xFFFFFFFF);
             canvas.drawCircle(mWidth / 2, mHeight / 2, smallR, mPaintLine);
 //            canvas.drawLine(mWidth / 2 - smallR, mHeight / 2, mWidth /2 + smallR, mHeight / 2 , mPaintLine);
 //            canvas.drawLine(mWidth / 2 , mHeight / 2 - smallR, mWidth /2 , mHeight / 2+ smallR , mPaintLine);
         }
-        mPaintLine.setStrokeWidth(lineWidth);
+        mPaintLine.setStrokeWidth(5);
         mPaintLine.setColor(0x60FFFFFF);
         canvas.drawCircle(mWidth / 2, mHeight / 2, midR, mPaintLine);
-        mPaintLine.setStrokeWidth(lineWidth);
-        mPaintLine.setColor(0x60FFFFFF);
+        mPaintLine.setStrokeWidth(5);
+        mPaintLine.setColor(0x20FFFFFF);
         canvas.drawCircle(mWidth / 2, mHeight / 2, bigR, mPaintLine);
     }
 }

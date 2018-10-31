@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="#e7e7e7">
 
 
     <RelativeLayout
         android:id="@+id/check_layout_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/wifi_acclerate_green"
+        android:layout_height="200dp"
+        android:background="@drawable/scan_back_hao"
         android:visibility="visible" >
 
         <RelativeLayout
@@ -41,12 +42,12 @@
                     android:layout_centerHorizontal="true"
                     android:text="100"
                     android:textColor="@color/white"
-                    android:textSize="38sp"/>
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="分"
-                    android:textSize="14sp"
+                    android:textSize="10sp"
                     android:textColor="@color/white"
                     android:layout_alignTop="@+id/score_tv"
                     android:layout_toRightOf="@+id/score_tv"
@@ -71,35 +72,172 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/check_layout_top"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="160dp"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/sum_text"
+        <RelativeLayout
+            android:id="@+id/fault_rela"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="您总共有3652个设备，掉线设备300个，离线率11.3%"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:visibility="gone"/>
-        <TextView
-            android:id="@+id/sum_text1"
+            android:background="@drawable/home_alarm_card"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/fault_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/type_fault"/>
+            <TextView
+                android:id="@+id/fault_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/fault_image"
+                android:text="您总共有3652个设备，故障300个"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/jiantou"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/offline_rela"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="您总共有3652个设备，故障设备263个，故障率9.2%"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:visibility="gone"/>
-        <TextView
-            android:id="@+id/sum_text2"
+            android:background="@drawable/home_alarm_card"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/offline_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/type_offline"/>
+            <TextView
+                android:id="@+id/offline_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/offline_image"
+                android:text="离线设备263个"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/jiantou"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/yangan_rela"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="您总共有3652个设备，设备低电压16个，离线率0.6%"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:visibility="gone"/>
+            android:background="@drawable/home_alarm_card"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/yangan_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/type_yangan"/>
+            <TextView
+                android:id="@+id/yangan_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/yangan_image"
+                android:text="烟感设备16个"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/jiantou"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lowpower_rela"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_alarm_card"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/lowpower_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/type_lowpower"/>
+            <TextView
+                android:id="@+id/lowpower_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/lowpower_image"
+                android:text="设备低电压16个"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/jiantou"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/water_rela"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_alarm_card"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/water_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/type_water"/>
+            <TextView
+                android:id="@+id/water_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/water_image"
+                android:text="设备水设备16个"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/jiantou"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"/>
+        </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

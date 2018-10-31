@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -44,6 +46,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.NpcCommon;
+import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
@@ -69,14 +72,16 @@ import fire.cloud.smart.com.smartcloudfire.R;
 
 public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresenter> implements UploadAlarmInfoView{
 
-    @Bind(R.id.uid_name)
-    EditText uid_name;//@@uid
+    @Bind(R.id.msg_text)
+    TextView msg_text;
+    @Bind(R.id.address_text)
+    TextView address_text;
+    @Bind(R.id.time_text)
+    TextView time_text;
     @Bind(R.id.add_fire_dev_btn)
     RelativeLayout addFireDevBtn;//添加设备按钮。。
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;//加载进度。。
-    @Bind(R.id.device_type_name)
-    EditText device_type_name;//@@类型
     @Bind(R.id.memo_name)
     EditText memo_name;//@@备注
     @Bind(R.id.photo_image)
@@ -100,8 +105,7 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     private Tag mDetectedTag;
 
     private String deviceState="4";//@@3 误报 4 报警
-    String lon="";
-    String lat="";
+    private PushAlarmMsg mPushAlarmMsg;
     private String imageFilePath;
     File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/devalarm.jpg");//@@9.30
     String video_path=Environment.getExternalStorageDirectory() + File.separator + "SmartCloudFire/video/temp.mp4";
@@ -163,9 +167,9 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
-        Intent intent=getIntent();
-        mac=intent.getStringExtra("mac");
-        alarm=intent.getStringExtra("alarm");
+        mPushAlarmMsg = (PushAlarmMsg) getIntent().getExtras().getSerializable("mPushAlarmMsg");
+        mac=mPushAlarmMsg.getMac();
+
         if(f.exists()){
             f.delete();
         }//@@9.30
@@ -184,18 +188,11 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     }
 
     private void initView() {
-        uid_name.setText(mac);
-        switch (alarm){
-            case "193":
-                device_type_name.setText("低电压");
-                break;
-            case "14":
-                device_type_name.setText("设备拆除");
-                break;
-            default:
-                device_type_name.setText("火警");
-                break;
-        }
+        msg_text.setText(Html.fromHtml("<font color=\'#000\'>"+mPushAlarmMsg.getAddress()+"-"+mPushAlarmMsg.getName()
+                +"发生"+"</font><font color=\'#bc1c07\'>"+"【"+mPushAlarmMsg.getAlarmTypeName()+"】"+"</font>"
+                +"<font color=\'#000\'>，请尽快处理！</font>"));
+        address_text.setText("地址:"+mPushAlarmMsg.getAddress());
+        time_text.setText("时间:"+mPushAlarmMsg.getAlarmTime());
         addFireDevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,11 +272,12 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
                         String username = SharedPreferencesManager.getInstance().getData(mContext,
                                 SharedPreferencesManager.SP_FILE_GWELL,
                                 SharedPreferencesManager.KEY_RECENTNAME);
-                        if(deviceState.equals("4")){
-                            presenter.uploadAlarm(username,mac,alarm);
-                        }else{
-                            presenter.erasure(username,mac,"1");
-                        }
+//                        if(deviceState.equals("4")){
+//                            presenter.uploadAlarm(username,mac,alarm);//报警上报到6、7权限用户
+//                        }else{
+//                            presenter.erasure(username,mac,"1");
+//                        }
+                        presenter.submitOrder(username,mac,deviceState,memo_name.getText().toString(),image_name,video_name);
                         if(video_file!=null){
                             video_file.delete();
                         }
@@ -337,8 +335,6 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
     }
 
     private void clearView() {
-        uid_name.setText("");
-        device_type_name.setText("");
         memo_name.setText("");
         photo_image.setImageResource(R.drawable.add_photo);
         imageFilePath=null;
@@ -475,19 +471,6 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
         }
     };
 
-    private void setNoteBody(String body) {
-        try {
-            JSONObject jsonObject=new JSONObject(body);
-            uid_name.setText(jsonObject.getString("uid"));
-            device_type_name.setText(jsonObject.getString("deviceTypeName"));
-            lon=jsonObject.getString("longitude");
-            lat=jsonObject.getString("latitude");
-            areaId=jsonObject.getString("areaId");//@@9.27
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static boolean uploadFile(File imageFile,String userId,String areaId,String uploadtime,String mac,String location,String name) {
         try {

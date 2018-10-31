@@ -23,6 +23,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.smart.cloud.fire.SQLEntity.AlarmMsg;
 import com.smart.cloud.fire.SQLEntity.UploadAlarmMsgTemp;
 import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
@@ -30,12 +34,17 @@ import com.smart.cloud.fire.adapter.AlarmMsgAdapter;
 import com.smart.cloud.fire.adapter.RefreshRecyclerAdapter;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.NpcCommon;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
+import com.smart.cloud.fire.pushmessage.PushAlarmMsg;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.VolleyHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 import org.litepal.crud.LitePalSupport;
@@ -110,9 +119,10 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
         privilege = MyApp.app.getPrivilege();
         page = "1";
 
-        mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
+        mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","","","",1);
         if(NpcCommon.verifyNetwork(MyApp.app)){
-            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
+//            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
+            mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","","1","",3);
             title_tv.setText("全部任务");
             search_image.setVisibility(View.VISIBLE);
         }else{
@@ -188,9 +198,11 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                     type=1;//@@7.12
                     title_tv.setText("全部任务");
                     search_image.setVisibility(View.VISIBLE);
-                    mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
+//                    mvpPresenter.getNeedAlarmMsg(userID, privilege + "", "", 3, "", "", "", "","","","","1");
+                    mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","","","1",3);
                 }
-                mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
+//                mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
+                mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","","","",1);
 
                 mProgressBar.setVisibility(View.GONE);
             }
@@ -208,9 +220,11 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                     if (loadMoreCount >= 20 && type!=3) {//@@7.12
                         page = Integer.parseInt(page) + 1 + "";
                         if(type==2){
-                            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 2, "", "", "", "","",grade+"",distance+"",progress+"");
+//                            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 2, "", "", "", "","",grade+"",distance+"",progress+"");
+                            mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","",grade+"",progress+"",2);
                         }else{
-                            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
+//                            mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 1, "", "", "", "","","","","");
+                            mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","","","",1);
                         }//@@7.12 区分是否是条件查询 1 查询全部 2 条件查询
                         mProgressBar.setVisibility(View.GONE);
                     }else{
@@ -339,7 +353,8 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                 grade=grade_t;
                 distance=distance_t;
                 progress=progress_t;
-                mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 2, "", "", "", "","",grade+"",distance+"",progress+"");
+//                mvpPresenter.getNeedAlarmMsg(userID, privilege + "", page, 2, "", "", "", "","",grade+"",distance+"",progress+"");
+                mvpPresenter.getNeedOrderMsg(userID, privilege + "", page,"","",grade+"",progress+"",2);
                 popupWindow.dismiss();
                 grade_t=0;
                 progress_t=0;
@@ -402,12 +417,46 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
             adapter = new AlarmMsgAdapter(this, messageModelList, presenter, userID, privilege + "");
             adapter.setOnClickListener(new AlarmMsgAdapter.onClickListener() {
                 @Override
-                public void onClick(View view, int position) {
+                public void onClick(View view, final int position) {
                     if(view.getId()==R.id.msg_deal_btn){
-                        Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
-                        intent.putExtra("mac",messageModelList.get(position).getMac());
-                        intent.putExtra("alarm",messageModelList.get(position).getAlarmType()+"");
-                        startActivityForResult(intent,6);
+                        String username = SharedPreferencesManager.getInstance().getData(mContext,
+                                SharedPreferencesManager.SP_FILE_GWELL,
+                                SharedPreferencesManager.KEY_RECENTNAME);
+                        String url= ConstantValues.SERVER_IP_NEW+"receiveOrder?userId="+username+"&smokeMac="+messageModelList.get(position).getMac();
+                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                        RequestQueue mQueue = helper.getRequestQueue();
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            int errorCode=response.getInt("errorCode");
+                                            if(errorCode==0){
+                                                Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+                                                PushAlarmMsg mPushAlarmMsg=new PushAlarmMsg();
+                                                mPushAlarmMsg.setMac(messageModelList.get(position).getMac());
+                                                mPushAlarmMsg.setName(messageModelList.get(position).getName());
+                                                mPushAlarmMsg.setAddress(messageModelList.get(position).getAddress());
+                                                mPushAlarmMsg.setAlarmTypeName(messageModelList.get(position).getAlarmTypeName());
+                                                mPushAlarmMsg.setAlarmTime(messageModelList.get(position).getAlarmTime());
+                                                intent.putExtra("mPushAlarmMsg",mPushAlarmMsg);
+                                                intent.putExtra("mac",messageModelList.get(position).getMac());
+                                                intent.putExtra("alarm",messageModelList.get(position).getAlarmType()+"");
+                                                startActivityForResult(intent,6);
+                                                T.showShort(mContext,"接单成功");
+                                            }else{
+                                                T.showShort(mContext,response.getString("error"));
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
                         deal_position=position;
                     }
                 }
