@@ -159,6 +159,8 @@ public class DemoIntentService extends GTIntentService {
                 case 70://恒星水压
                 case 72://防爆燃气
                 case 73://南京7020燃气
+                case 78://南京普通水压
+                case 79://南京温湿度
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -179,6 +181,7 @@ public class DemoIntentService extends GTIntentService {
                         case 111:
                             message="主机处于备电状态";
                             break;
+                        case 79:
                         case 26:
                         case 25:
                             if(alarmType==307) {
@@ -363,6 +366,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 125:
+                        case 78:
                         case 70:
                         case 68:
                         case 42:
@@ -416,6 +420,30 @@ public class DemoIntentService extends GTIntentService {
                     int alarmFamily = pushAlarmMsg1.getAlarmFamily();
                     String alarmMsg = null;
                     switch (alarmFamily){
+                        case 204:
+                            alarmMsg = "电气探测器发出：测试手动报警";
+                            break;
+                        case 151:
+                            alarmMsg = "电气探测器发出：缺零报警";
+                            break;
+                        case 152:
+                            alarmMsg = "电气探测器发出：过载报警";
+                            break;
+                        case 153:
+                            alarmMsg = "电气探测器发出：缺相报警";
+                            break;
+                        case 154:
+                            alarmMsg = "电气探测器发出：接地报警";
+                            break;
+                        case 155:
+                            alarmMsg = "电气探测器发出：停电报警";
+                            break;
+                        case 156:
+                            alarmMsg = "电气探测器发出：闭锁报警";
+                            break;
+                        case 157:
+                            alarmMsg = "电气探测器发出：定时试验";
+                            break;
                         case 43://电气报警
                             int alarmType1 = pushAlarmMsg1.getAlarmType();
                             if(alarmType1!=0){

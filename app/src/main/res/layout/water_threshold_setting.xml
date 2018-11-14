@@ -55,6 +55,50 @@
             android:padding="3dp"
             android:background="@drawable/edit_view_bg"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/uploadtime_lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/uploadtime_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="上传时间(min):"/>
+        <EditText
+            android:id="@+id/uploadtime_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:background="@drawable/edit_view_bg"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/getdatatime_lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/getdatatime_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="采集时间(min):"/>
+        <EditText
+            android:id="@+id/getdatatime_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:background="@drawable/edit_view_bg"/>
+    </LinearLayout>
     <Button
         android:id="@+id/commit"
         android:layout_width="match_parent"

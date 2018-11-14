@@ -143,10 +143,10 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                         TextView overcurrentvalue_yuzhi_text=(TextView)layout.findViewById(R.id.overcurrentvalue_yuzhi);
                         TextView Leakage_value_yuzhi_text=(TextView)layout.findViewById(R.id.Leakage_value_yuzhi);
                         if(devType==75||devType==77){
-                            high_value_yuzhi_text.setText("（230-320V）");
-                            low_value_yuzhi_text.setText("（100-200V）");
-                            overcurrentvalue_yuzhi_text.setText("（4-250A）");
-                            Leakage_value_yuzhi_text.setText("（30-1000mA）");
+                            high_value_yuzhi_text.setText("(230-320V)");
+                            low_value_yuzhi_text.setText("(100-200V)");
+                            overcurrentvalue_yuzhi_text.setText("(4-250A)");
+                            Leakage_value_yuzhi_text.setText("(30-1000mA)");
                         }
                         Button commit=(Button)(Button)layout.findViewById(R.id.commit);
                         commit.setOnClickListener(new View.OnClickListener() {
@@ -245,7 +245,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                                 try {
                                                     int errorCode=response.getInt("errorCode");
                                                     if(errorCode==0){
-                                                        T.showShort(mContext,"设置成功");
+                                                        T.showShort(mContext,"阈值设置下发成功，请稍后刷新");
                                                         electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
                                                     }else{
                                                         T.showShort(mContext,"设置失败");

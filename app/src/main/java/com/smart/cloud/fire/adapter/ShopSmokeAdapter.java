@@ -144,7 +144,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Smoke normalSmoke = listNormalSmoke.get(position);
-            int devType = normalSmoke.getDeviceType();
+            final int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
             ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);//@@9.14
             if(normalSmoke.getRssivalue()==null||normalSmoke.getRssivalue().equals("0")){
@@ -415,6 +415,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;
+                case 79://南京温湿度
                 case 26://万科温湿度
                 case 25://温湿度传感器
                     if (netStates == 0) {//设备不在线。。
@@ -535,6 +536,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
                     break;
                 case 125:
+                case 78:
                 case 70:
                 case 68:
                 case 42:
@@ -552,6 +554,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater","1");//@@是否为水压
+                            intent.putExtra("devType",devType);//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });

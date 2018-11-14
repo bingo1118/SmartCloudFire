@@ -268,8 +268,10 @@
         <activity android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.BigData.BigDataActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.main.Main2Activity" />
-        <activity android:name="com.smart.cloud.fire.mvp.Alarm.GetTaskActivity"
-            android:launchMode="singleTask"></activity>
+        <activity
+            android:name="com.smart.cloud.fire.mvp.Alarm.GetTaskActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.smart.cloud.fire.activity.WebServer.WebServerActivity"></activity>
     </application>
 
 </manifest>

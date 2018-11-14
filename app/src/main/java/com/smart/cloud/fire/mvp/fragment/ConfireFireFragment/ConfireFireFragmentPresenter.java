@@ -69,6 +69,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         switch (macStr){
             case "T":
                 smokeMac = smokeMac.replace("T","");
+                smokeMac = smokeMac.replace("N","");
                 break;
             case "R":
                 smokeMac = smokeMac.replace("R","");
@@ -102,6 +103,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("L","");
                 smokeMac = smokeMac.replace("Y","");
                 smokeMac = smokeMac.replace("Z","");
+                smokeMac = smokeMac.replace("N","");
                 break;
             case "N"://@@NB烟感
                 smokeMac = smokeMac.replace("N","");
@@ -347,8 +349,13 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("Y","");//电气火灾
                     break;
                 case "T":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
+                        deviceType="79";
+                    }else{
+                        deviceType="25";
+                    }
                     smokeMac = smokeMac.replace("T","");//温湿度设备
-                    deviceType="25";
+                    smokeMac = smokeMac.replace("N","");//温湿度设备
                     break;
                 case "A":
                     smokeMac = smokeMac.substring(1, smokeMac.length());
@@ -383,7 +390,10 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         deviceType="46";//@@NB防爆直连水位
                         smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("Z")){
-                        deviceType="44";//@@NB防爆直连水位
+                        deviceType="44";//@@NB防爆直连水位（万科）
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
+                        deviceType="78";//@@南京NB普通水压
                         smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else{
                         deviceType="10";//@@水压

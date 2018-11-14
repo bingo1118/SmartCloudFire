@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -141,6 +142,28 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             int devType=normalSmoke.getDeviceType();
             final int state = normalSmoke.getNetState();
+
+            ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+            int voltage=normalSmoke.getLowVoltage();
+            if(voltage==0){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.GONE);
+            }else if(voltage>0&&voltage<10){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p0);
+            }else if(voltage>=10&&voltage<30){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p1);
+            }else if(voltage>=30&&voltage<60){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p2);
+            }else if(voltage>=60&&voltage<80){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p3);
+            }else if(voltage>=80){
+                ((ItemViewHolder) holder).voltage_image.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).voltage_image.setImageResource(R.drawable.p4);
+            }
+
             switch (devType){
                 case 35:
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
@@ -172,23 +195,28 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     final int privilege = MyApp.app.getPrivilege();
                     final int eleState = normalSmoke.getElectrState();
                     //if(privilege==3){//@@8.28权限3有切换电源功能
-                    switch (eleState){
-                        case 1:
-                            ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                            ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_qddy);
-                            break;
-                        case 2:
-                            ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                            ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_yqd);
-                            break;
-                        case 3:
-                            ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                            ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_szz);
-                            break;
-                        default:
-                            ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
-                            break;
+                    if (state == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
+                    }else{
+                        switch (eleState){
+                            case 1:
+                                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                                ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_qddy);
+                                break;
+                            case 2:
+                                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                                ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_yqd);
+                                break;
+                            case 3:
+                                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                                ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_szz);
+                                break;
+                            default:
+                                ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
+                                break;
+                        }
                     }
+
                     ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -330,6 +358,8 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         TextView setting_button;
         @Bind(R.id.rssi_image)
         ImageView rssi_image;
+        @Bind(R.id.voltage_image)
+        ImageView voltage_image;
 
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07
@@ -415,7 +445,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     if(eleState==1){
                         url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType="+normalSmoke.getDeviceType()+"&devCmd=12&userid="+userid;
                     }else{
-                        url=ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType="+normalSmoke.getDeviceType()+"&devCmd=13&userid"+userid;
+                        url=ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?imei="+normalSmoke.getMac()+"&deviceType="+normalSmoke.getDeviceType()+"&devCmd=13&userid="+userid;
                     }
                 }else{
                     if(eleState==1){
@@ -426,7 +456,20 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
                 final ProgressDialog dialog1 = new ProgressDialog(mContext);
                 dialog1.setTitle("提示");
-                dialog1.setMessage("设置中，请稍候");
+                dialog1.setMessage("设置中，请稍候...");
+                new CountDownTimer(60000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        if(dialog1.isShowing()&&millisUntilFinished<40000){
+                            dialog1.setMessage("网络延迟，请耐心等待...");
+                        }
+                    }
+
+                    public void onFinish() {
+                        dialog1.setMessage("设置中，请稍候...");
+                    }
+                }.start();
+
                 dialog1.setCanceledOnTouchOutside(false);
                 dialog1.show();
 //                Toast.makeText(mContext,"设置中，请稍候",Toast.LENGTH_SHORT).show();

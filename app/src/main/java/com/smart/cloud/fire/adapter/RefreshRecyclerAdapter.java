@@ -241,6 +241,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     }
                     break;
+                case 79://南京温湿度
                 case 26://万科温湿度
                 case 25:
                     ((ItemViewHolder) holder).smokeMac.setText("温湿度设备:");
@@ -404,6 +405,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     break;
                 case 125:
+                case 78:
                 case 70:
                 case 68:
                 case 43:
@@ -467,6 +469,30 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMac.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     ((ItemViewHolder) holder).smokeMacTv.setTextColor(mContext.getResources().getColor(R.color.hj_color_text));
                     switch (alarmType){
+                        case 204:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.shoubao);
+                            break;
+                        case 151:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.queling);
+                            break;
+                        case 152:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.guozai);
+                            break;
+                        case 153:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.quexiang);
+                            break;
+                        case 154:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.jiedi);
+                            break;
+                        case 155:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.tingdian);
+                            break;
+                        case 156:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.bisuo);
+                            break;
+                        case 157:
+                            ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.dingshi);
+                            break;
                         case 136:
                         case 36:
                             ((ItemViewHolder) holder).alarmMarkImage.setImageResource(R.drawable.xx_gz);
