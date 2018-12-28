@@ -64,10 +64,20 @@ public class OneTHDevInfoActivity extends Activity {
     RelativeLayout humidity_yuzhi_set;
     @Bind(R.id.main_srl)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.chanshuzhezhi_text)
+    TextView chanshuzhezhi_text;
 
     Context mContext;
     String mac;
     String devName;
+    String devType;
+
+    String threshold_tem_h;
+    String threshold_tem_l;
+    String threshold_hum_h;
+    String threshold_hum_l;
+    String getdatatime;
+    String uploaddatatime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +89,7 @@ public class OneTHDevInfoActivity extends Activity {
         Intent intent=getIntent();
         mac=intent.getStringExtra("Mac");
         devName=intent.getStringExtra("Position");
+        devType=intent.getStringExtra("devType");
         device_name.setText(devName);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -87,15 +98,67 @@ public class OneTHDevInfoActivity extends Activity {
             @Override
             public void onRefresh() {
                 getdata();
+                initview();
                 swipeRefreshLayout.setRefreshing(false);//设置不刷新
             }
         });
+        initview();
         getdata();
+    }
+
+    private void initview() {
+        if(devType!=null&&devType.equals("79")){
+            temperature_yuzhi_set.setVisibility(View.GONE);
+            humidity_yuzhi_set.setVisibility(View.GONE);
+            chanshuzhezhi_text.setVisibility(View.VISIBLE);
+            getYuzhi_79();
+        }else{
+            temperature_yuzhi_set.setVisibility(View.VISIBLE);
+            humidity_yuzhi_set.setVisibility(View.VISIBLE);
+            chanshuzhezhi_text.setVisibility(View.GONE);
+            getYuzhi();
+        }
     }
 
     private void getdata() {
         getTHData();
-        getYuzhi();
+    }
+
+    private void getYuzhi_79() {
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+        String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+mac+"&deviceType=79";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int errorCode=response.getInt("errorCode");
+                            if(errorCode==0){
+                                threshold_tem_h=response.getString("threshold1")==null?"--":response.getString("threshold1");
+                                threshold_tem_l=response.getString("threshold2")==null?"--":response.getString("threshold2");
+                                threshold_hum_h=response.getString("threshold3")==null?"--":response.getString("threshold3");
+                                threshold_hum_l=(response.getString("threshold4")==null?"--":response.getString("threshold4"));
+                                getdatatime=response.getString("ackTimes");
+                                uploaddatatime=response.getString("waveValue");
+                                t_low.setText(threshold_tem_l+"℃");
+                                t_top.setText(threshold_tem_h+"℃");
+                                h_low.setText(threshold_hum_l+"%");
+                                h_top.setText(threshold_hum_h+"%");
+                            }else{
+                                T.showShort(mContext,"无数据");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                T.showShort(mContext,"网络错误");
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
 
     private void getYuzhi() {
@@ -162,19 +225,98 @@ public class OneTHDevInfoActivity extends Activity {
         mQueue.add(jsonObjectRequest);
     }
 
-    @OnClick({R.id.temperature_yuzhi_set,R.id.humidity_yuzhi_set,R.id.temperature_rela,R.id.humidity_rela})
+    @OnClick({R.id.chanshuzhezhi_text,R.id.temperature_yuzhi_set,R.id.humidity_yuzhi_set,R.id.temperature_rela,R.id.humidity_rela})
     public void onClick(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+        final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
+        final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
+        Button commit=(Button) layout.findViewById(R.id.commit);
+        TextView title=(TextView)layout.findViewById(R.id.title_text);
+        TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
+        TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
         switch (view.getId()) {
-            case R.id.temperature_yuzhi_set:
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
-                final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
-                final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
-                Button commit=(Button) layout.findViewById(R.id.commit);
+            case R.id.chanshuzhezhi_text:
                 commit.setVisibility(View.GONE);
-                TextView title=(TextView)layout.findViewById(R.id.title_text);
-                TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
-                TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
+                TextView high2_value_name=(TextView)layout.findViewById(R.id.high2_value_name);
+                TextView low2_value_name=(TextView)layout.findViewById(R.id.low2_value_name);
+                LinearLayout high2_line=(LinearLayout)layout.findViewById(R.id.high2_line);
+                LinearLayout low2_line=(LinearLayout)layout.findViewById(R.id.low2_line);
+                LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
+                LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
+                final EditText high2_value=(EditText)layout.findViewById(R.id.high2_value);
+                final EditText low2_value=(EditText)layout.findViewById(R.id.low2_value);
+                final EditText uploadtime_value=(EditText)layout.findViewById(R.id.uploadtime_value);
+                final EditText getdatatime_value=(EditText)layout.findViewById(R.id.getdatatime_value);
+                high2_line.setVisibility(View.VISIBLE);
+                low2_line.setVisibility(View.VISIBLE);
+                uploadtime_lin.setVisibility(View.VISIBLE);
+                getdatatime_lin.setVisibility(View.VISIBLE);
+                title.setText("参数设置");
+                high_value_name.setText("高温阈值（℃）:");
+                low_value_name.setText("低温阈值（℃）:");
+                high2_value_name.setText("高湿阈值（%）:");
+                low2_value_name.setText("低湿阈值（%）:");
+                high_value.setText(threshold_tem_h);
+                low_value.setText(threshold_tem_l);
+                high2_value.setText(threshold_hum_h);
+                low2_value.setText(threshold_hum_l);
+                uploadtime_value.setText(uploaddatatime);
+                getdatatime_value.setText(getdatatime);
+                new AlertDialog.Builder(this).setView(layout)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url="";
+                                try{
+                                    float high=Float.parseFloat(high_value.getText().toString());
+                                    float low=Float.parseFloat(low_value.getText().toString());
+                                    float high2=Float.parseFloat(high2_value.getText().toString());
+                                    float low2=Float.parseFloat(low2_value.getText().toString());
+                                    float uploadtime=Float.parseFloat(uploadtime_value.getText().toString());
+                                    float getdatatime=Float.parseFloat(getdatatime_value.getText().toString());
+                                    if(low>high||low2>high2){
+                                        T.showShort(mContext,"低阈值不能高于高阈值");
+                                        return;
+                                    }
+                                    url= ConstantValues.SERVER_IP_NEW+"nanjing_set_TempHumi_data?imeiValue="+mac+"&deviceType=79&Hight_HumiSet="+high2+"&Low_HumiSet="+low2
+                                            +"&Hight_TempSet="+high+"&Low_TempSet="+low+"&Tcollect_time="+getdatatime+"&Tsend_time="+uploadtime;
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                    T.showShort(mContext,"输入数据不完全或有误");
+                                    return;
+                                }
+                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                                RequestQueue mQueue = helper.getRequestQueue();
+//                            RequestQueue mQueue = Volley.newRequestQueue(context);
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                try {
+                                                    int errorCode=response.getInt("errorCode");
+                                                    if(errorCode==0){
+                                                        T.showShort(mContext,"命令下发成功，请稍后刷新");
+                                                        getYuzhi();
+                                                    }else{
+                                                        T.showShort(mContext,"设置失败");
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        T.showShort(mContext,"网络错误");
+                                    }
+                                });
+                                mQueue.add(jsonObjectRequest);
+                            }
+                        }).show();
+                break;
+            case R.id.temperature_yuzhi_set:
+                commit.setVisibility(View.GONE);
                 title.setText("温度阈值设置");
                 high_value_name.setText("高温阈值（℃）:");
                 low_value_name.setText("低温阈值（℃）:");

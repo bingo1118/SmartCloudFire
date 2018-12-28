@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:background="@drawable/zh_t">
+        android:background="@drawable/gerenzhongxin">
         <ImageView
             android:id="@+id/setting_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/zh_touxiang"
+            android:src="@drawable/gerenzhongxin_yonghu"
             />
         <TextView
             android:id="@+id/line_state"
@@ -38,7 +38,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:background="@color/setting_color"
+            android:background="#152153"
             android:gravity="center_vertical"
             android:layout_alignParentBottom="true">
             <TextView

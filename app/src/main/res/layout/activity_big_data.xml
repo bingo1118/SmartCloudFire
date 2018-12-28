@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:lh2="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e7e7e7">
@@ -9,72 +11,32 @@
         android:id="@+id/check_layout_top"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/scan_back_hao"
+        android:background="#16245b"
         android:visibility="visible" >
-
         <RelativeLayout
             android:id="@+id/check_layout_animator"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="30dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             >
-
-            <com.smart.cloud.fire.ui.view.RadarView
-                android:id="@+id/check_radar_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-            <com.smart.cloud.fire.ui.view.RaderWheelView
-                android:id="@+id/check_radar_wheel_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                >
-                <TextView
-                    android:id="@+id/score_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="100"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="分"
-                    android:textSize="10sp"
-                    android:textColor="@color/white"
-                    android:layout_alignTop="@+id/score_tv"
-                    android:layout_toRightOf="@+id/score_tv"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-                <Button
-                    android:id="@+id/wifi_acclerate_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_below="@+id/score_tv"
-                    android:text="立即优化"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"/>
-            </RelativeLayout>
-
+            <com.smart.cloud.fire.ui.view.CircleProgressBar
+                android:id="@+id/circleProgressBar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                lh2:circleWidth="12dp"
+                lh2:firstColor="#d3d3d3"
+                lh2:secondColor="#3B95C8" />
         </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="160dp"
+        android:layout_below="@id/check_layout_top"
         android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/fault_rela"
@@ -82,6 +44,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
             android:layout_margin="10dp"
+            android:padding="5dp"
             android:visibility="gone">
 
             <ImageView
@@ -115,6 +78,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
             android:layout_margin="10dp"
+            android:padding="5dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/offline_image"
@@ -148,6 +112,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
             android:layout_margin="10dp"
+            android:padding="5dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/yangan_image"
@@ -180,6 +145,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
             android:layout_margin="10dp"
+            android:padding="5dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/lowpower_image"

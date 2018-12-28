@@ -67,14 +67,14 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.smoke_total)
-    LinearLayout smokeTotal;//@@9.5
-    @Bind(R.id.total_num)
-    TextView totalNum;
-    @Bind(R.id.online_num)
-    TextView onlineNum;
-    @Bind(R.id.offline_num)
-    TextView offlineNum;
+//    @Bind(R.id.smoke_total)
+//    LinearLayout smokeTotal;//@@9.5
+//    @Bind(R.id.total_num)
+//    TextView totalNum;
+//    @Bind(R.id.online_num)
+//    TextView onlineNum;
+//    @Bind(R.id.offline_num)
+//    TextView offlineNum;
     private ElectricFragmentAdapter electricFragmentAdapter;
     private ElectricDevPresenter electricDevPresenter;
     private Context mContext;
@@ -103,7 +103,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         refreshListView();
-        smokeTotal.setVisibility(View.VISIBLE);//@@9.5
+//        smokeTotal.setVisibility(View.VISIBLE);//@@9.5
         list = new ArrayList<>();
         page = "1";
         mvpPresenter.getAllElectricInfo(userID, privilege + "", page,"3",list,1,false,ElectricFragment.this);
@@ -195,7 +195,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
             @Override
             public void onLongClick(View view, int position) {
                 Smoke smoke =list.get(position);
-                if(smoke.getDeviceType()==75){
+                if(smoke.getDeviceType()==75||smoke.getDeviceType()==77){
                     showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
                 }else{
                     T.showShort(mContext,"该设备无法删除");
@@ -337,9 +337,9 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
-        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
-        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+//        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+//        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+//        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

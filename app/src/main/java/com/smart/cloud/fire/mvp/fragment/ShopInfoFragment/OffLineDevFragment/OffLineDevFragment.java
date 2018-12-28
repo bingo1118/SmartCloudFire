@@ -50,14 +50,14 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.smoke_total)
-    LinearLayout smokeTotal;//@@9.5
-    @Bind(R.id.total_num)
-    TextView totalNum;
-    @Bind(R.id.online_num)
-    TextView onlineNum;
-    @Bind(R.id.offline_num)
-    TextView offlineNum;
+//    @Bind(R.id.smoke_total)
+//    LinearLayout smokeTotal;//@@9.5
+//    @Bind(R.id.total_num)
+//    TextView totalNum;
+//    @Bind(R.id.online_num)
+//    TextView onlineNum;
+//    @Bind(R.id.offline_num)
+//    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private ShopSmokeAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -88,9 +88,9 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
         privilege = MyApp.app.getPrivilege();
         page = 1;
         list = new ArrayList<>();
-        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
-            smokeTotal.setVisibility(View.VISIBLE);
-        }
+//        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+//            smokeTotal.setVisibility(View.VISIBLE);
+//        }
         refreshListView();
         mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","1",false,1,list,OffLineDevFragment.this);
         mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",OffLineDevFragment.this);//@@9.5
@@ -258,9 +258,9 @@ public class OffLineDevFragment extends MvpFragment<AllSmokePresenter> implement
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
-        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
-        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+//        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+//        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+//        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.login.presenter.LoginPresenter;
 import com.smart.cloud.fire.mvp.login.view.LoginView;
 import com.smart.cloud.fire.mvp.main.Main2Activity;
+import com.smart.cloud.fire.mvp.main.Main3Activity;
 import com.smart.cloud.fire.mvp.main.MainActivity;
 import com.smart.cloud.fire.mvp.register.RegisterPhoneActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -74,6 +76,11 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //透明状态栏          
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // 透明导航栏          
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         mContext=this;
         initView();
         regFilter();//@@7.12
@@ -127,7 +134,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
     @Override
     public void getDataSuccess() {
-        Intent intent = new Intent(mContext, Main2Activity.class);
+        Intent intent = new Intent(mContext, Main3Activity.class);
         startActivity(intent);
         finish();
     }

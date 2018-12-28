@@ -70,14 +70,6 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.smoke_total)
-    LinearLayout smokeTotal;//@@9.5
-    @Bind(R.id.total_num)
-    TextView totalNum;
-    @Bind(R.id.online_num)
-    TextView onlineNum;
-    @Bind(R.id.offline_num)
-    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private ShopSmokeAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -108,9 +100,9 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
         privilege = MyApp.app.getPrivilege();
         page = "1";
         list = new ArrayList<>();
-        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
-            smokeTotal.setVisibility(View.VISIBLE);
-        }
+//        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
+//            smokeTotal.setVisibility(View.VISIBLE);
+//        }
         refreshListView();
         mvpPresenter.getAllSmoke(userID, privilege + "", page,"1", list, 1,false,AllDevFragment.this);
         mvpPresenter.getSmokeSummary(userID,privilege+"","","","","1",AllDevFragment.this);//@@9.5
@@ -224,7 +216,11 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
             @Override
             public void onLongClick(View view, int position) {
                 Smoke smoke =list.get(position);
-                if(smoke.getDeviceType()==22||smoke.getDeviceType()==23||smoke.getDeviceType()==58||smoke.getDeviceType()==61){
+                if(smoke.getDeviceType()==22||smoke.getDeviceType()==23
+                        ||smoke.getDeviceType()==58||smoke.getDeviceType()==61
+                        ||smoke.getDeviceType()==73||smoke.getDeviceType()==75
+                        ||smoke.getDeviceType()==77||smoke.getDeviceType()==78
+                        ||smoke.getDeviceType()==79){
                     showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
                 }else{
                     T.showShort(mContext,"该设备无法删除");
@@ -368,9 +364,9 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
-        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
-        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+//        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+//        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+//        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

@@ -52,14 +52,14 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.smoke_total)
-    LinearLayout smokeTotal;
-    @Bind(R.id.total_num)
-    TextView totalNum;
-    @Bind(R.id.online_num)
-    TextView onlineNum;
-    @Bind(R.id.offline_num)
-    TextView offlineNum;
+//    @Bind(R.id.smoke_total)
+//    LinearLayout smokeTotal;
+//    @Bind(R.id.total_num)
+//    TextView totalNum;
+//    @Bind(R.id.online_num)
+//    TextView onlineNum;
+//    @Bind(R.id.offline_num)
+//    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private WiredDevAdapter shopSmokeAdapter;//@@6.29
     private int lastVisibleItem;
@@ -89,7 +89,7 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
         privilege = MyApp.app.getPrivilege();
         page = "1";
         list = new ArrayList<>();
-        smokeTotal.setVisibility(View.VISIBLE);
+//        smokeTotal.setVisibility(View.VISIBLE);
         refreshListView();
         mvpPresenter.getAllWiredDev(userID, privilege + "", page,"2", list, 1,false,WiredDevFragment.this);
         mvpPresenter.getSmokeSummary(userID,privilege+"","","","","2",WiredDevFragment.this);
@@ -239,9 +239,9 @@ public class WiredDevFragment extends MvpFragment<WiredDevPresenter> implements 
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
-        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
-        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+//        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+//        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+//        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

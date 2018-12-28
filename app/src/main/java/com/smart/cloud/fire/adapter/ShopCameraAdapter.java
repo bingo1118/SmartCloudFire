@@ -7,8 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,7 +80,7 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      * @param position
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Camera camera = listCamera.get(position);
             ((ItemViewHolder) holder).address_tv.setText(camera.getCameraAddress());
@@ -106,6 +109,28 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ((ItemViewHolder) holder).smoke_name_text.setText("摄像机："+camera.getCameraName());
                 ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
             }
+
+            final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                    -0.2f, Animation.RELATIVE_TO_SELF, 0.0f);
+            mShowAction.setDuration(500);
+            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+            ((ItemViewHolder) holder).show_info_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String s= (String) ((ItemViewHolder) holder).show_info_text.getText();
+                    if(s.equals("展开详情")){
+                        ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.VISIBLE);
+                        ((ItemViewHolder) holder).dev_info_rela.startAnimation(mShowAction);
+                        ((ItemViewHolder) holder).show_info_text.setText("收起详情");
+                    }else{
+                        ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+                        ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+                    }
+                }
+            });
+
             ((ItemViewHolder) holder).categoryGroupLin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -128,6 +153,13 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mContext.startActivity(monitor);
                 }
             });
+
+            if (camera.getIsOnline() == 0) {//设备不在线。。
+                    ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
+                } else {//设备在线。。
+                    ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);
+                    ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                }
             holder.itemView.setTag(position);
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
@@ -186,7 +218,14 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Bind(R.id.address_tv)
         TextView address_tv;
         @Bind(R.id.manager_img)
-        ImageView manager_img;
+        TextView manager_img;
+        @Bind(R.id.show_info_text)
+        TextView show_info_text;
+        @Bind(R.id.dev_info_rela)
+        RelativeLayout dev_info_rela;
+        @Bind(R.id.online_state_image)
+        ImageView online_state_image;
+
         @Bind(R.id.category_group_lin)
         LinearLayout categoryGroupLin;
         public ItemViewHolder(View view) {

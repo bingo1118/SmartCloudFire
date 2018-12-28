@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -92,7 +94,7 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @param position
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Smoke normalSmoke = listNormalSmoke.get(position);
             int devType = normalSmoke.getDeviceType();
@@ -105,6 +107,27 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((ItemViewHolder) holder).smoke_name_text.setText("有线主机："+normalSmoke.getName());
                 ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
             }
+
+            final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                    -0.2f, Animation.RELATIVE_TO_SELF, 0.0f);
+            mShowAction.setDuration(500);
+            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+            ((ItemViewHolder) holder).show_info_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String s= (String) ((ItemViewHolder) holder).show_info_text.getText();
+                    if(s.equals("展开详情")){
+                        ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.VISIBLE);
+                        ((ItemViewHolder) holder).dev_info_rela.startAnimation(mShowAction);
+                        ((ItemViewHolder) holder).show_info_text.setText("收起详情");
+                    }else{
+                        ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+                        ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+                    }
+                }
+            });
 
             if(devType==119){
                 if (netStates == 0) {//设备不在线。。
@@ -150,6 +173,12 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             }
 
+            if (netStates == 0) {//设备不在线。。
+                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
+            } else {//设备在线。。
+                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+            }
 
             ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
@@ -244,9 +273,15 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.address_tv)
         TextView address_tv;
         @Bind(R.id.manager_img)
-        ImageView manager_img;
+        TextView manager_img;
         @Bind(R.id.xy_button)
-        Button power_button;//@@2018.03.07
+        TextView power_button;//@@2018.03.07
+        @Bind(R.id.show_info_text)
+        TextView show_info_text;
+        @Bind(R.id.dev_info_rela)
+        RelativeLayout dev_info_rela;
+        @Bind(R.id.online_state_image)
+        ImageView online_state_image;
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

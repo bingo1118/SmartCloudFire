@@ -397,6 +397,11 @@ public class AreaChooceListView extends LinearLayout {
         editText.setTextColor(Color.parseColor(c));
     }
 
+    //@@9.12设置提示字体颜色
+    public void setHintTextColor(String c){
+        editText.setHintTextColor(Color.parseColor(c));
+    }
+
     boolean clear_choice_isShow=true;
     //@@9.12设置清除图标
     public void setclear_choice(Drawable d,boolean isshow){

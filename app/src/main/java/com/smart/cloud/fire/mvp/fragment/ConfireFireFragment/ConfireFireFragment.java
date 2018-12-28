@@ -138,7 +138,8 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                     T.showShort(mContext,"添加成功");
                     break;
                 case 5:
-                    T.showShort(mContext,"添加失败");
+                    T.showShort(mContext,msg.obj.toString());
+                    photo_image.setImageResource(R.drawable.add_photo);
                     break;
             }
             super.handleMessage(msg);
@@ -450,10 +451,10 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
             message.what = 4;
             handler.sendMessage(message);
         }else{
-            photo_image.setImageResource(R.drawable.add_photo);
             imageFilePath=null;
             Message message = new Message();
             message.what = 5;
+            message.obj=msg;
             handler.sendMessage(message);
         }
     }

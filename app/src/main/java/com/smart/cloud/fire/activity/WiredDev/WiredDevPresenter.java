@@ -92,7 +92,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    wiredDevView.getSmokeSummary(model);
+                    mvpView.getSmokeSummary(model);
                 }
             }
 

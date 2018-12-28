@@ -220,4 +220,97 @@
     <string name="choose_device_wifi">选择设备Wifi</string>
     <string name="please_choose_right_devide_wifi">请选择正确的Wifi</string>
     <string name="configuration_fail">配置失败</string>
+
+
+    <!--报警类型-->
+    <string name="yanwu">【烟雾】</string>
+    <string name="chaichu">【拆除】</string>
+    <string name="fchf">【防拆恢复】</string>
+    <string name="zijian">【自检】</string>
+    <string name="huifu">【恢复】</string>
+    <string name="gaowen">【高温】</string>
+    <string name="xx_gz">【故障】</string>
+    <string name="xx_ddy">【低电压】</string>
+    <string name="didianyahuifu">【低电压恢复】</string>
+    <string name="weizhi">【未知】</string>
+    <string name="diwen">【低温】</string>
+    <string name="dishidu">【低湿】</string>
+    <string name="gaoshidu">【高湿度】</string>
+    <string name="baojing">【报警】</string>
+    <string name="dishuiwei">【低水位】</string>
+    <string name="gaoshuiwei">【高水位】</string>
+    <string name="xx_huojing">【火警】</string>
+    <string name="xx_hz">【合闸】</string>
+    <string name="duanlu">【短路】</string>
+    <string name="duanlu1">【断路】</string>
+    <string name="chuanganqi">【传感器故障】</string>
+    <string name="tongxunguzhang">【通讯故障】</string>
+    <string name="ranqi">【燃气】</string>
+    <string name="dishuiya">【低水压】</string>
+    <string name="gaoshuiya">【高水压】</string>
+    <string name="shuiyashenggao">【水压升高】</string>
+    <string name="shuiyajiangdi">【水压降低】</string>
+    <string name="shoubao">【手报】</string>
+    <string name="queling">【缺零】</string>
+    <string name="guozai">【过载】</string>
+    <string name="quexiang">【缺相】</string>
+    <string name="jiedi">【接地】</string>
+    <string name="tingdian">【停电】</string>
+    <string name="bisuo">【闭锁】</string>
+    <string name="dingshi">【定时】</string>
+    <string name="shoudongfenzha">【手动分闸】</string>
+    <string name="xx_gy">【过压】</string>
+    <string name="xx_qy">【欠压】</string>
+    <string name="xx_gl">【过流】</string>
+    <string name="xx_ld">【漏电】</string>
+    <string name="xx_gw">【高温】</string>
+    <string name="xx_gr">【过热】</string>
+    <string name="xx_fz">【分闸】</string>
+    <string name="shengguang">【声光】</string>
+
+
+    <!--全部应用-->
+    <string-array name="all_apply_name">
+        <item>添加设备</item>
+        <item>重点单位</item>
+        <item>传输装置</item>
+        <item>电气防火</item>
+        <item>消防物联</item>
+        <item>视频监控</item>
+        <item>维保系统</item>
+        <item>主机管理</item>
+    </string-array>
+    <!--全部应用id-->
+    <string-array name="all_apply_id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <!--初始化应用-->
+    <string-array name="all_apply_name_s">
+        <item>添加设备</item>
+        <item>重点单位</item>
+        <item>传输装置</item>
+        <item>电气防火</item>
+        <item>消防物联</item>
+        <item>视频监控</item>
+        <item>维保系统</item>
+        <item>主机管理</item>
+    </string-array>
+    <!--初始化应用id-->
+    <string-array name="all_apply_id_s">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
 </resources>

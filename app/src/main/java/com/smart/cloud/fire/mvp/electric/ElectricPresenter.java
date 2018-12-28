@@ -37,9 +37,6 @@ public class ElectricPresenter extends BasePresenter<ElectricView>{
                         return;
                     }//@@7.7
                     for(ElectricValue electricValue : electricList){
-//                        if(electricValue==null){
-//                            continue;
-//                        }
                         int electricType = electricValue.getElectricType();
                         List<ElectricValue.ElectricValueBean> list = electricValue.getElectricValue();
                         for(ElectricValue.ElectricValueBean electric: list){

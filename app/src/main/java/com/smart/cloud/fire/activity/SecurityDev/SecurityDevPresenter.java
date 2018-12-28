@@ -166,7 +166,7 @@ public class SecurityDevPresenter extends BasePresenter<SecurityDevView> {
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    allDevFragment.getSmokeSummary(model);
+                    mvpView.getSmokeSummary(model);
                 }
             }
 

@@ -5,6 +5,8 @@ package com.smart.cloud.fire.base.ui;
  */
 
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 
 public abstract class MvpActivity<P extends BasePresenter> extends BaseActivity {
@@ -14,6 +16,7 @@ public abstract class MvpActivity<P extends BasePresenter> extends BaseActivity 
     protected void onCreate(Bundle savedInstanceState) {
         mvpPresenter = createPresenter();
         super.onCreate(savedInstanceState);
+
     }
 
     protected abstract P createPresenter();

@@ -47,8 +47,8 @@
 
     <!--login-->
     <color name="text_view_and_kuang">#838383</color>
-    <color name="login_btn">#f0604d</color>
-    <color name="login_btn_press">#db5240</color>
+    <color name="login_btn">#3c55e5</color>
+    <color name="login_btn_press">#5f6e81</color>
     <color name="login_new_user">#f0604d</color>
     <color name="login_forget_pwd">#5f6e81</color>
     <!--title-->

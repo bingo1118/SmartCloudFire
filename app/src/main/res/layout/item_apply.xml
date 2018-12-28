@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_root"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_channel_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/shouye_anniu_tjsb_android" />
+
+
+    <TextView
+        android:id="@+id/tv_channel_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_channel_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:text="CES" />
+
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/iv_channel_logo"
+        android:layout_toRightOf="@+id/iv_channel_logo"
+        android:padding="2dp"
+        android:visibility="visible"
+        android:src="@drawable/item_add" />
+
+</RelativeLayout>

@@ -56,6 +56,50 @@
             android:background="@drawable/edit_view_bg"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/high2_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/high2_value_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="高水位阈值(m):"/>
+        <EditText
+            android:id="@+id/high2_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:background="@drawable/edit_view_bg"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/low2_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/low2_value_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="低水位阈值(m):"/>
+        <EditText
+            android:id="@+id/low2_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:background="@drawable/edit_view_bg"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/uploadtime_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

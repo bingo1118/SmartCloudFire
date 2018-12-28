@@ -219,7 +219,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                                                 +"&Undervoltage="+low_value.getText().toString()
                                                 +"&Overcurrent="+value45
                                                 +"&Leakage="+value46
-                                                +"&deviceType="+devType+"&devCmd=14&imei="+electricMac;
+                                                +"&deviceType="+devType+"&devCmd=14&imei="+electricMac+"&userid="+userID;
                                     }else{
                                         Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
                                         return;

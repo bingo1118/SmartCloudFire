@@ -144,7 +144,7 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
             public void onSuccess(SmokeSummary model) {
                 int resultCode = model.getErrorCode();
                 if(resultCode==0){
-                    electricDevView.getSmokeSummary(model);
+                    mvpView.getSmokeSummary(model);
                 }
             }
 

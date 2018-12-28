@@ -202,7 +202,7 @@ public class HostActivity extends Activity {
     }
 
     private void getData(String page1,String search){
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        VolleyHelper helper=VolleyHelper.getInstance(MyApp.app);
         RequestQueue mQueue = helper.getRequestQueue();
 //        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"getRepeaterInfo?userId="+userID+"&privilege="+privilege+"&page="+page1+"&search="+search;

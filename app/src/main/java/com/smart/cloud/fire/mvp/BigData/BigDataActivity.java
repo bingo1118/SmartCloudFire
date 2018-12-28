@@ -23,6 +23,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.SafeScore;
 import com.smart.cloud.fire.global.SmokeSummary;
+import com.smart.cloud.fire.ui.view.CircleProgressBar;
 import com.smart.cloud.fire.ui.view.RadarView;
 import com.smart.cloud.fire.ui.view.RaderWheelView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -44,12 +45,8 @@ import rx.functions.Action1;
 public class BigDataActivity extends MvpActivity<BigDataPresenter> implements BigDataView{
 
 
-    @Bind(R.id.check_radar_view)
-    RadarView mRadarView;
-    @Bind(R.id.check_radar_wheel_view)
-    RaderWheelView mRaderWheelView;
-    @Bind(R.id.wifi_acclerate_btn)
-    Button acclerateBtn;
+    @Bind(R.id.circleProgressBar)
+    CircleProgressBar circleProgressBar;
     @Bind(R.id.check_layout_top)
     RelativeLayout check_layout_top;
     @Bind(R.id.fault_rela)
@@ -73,9 +70,6 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
     TextView water_text;
     @Bind(R.id.lowpower_text)
     TextView lowpower_text;
-    @Bind(R.id.score_tv)
-    TextView score_tv;
-
     TranslateAnimation mShowAnim;
 
 
@@ -106,7 +100,6 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
         userID = SharedPreferencesManager.getInstance().getData(mContext,
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
-        mRadarView.start();
         presenter.getSafeScore(userID,privilege+"");
 //        mRadarView.stop();
     }
@@ -119,26 +112,7 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
 
 
 
-    public void showBackground(int core) {
-        if (core > 90 && core <= 100) {
-            check_layout_top.setAlpha(1);
-            check_layout_top.setBackground(getResources().getDrawable(R.drawable.scan_back_hao));
-        } else if (core >= 75 && core <= 90) {
-            check_layout_top.setAlpha(1);
-            check_layout_top.setBackground(getResources().getDrawable(R.drawable.scan_back_zhong));
 
-        } else {
-            check_layout_top.setAlpha(1);
-            check_layout_top.setBackground(getResources().getDrawable(R.drawable.scan_back_cha));
-
-        }
-
-        score_tv.setText(core+"");
-        ScaleAnimation scaleAnimation=new ScaleAnimation(1,1.5f,1,1.5f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        scaleAnimation.setDuration(1000);
-        score_tv.startAnimation(scaleAnimation);
-
-    }
 
 
     @Override
@@ -151,6 +125,9 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if(model==null){
+                model=new SafeScore();
+            }
             switch (msg.what){
                 case 0:
                     fault_rela.startAnimation(mShowAnim );
@@ -162,22 +139,19 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
                     offline_text.setText("离线有"+model.getOfflineSum()+"个设备");
                     offline_rela.setVisibility(View.VISIBLE);
                     core=core+(int)model.getOffline();
-                    showBackground(core);
+                    circleProgressBar.setProgress(core,true);
                     break;
                 case 2:
                     yangan_rela.startAnimation(mShowAnim );
                     yangan_text.setText("高频报警设备有"+model.getHistoriAlarmSum()+"个设备");
                     yangan_rela.setVisibility(View.VISIBLE);
                     core=core+(int)model.getHistoriAlarm();
-                    showBackground(core);
                     break;
                 case 3:
                     water_rela.startAnimation(mShowAnim );
                     water_text.setText("实时报警设备有"+model.getRealtimeAlarmSum()+"个设备");
                     water_rela.setVisibility(View.VISIBLE);
                     core=core+(int)model.getRealtimeAlarm();
-                    showBackground(core);
-                    mRadarView.stop();
                     break;
             }
         }
@@ -187,7 +161,7 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
     public void getSafeScore(final SafeScore model) {
         this.model=model;
         core=0;
-        showBackground(core);
+        circleProgressBar.setProgress(core,true);
         mShowAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF
                 ,-1.0f, Animation.RELATIVE_TO_SELF,0.0f);

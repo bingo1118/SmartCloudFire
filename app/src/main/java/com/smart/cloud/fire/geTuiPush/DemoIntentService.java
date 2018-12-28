@@ -409,6 +409,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 80://南京优特电气
                 case 77://南京三相电气
                 case 76://NB直连三相电气
                 case 75://南京电气
@@ -420,6 +421,21 @@ public class DemoIntentService extends GTIntentService {
                     int alarmFamily = pushAlarmMsg1.getAlarmFamily();
                     String alarmMsg = null;
                     switch (alarmFamily){
+                        case 162:
+                            alarmMsg = "电气探测器发出：错相";
+                            break;
+                        case 161:
+                            alarmMsg = "电气探测器发出：手动分闸";
+                            break;
+                        case 160:
+                            alarmMsg = "电气探测器发出：设备属性更改";
+                            break;
+                        case 159:
+                            alarmMsg = "电气探测器发出：按键测试";
+                            break;
+                        case 158:
+                            alarmMsg = "电气探测器发出：远程";
+                            break;
                         case 204:
                             alarmMsg = "电气探测器发出：测试手动报警";
                             break;

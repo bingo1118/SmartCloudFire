@@ -48,14 +48,14 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.smoke_total)
-    LinearLayout smokeTotal;
-    @Bind(R.id.total_num)
-    TextView totalNum;
-    @Bind(R.id.online_num)
-    TextView onlineNum;
-    @Bind(R.id.offline_num)
-    TextView offlineNum;
+//    @Bind(R.id.smoke_total)
+//    LinearLayout smokeTotal;
+//    @Bind(R.id.total_num)
+//    TextView totalNum;
+//    @Bind(R.id.online_num)
+//    TextView onlineNum;
+//    @Bind(R.id.offline_num)
+//    TextView offlineNum;
     private LinearLayoutManager linearLayoutManager;
     private WiredDevAdapter shopSmokeAdapter;
     private int lastVisibleItem;
@@ -85,7 +85,7 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         page = 1;
-        smokeTotal.setVisibility(View.VISIBLE);
+//        smokeTotal.setVisibility(View.VISIBLE);
         list = new ArrayList<>();
         refreshListView();
         mvpPresenter.getNeedLossSmoke(userID, privilege + "","", "", "", page+"","2",false,1,list,OfflineWiredDevFragment.this);
@@ -230,9 +230,9 @@ public class OfflineWiredDevFragment extends MvpFragment<WiredDevPresenter> impl
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
-        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
-        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+//        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+//        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
+//        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

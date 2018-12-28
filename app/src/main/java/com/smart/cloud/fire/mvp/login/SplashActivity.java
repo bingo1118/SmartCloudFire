@@ -3,12 +3,14 @@ package com.smart.cloud.fire.mvp.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.login.presenter.LoginPresenter;
 import com.smart.cloud.fire.mvp.login.view.LoginView;
 import com.smart.cloud.fire.mvp.main.Main2Activity;
+import com.smart.cloud.fire.mvp.main.Main3Activity;
 import com.smart.cloud.fire.mvp.main.MainActivity;
 import com.smart.cloud.fire.utils.T;
 
@@ -24,13 +26,19 @@ public class SplashActivity extends MvpActivity<LoginPresenter> implements Login
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //透明状态栏          
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // 透明导航栏          
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         mContext = this;
         mvpPresenter.autoLogin(this);
     }
 
     @Override
     public void getDataSuccess() {
-        Intent intent = new Intent(mContext, Main2Activity.class);
+        Intent intent = new Intent(mContext, Main3Activity.class);
         startActivity(intent);
         finish();
     }

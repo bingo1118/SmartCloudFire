@@ -13,15 +13,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/device_name"
-                android:gravity="center"
-                android:textColor="#fff"
-                android:text="123"
-                android:textSize="22sp"
-                android:layout_marginTop="10dp"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/device_name"
+                    android:layout_centerInParent="true"
+                    android:textColor="#fff"
+                    android:text="123"
+                    android:textSize="22sp"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chanshuzhezhi_text"
+                    android:text="参数设置"
+                    android:textColor="#fff"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"/>
+            </RelativeLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

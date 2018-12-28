@@ -47,7 +47,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param context
      * @param type
      */
-    public void loginYooSee(final String User, final String Pwd, final Context context, final int type) {
+    public void  loginYooSee(final String User, final String Pwd, final Context context, final int type) {
         this.context=context;//@@5.5
         if(!NpcCommon.verifyNetwork(MyApp.app)){
             UserInfo userinfo = LitePal.findFirst(UserInfo.class);

@@ -123,4 +123,13 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- 分割线View -->
+    <style name="line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line</item>
+        <item name="android:background">#e6e6e6</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <dimen name="line">1dp</dimen>
 </resources>

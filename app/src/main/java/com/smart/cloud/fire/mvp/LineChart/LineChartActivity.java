@@ -126,6 +126,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     private String isWater=null;//@@12.15
     private int devType;
 
+    String threshold_h;
+    String threshold_l;
+    String getdatatime;
+    String uploaddatatime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -354,7 +359,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         VolleyHelper helper=VolleyHelper.getInstance(context);
         RequestQueue mQueue = helper.getRequestQueue();
 //        RequestQueue mQueue = Volley.newRequestQueue(context);
-        String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+electricMac;
+        String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+electricMac+"&deviceType="+devType;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -362,12 +367,16 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
+                                threshold_h=response.getString("value208");
+                                threshold_l=response.getString("value207");
+                                getdatatime=response.getString("askTimes");
+                                uploaddatatime=response.getString("askTimes");
                                 if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
-                                    low_value.setText("低水压阈值："+response.getString("value207")+"kpa");
-                                    high_value.setText("高水压阈值："+response.getString("value208")+"kpa");
+                                    low_value.setText("低水压阈值："+threshold_l+"kpa");
+                                    high_value.setText("高水压阈值："+threshold_h+"kpa");
                                 }else{
-                                    low_value.setText("低水位阈值："+response.getString("value207")+"m");
-                                    high_value.setText("高水位阈值："+response.getString("value208")+"m");
+                                    low_value.setText("低水位阈值："+threshold_l+"m");
+                                    high_value.setText("高水位阈值："+threshold_h+"m");
                                 }
                             }else{
                                 if(isWater.equals("1")||isWater.equals("3")){
@@ -757,6 +766,10 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     if(devType==78){
                         uploadtime_lin.setVisibility(View.VISIBLE);
                         getdatatime_lin.setVisibility(View.VISIBLE);
+                        high_value.setText(threshold_h);
+                        low_value.setText(threshold_l);
+                        getdatatime_value.setText(getdatatime);
+                        uploadtime_value.setText(uploaddatatime);
                     }
                     title.setText("水压阈值设置");
                     high_value_name.setText("高水压阈值（kpa）:");

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -54,7 +55,8 @@ import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 
 public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> implements SecurityDevView {
-    TextView title_name_tv,title_lose_dev;
+    RelativeLayout title_name_rela,title_lose_dev_rela;
+    TextView title_name_tv,title_lose_dev_tv;
     Context mContext;
     private SecurityDevPresenter securityDevPresenter;
     private String userID;
@@ -73,26 +75,26 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     private String parentId="";//@@9.1
     private String shopTypeId = "";
 
-    @Bind(R.id.add_fire)
-    ImageView addFire;//显示搜索界面按钮。。
-    @Bind(R.id.lin1)
-    LinearLayout lin1;//搜素界面。。
+//    @Bind(R.id.add_fire)
+//    ImageView addFire;//显示搜索界面按钮。。
+//    @Bind(R.id.lin1)
+//    LinearLayout lin1;//搜素界面。。
     @Bind(R.id.area_condition)
     AreaChooceListView areaCondition;//区域下拉选择。。
-    @Bind(R.id.shop_type_condition)
-    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
-    @Bind(R.id.smoke_total)
-    LinearLayout smokeTotal;
-    @Bind(R.id.total_num)
-    TextView totalNum;
+//    @Bind(R.id.shop_type_condition)
+//    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
+//    @Bind(R.id.smoke_total)
+//    LinearLayout smokeTotal;
+//    @Bind(R.id.total_num)
+//    TextView totalNum;
     @Bind(R.id.online_num)
     TextView onlineNum;
     @Bind(R.id.offline_num)
     TextView offlineNum;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.search_fire)
-    ImageView searchFire;//搜索按钮。。
+//    @Bind(R.id.search_fire)
+//    ImageView searchFire;//搜索按钮。。
     @Bind(R.id.turn_map_btn)
     RelativeLayout turn_map_btn;
 
@@ -105,59 +107,67 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
         setContentView(R.layout.activity_all_smoke);
         ButterKnife.bind(this);
 
+        //透明状态栏          
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // 透明导航栏          
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         mContext=this;
         init();
-        addFire.setVisibility(View.VISIBLE);
-        addFire.setImageResource(R.drawable.search);
-        title_name_tv=(TextView)findViewById(R.id.title_name) ;
-        title_name_tv.setEnabled(false);
-        title_name_tv.setOnClickListener(new View.OnClickListener() {
+//        addFire.setVisibility(View.VISIBLE);
+//        addFire.setImageResource(R.drawable.search);
+        title_name_tv=(TextView )findViewById(R.id.title_name_text);
+        title_lose_dev_tv=(TextView)findViewById(R.id.title_lose_dev_text) ;
+        title_name_rela=(RelativeLayout)findViewById(R.id.title_name) ;
+        title_name_rela.setEnabled(false);
+        title_name_rela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title_lose_dev.setEnabled(true);
-                title_name_tv.setEnabled(false);
+                title_lose_dev_rela.setEnabled(true);
+                title_name_rela.setEnabled(false);
 //                smokeTotal.setVisibility(View.VISIBLE);
                 mvpPresenter.unSubscribe("security");
                 position=FRAGMENT_SECURITY;//@@在线设备
             }
         });
-        title_lose_dev=(TextView)findViewById(R.id.title_lose_dev) ;
-        title_lose_dev.setOnClickListener(new View.OnClickListener() {
+        title_lose_dev_rela=(RelativeLayout)findViewById(R.id.title_lose_dev) ;
+        title_lose_dev_rela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title_name_tv.setEnabled(true);
-                title_lose_dev.setEnabled(false);
-//                smokeTotal.setVisibility(View.VISIBLE);
+                title_name_rela.setEnabled(true);
+                title_lose_dev_rela.setEnabled(false);
                 mvpPresenter.unSubscribe("lostSmoke");
                 position=FRAGMENT_FIVE;//@@离线设备
             }
         });
         title_name_tv.setText("消防物联");
-        title_lose_dev.setText("离线设备");
+        title_lose_dev_tv.setText("离线设备");
         areaCondition.setActivity(this);//@@12.21
-        shopTypeCondition.setActivity(this);//@@12.21
+//        shopTypeCondition.setActivity(this);//@@12.21
+        areaCondition.setHintTextColor("#ffffffff");
+        areaCondition.setEditTextHint("#ffffffff");
+        areaCondition.setEditTextHint("选择区域");
     }
 
-    @OnClick({R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.search_fire,R.id.turn_map_btn})
+    @OnClick({ R.id.area_condition,R.id.turn_map_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_fire://显示查询条件按钮。。
                 if (visibility) {
                     visibility = false;
-                    lin1.setVisibility(View.GONE);
+//                    lin1.setVisibility(View.GONE);
                     if (areaCondition.ifShow()) {
                         areaCondition.closePopWindow();
                     }
-                    if (shopTypeCondition.ifShow()) {
-                        shopTypeCondition.closePopWindow();
-                    }
+//                    if (shopTypeCondition.ifShow()) {
+//                        shopTypeCondition.closePopWindow();
+//                    }
                 } else {
                     visibility = true;
                     areaCondition.setEditText("");
-                    shopTypeCondition.setEditText("");
+//                    shopTypeCondition.setEditText("");
                     areaCondition.setEditTextHint("区域");
-                    shopTypeCondition.setEditTextHint("类型");
-                    lin1.setVisibility(View.VISIBLE);
+//                    shopTypeCondition.setEditTextHint("类型");
+//                    lin1.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.area_condition://地区类型下拉列表。。
@@ -219,30 +229,30 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                 }
                 break;
             case R.id.shop_type_condition://商铺类型下拉列表。。
-                if (shopTypeCondition.ifShow()) {
-                    shopTypeCondition.closePopWindow();
-                } else {
-                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 1);
-                    shopTypeCondition.setClickable(false);
-                    shopTypeCondition.showLoading();
-                }
+//                if (shopTypeCondition.ifShow()) {
+//                    shopTypeCondition.closePopWindow();
+//                } else {
+//                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 1);
+//                    shopTypeCondition.setClickable(false);
+//                    shopTypeCondition.showLoading();
+//                }
                 break;
             case R.id.search_fire://查询按钮
                 if (!Utils.isNetworkAvailable(this)) {
                     return;
                 }
-                if (shopTypeCondition.ifShow()) {
-                    shopTypeCondition.closePopWindow();
-                }
+//                if (shopTypeCondition.ifShow()) {
+//                    shopTypeCondition.closePopWindow();
+//                }
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 }
                 if ((mShopType != null && mShopType.getPlaceTypeId() != null) || (mArea != null && mArea.getAreaId() != null)) {
-                    lin1.setVisibility(View.GONE);
-                    searchFire.setVisibility(View.GONE);
-                    addFire.setVisibility(View.VISIBLE);
+//                    lin1.setVisibility(View.GONE);
+//                    searchFire.setVisibility(View.GONE);
+//                    addFire.setVisibility(View.VISIBLE);
                     areaCondition.searchClose();
-                    shopTypeCondition.searchClose();
+//                    shopTypeCondition.searchClose();
                     visibility = false;
                     if (mArea != null && mArea.getAreaId() != null) {
                         if(mArea.getIsParent()==1){
@@ -278,7 +288,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                     mShopType = null;
                     mArea = null;
                 } else {
-                    lin1.setVisibility(View.GONE);
+//                    lin1.setVisibility(View.GONE);
                     return;
                 }
                 break;
@@ -306,8 +316,8 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         showFragment(FRAGMENT_SECURITY);
-        addFire.setVisibility(View.VISIBLE);
-        addFire.setImageResource(R.drawable.search);
+//        addFire.setVisibility(View.VISIBLE);
+//        addFire.setImageResource(R.drawable.search);
 //        smokeTotal.setVisibility(View.VISIBLE);
 //        securityDevPresenter.getSmokeSummary(userID,privilege+"","","","","4",securityFragment);
     }
@@ -320,12 +330,12 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
         if (areaCondition.ifShow()) {
             areaCondition.closePopWindow();
         }//@@5.5关闭下拉选项
-        if (shopTypeCondition.ifShow()) {
-            shopTypeCondition.closePopWindow();
-        }//@@5.5关闭下拉选项
+//        if (shopTypeCondition.ifShow()) {
+//            shopTypeCondition.closePopWindow();
+//        }//@@5.5关闭下拉选项
         switch (index) {
             case FRAGMENT_SECURITY:
-                addFire.setVisibility(View.VISIBLE);//@@5.3
+//                addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (securityFragment == null) {
                     offLineDevFragment = new OfflineSecurityDevFragment();
                     ft.add(R.id.fragment_content, offLineDevFragment);
@@ -336,7 +346,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
                 }
                 break;
             case FRAGMENT_FIVE:
-                addFire.setVisibility(View.VISIBLE);//@@5.3
+//                addFire.setVisibility(View.VISIBLE);//@@5.3
                 if (offLineDevFragment == null) {
                     offLineDevFragment = new OfflineSecurityDevFragment();
                     ft.add(R.id.fragment_content, offLineDevFragment);
@@ -365,7 +375,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
 
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
-        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
+//        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
         onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
         offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
     }
@@ -385,16 +395,16 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
         switch (type) {
             case "security"://@@5.13安防设备
 //                securityDevPresenter.getSmokeSummary(userID,privilege+"","","","","4");
-                lin1.setVisibility(View.GONE);
-                searchFire.setVisibility(View.GONE);
-                addFire.setVisibility(View.VISIBLE);
+//                lin1.setVisibility(View.GONE);
+//                searchFire.setVisibility(View.GONE);
+//                addFire.setVisibility(View.VISIBLE);
                 showFragment(FRAGMENT_SECURITY);
                 break;
             case "lostSmoke":
 //                securityDevPresenter.getSmokeSummary(userID,privilege+"","","","","4");
-                lin1.setVisibility(View.GONE);
-                searchFire.setVisibility(View.GONE);
-                addFire.setVisibility(View.VISIBLE);
+//                lin1.setVisibility(View.GONE);
+//                searchFire.setVisibility(View.GONE);
+//                addFire.setVisibility(View.VISIBLE);
                 showFragment(FRAGMENT_FIVE);
                 break;
             default:
@@ -405,10 +415,10 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     @Override
     public void getAreaType(ArrayList<?> shopTypes, int type) {
         if (type == 1) {
-            shopTypeCondition.setItemsData((ArrayList<Object>) shopTypes, securityDevPresenter);
-            shopTypeCondition.showPopWindow();
-            shopTypeCondition.setClickable(true);
-            shopTypeCondition.closeLoading();
+//            shopTypeCondition.setItemsData((ArrayList<Object>) shopTypes, securityDevPresenter);
+//            shopTypeCondition.showPopWindow();
+//            shopTypeCondition.setClickable(true);
+//            shopTypeCondition.closeLoading();
         } else {
             areaCondition.setItemsData((ArrayList<Object>) shopTypes, securityDevPresenter);
             areaCondition.showPopWindow();
@@ -422,8 +432,8 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     public void getAreaTypeFail(String msg, int type) {
         T.showShort(mContext, msg);
         if (type == 1) {
-            shopTypeCondition.setClickable(true);
-            shopTypeCondition.closeLoading();
+//            shopTypeCondition.setClickable(true);
+//            shopTypeCondition.closeLoading();
         } else {
             areaCondition.setClickable(true);
             areaCondition.closeLoading();
@@ -439,31 +449,55 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     public void getChoiceArea(Area area) {
         mArea = area;
         if (mArea != null && mArea.getAreaId() != null) {
-            addFire.setVisibility(View.GONE);
-            searchFire.setVisibility(View.VISIBLE);
+//            addFire.setVisibility(View.GONE);
+//            searchFire.setVisibility(View.VISIBLE);
         }
         if (mArea.getAreaId() == null && mShopType == null) {
-            addFire.setVisibility(View.VISIBLE);
-            searchFire.setVisibility(View.GONE);
+//            addFire.setVisibility(View.VISIBLE);
+//            searchFire.setVisibility(View.GONE);
         } else if (mArea.getAreaId() == null && mShopType != null && mShopType.getPlaceTypeId() == null) {
-            addFire.setVisibility(View.VISIBLE);
-            searchFire.setVisibility(View.GONE);
+//            addFire.setVisibility(View.VISIBLE);
+//            searchFire.setVisibility(View.GONE);
         }
+        areaCondition.searchClose();
+//                    shopTypeCondition.searchClose();
+        visibility = false;
+        if (mArea != null && mArea.getAreaId() != null) {
+            if(mArea.getIsParent()==1){
+                parentId= mArea.getAreaId();//@@9.1
+                areaId="";
+            }else{
+                areaId = mArea.getAreaId();
+                parentId="";
+            }
+        } else {
+            areaId = "";
+            parentId="";
+        }
+
+        mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"4",securityFragment);
+        mvpPresenter.getNeedSecurity(userID, privilege + "",parentId, areaId, shopTypeId,"4", securityFragment);//显示设备。。
+
+        mvpPresenter.getNeedLossSmoke(userID, privilege + "",parentId, areaId, shopTypeId, "","4",false,0,null,offLineDevFragment);
+        mvpPresenter.getSmokeSummary(userID,privilege+"",parentId,areaId,shopTypeId,"4",offLineDevFragment);
+
+        mShopType = null;
+        mArea = null;
     }
 
     @Override
     public void getChoiceShop(ShopType shopType) {
         mShopType = shopType;
         if (mShopType != null && mShopType.getPlaceTypeId() != null) {
-            addFire.setVisibility(View.GONE);
-            searchFire.setVisibility(View.VISIBLE);
+//            addFire.setVisibility(View.GONE);
+//            searchFire.setVisibility(View.VISIBLE);
         }
         if (mShopType.getPlaceTypeId() == null && mArea == null) {
-            addFire.setVisibility(View.VISIBLE);
-            searchFire.setVisibility(View.GONE);
+//            addFire.setVisibility(View.VISIBLE);
+//            searchFire.setVisibility(View.GONE);
         } else if (mShopType.getPlaceTypeId() == null && mArea != null && mArea.getAreaId() == null) {
-            addFire.setVisibility(View.VISIBLE);
-            searchFire.setVisibility(View.GONE);
+//            addFire.setVisibility(View.VISIBLE);
+//            searchFire.setVisibility(View.GONE);
         }
     }
 
@@ -480,6 +514,7 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     public void refreshView() {
         securityFragment.refreshView();
         offLineDevFragment.refreshView();
+        areaCondition.setEditText("");
     }
 
 }

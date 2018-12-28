@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
+    <declare-styleable name="circleProgressBar">
+        <attr name="circleWidth" format="dimension" />
+        <attr name="betaAngle" format="integer" />
+        <attr name="firstColor" format="color" />
+        <attr name="secondColor" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="TabWidget">
-    <attr name="bottom_labels" format="reference" />
-  </declare-styleable>
+        <attr name="bottom_labels" format="reference" />
+    </declare-styleable>
 
     <declare-styleable name="MyRadioButton">
 

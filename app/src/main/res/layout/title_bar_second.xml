@@ -5,66 +5,105 @@
     <RelativeLayout
         android:id="@+id/title_rela"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/login_btn"
-        >
+        android:layout_height="200dp">
+
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
-            <TextView
+            android:id="@+id/choose_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <RelativeLayout
                 android:id="@+id/title_name"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:background="@drawable/top_checkedtextview_selector"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
-                />
+                android:padding="5dp"
+                android:background="@drawable/top_checkedtextview_selector">
+                <TextView
+                    android:id="@+id/title_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    android:text="电气防火"
+                    />
+                <TextView
+                    android:id="@+id/online_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title_name_text"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/wifi_acclerate_green"
+                    android:text="--"/>
+            </RelativeLayout>
             <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#e6e6e6"/>
+            <RelativeLayout
                 android:id="@+id/title_lose_dev"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:background="@drawable/top_checkedtextview_selector"
-                android:layout_height="match_parent"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
-                />
+                android:padding="5dp"
+                android:background="@drawable/top_checkedtextview_selector">
+                <TextView
+                    android:id="@+id/title_lose_dev_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    android:text="离线设备" />
+                <TextView
+                    android:id="@+id/offline_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title_lose_dev_text"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/login_btn_press"
+                    android:text="--"/>
+            </RelativeLayout>
+
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/add_fire"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/erweima"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/choose_line"
+            android:background="@drawable/back_devlist">
+            <com.smart.cloud.fire.view.AreaChooceListView
+                android:id="@+id/area_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/areachooce_shape"/>
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/search_fire"
-            android:layout_width="90dp"
-            android:layout_height="45dp"
-            android:src="@drawable/search_condition_selector"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            />
+        <!--<ImageView-->
+            <!--android:id="@+id/add_fire"-->
+            <!--android:layout_width="45dp"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:src="@drawable/erweima"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:visibility="gone"-->
+            <!--/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/search_fire"-->
+            <!--android:layout_width="90dp"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:src="@drawable/search_condition_selector"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--/>-->
 
     </RelativeLayout>
-    <TextView
-        android:layout_below="@id/title_rela"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/xia_heng_xian"
-        />
 </RelativeLayout>

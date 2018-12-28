@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -201,20 +203,48 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         switch (eleState){
                             case 1:
                                 ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                                ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_qddy);
+                                ((ItemViewHolder) holder).power_button.setText("切断电源");
                                 break;
                             case 2:
                                 ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                                ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_yqd);
+                                ((ItemViewHolder) holder).power_button.setText("打开电源");
                                 break;
                             case 3:
                                 ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                                ((ItemViewHolder) holder).power_button.setImageResource(R.drawable.sblb_szz);
+                                ((ItemViewHolder) holder).power_button.setText("设置中");
                                 break;
                             default:
                                 ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
                                 break;
                         }
+                    }
+
+                    final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                            -0.2f, Animation.RELATIVE_TO_SELF, 0.0f);
+                    mShowAction.setDuration(500);
+
+                    ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+                    ((ItemViewHolder) holder).show_info_text.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String s= (String) ((ItemViewHolder) holder).show_info_text.getText();
+                            if(s.equals("展开详情")){
+                                ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.VISIBLE);
+                                ((ItemViewHolder) holder).dev_info_rela.startAnimation(mShowAction);
+                                ((ItemViewHolder) holder).show_info_text.setText("收起详情");
+                            }else{
+                                ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+                                ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+                            }
+                        }
+                    });
+                    if (state == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
 
                     ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
@@ -349,9 +379,9 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.address_tv)
         TextView address_tv;
         @Bind(R.id.manager_img)
-        ImageView manager_img;
+        TextView manager_img;
         @Bind(R.id.power_button)
-        ImageView power_button;//@@切换电源按钮
+        TextView power_button;//@@切换电源按钮
         @Bind(R.id.right_into_image)
         ImageView right_into_image;
         @Bind(R.id.setting_button)
@@ -360,6 +390,12 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         ImageView rssi_image;
         @Bind(R.id.voltage_image)
         ImageView voltage_image;
+        @Bind(R.id.show_info_text)
+        TextView show_info_text;
+        @Bind(R.id.dev_info_rela)
+        RelativeLayout dev_info_rela;
+        @Bind(R.id.online_state_image)
+        ImageView online_state_image;
 
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07

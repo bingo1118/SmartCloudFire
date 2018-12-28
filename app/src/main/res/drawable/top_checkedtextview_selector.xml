@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true" android:drawable="@color/alpha"></item> <!-- 正常情况下 -->
-    <item android:state_enabled="false" >
-        <shape>
-            <solid android:color="#CB320E"/>
-            <corners android:radius="100dp" />
-        </shape>
+    <item android:state_enabled="true" android:drawable="@color/alpha">
+    </item> <!-- 正常情况下 -->
+    <item android:state_enabled="false">
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item
+                android:left="-3dp"
+                android:right="-3dp"
+                android:top="-3dp">
+                <shape>
+                    <solid android:color="#ffffff"/>
+                    <stroke
+                        android:width="3dp"
+                        android:color="@color/wifi_acclerate_green"/>
+                </shape>
+            </item>
+        </layer-list>
     </item> <!-- 按下时按钮的变化 -->
 </selector>

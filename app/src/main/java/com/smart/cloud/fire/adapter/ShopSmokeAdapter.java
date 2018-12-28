@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -141,7 +143,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @param position
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Smoke normalSmoke = listNormalSmoke.get(position);
             final int devType = normalSmoke.getDeviceType();
@@ -220,6 +222,26 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     intent.putExtra("path",path);
                     mContext.startActivity(intent);
                 }
+            });
+            final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                    -0.2f, Animation.RELATIVE_TO_SELF, 0.0f);
+            mShowAction.setDuration(500);
+            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+            ((ItemViewHolder) holder).show_info_text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String s= (String) ((ItemViewHolder) holder).show_info_text.getText();
+                        if(s.equals("展开详情")){
+                            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.VISIBLE);
+                            ((ItemViewHolder) holder).dev_info_rela.startAnimation(mShowAction);
+                            ((ItemViewHolder) holder).show_info_text.setText("收起详情");
+                        }else{
+                            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
+                            ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+                        }
+                    }
             });
             switch (devType){
                 case 61://@@嘉德南京烟感
@@ -431,6 +453,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, OneTHDevInfoActivity.class);
                             intent.putExtra("Mac",normalSmoke.getMac());
                             intent.putExtra("Position",normalSmoke.getName());
+                            intent.putExtra("devType",normalSmoke.getDeviceType()+"");
                             mContext.startActivity(intent);
                         }
                     });
@@ -698,6 +721,13 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
             }
 
+            if (netStates == 0) {//设备不在线。。
+                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
+            } else {//设备在线。。
+                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);
+                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+            }
+
             ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
             ((ItemViewHolder) holder).repeater_tv.setText(normalSmoke.getRepeater());
@@ -782,7 +812,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Bind(R.id.address_tv)
         TextView address_tv;
         @Bind(R.id.manager_img)
-        ImageView manager_img;
+        TextView manager_img;
         @Bind(R.id.right_into_image)
         ImageView right_into_image;
         @Bind(R.id.item_lin)
@@ -794,7 +824,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07
         @Bind(R.id.xy_button)
-        Button power_button;//@@2018.03.07
+        TextView power_button;//@@2018.03.07
         @Bind(R.id.dev_image)
         TextView dev_image;//@@2018.03.07
         @Bind(R.id.dev_hearttime_set)
@@ -803,6 +833,12 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ImageView voltage_image;
         @Bind(R.id.rssi_image)
         ImageView rssi_image;
+        @Bind(R.id.show_info_text)
+        TextView show_info_text;
+        @Bind(R.id.dev_info_rela)
+        RelativeLayout dev_info_rela;
+        @Bind(R.id.online_state_image)
+        ImageView online_state_image;
 
         public ItemViewHolder(View view) {
             super(view);
