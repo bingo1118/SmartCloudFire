@@ -38,6 +38,7 @@
 
     <color name="dialog_back_color">#90000000</color>
     <color name="text_color_gray">#818181</color><!-- 灰色-->
+    <color name="line2">#4e589d</color>
     <color name="camera_text_color_gray">#b3b3b3</color><!-- 灰色-->
     <color name="playback_btn_p">#B2000000</color>
     <color name="alpha">#00000000</color>

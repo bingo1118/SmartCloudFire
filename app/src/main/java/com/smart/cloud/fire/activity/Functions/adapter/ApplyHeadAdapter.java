@@ -157,7 +157,12 @@ public class ApplyHeadAdapter extends RecyclerView.Adapter<ApplyHeadAdapter.Chan
             return false;
         }
         //在我的频道子频道的移动
-        Collections.swap(getAdapterData(), fromPosition, toPosition);
+//        Collections.swap(getAdapterData(), fromPosition, toPosition);
+
+        ApplyTable temp=getAdapterData().get(fromPosition);
+        getAdapterData().remove(fromPosition);
+        getAdapterData().add(toPosition,temp);
+
         notifyItemMoved(fromPosition, toPosition);
         //通知顺序变换，存储，设置频道顺序，以及显示的顺序
 

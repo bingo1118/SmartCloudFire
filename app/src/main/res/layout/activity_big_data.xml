@@ -10,25 +10,24 @@
     <RelativeLayout
         android:id="@+id/check_layout_top"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:background="#16245b"
         android:visibility="visible" >
         <RelativeLayout
             android:id="@+id/check_layout_animator"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_margin="40dp"
             android:layout_centerHorizontal="true"
             >
             <com.smart.cloud.fire.ui.view.CircleProgressBar
                 android:id="@+id/circleProgressBar"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 lh2:circleWidth="12dp"
-                lh2:firstColor="#d3d3d3"
+                lh2:firstColor="#3B4278"
                 lh2:secondColor="#3B95C8" />
         </RelativeLayout>
     </RelativeLayout>
@@ -37,14 +36,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/check_layout_top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
         <RelativeLayout
             android:id="@+id/fault_rela"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
-            android:layout_margin="10dp"
-            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:padding="8dp"
             android:visibility="gone">
 
             <ImageView
@@ -60,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/fault_image"
                 android:text="您总共有3652个设备，故障300个"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:padding="10dp"/>
             <ImageView
@@ -77,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
-            android:layout_margin="10dp"
-            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:padding="8dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/offline_image"
@@ -93,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/offline_image"
                 android:text="离线设备263个"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:padding="10dp"/>
             <ImageView
@@ -111,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
-            android:layout_margin="10dp"
-            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:padding="8dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/yangan_image"
@@ -127,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/yangan_image"
                 android:text="烟感设备16个"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:padding="10dp"/>
             <ImageView
@@ -144,8 +146,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
-            android:layout_margin="10dp"
-            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:padding="8dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/lowpower_image"
@@ -160,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/lowpower_image"
                 android:text="设备低电压16个"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:padding="10dp"/>
             <ImageView
@@ -177,7 +179,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_alarm_card"
-            android:layout_margin="10dp"
+            android:padding="8dp"
+            android:layout_margin="5dp"
             android:visibility="gone">
             <ImageView
                 android:id="@+id/water_image"
@@ -192,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/water_image"
                 android:text="设备水设备16个"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:padding="10dp"/>
             <ImageView

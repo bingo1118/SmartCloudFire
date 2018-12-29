@@ -18,7 +18,7 @@
             android:id="@+id/alarm_msg"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/alarm_msg"
+            android:src="@drawable/shouye_gongdan"
             android:layout_alignParentLeft="true"
             android:layout_margin="10dp"/>
 
@@ -26,140 +26,156 @@
             android:id="@+id/my_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/grzx_selector"
+            android:src="@drawable/shouye_zhanghao"
             android:visibility="visible"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp" />
 
         <RelativeLayout
             android:id="@+id/check_layout_animator"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_margin="0dp"
             android:layout_centerHorizontal="true"
             >
 
             <com.smart.cloud.fire.ui.view.CircleProgressBar
                 android:id="@+id/circleProgressBar"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 lh2:circleWidth="12dp"
-                lh2:firstColor="#d3d3d3"
+                lh2:firstColor="#3B4278"
                 lh2:secondColor="#3B95C8" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/sum_line"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_below="@id/check_layout_animator">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
                     android:text="正常"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/dev_sum"
                     android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:text="--"/>
             </LinearLayout>
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/text_color_gray"
+                android:background="@color/line2"
                 android:layout_margin="5dp"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
                     android:text="离线"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/offline_sum"
                     android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:text="--"/>
             </LinearLayout>
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/text_color_gray"
+                android:background="@color/line2"
                 android:layout_margin="5dp"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
                     android:text="故障"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fault_sum"
+                    android:textSize="18sp"
                     android:textColor="@color/white"
                     android:text="--"/>
             </LinearLayout>
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/text_color_gray"
+                android:background="@color/line2"
                 android:layout_margin="5dp"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
                     android:text="报警"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/alarm_sum"
-                    android:textColor="@color/white"
+                    android:textColor="@color/wifi_acclerate_red"
+                    android:textSize="18sp"
                     android:text="--"/>
             </LinearLayout>
         </LinearLayout>
         <Button
             android:id="@+id/scan_btn"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_width="130dp"
+            android:layout_height="45dp"
             android:background="@drawable/btn_green"
             android:layout_below="@id/sum_line"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_centerHorizontal="true"
             android:text="安全检测"
+            android:textSize="16sp"
             android:textColor="#fff"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_below="@id/check_layout_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#e5e5e5"
         android:orientation="vertical">
         <LinearLayout

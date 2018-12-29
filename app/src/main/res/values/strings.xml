@@ -46,7 +46,7 @@
     <string name="exit">注销</string>
 
     <!--摄像头列表-->
-    <string name="principal">负责人：</string>
+    <string name="principal">负责人:</string>
     <string name="yg_mac">烟感MAC：</string>
     <string name="add_camera">点击添加摄像头</string>
 

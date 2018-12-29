@@ -27,6 +27,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:textSize="14sp"
+                    android:textColor="#000"
                     android:text="电气防火"
                     />
                 <TextView
@@ -56,6 +57,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:textSize="14sp"
+                    android:textColor="#000"
                     android:text="离线设备" />
                 <TextView
                     android:id="@+id/offline_num"
@@ -63,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title_lose_dev_text"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/login_btn_press"
+                    android:textColor="@color/wifi_acclerate_red"
                     android:text="--"/>
             </RelativeLayout>
 
@@ -78,8 +80,9 @@
                 android:id="@+id/area_condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_centerInParent="true"
-                android:layout_margin="10dp"
+                android:layout_margin="30dp"
                 android:background="@drawable/areachooce_shape"/>
         </RelativeLayout>
 

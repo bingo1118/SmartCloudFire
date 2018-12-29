@@ -3,18 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:id="@+id/compound"
-    android:background="@drawable/edit_view_bg" >
+    android:id="@+id/compound" >
     
     <EditText
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:paddingLeft="10dp"
+        android:paddingLeft="20dp"
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_color_text"
-        android:padding="5dp"
+        android:paddingStart="15dp"
         android:editable="false"
         android:textSize="14sp"
         android:background="@null"
@@ -26,8 +25,8 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/dropdown"
-        android:padding="5dp"
+        android:src="@drawable/search_down"
+        android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
         android:gravity="center"/>
     <ProgressBar

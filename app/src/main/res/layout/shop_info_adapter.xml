@@ -67,7 +67,7 @@
                     android:text="0"
                     android:visibility="gone"
                     android:gravity="center"
-                    android:textColor="#6573f9"/>
+                    android:textColor="#B741F5"/>
                 <ImageView
                     android:id="@+id/voltage_image"
                     android:layout_width="25dp"
@@ -76,26 +76,24 @@
                     android:src="@drawable/p2"
                     android:visibility="gone"/>
             </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#7ff0f0f0"
+            android:layout_margin="8dp"
+            android:padding="5dp">
             <TextView
                 android:id="@+id/show_info_text"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_margin="3dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:textColor="#6573f9"
-                android:textSize="10sp"
-                android:text="展开详情"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/dev_info_rela"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#e6e6e6"
-            android:layout_margin="8dp"
-            android:padding="5dp"
-            android:animateLayoutChanges="true">
+                android:textSize="12sp"
+                android:text="展开"/>
             <TextView
                 android:id="@+id/mac_name_tv"
                 android:layout_width="wrap_content"
@@ -107,73 +105,80 @@
                 android:id="@+id/mac_tv"
                 android:layout_toRightOf="@id/mac_name_tv"
                 android:text="102314"/>
-            <TextView
-                android:id="@+id/state_name_tv"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/dev_info_rela"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/mac_name_tv"
                 android:visibility="gone"
-                android:text="开关："/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/state_tv"
-                android:layout_toRightOf="@id/state_name_tv"
-                android:layout_below="@id/mac_name_tv"
-                android:visibility="gone"
-                android:text="关"/>
-            <TextView
-                android:id="@+id/repeater_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/state_name_tv"
-                android:text="所属中继："/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/repeater_tv"
-                android:layout_below="@id/state_name_tv"
-                android:layout_toRightOf="@id/repeater_name_tv"
-                android:text="10666"/>
-            <TextView
-                android:id="@+id/area_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/repeater_name_tv"
-                android:text="区域："/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/area_tv"
-                android:layout_below="@id/repeater_name_tv"
-                android:layout_toRightOf="@id/area_name_tv"
-                android:text="天河区"/>
-            <TextView
-                android:id="@+id/tpye_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/area_name_tv"
-                android:text="类型："/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/type_tv"
-                android:layout_below="@id/area_name_tv"
-                android:layout_toRightOf="@id/tpye_name_tv"
-                android:text="小区"/>
-            <TextView
-                android:id="@+id/address_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tpye_name_tv"
-                android:text="地址："/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/address_tv"
-                android:layout_below="@id/tpye_name_tv"
-                android:layout_toRightOf="@id/address_name_tv"
-                android:text="广东省广州市黄浦区"/>
+                android:animateLayoutChanges="true">
+                <TextView
+                    android:id="@+id/state_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="开关："/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/state_tv"
+                    android:layout_toRightOf="@id/state_name_tv"
+                    android:visibility="gone"
+                    android:text="关"/>
+                <TextView
+                    android:id="@+id/repeater_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/state_name_tv"
+                    android:text="所属中继："/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/repeater_tv"
+                    android:layout_below="@id/state_name_tv"
+                    android:layout_toRightOf="@id/repeater_name_tv"
+                    android:text="10666"/>
+                <TextView
+                    android:id="@+id/area_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/repeater_name_tv"
+                    android:text="区域："/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/area_tv"
+                    android:layout_below="@id/repeater_name_tv"
+                    android:layout_toRightOf="@id/area_name_tv"
+                    android:text="天河区"/>
+                <TextView
+                    android:id="@+id/tpye_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/area_name_tv"
+                    android:text="类型："/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/type_tv"
+                    android:layout_below="@id/area_name_tv"
+                    android:layout_toRightOf="@id/tpye_name_tv"
+                    android:text="小区"/>
+                <TextView
+                    android:id="@+id/address_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tpye_name_tv"
+                    android:text="地址："/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address_tv"
+                    android:layout_below="@id/tpye_name_tv"
+                    android:layout_toRightOf="@id/address_name_tv"
+                    android:text="广东省广州市黄浦区"/>
+            </RelativeLayout>
+
 
             </RelativeLayout>
             <TextView
@@ -222,11 +227,12 @@
                 android:orientation="horizontal"
                 android:layout_alignParentRight="true">
                 <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/manager_img"
                     android:text="联系人"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
+                    android:padding="5dp"
                     android:textColor="#6573f9"
                     android:gravity="center"
                     android:layout_gravity="center_vertical"
@@ -234,10 +240,11 @@
                     android:background="@drawable/dev_list_item_shape"/>
                 <TextView
                     android:id="@+id/dev_image"
-                    android:layout_width="50dp"
-                    android:layout_height="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#6573f9"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
+                    android:padding="5dp"
                     android:gravity="center"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
@@ -246,10 +253,11 @@
                     />
                 <TextView
                     android:id="@+id/xy_button"
-                    android:layout_width="45dp"
-                    android:layout_height="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#6573f9"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
+                    android:padding="5dp"
                     android:gravity="center"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
@@ -258,10 +266,11 @@
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/power_button"
-                    android:layout_width="50dp"
-                    android:layout_height="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#6573f9"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
+                    android:padding="5dp"
                     android:gravity="center"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"

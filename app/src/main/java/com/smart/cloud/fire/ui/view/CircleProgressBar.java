@@ -118,14 +118,15 @@ public class CircleProgressBar extends View {
             switch (attr)
             {
                 case R.styleable.circleProgressBar_firstColor:
-                    firstColor = ta.getColor(attr, Color.LTGRAY); // 默认底色为亮灰色
+                    firstColor = ta.getColor(attr, Color.BLACK); // 默认底色为亮灰色
                     break;
                 case R.styleable.circleProgressBar_secondColor:
                     secondColor = ta.getColor(attr, Color.BLUE); // 默认进度条颜色为蓝色
                     break;
                 case R.styleable.circleProgressBar_circleWidth:
-                    circleWidth = ta.getDimensionPixelSize(attr, (int) TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP, 6, getResources().getDisplayMetrics())); // 默认圆弧宽度为6dp
+//                    circleWidth = ta.getDimensionPixelSize(attr, (int) TypedValue.applyDimension(
+//                            TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics())); // 默认圆弧宽度为8dp
+                    circleWidth=35;
                     break;
                 default:
                     break;
@@ -209,7 +210,7 @@ public class CircleProgressBar extends View {
 
         textPaint.setTextAlign(Paint.Align.CENTER); // 设置文字居中，文字的x坐标要注意
         textPaint.setColor(Color.WHITE); // 设置文字颜色
-        textPaint.setTextSize(36); // 设置要绘制的文字大小
+        textPaint.setTextSize(50); // 设置要绘制的文字大小
         textPaint.setStrokeWidth(0); // 注意此处一定要重新设置宽度为0,否则绘制的文字会重叠
         Rect bounds = new Rect(); // 文字边框
         textPaint.getTextBounds(percent, 0, percent.length(), bounds); // 获得绘制文字的边界矩形

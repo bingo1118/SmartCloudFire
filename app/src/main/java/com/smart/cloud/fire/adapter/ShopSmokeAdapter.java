@@ -225,21 +225,21 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
             final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                     Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                    -0.2f, Animation.RELATIVE_TO_SELF, 0.0f);
+                    -0.1f, Animation.RELATIVE_TO_SELF, 0.0f);
             mShowAction.setDuration(500);
             ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
-            ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+            ((ItemViewHolder) holder).show_info_text.setText("展开");
             ((ItemViewHolder) holder).show_info_text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String s= (String) ((ItemViewHolder) holder).show_info_text.getText();
-                        if(s.equals("展开详情")){
+                        if(s.equals("展开")){
                             ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.VISIBLE);
                             ((ItemViewHolder) holder).dev_info_rela.startAnimation(mShowAction);
-                            ((ItemViewHolder) holder).show_info_text.setText("收起详情");
+                            ((ItemViewHolder) holder).show_info_text.setText("收起");
                         }else{
                             ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
-                            ((ItemViewHolder) holder).show_info_text.setText("展开详情");
+                            ((ItemViewHolder) holder).show_info_text.setText("展开");
                         }
                     }
             });

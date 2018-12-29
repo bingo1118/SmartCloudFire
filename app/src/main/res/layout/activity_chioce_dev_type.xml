@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="选择设备类型："
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:gravity="center"/>
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/tianjia_shoudong"/>
             <TextView
                 android:layout_width="100dp"
@@ -57,7 +57,7 @@
                 android:text="手动添加"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="#fff"
                 android:padding="10dp"
                 android:layout_margin="10dp"
@@ -87,10 +87,10 @@
                 android:text="扫码添加"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="#fff"
                 android:padding="10dp"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:layout_gravity="center"
                 android:background="@drawable/corner_blue"/>
             </LinearLayout>
@@ -117,10 +117,10 @@
                     android:text="视频监控"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="#fff"
                     android:padding="10dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="15dp"
                     android:layout_gravity="center"
                     android:background="@drawable/corner_blue"/>
             </LinearLayout>
@@ -148,10 +148,10 @@
                     android:text="NFC"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="#fff"
                     android:padding="10dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="15dp"
                     android:layout_gravity="center"
                     android:background="@drawable/corner_blue"/>
             </LinearLayout>
