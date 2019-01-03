@@ -2,4 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item  android:id="@+id/change_history"  android:title="电源切换记录"/>
     <item  android:id="@+id/yuzhi_set"  android:title="参数设置"/>
+    <item  android:id="@+id/fenli"  android:title="参数设置"/>
+    <item  android:id="@+id/utfenli"  android:title="分励设置"/>
+    <item  android:id="@+id/clear_voice"  android:title="消音"/>
+    <item  android:id="@+id/reset"  android:title="报警复位"/>
+    <item  android:id="@+id/race"  android:title="功率详情"/>
 </menu>

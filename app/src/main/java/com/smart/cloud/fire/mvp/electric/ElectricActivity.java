@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -18,8 +19,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +32,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.smart.cloud.fire.Volley.FastJsonRequest;
 import com.smart.cloud.fire.adapter.ElectricActivityAdapterTest;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
+import com.smart.cloud.fire.global.ElectricEnergyEntity;
 import com.smart.cloud.fire.global.ElectricValue;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
@@ -77,6 +84,9 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     private String yuzhi44="";
     private String yuzhi45="";
     private String yuzhi46="";
+    private String yuzhi47="0";
+
+    private ElectricEnergyEntity energyEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +114,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         refreshListView();
         electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
         getYuzhi(electricMac);
+        getFenli(electricMac);
     }
 
     private void showPopupMenu(View view) {
@@ -116,161 +127,44 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             MenuItem item=popupMenu.getMenu().findItem(R.id.yuzhi_set);
             item.setVisible(false);
         }
+        if(devType!=80){
+            MenuItem item=popupMenu.getMenu().findItem(R.id.fenli);
+            item.setVisible(false);
+            item=popupMenu.getMenu().findItem(R.id.utfenli);
+            item.setVisible(false);
+            item=popupMenu.getMenu().findItem(R.id.clear_voice);
+            item.setVisible(false);
+            item=popupMenu.getMenu().findItem(R.id.reset);
+            item.setVisible(false);
+            item=popupMenu.getMenu().findItem(R.id.race);
+            item.setVisible(false);
+        }
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.race:
+                        gotoRace();
+                        break;
+                    case R.id.fenli:
+                        gotoSetting();
+                        break;
+                    case R.id.utfenli:
+                        gotoSetFenli();
+                        break;
+                    case R.id.clear_voice:
+                        gotoClearvoice();
+                        break;
+                    case R.id.reset:
+                        gotoResetAlarm();
+                        break;
                     case R.id.change_history:
                         Intent intent=new Intent(mContext, ElectricChangeHistoryActivity.class);
                         intent.putExtra("mac",electricMac);
                         startActivity(intent);
                         break;
                     case R.id.yuzhi_set:
-                        LayoutInflater inflater = getLayoutInflater();
-                        View layout = inflater.inflate(R.layout.electr_threshold_setting,(ViewGroup) findViewById(R.id.rela));
-                        final AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
-                        final AlertDialog dialog =builder.create();
-                        final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
-                        high_value.setText(yuzhi43);
-                        final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
-                        low_value.setText(yuzhi44);
-                        final EditText overcurrentvalue=(EditText)layout.findViewById(R.id.overcurrentvalue);
-                        overcurrentvalue.setText(yuzhi45);
-                        final EditText Leakage_value=(EditText)layout.findViewById(R.id.Leakage_value);
-                        Leakage_value.setText(yuzhi46);
-                        TextView high_value_yuzhi_text=(TextView)layout.findViewById(R.id.high_value_yuzhi);
-                        TextView low_value_yuzhi_text=(TextView)layout.findViewById(R.id.low_value_yuzhi);
-                        TextView overcurrentvalue_yuzhi_text=(TextView)layout.findViewById(R.id.overcurrentvalue_yuzhi);
-                        TextView Leakage_value_yuzhi_text=(TextView)layout.findViewById(R.id.Leakage_value_yuzhi);
-                        if(devType==75||devType==77){
-                            high_value_yuzhi_text.setText("(230-320V)");
-                            low_value_yuzhi_text.setText("(100-200V)");
-                            overcurrentvalue_yuzhi_text.setText("(4-250A)");
-                            Leakage_value_yuzhi_text.setText("(30-1000mA)");
-                        }
-                        Button commit=(Button)(Button)layout.findViewById(R.id.commit);
-                        commit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String url="";
-                                try{
-                                    int high=(int)Float.parseFloat(high_value.getText().toString());
-                                    int low=(int)Float.parseFloat(low_value.getText().toString());
-                                    float value45=Float.parseFloat(overcurrentvalue.getText().toString());
-                                    int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
-                                    if(devType==75||devType==77){
-                                        if(low<100||low>200){
-                                            T.showShort(mContext,"欠压阈值设置范围为100-200V");
-                                            return;
-                                        }
-                                        if(high<230||high>320){
-                                            T.showShort(mContext,"过压阈值设置范围为230-320V");
-                                            return;
-                                        }
-                                        if(value45<4||value45>250){
-                                            T.showShort(mContext,"过流阈值设置范围为4-250A");
-                                            return;
-                                        }
-                                        if(value46<30||value46>1000){
-                                            T.showShort(mContext,"漏电流阈值设置范围为30-1000mA");
-                                            return;
-                                        }
-                                        if(low>high){
-                                            T.showShort(mContext,"欠压阈值不能高于过压阈值");
-                                            return;
-                                        }
-                                    }else{
-                                        if(low<145||low>220){
-                                            T.showShort(mContext,"欠压阈值设置范围为145-220V");
-                                            return;
-                                        }
-                                        if(high<220||high>280){
-                                            T.showShort(mContext,"过压阈值设置范围为220-280V");
-                                            return;
-                                        }
-                                        if(value45<1||value45>63){
-                                            T.showShort(mContext,"过流阈值设置范围为1-63A");
-                                            return;
-                                        }
-                                        if(value46<10||value46>90){
-                                            T.showShort(mContext,"漏电流阈值设置范围为10-90mA");
-                                            return;
-                                        }
-                                        if(low>high){
-                                            T.showShort(mContext,"欠压阈值不能高于过压阈值");
-                                            return;
-                                        }
-                                    }
-
-                                    if(devType==52){
-                                        url= ConstantValues.SERVER_IP_NEW+"ackControlCvls?Overvoltage="+high_value.getText().toString()
-                                                +"&Undervoltage="+low_value.getText().toString()
-                                                +"&Overcurrent="+value45
-                                                +"&Leakage="+value46
-                                                +"&repeaterMac="+repeatMac+"&smokeMac="+electricMac+"&userId="+userID;
-                                    }else if(devType==53){
-                                        url= ConstantValues.SERVER_IP_NEW+"EasyIot_Uool_control?Overvoltage="+high_value.getText().toString()
-                                                +"&Undervoltage="+low_value.getText().toString()
-                                                +"&Overcurrent="+value45
-                                                +"&Leakage="+value46
-                                                +"&appId=1&devSerial="+electricMac+"&userId="+userID;
-                                    }else if(devType==75||devType==77){
-                                        url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?Overvoltage="+high_value.getText().toString()
-                                                +"&Undervoltage="+low_value.getText().toString()
-                                                +"&Overcurrent="+value45
-                                                +"&Leakage="+value46
-                                                +"&deviceType="+devType+"&devCmd=14&imei="+electricMac+"&userid="+userID;
-                                    }else{
-                                        Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-//                                            Toast.makeText(getApplicationContext(),"设置中，请稍后", Toast.LENGTH_SHORT).show();
-                                }catch(Exception e){
-                                    e.printStackTrace();
-                                    T.showShort(mContext,"输入数据不完全或有误");
-                                    return;
-                                }
-                                final ProgressDialog dialog1 = new ProgressDialog(mContext);
-                                dialog1.setTitle("提示");
-                                dialog1.setMessage("设置中，请稍候");
-                                dialog1.setCanceledOnTouchOutside(false);
-                                dialog1.show();
-                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
-                                        new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                try {
-                                                    int errorCode=response.getInt("errorCode");
-                                                    if(errorCode==0){
-                                                        T.showShort(mContext,"阈值设置下发成功，请稍后刷新");
-                                                        electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
-                                                    }else{
-                                                        T.showShort(mContext,"设置失败");
-                                                    }
-                                                    getYuzhi(electricMac);
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                dialog1.dismiss();
-                                            }
-                                        }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        T.showShort(mContext,"网络错误");
-                                        dialog1.dismiss();
-                                    }
-                                });
-                                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
-                                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                                mQueue.add(jsonObjectRequest);
-                                dialog.dismiss();
-                            }
-                        });
-                        dialog.show();
+                        gotoYuzhiSet();
                         break;
                 }
                 return false;
@@ -285,6 +179,8 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
 
         popupMenu.show();
     }
+
+
 
 
     private void refreshListView() {
@@ -305,6 +201,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             public void onRefresh() {
                 electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,true);
                 getYuzhi(electricMac);
+                getFenli(electricMac);
             }
         });
     }
@@ -365,6 +262,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         mProgressBar.setVisibility(View.GONE);
     }
 
+
     public void getYuzhi(String mac){
         VolleyHelper helper=VolleyHelper.getInstance(mContext);
         String url=ConstantValues.SERVER_IP_NEW+"getElectrAlarmThreshold?mac="+mac;
@@ -395,6 +293,584 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(jsonObjectRequest);
+    }
+
+    public void getFenli(String mac){
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        String url=ConstantValues.SERVER_IP_NEW+"getOneEnergyEntity?userId=13622215085&devType=80&privilege=4&smokeMac="+mac;
+        RequestQueue mQueue = helper.getRequestQueue();
+
+        FastJsonRequest<ElectricEnergyEntity> fRequest = new FastJsonRequest<ElectricEnergyEntity>(url, null,
+                null, ElectricEnergyEntity.class, new Response.Listener<ElectricEnergyEntity>() {
+
+            @Override
+            public void onResponse(ElectricEnergyEntity response) {
+                energyEntity=response;
+                int a=1;
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        mQueue.add(fRequest);
+    }
+
+    public void gotoSetting(){
+        LayoutInflater inflater = getLayoutInflater();
+        View layout= inflater.inflate(R.layout.ut_electr_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
+        final AlertDialog dialog =builder.create();
+        final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
+        high_value.setText(yuzhi43);
+        final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
+        low_value.setText(yuzhi44);
+        final EditText overcurrentvalue=(EditText)layout.findViewById(R.id.overcurrentvalue);
+        overcurrentvalue.setText(yuzhi45);
+        final EditText Leakage_value=(EditText)layout.findViewById(R.id.Leakage_value);
+        Leakage_value.setText(yuzhi46);
+        final EditText temperature_value=(EditText)layout.findViewById(R.id.Temperature_value);
+        temperature_value.setText(yuzhi47);
+        final EditText currentMAX_value=(EditText)layout.findViewById(R.id.CurrentMAX_value);
+        currentMAX_value.setText("0");
+        final Switch fenli_switch=(Switch)layout.findViewById(R.id.fenli_switch);
+        final LinearLayout fenliHoldTime_line=(LinearLayout) layout.findViewById(R.id.fenliHoldTime_line);
+        if(energyEntity.getShunt()==1){
+            fenli_switch.setChecked(true);
+            fenliHoldTime_line.setVisibility(View.VISIBLE);
+        }else {
+            fenli_switch.setChecked(false);
+            fenliHoldTime_line.setVisibility(View.GONE);
+        }
+
+        fenli_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    fenliHoldTime_line.setVisibility(View.VISIBLE);
+                }else{
+                    fenliHoldTime_line.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        final EditText fenliHoldTime_value=(EditText)layout.findViewById(R.id.fenliHoldTime_value);
+        final Switch QI_switch=(Switch)layout.findViewById(R.id.QI_switch);
+        if(energyEntity.getShuntCuPer()==1){
+            QI_switch.setChecked(true);
+        }else {
+            QI_switch.setChecked(false);
+        }
+        final Switch TI_switch=(Switch)layout.findViewById(R.id.TI_switch);
+        if(energyEntity.getShuntTemp()==1){
+            TI_switch.setChecked(true);
+        }else {
+            TI_switch.setChecked(false);
+        }
+        final Switch fenli_liandong_switch=(Switch)layout.findViewById(R.id.fenli_liandong_switch);
+        if(energyEntity.getShuntLink()==1){
+            fenli_liandong_switch.setChecked(true);
+        }else {
+            fenli_liandong_switch.setChecked(false);
+        }
+
+        Button commit=(Button)layout.findViewById(R.id.commit);
+        commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url="";
+                try{
+                    int high=(int)Float.parseFloat(high_value.getText().toString());
+                    int low=(int)Float.parseFloat(low_value.getText().toString());
+                    float value45=Float.parseFloat(overcurrentvalue.getText().toString());
+                    int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
+                    int value47=(int)Float.parseFloat(temperature_value.getText().toString());
+
+                    if(low<145||low>220){
+                        T.showShort(mContext,"欠压阈值设置范围为145-220V");
+                        return;
+                    }
+                    if(high<220||high>280){
+                        T.showShort(mContext,"过压阈值设置范围为220-280V");
+                        return;
+                    }
+                    if(value45<1||value45>63){
+                        T.showShort(mContext,"过流阈值设置范围为1-63A");
+                        return;
+                    }
+                    if(value46<10||value46>1000){
+                        T.showShort(mContext,"漏电流阈值设置范围为10-1000mA");
+                        return;
+                    }
+                    if(low>high){
+                        T.showShort(mContext,"欠压阈值不能高于过压阈值");
+                        return;
+                    }
+
+                    int b=0;
+                    if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()>0){
+                        b= b+Integer.parseInt(fenliHoldTime_value.getText().toString());
+                    }else if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()==0){
+                        b= b+31;
+                    }
+
+                    if(QI_switch.isChecked()){
+                        b= b+32;
+                    }
+
+                    if(TI_switch.isChecked()){
+                        b= b+64;
+                    }
+
+                    if(fenli_liandong_switch.isChecked()){
+                        b= b+64;
+                    }
+
+                    url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?Overvoltage="+high_value.getText().toString()
+                            +"&Undervoltage="+low_value.getText().toString()
+                            +"&Overcurrent="+value45
+                            +"&Leakage="+value46
+                            +"&deviceType="+devType+"&devCmd=14&CurrentMAX=0&imei="+electricMac
+                            +"&Temperature="+value47
+                            +"&ShuntRelevance="+b;
+
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                    T.showShort(mContext,"输入数据不完全或有误");
+                    return;
+                }
+                final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                dialog1.setTitle("提示");
+                dialog1.setMessage("设置中，请稍候");
+                dialog1.setCanceledOnTouchOutside(false);
+                dialog1.show();
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        T.showShort(mContext,"设置命令下发成功，请稍后刷新");
+                                        electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
+                                    }else{
+                                        T.showShort(mContext,"设置失败");
+                                    }
+                                    getYuzhi(electricMac);
+                                    getFenli(electricMac);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                dialog1.dismiss();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(mContext,"网络错误");
+                        dialog1.dismiss();
+                    }
+                });
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                mQueue.add(jsonObjectRequest);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    public void gotoSetFenli(){
+        LayoutInflater inflater = getLayoutInflater();
+        View layout= inflater.inflate(R.layout.ut_fenli_setting,(ViewGroup) findViewById(R.id.rela));
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
+        final AlertDialog dialog =builder.create();
+
+        final Switch fenli_switch=(Switch)layout.findViewById(R.id.fenli_switch);
+        final LinearLayout fenliHoldTime_line=(LinearLayout) layout.findViewById(R.id.fenliHoldTime_line);
+        if(energyEntity.getShunt()==1){
+            fenli_switch.setChecked(true);
+            fenliHoldTime_line.setVisibility(View.VISIBLE);
+        }else {
+            fenli_switch.setChecked(false);
+            fenliHoldTime_line.setVisibility(View.GONE);
+        }
+
+        fenli_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    fenliHoldTime_line.setVisibility(View.VISIBLE);
+                }else{
+                    fenliHoldTime_line.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        final EditText fenliHoldTime_value=(EditText)layout.findViewById(R.id.fenliHoldTime_value);
+
+
+        Button commit=(Button)layout.findViewById(R.id.commit);
+        commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url="";
+                try{
+
+
+                    int b=0;
+                    if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()>0){
+                        b= b+Integer.parseInt(fenliHoldTime_value.getText().toString());
+                    }else if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()==0){
+                        b= 255;
+                    }
+
+                    url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?"
+                            +"deviceType="+devType+"&devCmd=31&imei="+electricMac
+                            +"&ShuntRelevance="+b;
+
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                    T.showShort(mContext,"输入数据不完全或有误");
+                    return;
+                }
+                final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                dialog1.setTitle("提示");
+                dialog1.setMessage("设置中，请稍候");
+                dialog1.setCanceledOnTouchOutside(false);
+                dialog1.show();
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        T.showShort(mContext,"设置成功");
+                                        electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
+                                    }else{
+                                        T.showShort(mContext,"设置失败");
+                                    }
+                                    getYuzhi(electricMac);
+                                    getFenli(electricMac);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                dialog1.dismiss();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(mContext,"网络错误");
+                        dialog1.dismiss();
+                    }
+                });
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                mQueue.add(jsonObjectRequest);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void gotoClearvoice() {
+        String url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?"
+                +"deviceType="+devType+"&devCmd=32&imei="+electricMac;
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int errorCode=response.getInt("errorCode");
+                            if(errorCode==0){
+                                T.showShort(mContext,"设置成功");
+                                electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
+                            }else{
+                                T.showShort(mContext,"设置失败");
+                            }
+                            getYuzhi(electricMac);
+                            getFenli(electricMac);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                T.showShort(mContext,"网络错误");
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(jsonObjectRequest);
+    }
+
+    private void gotoResetAlarm() {
+        String url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?"
+                +"deviceType="+devType+"&devCmd=33&imei="+electricMac;
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int errorCode=response.getInt("errorCode");
+                            if(errorCode==0){
+                                T.showShort(mContext,"设置成功");
+                                electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
+                            }else{
+                                T.showShort(mContext,"设置失败");
+                            }
+                            getYuzhi(electricMac);
+                            getFenli(electricMac);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                T.showShort(mContext,"网络错误");
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(jsonObjectRequest);
+    }
+
+    private void gotoYuzhiSet() {
+        LayoutInflater inflater;
+        View layout;
+        AlertDialog.Builder builder;
+        final AlertDialog dialog;
+        inflater = getLayoutInflater();
+        layout = inflater.inflate(R.layout.electr_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+        builder=new AlertDialog.Builder(mContext).setView(layout);
+        dialog =builder.create();
+        final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
+        high_value.setText(yuzhi43);
+        final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
+        low_value.setText(yuzhi44);
+        final EditText overcurrentvalue=(EditText)layout.findViewById(R.id.overcurrentvalue);
+        overcurrentvalue.setText(yuzhi45);
+        final EditText Leakage_value=(EditText)layout.findViewById(R.id.Leakage_value);
+        Leakage_value.setText(yuzhi46);
+        TextView high_value_yuzhi_text=(TextView)layout.findViewById(R.id.high_value_yuzhi);
+        TextView low_value_yuzhi_text=(TextView)layout.findViewById(R.id.low_value_yuzhi);
+        TextView overcurrentvalue_yuzhi_text=(TextView)layout.findViewById(R.id.overcurrentvalue_yuzhi);
+        TextView Leakage_value_yuzhi_text=(TextView)layout.findViewById(R.id.Leakage_value_yuzhi);
+        if(devType==75||devType==77){
+            high_value_yuzhi_text.setText("（230-320V）");
+            low_value_yuzhi_text.setText("（100-200V）");
+            overcurrentvalue_yuzhi_text.setText("（4-250A）");
+            Leakage_value_yuzhi_text.setText("（30-1000mA）");
+        }
+        Button commit=(Button)(Button)layout.findViewById(R.id.commit);
+        commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url="";
+                try{
+                    int high=(int)Float.parseFloat(high_value.getText().toString());
+                    int low=(int)Float.parseFloat(low_value.getText().toString());
+                    float value45=Float.parseFloat(overcurrentvalue.getText().toString());
+                    int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
+                    if(devType==75||devType==77){
+                        if(low<100||low>200){
+                            T.showShort(mContext,"欠压阈值设置范围为100-200V");
+                            return;
+                        }
+                        if(high<230||high>320){
+                            T.showShort(mContext,"过压阈值设置范围为230-320V");
+                            return;
+                        }
+                        if(value45<4||value45>250){
+                            T.showShort(mContext,"过流阈值设置范围为4-250A");
+                            return;
+                        }
+                        if(value46<30||value46>1000){
+                            T.showShort(mContext,"漏电流阈值设置范围为30-1000mA");
+                            return;
+                        }
+                        if(low>high){
+                            T.showShort(mContext,"欠压阈值不能高于过压阈值");
+                            return;
+                        }
+                    }else{
+                        if(low<145||low>220){
+                            T.showShort(mContext,"欠压阈值设置范围为145-220V");
+                            return;
+                        }
+                        if(high<220||high>280){
+                            T.showShort(mContext,"过压阈值设置范围为220-280V");
+                            return;
+                        }
+                        if(value45<1||value45>63){
+                            T.showShort(mContext,"过流阈值设置范围为1-63A");
+                            return;
+                        }
+                        if(value46<10||value46>90){
+                            T.showShort(mContext,"漏电流阈值设置范围为10-90mA");
+                            return;
+                        }
+                        if(low>high){
+                            T.showShort(mContext,"欠压阈值不能高于过压阈值");
+                            return;
+                        }
+                    }
+
+                    if(devType==52){
+                        url= ConstantValues.SERVER_IP_NEW+"ackControlCvls?Overvoltage="+high_value.getText().toString()
+                                +"&Undervoltage="+low_value.getText().toString()
+                                +"&Overcurrent="+value45
+                                +"&Leakage="+value46
+                                +"&repeaterMac="+repeatMac+"&smokeMac="+electricMac+"&userId="+userID;
+                    }else if(devType==53){
+                        url= ConstantValues.SERVER_IP_NEW+"EasyIot_Uool_control?Overvoltage="+high_value.getText().toString()
+                                +"&Undervoltage="+low_value.getText().toString()
+                                +"&Overcurrent="+value45
+                                +"&Leakage="+value46
+                                +"&appId=1&devSerial="+electricMac+"&userId="+userID;
+                    }else if(devType==75||devType==77){
+                        url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?Overvoltage="+high_value.getText().toString()
+                                +"&Undervoltage="+low_value.getText().toString()
+                                +"&Overcurrent="+value45
+                                +"&Leakage="+value46
+                                +"&deviceType="+devType+"&devCmd=14&imei="+electricMac;
+                    }else{
+                        Toast.makeText(getApplicationContext(),"该设备不支持阈值设置", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+//                                            Toast.makeText(getApplicationContext(),"设置中，请稍后", Toast.LENGTH_SHORT).show();
+                }catch(Exception e){
+                    e.printStackTrace();
+                    T.showShort(mContext,"输入数据不完全或有误");
+                    return;
+                }
+                final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                dialog1.setTitle("提示");
+                dialog1.setMessage("设置中，请稍候");
+                dialog1.setCanceledOnTouchOutside(false);
+                dialog1.show();
+                VolleyHelper helper=VolleyHelper.getInstance(mContext);
+                RequestQueue mQueue = helper.getRequestQueue();
+//                            RequestQueue mQueue = Volley.newRequestQueue(context);
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    int errorCode=response.getInt("errorCode");
+                                    if(errorCode==0){
+                                        T.showShort(mContext,"设置成功");
+                                        electricPresenter.getOneElectricInfo(userID,privilege+"",devType+"",electricMac,false);
+                                    }else{
+                                        T.showShort(mContext,"设置失败");
+                                    }
+                                    getYuzhi(electricMac);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                dialog1.dismiss();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        T.showShort(mContext,"网络错误");
+                        dialog1.dismiss();
+                    }
+                });
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                mQueue.add(jsonObjectRequest);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void gotoRace() {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout= inflater.inflate(R.layout.electr_fenli_race,(ViewGroup) findViewById(R.id.rela));
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
+        final AlertDialog dialog =builder.create();
+
+        final TextView ActivePowerA=(TextView)layout.findViewById(R.id.ActivePowerA);
+        final TextView ActivePowerB=(TextView)layout.findViewById(R.id.ActivePowerB);
+        final TextView ActivePowerC=(TextView)layout.findViewById(R.id.ActivePowerC);
+
+        ActivePowerA.setText(energyEntity.getActivePowerA());
+        ActivePowerB.setText(energyEntity.getActivePowerB());
+        ActivePowerC.setText(energyEntity.getActivePowerC());
+
+        final TextView ReactivePowerA=(TextView)layout.findViewById(R.id.ReactivePowerA);
+        final TextView ReactivePowerB=(TextView)layout.findViewById(R.id.ReactivePowerB);
+        final TextView ReactivePowerC=(TextView)layout.findViewById(R.id.ReactivePowerC);
+
+        ReactivePowerA.setText(energyEntity.getReactivePowerA());
+        ReactivePowerB.setText(energyEntity.getReactivePowerB());
+        ReactivePowerC.setText(energyEntity.getReactivePowerC());
+
+        final TextView ApparentPowerA=(TextView)layout.findViewById(R.id.ApparentPowerA);
+        final TextView ApparentPowerB=(TextView)layout.findViewById(R.id.ApparentPowerB);
+        final TextView ApparentPowerC=(TextView)layout.findViewById(R.id.ApparentPowerC);
+
+        ApparentPowerA.setText(energyEntity.getApparentPowerA());
+        ApparentPowerB.setText(energyEntity.getApparentPowerB());
+        ApparentPowerC.setText(energyEntity.getApparentPowerC());
+
+        final TextView PowerFactorA=(TextView)layout.findViewById(R.id.PowerFactorA);
+        final TextView PowerFactorB=(TextView)layout.findViewById(R.id.PowerFactorB);
+        final TextView PowerFactorC=(TextView)layout.findViewById(R.id.PowerFactorC);
+
+        PowerFactorA.setText(energyEntity.getPowerFactorA());
+        PowerFactorB.setText(energyEntity.getPowerFactorB());
+        PowerFactorC.setText(energyEntity.getPowerFactorC());
+
+        final TextView ActiveEnergyA=(TextView)layout.findViewById(R.id.ActiveEnergyA);
+        final TextView ActiveEnergyB=(TextView)layout.findViewById(R.id.ActiveEnergyB);
+        final TextView ActiveEnergyC=(TextView)layout.findViewById(R.id.ActiveEnergyC);
+
+        ActiveEnergyA.setText(energyEntity.getActiveEnergyA());
+        ActiveEnergyB.setText(energyEntity.getActiveEnergyB());
+        ActiveEnergyC.setText(energyEntity.getActiveEnergyC());
+
+        final TextView ReactiveEnergyA=(TextView)layout.findViewById(R.id.ReactiveEnergyA);
+        final TextView ReactiveEnergyB=(TextView)layout.findViewById(R.id.ReactiveEnergyB);
+        final TextView ReactiveEnergyC=(TextView)layout.findViewById(R.id.ReactiveEnergyC);
+
+        ReactiveEnergyA.setText(energyEntity.getReactiveEnergyA());
+        ReactiveEnergyB.setText(energyEntity.getReactiveEnergyB());
+        ReactiveEnergyC.setText(energyEntity.getReactiveEnergyC());
+
+        final TextView ApparentEnergyA=(TextView)layout.findViewById(R.id.ApparentEnergyA);
+        final TextView ApparentEnergyB=(TextView)layout.findViewById(R.id.ApparentEnergyB);
+        final TextView ApparentEnergyC=(TextView)layout.findViewById(R.id.ApparentEnergyC);
+
+        ApparentEnergyA.setText(energyEntity.getApparentEnergyA());
+        ApparentEnergyB.setText(energyEntity.getApparentEnergyB());
+        ApparentEnergyC.setText(energyEntity.getApparentEnergyC());
+
+        dialog.show();
     }
 
 }

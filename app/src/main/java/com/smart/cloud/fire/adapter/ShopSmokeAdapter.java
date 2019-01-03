@@ -724,7 +724,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (netStates == 0) {//设备不在线。。
                 ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
             } else {//设备在线。。
-                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);
+                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_zaixian);
                 ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
             }
 

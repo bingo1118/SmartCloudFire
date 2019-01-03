@@ -165,7 +165,7 @@
             android:background="@drawable/btn_green"
             android:layout_below="@id/sum_line"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:text="安全检测"
             android:textSize="16sp"
@@ -178,39 +178,43 @@
         android:layout_height="match_parent"
         android:background="#e5e5e5"
         android:orientation="vertical">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/alarm_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:orientation="horizontal"
             android:background="@drawable/home_alarm_history_shape">
             <ImageView
                 android:id="@+id/home_alarm_light"
-                android:layout_width="0dp"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/home_alarm_light"/>
+            <ImageView
+                android:id="@+id/jiantou"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/shouye_right"/>
             <TextView
                 android:id="@+id/home_alarm_info_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="9"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:gravity="center"
                 android:textColor="#fff"
+                android:layout_toRightOf="@id/home_alarm_light"
+                android:layout_toLeftOf="@id/jiantou"
+                android:layout_centerVertical="true"
                 android:text="广州市黄埔区鱼珠智谷A2d的大厅烟感发生烟雾报警，请尽快前往查看并处理！"
                 android:singleLine="true"
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"/>
-            <ImageView
-                android:id="@+id/jiantou"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:background="@drawable/jiantou"/>
-        </LinearLayout>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -222,7 +226,7 @@
             android:background="@drawable/white_corner_shape">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/message_notice_list_item"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_centerInParent="true"/>

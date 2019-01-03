@@ -263,6 +263,10 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
             deviceType="51";//创安
         }else if(smokeMac.length()==16||smokeMac.length()==18){
             switch(macStr){
+                case "N":
+                    smokeMac = smokeMac.substring(1, smokeMac.length());//直连设备
+                    deviceType="41";
+                    break;
                 case "A":
                     smokeMac = smokeMac.substring(1, smokeMac.length());//三江无线传输设备
                     deviceType="119";

@@ -418,7 +418,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
         dev_sum.setText((model.getAllSmokeNumber()-model.getLossSmokeNumber())+"");
         offline_sum.setText(model.getLossSmokeNumber()+"");
         fault_sum.setText(model.getLowVoltageNumber()+"");
-        alarm_sum.setText(20+"");
+        alarm_sum.setText(model.getAlarmDevNumber()+"");
     }
 
     @Override

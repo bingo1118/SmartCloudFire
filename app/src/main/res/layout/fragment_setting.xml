@@ -112,7 +112,7 @@
                     android:id="@+id/nfc_image"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/zh_guanyu"
+                    android:src="@drawable/zh_dzbq"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="30dp"
                     />
@@ -191,7 +191,7 @@
                     android:id="@+id/nfc_period_image"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/zh_guanyu"
+                    android:src="@drawable/zh_dzxjzq"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="30dp"
                     />
@@ -286,7 +286,7 @@
                     android:id="@+id/rela_wifi"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/zh_guanyu"
+                    android:src="@drawable/zh_wifi"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="30dp"
                     />
@@ -423,7 +423,7 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/lead_right_zx"
+                    android:src="@drawable/zh_sxt"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
                     android:layout_centerVertical="true"
