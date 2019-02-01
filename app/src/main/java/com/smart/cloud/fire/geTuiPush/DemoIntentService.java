@@ -409,6 +409,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 81://lora优特电气
                 case 80://南京优特电气
                 case 77://南京三相电气
                 case 76://NB直连三相电气

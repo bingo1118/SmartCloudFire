@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/banner_new"/>
+        android:src="@drawable/back_devlist"/>
 
     <LinearLayout
         android:layout_width="match_parent"

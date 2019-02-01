@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.smart.cloud.fire.base.ui.MvpActivity;
+import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.login.presenter.LoginPresenter;
 import com.smart.cloud.fire.mvp.login.view.LoginView;
@@ -38,7 +39,12 @@ public class SplashActivity extends MvpActivity<LoginPresenter> implements Login
 
     @Override
     public void getDataSuccess() {
-        Intent intent = new Intent(mContext, Main3Activity.class);
+        Intent intent;
+        if(MyApp.app.getPrivilege()==1){
+            intent = new Intent(mContext, MainActivity.class);
+        }else{
+            intent = new Intent(mContext, Main3Activity.class);
+        }
         startActivity(intent);
         finish();
     }

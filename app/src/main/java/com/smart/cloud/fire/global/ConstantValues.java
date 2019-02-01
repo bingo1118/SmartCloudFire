@@ -31,9 +31,9 @@ package com.smart.cloud.fire.global;
     //NB IP:
 //    public static final String SERVER_IP_NEW ="http://193.112.59.214:51091/fireSystem/";
     //正式IP:
-//    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
+    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
     //正式2.0版本:
-    public static final String SERVER_IP_NEW ="http://193.112.215.201:51091/fireSystem/";
+//    public static final String SERVER_IP_NEW ="http://193.112.215.201:51091/fireSystem/";
     // 聊城IP:
 //    public static final String SERVER_IP_NEW ="http://61.133.116.241:51091/fireSystem/";
     //华为正式IP:
@@ -59,7 +59,8 @@ package com.smart.cloud.fire.global;
     public static final String FORGET_PASSWORD_URL = "http://cloudlinks.cn/pw/";
 
     //更新接口
-    public static final String UPDATE_URL="http://119.29.155.148/download/update_cloudfire.xml";
+    public static final String UPDATE_URL="http://139.159.220.138:6660/download/update_cloudfire.xml";
+//    public static final String UPDATE_URL="http://119.29.155.148/download/update_cloudfire.xml";
 //    public static final String UPDATE_URL="http://119.29.155.148/download/update_liaocheng.xml";
 //    public static final String UPDATE_URL="http://119.29.223.106:51091/download/update_bqyl.xml";
     public static final String ERROR_URL = "http://182.254.234.243:8080/UploadError/UploadServlet";

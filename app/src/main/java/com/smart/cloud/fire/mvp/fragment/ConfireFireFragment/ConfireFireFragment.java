@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -102,6 +103,11 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     TextView device_type_name;
     @Bind(R.id.photo_image)
     ImageView photo_image;//@@拍照上传
+    @Bind(R.id.tip_line)
+    LinearLayout tip_line;
+    @Bind(R.id.clean_all)
+    TextView clean_all;
+
     private Context mContext;
     private int scanType = 0;//0表示扫描中继器，1表示扫描烟感
     private int privilege;
@@ -211,6 +217,13 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                     startActivity(intent);
                 }
 
+            }
+        });
+
+        clean_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cleanAllView();
             }
         });
     }
@@ -385,6 +398,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
 
     @Override
     public void getDataSuccess(Smoke smoke) {
+        tip_line.setVisibility(View.VISIBLE);
         addFireLon.setText(smoke.getLongitude() + "");
         addFireLat.setText(smoke.getLatitude() + "");
         addFireAddress.setText(smoke.getAddress());
@@ -438,15 +452,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     public void addSmokeResult(String msg, int errorCode) {
 //        T.showShort(mContext, msg);
         if (errorCode == 0) {
-            mShopType = null;
-            mArea = null;
-            clearText();
-            areaId = "";
-            shopTypeId = "";
-            camera = "";
-            addFireMac.setText("");
-            addFireZjq.addFinish();
-            addFireType.addFinish();
+            cleanAllView();
             Message message = new Message();
             message.what = 4;
             handler.sendMessage(message);
@@ -457,6 +463,20 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
             message.obj=msg;
             handler.sendMessage(message);
         }
+        tip_line.setVisibility(View.GONE);
+    }
+
+    private void cleanAllView() {
+        mShopType = null;
+        mArea = null;
+        clearText();
+        areaId = "";
+        shopTypeId = "";
+        camera = "";
+        addFireMac.setText("");
+        addFireZjq.addFinish();
+        addFireType.addFinish();
+        tip_line.setVisibility(View.GONE);
     }
 
     @Override

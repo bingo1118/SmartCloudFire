@@ -267,6 +267,8 @@
     <string name="xx_gr">【过热】</string>
     <string name="xx_fz">【分闸】</string>
     <string name="shengguang">【声光】</string>
+    <string name="ywgzhf">【烟雾故障恢复】</string>
+    <string name="wsdgzhf">【温湿度故障恢复】</string>
 
 
     <!--全部应用-->

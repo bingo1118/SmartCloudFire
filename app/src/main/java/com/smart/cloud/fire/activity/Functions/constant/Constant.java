@@ -1,8 +1,13 @@
 package com.smart.cloud.fire.activity.Functions.constant;
 
+import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.utils.SharedPreferencesManager;
+
 public class Constant {
-    public static final String APPLY_MORE = "APPLY_MORE";
-    public static final String APPLY_MINE = "APPLY_MINE";
+
+
+    public static  String APPLY_MORE = "APPLY_MORE";
+    public static  String APPLY_MINE = "APPLY_MINE";
 
 
     /**

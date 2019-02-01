@@ -206,17 +206,23 @@ public class CircleProgressBar extends View {
     private void drawText(Canvas canvas, int center, int radius)
     {
         float result = (currentValue * 100.0f / maxValue * 1.0f); // 计算进度
-        String percent = (int)result+ "分";
+        String percent = (int)result+"";
 
         textPaint.setTextAlign(Paint.Align.CENTER); // 设置文字居中，文字的x坐标要注意
         textPaint.setColor(Color.WHITE); // 设置文字颜色
-        textPaint.setTextSize(50); // 设置要绘制的文字大小
+        textPaint.setTextSize(70); // 设置要绘制的文字大小
         textPaint.setStrokeWidth(0); // 注意此处一定要重新设置宽度为0,否则绘制的文字会重叠
         Rect bounds = new Rect(); // 文字边框
         textPaint.getTextBounds(percent, 0, percent.length(), bounds); // 获得绘制文字的边界矩形
         Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt(); // 获取绘制Text时的四条线
         int baseline = center + (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom; // 计算文字的基线,方法见http://blog.csdn.net/harvic880925/article/details/50423762
         canvas.drawText(percent, center, baseline, textPaint); // 绘制表示进度的文字
+
+        float a = textPaint.measureText(percent);
+        int b= bounds.width();
+
+        textPaint.setTextSize(20);
+        canvas.drawText("分", center+a/2+10, baseline, textPaint); // 绘制表示进度的文字
     }
 
     /**

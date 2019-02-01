@@ -87,6 +87,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("Y","");
                 smokeMac = smokeMac.replace("Z","");
                 smokeMac = smokeMac.replace("U","");
+                smokeMac = smokeMac.replace("T","");
                 break;
             case "G":
                 smokeMac = smokeMac.replace("G","");
@@ -350,7 +351,11 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     if((smokeMac.charAt(smokeMac.length()-1)+"").equals("U")){
                         electrState=1;;
                         deviceType="80";
-                    }//@@NB南京三相电气设备
+                    }//@@NB南京优特电气设备
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("U")){
+                        electrState=1;;
+                        deviceType="81";
+                    }//@@lora优特电气设备
                     smokeMac = smokeMac.replace("Q","");//电气火灾
                     smokeMac = smokeMac.replace("S","");//电气火灾
                     smokeMac = smokeMac.replace("L","");//电气火灾
@@ -359,6 +364,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.replace("Z","");//电气火灾
                     smokeMac = smokeMac.replace("Y","");//电气火灾
                     smokeMac = smokeMac.replace("U","");//电气火灾
+                    smokeMac = smokeMac.replace("T","");//电气火灾T
                     break;
                 case "T":
                     if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){

@@ -114,7 +114,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
 //        initView();
         regFilter();
         dealWithScan();
-        getHistoryCore();
         anim = (AnimationDrawable) home_alarm_light.getBackground();
         startService(new Intent(Main3Activity.this, RemoteService.class));
         //启动个推接收推送信息。。
@@ -123,6 +122,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
     }
 
     private void initView() {
+        getHistoryCore();
         circleProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
         circleProgressBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +131,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
             }
         });
 
+        String a =Constant.APPLY_MINE;
         list = (ArrayList<ApplyTable>) ACache.get(MyApp.app).getAsObject(Constant.APPLY_MINE);
         if(list==null){
             list= (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsStatic();

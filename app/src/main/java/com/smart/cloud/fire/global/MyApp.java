@@ -15,6 +15,7 @@ import android.widget.RemoteViews;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.p2p.core.update.UpdateManager;
+import com.smart.cloud.fire.activity.Functions.constant.Constant;
 import com.smart.cloud.fire.service.LocationService;
 import com.smart.cloud.fire.ui.ForwardDownActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -41,6 +42,7 @@ public class MyApp extends Application {
     private int privilege=-1;
     public LocationService locationService;
     public Vibrator mVibrator;
+    public static String userid;
 
     @Override
     public void onCreate() {
@@ -106,6 +108,11 @@ public class MyApp extends Application {
         }else{
             this.privilege = privilege;
         }
+        userid=SharedPreferencesManager.getInstance().getData(MyApp.app,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENTNAME);
+        Constant.APPLY_MINE="APPLY_MINE"+userid;
+        Constant.APPLY_MORE="APPLY_MORE"+userid;
     }
 
 
@@ -117,6 +124,16 @@ public class MyApp extends Application {
                     SharedPreferencesManager.KEY_RECENT_PRIVILEGE);
         }else{
             return privilege;
+        }//@@5.5防止突然网络错误问题
+    }
+
+    public static String getUserID(){
+        if(userid==""){
+            return SharedPreferencesManager.getInstance().getData(MyApp.app,
+                    SharedPreferencesManager.SP_FILE_GWELL,
+                    SharedPreferencesManager.KEY_RECENTNAME);
+        }else{
+            return userid;
         }//@@5.5防止突然网络错误问题
     }
 

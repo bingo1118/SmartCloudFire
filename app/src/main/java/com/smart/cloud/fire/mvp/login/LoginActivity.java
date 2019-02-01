@@ -134,7 +134,12 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
     @Override
     public void getDataSuccess() {
-        Intent intent = new Intent(mContext, Main3Activity.class);
+        Intent intent;
+        if(MyApp.app.getPrivilege()==1){
+            intent = new Intent(mContext, MainActivity.class);
+        }else{
+            intent = new Intent(mContext, Main3Activity.class);
+        }
         startActivity(intent);
         finish();
     }

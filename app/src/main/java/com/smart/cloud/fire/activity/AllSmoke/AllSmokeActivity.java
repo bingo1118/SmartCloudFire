@@ -115,40 +115,6 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         mContext=this;
         init();
-//        if(MyApp.app.getPrivilege()!=1){//@@9.29 1级
-//            addFire.setVisibility(View.VISIBLE);
-//            addFire.setImageResource(R.drawable.search);
-//        }
-        title_name_tv=(TextView )findViewById(R.id.title_name_text);
-        title_lose_dev_tv=(TextView)findViewById(R.id.title_lose_dev_text) ;
-        title_name_rela=(RelativeLayout)findViewById(R.id.title_name) ;
-        title_name_rela.setEnabled(false);
-        title_name_rela.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title_lose_dev_rela.setEnabled(true);
-                title_name_rela.setEnabled(false);
-                mvpPresenter.unSubscribe("allSmoke");
-                position=FRAGMENT_ONE;//@@在线设备
-            }
-        });
-        title_lose_dev_rela=(RelativeLayout)findViewById(R.id.title_lose_dev) ;
-        title_lose_dev_rela.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title_name_rela.setEnabled(true);
-                title_lose_dev_rela.setEnabled(false);
-                mvpPresenter.unSubscribe("lostSmoke");
-                position=FRAGMENT_FIVE;//@@离线设备
-            }
-        });
-        title_name_tv.setText("重点单位");
-        title_lose_dev_tv.setText("离线设备");
-        areaCondition.setActivity(this);//@@12.21
-//        shopTypeCondition.setActivity(this);//@@12.21
-        areaCondition.setHintTextColor("#ffffffff");
-        areaCondition.setEditTextHint("#ffffffff");
-        areaCondition.setEditTextHint("选择区域");
     }
 
     @OnClick({ R.id.area_condition,R.id.turn_map_btn})
@@ -328,10 +294,35 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         showFragment(FRAGMENT_ONE);
-//        addFire.setVisibility(View.VISIBLE);
-//        addFire.setImageResource(R.drawable.search);
-//        smokeTotal.setVisibility(View.VISIBLE);
-//        mAllSmokePresenter.getSmokeSummary(userID,privilege+"","","","","1", allDevFragment);
+        title_name_tv=(TextView )findViewById(R.id.title_name_text);
+        title_lose_dev_tv=(TextView)findViewById(R.id.title_lose_dev_text) ;
+        title_name_rela=(RelativeLayout)findViewById(R.id.title_name) ;
+        title_name_rela.setEnabled(false);
+        title_name_rela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title_lose_dev_rela.setEnabled(true);
+                title_name_rela.setEnabled(false);
+                mvpPresenter.unSubscribe("allSmoke");
+                position=FRAGMENT_ONE;//@@在线设备
+            }
+        });
+        title_lose_dev_rela=(RelativeLayout)findViewById(R.id.title_lose_dev) ;
+        title_lose_dev_rela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title_name_rela.setEnabled(true);
+                title_lose_dev_rela.setEnabled(false);
+                mvpPresenter.unSubscribe("lostSmoke");
+                position=FRAGMENT_FIVE;//@@离线设备
+            }
+        });
+        title_name_tv.setText("重点单位");
+        title_lose_dev_tv.setText("离线设备");
+        areaCondition.setActivity(this);//@@12.21
+        areaCondition.setHintTextColor("#ffffffff");
+        areaCondition.setEditTextHint("#ffffffff");
+        areaCondition.setEditTextHint("选择区域");
     }
 
     public void showFragment(int index) {
