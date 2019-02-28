@@ -7,4 +7,7 @@
     <item  android:id="@+id/clear_voice"  android:title="消音"/>
     <item  android:id="@+id/reset"  android:title="报警复位"/>
     <item  android:id="@+id/race"  android:title="功率详情"/>
+    <item  android:id="@+id/heartime_set"  android:title="心跳时间设置"/>
+    <item  android:id="@+id/restart"  android:title="重启"/>
+    <item  android:id="@+id/electr_yuzhi_set"  android:title="阈值设置"/>
 </menu>

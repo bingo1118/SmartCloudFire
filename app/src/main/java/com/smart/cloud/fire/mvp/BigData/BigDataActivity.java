@@ -3,6 +3,7 @@ package com.smart.cloud.fire.mvp.BigData;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.SafeScore;
 import com.smart.cloud.fire.global.SmokeSummary;
+import com.smart.cloud.fire.mvp.BigDataDetail.BigDataDetailActivity;
 import com.smart.cloud.fire.ui.view.CircleProgressBar;
 import com.smart.cloud.fire.ui.view.RadarView;
 import com.smart.cloud.fire.ui.view.RaderWheelView;
@@ -138,20 +140,30 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
                     offline_rela.startAnimation(mShowAnim );
                     offline_text.setText("离线有"+model.getOfflineSum()+"个设备");
                     offline_rela.setVisibility(View.VISIBLE);
-                    core=core+(int)model.getOffline();
-                    circleProgressBar.setProgress(core,true);
+                    offline_rela.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i=new Intent(BigDataActivity.this, BigDataDetailActivity.class);
+                            i.putExtra("type","2");
+                            startActivity(i);
+                        }
+                    });
+//                    core=core+(int)model.getOffline();
+//                    circleProgressBar.setProgress(core,true);
                     break;
                 case 2:
                     yangan_rela.startAnimation(mShowAnim );
                     yangan_text.setText("高频报警设备有"+model.getHistoriAlarmSum()+"个设备");
                     yangan_rela.setVisibility(View.VISIBLE);
-                    core=core+(int)model.getHistoriAlarm();
+//                    core=core+(int)model.getHistoriAlarm();
+//                    circleProgressBar.setProgress(core,true);
                     break;
                 case 3:
                     water_rela.startAnimation(mShowAnim );
                     water_text.setText("实时报警设备有"+model.getRealtimeAlarmSum()+"个设备");
                     water_rela.setVisibility(View.VISIBLE);
-                    core=core+(int)model.getRealtimeAlarm();
+                    core=(int)model.getSafeScore();
+                    circleProgressBar.setProgress(core,true);
                     break;
             }
         }

@@ -271,48 +271,4 @@
     <string name="wsdgzhf">【温湿度故障恢复】</string>
 
 
-    <!--全部应用-->
-    <string-array name="all_apply_name">
-        <item>添加设备</item>
-        <item>重点单位</item>
-        <item>传输装置</item>
-        <item>电气防火</item>
-        <item>消防物联</item>
-        <item>视频监控</item>
-        <item>维保系统</item>
-        <item>主机管理</item>
-    </string-array>
-    <!--全部应用id-->
-    <string-array name="all_apply_id">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-    </string-array>
-    <!--初始化应用-->
-    <string-array name="all_apply_name_s">
-        <item>添加设备</item>
-        <item>重点单位</item>
-        <item>传输装置</item>
-        <item>电气防火</item>
-        <item>消防物联</item>
-        <item>视频监控</item>
-        <item>维保系统</item>
-        <item>主机管理</item>
-    </string-array>
-    <!--初始化应用id-->
-    <string-array name="all_apply_id_s">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-    </string-array>
 </resources>

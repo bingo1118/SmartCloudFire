@@ -1,18 +1,24 @@
 package com.smart.cloud.fire.mvp.fragment.ConfireFireFragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -283,7 +289,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                 }
                 mvpPresenter.addSmoke(userID, privilege + "", smokeName, smokeMac, address, longitude,
                         latitude, placeAddress, shopTypeId, principal1, principal1Phone, principal2,
-                        principal2Phone, areaId, repeater, camera);
+                        principal2Phone, areaId, repeater, camera,isSuccess);
             }
         }).start();
 
@@ -521,11 +527,20 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                 if (resultCode == Activity.RESULT_OK) {
                     Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
                     try {
-                        saveFile(compressBySize(Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg",150,200),Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg");
+                        saveFile(compressBySize(Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg",1500,2000),Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    photo_image.setImageBitmap(bmp);
+                    DisplayMetrics dm = new DisplayMetrics();
+                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+                    int screenWidth=dm.widthPixels;
+                    if(bmp.getWidth()<=screenWidth){
+                        photo_image.setImageBitmap(bmp);
+                    }else{
+                        Bitmap mp=Bitmap.createScaledBitmap(bmp, screenWidth, bmp.getHeight()*screenWidth/bmp.getWidth(), true);
+                        photo_image.setImageBitmap(mp);
+                    }
+//                    photo_image.setImageBitmap(bmp);
                 }
                 break;
             case 103:

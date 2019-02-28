@@ -77,6 +77,11 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getAllSmoke(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
 
+    //获取用户所有故障烟感
+    @GET("getAllDetailSmoke")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getAllDetailSmoke(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page,@Query("type") String type);
+
     //获取用户所有的有线终端@@6.29
     @GET("getAllFaultinfo")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -207,7 +212,7 @@ public interface ApiStores {
                                           @Field("principal1Phone") String principal1Phone, @Field("principal2") String principal2,
                                           @Field("principal2Phone") String principal2Phone, @Field("areaId") String areaId,
                                           @Field("repeater") String repeater,@Field("camera") String camera,@Field("deviceType") String deviceType,
-                                          @Field("electrState") String electrState);
+                                          @Field("electrState") String electrState,@Field("image") String image);
 
     //添加烟感
     @FormUrlEncoded

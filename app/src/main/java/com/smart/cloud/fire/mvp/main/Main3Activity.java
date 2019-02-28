@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -73,7 +74,6 @@ import fire.cloud.smart.com.smartcloudfire.R;
 
 public class Main3Activity extends MvpActivity<MainPresenter> implements MainView {
 
-    private CircleProgressBar circleProgressBar; // 自定义的进度条
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter myAdapte1r;
     Context mContext;
@@ -90,6 +90,10 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
     TextView fault_sum;
     @Bind(R.id.alarm_sum)
     TextView alarm_sum;
+    @Bind(R.id.scan_btn)
+    Button scan_btn;
+    @Bind(R.id.circleProgressBar)
+    CircleProgressBar circleProgressBar;
 
 
     Timer getlastestAlarm;
@@ -97,6 +101,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
 
     MainPresenter presenter;
     ArrayList<ApplyTable> list;
+    private int privilege;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
 
         ButterKnife.bind(this);
         mContext=this;
+        privilege = MyApp.app.getPrivilege();
 
 //        initView();
         regFilter();
@@ -123,22 +129,23 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
 
     private void initView() {
         getHistoryCore();
-        circleProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
-        circleProgressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getHistoryCore();
-            }
-        });
 
         String a =Constant.APPLY_MINE;
         list = (ArrayList<ApplyTable>) ACache.get(MyApp.app).getAsObject(Constant.APPLY_MINE);
         if(list==null){
-            list= (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsStatic();
+            list= (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsStatic(privilege);
             ACache.get(MyApp.app).put(Constant.APPLY_MINE,list);
         }
-        ApplyTable editModel=new ApplyTable("更多功能","11",11,false,R.drawable.shouye_bianji,1);
-        list.add(editModel);
+        if(privilege==31||privilege==32||privilege==4||privilege==6||privilege==61||privilege==7){
+            ApplyTable editModel=new ApplyTable("更多功能","11",11,false,R.drawable.shouye_bianji,1);
+            list.add(editModel);
+            scan_btn.setVisibility(View.VISIBLE);
+            circleProgressBar.setVisibility(View.VISIBLE);
+        }else{
+            circleProgressBar.setVisibility(View.INVISIBLE);
+            scan_btn.setVisibility(View.GONE);
+        }
+
 
         myAdapte1r = new MyRecyclerViewAdapter(list);
 
@@ -206,7 +213,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                 String username = SharedPreferencesManager.getInstance().getData(mContext,
                         SharedPreferencesManager.SP_FILE_GWELL,
                         SharedPreferencesManager.KEY_RECENTNAME);
-                int privilege = MyApp.app.getPrivilege();
+
                 String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
                 VolleyHelper helper=VolleyHelper.getInstance(mContext);
                 RequestQueue mQueue = helper.getRequestQueue();
@@ -327,7 +334,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
         timer.schedule(timerTask,5000);
     }
 
-    @OnClick({R.id.scan_btn,R.id.my_image,R.id.alarm_msg,R.id.alarm_line})
+    @OnClick({R.id.scan_btn,R.id.my_image,R.id.alarm_msg,R.id.alarm_line,R.id.circleProgressBar})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -346,6 +353,9 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
             case R.id.alarm_line:
                 intent = new Intent(mContext, AlarmHistoryActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.circleProgressBar:
+                getHistoryCore();
                 break;
             default:
                 break;

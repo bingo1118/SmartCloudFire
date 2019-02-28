@@ -200,22 +200,24 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     if (state == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
                     }else{
-                        switch (eleState){
-                            case 1:
-                                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                                ((ItemViewHolder) holder).power_button.setText("切断电源");
-                                break;
-                            case 2:
-                                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                                ((ItemViewHolder) holder).power_button.setText("打开电源");
-                                break;
-                            case 3:
-                                ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                                ((ItemViewHolder) holder).power_button.setText("设置中");
-                                break;
-                            default:
-                                ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
-                                break;
+                        if(devType!=80&&devType!=81){
+                            switch (eleState){
+                                case 1:
+                                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                                    ((ItemViewHolder) holder).power_button.setText("切断电源");
+                                    break;
+                                case 2:
+                                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                                    ((ItemViewHolder) holder).power_button.setText("打开电源");
+                                    break;
+                                case 3:
+                                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                                    ((ItemViewHolder) holder).power_button.setText("设置中");
+                                    break;
+                                default:
+                                    ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
+                                    break;
+                            }
                         }
                     }
 

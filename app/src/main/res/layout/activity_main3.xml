@@ -41,7 +41,8 @@
                 android:layout_marginTop="20dp"
                 lh2:circleWidth="12dp"
                 lh2:firstColor="#3B4278"
-                lh2:secondColor="#3B95C8" />
+                lh2:secondColor="#3B95C8"
+                android:visibility="invisible"/>
 
         <LinearLayout
             android:id="@+id/sum_line"
@@ -161,7 +162,8 @@
             android:layout_centerHorizontal="true"
             android:text="安全检测"
             android:textSize="16sp"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout

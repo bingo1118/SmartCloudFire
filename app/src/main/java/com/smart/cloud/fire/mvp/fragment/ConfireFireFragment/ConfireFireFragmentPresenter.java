@@ -107,6 +107,8 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 smokeMac = smokeMac.replace("Y","");
                 smokeMac = smokeMac.replace("Z","");
                 smokeMac = smokeMac.replace("N","");
+                smokeMac = smokeMac.replace("G","");
+                smokeMac = smokeMac.replace("H","");
                 break;
             case "N"://@@NB烟感
                 smokeMac = smokeMac.replace("N","");
@@ -222,7 +224,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
 
     public void addSmoke(String userID,String privilege,String smokeName,String smokeMac,String address,String longitude,
                          String latitude,String placeAddress,String placeTypeId,String principal1,String principal1Phone,String principal2,
-                         String principal2Phone,String areaId,String repeater,String camera){
+                         String principal2Phone,String areaId,String repeater,String camera,boolean isUploadImage){
         int electrState=0;//@@8.26电气开关
         if(longitude.length()==0||latitude.length()==0){
             mvpView.addSmokeResult("请获取经纬度",1);
@@ -413,6 +415,12 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
                         deviceType="78";//@@南京NB普通水压
                         smokeMac =smokeMac.substring(0,smokeMac.length()-1);
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("G")){
+                        deviceType="47";//@@NB直连水压
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
+                    }else if((smokeMac.charAt(smokeMac.length()-1)+"").equals("H")){
+                        deviceType="48";//@@NB直连水位
+                        smokeMac =smokeMac.substring(0,smokeMac.length()-1);
                     }else{
                         deviceType="10";//@@水压
                     }
@@ -512,9 +520,16 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
                     principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
         }else{
-             mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
-                    longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
-                    principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
+            if(isUploadImage){
+                mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
+                        longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
+                        principal2Phone,areaId,repeater,camera,deviceType,electrState+"",smokeMac+".jpg");
+            }else{
+                mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
+                        longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
+                        principal2Phone,areaId,repeater,camera,deviceType,electrState+"","");
+            }
+
         }
 
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ConfireFireModel>() {

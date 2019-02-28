@@ -200,8 +200,6 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         final AlertDialog dialog=builder.create();
                         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
                         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
-                        final EditText uploadtime_value=(EditText)layout.findViewById(R.id.uploadtime_value);
-                        final EditText getdatatime_value=(EditText)layout.findViewById(R.id.getdatatime_value);
                         Button commit=(Button)layout.findViewById(R.id.commit);
                         commit.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -210,18 +208,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                 try{
                                     float high=Float.parseFloat(high_value.getText().toString());
                                     float low=Float.parseFloat(low_value.getText().toString());
-                                    float uploadtime=Float.parseFloat(uploadtime_value.getText().toString());
-                                    float getdatatime=Float.parseFloat(getdatatime_value.getText().toString());
                                     if(low>high){
                                         T.showShort(context,"低阈值不能高于高阈值");
                                         return;
                                     }
-                                    if(devType==78){
-                                        url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
-                                                +"&hight_set="+high+"&low_set"+low+"&send_time="+uploadtime+"&collect_time="+getdatatime;
-                                    }else{
-                                        url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
-                                    }
+                                    url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
                                 }catch(Exception e){
                                     e.printStackTrace();
                                     T.showShort(context,"输入数据不完全或有误");
@@ -256,16 +247,10 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                 dialog.dismiss();
                             }
                         });
-                        LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
-                        LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
                         TextView title=(TextView)layout.findViewById(R.id.title_text);
                         TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
                         TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
                         if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
-                            if(devType==78){
-                                uploadtime_lin.setVisibility(View.VISIBLE);
-                                getdatatime_lin.setVisibility(View.VISIBLE);
-                            }
                             title.setText("水压阈值设置");
                             high_value_name.setText("高水压阈值（kpa）:");
                             low_value_name.setText("低水压阈值（kpa）:");
@@ -369,8 +354,12 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                             if(errorCode==0){
                                 threshold_h=response.getString("value208");
                                 threshold_l=response.getString("value207");
-                                getdatatime=response.getString("askTimes");
-                                uploaddatatime=response.getString("askTimes");
+                                try {
+                                    getdatatime=response.getString("askTimes");
+                                    uploaddatatime=response.getString("waveValue");
+                                }catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
                                     low_value.setText("低水压阈值："+threshold_l+"kpa");
                                     high_value.setText("高水压阈值："+threshold_h+"kpa");
@@ -752,7 +741,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 break;
             case R.id.water_threshold:
                 LayoutInflater inflater = getLayoutInflater();
-                   View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
+                View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
                 final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
                 final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
                 TextView title=(TextView)layout.findViewById(R.id.title_text);
@@ -763,7 +752,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
                 LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
                 if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
-                    if(devType==78){
+                    if(devType==78||devType==47){
                         uploadtime_lin.setVisibility(View.VISIBLE);
                         getdatatime_lin.setVisibility(View.VISIBLE);
                         high_value.setText(threshold_h);
@@ -775,6 +764,14 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     high_value_name.setText("高水压阈值（kpa）:");
                     low_value_name.setText("低水压阈值（kpa）:");
                 }else{
+                    if(devType==48){
+                        uploadtime_lin.setVisibility(View.VISIBLE);
+                        getdatatime_lin.setVisibility(View.VISIBLE);
+                        high_value.setText(threshold_h);
+                        low_value.setText(threshold_l);
+                        getdatatime_value.setText(getdatatime);
+                        uploadtime_value.setText(uploaddatatime);
+                    }
                     title.setText("水位阈值设置");
                     high_value_name.setText("高水位阈值（m）:");
                     low_value_name.setText("低水位阈值（m）:");
@@ -798,6 +795,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                             if(devType==78){
                                 url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
                                         +"&hight_set="+high+"&low_set="+low+"&send_time="+uploadtime+"&collect_time="+getdatatime;
+                            }else if(devType==47||devType==48){
+                                url= ConstantValues.SERVER_IP_NEW+"set_water_level_Control?smokeMac="+electricMac+"&deviceType="+devType
+                                        +"&hvalue="+high+"&lvalue="+low+"&waveValue="+uploadtime+"&waveTime="+getdatatime;
                             }else{
                                 url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
                             }
@@ -816,11 +816,10 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                         try {
                                             int errorCode=response.getInt("errorCode");
                                             if(errorCode==0){
-                                                T.showShort(context,"设置成功");
                                                 getYuzhi();
-                                            }else{
-                                                T.showShort(context,"设置失败");
                                             }
+                                            T.showShort(context,response.getString("error"));
+
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }

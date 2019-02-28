@@ -148,6 +148,8 @@ public class DemoIntentService extends GTIntentService {
                 case 44://万科水位
                 case 45://海曼NB气感
                 case 46:
+                case 47://NB直连水压
+                case 48://NB直连水位
                 case 51://@@创安燃气
                 case 55:
                 case 56://NBiot烟感
@@ -261,6 +263,7 @@ public class DemoIntentService extends GTIntentService {
                             break;
                         case 124:
                         case 69:
+                        case 48:
                         case 46:
                         case 44:
                         case 19:
@@ -369,6 +372,7 @@ public class DemoIntentService extends GTIntentService {
                         case 78:
                         case 70:
                         case 68:
+                        case 47:
                         case 42:
                         case 43:
                         case 10://@@4.28

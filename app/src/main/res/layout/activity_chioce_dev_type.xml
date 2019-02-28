@@ -79,7 +79,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/tianjia_saoma"/>
             <TextView
                 android:layout_width="100dp"
@@ -90,7 +90,7 @@
                 android:textSize="14sp"
                 android:textColor="#fff"
                 android:padding="10dp"
-                android:layout_margin="15dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/corner_blue"/>
             </LinearLayout>

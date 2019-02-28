@@ -2,53 +2,35 @@ package com.smart.cloud.fire.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
 import com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity;
-import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity;
-import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity;
 import com.smart.cloud.fire.retrofit.ApiStores;
 import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
-import com.smart.cloud.fire.utils.VolleyHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -58,7 +40,10 @@ import fire.cloud.smart.com.smartcloudfire.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener, View.OnClickListener{
+/**
+ * Created by Rain on 2019/2/15.
+ */
+public class BigDataDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener, View.OnClickListener{
 
     public static final int PULLUP_LOAD_MORE = 0;//上拉加载更多
     public static final int LOADING_MORE = 1;//正在加载中
@@ -105,7 +90,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public ShopSmokeAdapter(Context mContext, List<Smoke> listNormalSmoke) {
+    public BigDataDetailAdapter(Context mContext, List<Smoke> listNormalSmoke) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.listNormalSmoke = listNormalSmoke;
@@ -122,7 +107,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //进行判断显示类型，来创建返回不同的View
         if (viewType == TYPE_ITEM) {
-            final View view = mInflater.inflate(R.layout.shop_info_adapter, parent, false);
+            final View view = mInflater.inflate(R.layout.detail_info_adapter, parent, false);
             //这边可以做一些属性设置，甚至事件监听绑定
             ItemViewHolder viewHolder = new ItemViewHolder(view);
             view.setOnLongClickListener(this);//@@
@@ -143,10 +128,10 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @param position
      */
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             final Smoke normalSmoke = listNormalSmoke.get(position);
-            final int devType = normalSmoke.getDeviceType();
+            int devType = normalSmoke.getDeviceType();
             int netStates = normalSmoke.getNetState();
             ((ItemViewHolder) holder).right_into_image.setVisibility(View.VISIBLE);//@@9.14
             if(normalSmoke.getRssivalue()==null||normalSmoke.getRssivalue().equals("0")){
@@ -217,31 +202,11 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ItemViewHolder) holder).dev_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String path=ConstantValues.NFC_IMAGES+"devimages/"+normalSmoke.getMac()+".jpg";
+                    String path= ConstantValues.NFC_IMAGES+"devimages/"+normalSmoke.getMac()+".jpg";
                     Intent intent=new Intent(mContext, NFCImageShowActivity.class);
                     intent.putExtra("path",path);
                     mContext.startActivity(intent);
                 }
-            });
-            final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                    -0.1f, Animation.RELATIVE_TO_SELF, 0.0f);
-            mShowAction.setDuration(500);
-            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
-            ((ItemViewHolder) holder).show_info_text.setText("展开");
-            ((ItemViewHolder) holder).show_info_text.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String s= (String) ((ItemViewHolder) holder).show_info_text.getText();
-                        if(s.equals("展开")){
-                            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.VISIBLE);
-                            ((ItemViewHolder) holder).dev_info_rela.startAnimation(mShowAction);
-                            ((ItemViewHolder) holder).show_info_text.setText("收起");
-                        }else{
-                            ((ItemViewHolder) holder).dev_info_rela.setVisibility(View.GONE);
-                            ((ItemViewHolder) holder).show_info_text.setText("展开");
-                        }
-                    }
             });
             switch (devType){
                 case 61://@@嘉德南京烟感
@@ -562,7 +527,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 case 78:
                 case 70:
                 case 68:
-                case 47:
                 case 42:
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("水压探测器："+normalSmoke.getName()+"（已离线)");
@@ -578,7 +542,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater","1");//@@是否为水压
-                            intent.putExtra("devType",devType);//@@是否为水压
+                            intent.putExtra("devType",normalSmoke.getDeviceType());//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });
@@ -623,7 +587,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
                 case 124:
                 case 69:
-                case 48:
                 case 46:
                 case 44://万科水位
                 case 19://水位设备@@2018.01.02
@@ -723,13 +686,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
             }
 
-            if (netStates == 0) {//设备不在线。。
-                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
-            } else {//设备在线。。
-                ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_zaixian);
-                ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
-            }
-
             ((ItemViewHolder) holder).address_tv.setText(normalSmoke.getAddress());
             ((ItemViewHolder) holder).mac_tv.setText(normalSmoke.getMac());//@@
             ((ItemViewHolder) holder).repeater_tv.setText(normalSmoke.getRepeater());
@@ -814,7 +770,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Bind(R.id.address_tv)
         TextView address_tv;
         @Bind(R.id.manager_img)
-        TextView manager_img;
+        ImageView manager_img;
         @Bind(R.id.right_into_image)
         ImageView right_into_image;
         @Bind(R.id.item_lin)
@@ -826,7 +782,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07
         @Bind(R.id.xy_button)
-        TextView power_button;//@@2018.03.07
+        Button power_button;//@@2018.03.07
         @Bind(R.id.dev_image)
         TextView dev_image;//@@2018.03.07
         @Bind(R.id.dev_hearttime_set)
@@ -835,12 +791,6 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ImageView voltage_image;
         @Bind(R.id.rssi_image)
         ImageView rssi_image;
-        @Bind(R.id.show_info_text)
-        TextView show_info_text;
-        @Bind(R.id.dev_info_rela)
-        RelativeLayout dev_info_rela;
-        @Bind(R.id.online_state_image)
-        ImageView online_state_image;
 
         public ItemViewHolder(View view) {
             super(view);

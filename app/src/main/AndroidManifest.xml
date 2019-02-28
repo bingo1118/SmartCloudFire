@@ -273,7 +273,8 @@
             android:launchMode="singleTask" />
         <activity android:name="com.smart.cloud.fire.activity.WebServer.WebServerActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.main.Main3Activity" />
-        <activity android:name="com.smart.cloud.fire.activity.Functions.FunctionsActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.activity.Functions.FunctionsActivity" />
+        <activity android:name="com.smart.cloud.fire.mvp.BigDataDetail.BigDataDetailActivity"></activity>
     </application>
 
 </manifest>

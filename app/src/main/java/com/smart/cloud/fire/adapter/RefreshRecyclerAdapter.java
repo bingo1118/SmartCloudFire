@@ -261,6 +261,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
                 case 124:
                 case 69:
+                case 48:
                 case 46:
                 case 44:
                 case 19:
@@ -335,6 +336,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case 78:
                 case 70:
                 case 68:
+                case 47:
                 case 43:
                 case 42:
                 case 10://@@4.28

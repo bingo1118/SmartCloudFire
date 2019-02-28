@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class LoadApplyImpl implements LoadApplyInterface {
     private FunctionsActivity moreActivity;
+    private int privilege= MyApp.app.getPrivilege();
     public LoadApplyImpl(FunctionsActivity moreActivity){
         this.moreActivity = moreActivity;
     }
@@ -19,13 +20,13 @@ public class LoadApplyImpl implements LoadApplyInterface {
     public void lodeApplyRequest() {
         ArrayList<ApplyTable> appayTableMine = (ArrayList<ApplyTable>) ACache.get(MyApp.app).getAsObject(Constant.APPLY_MINE);
         if(appayTableMine==null){
-            appayTableMine= (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsStatic();
+            appayTableMine= (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsStatic(privilege);
             ACache.get(MyApp.app).put(Constant.APPLY_MINE,appayTableMine);
         }
         moreActivity.returnMineApply(appayTableMine);
         ArrayList<ApplyTable> appayTableMore = (ArrayList<ApplyTable>) ACache.get(MyApp.app).getAsObject(Constant.APPLY_MORE);
         if(appayTableMore==null){
-            appayTableMore = (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsMore();
+            appayTableMore = (ArrayList<ApplyTable>) ApplyTableManager.loadNewsChannelsMore(privilege);
             ACache.get(MyApp.app).put(Constant.APPLY_MORE,appayTableMore);
         }
         moreActivity.returnMoreNewsApply(appayTableMore);
