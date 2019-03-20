@@ -465,6 +465,9 @@ public class DemoIntentService extends GTIntentService {
                         case 157:
                             alarmMsg = "电气探测器发出：定时试验";
                             break;
+                        case 74:
+                            alarmMsg = "电气探测器发出：开路故障";
+                            break;
                         case 43://电气报警
                             int alarmType1 = pushAlarmMsg1.getAlarmType();
                             if(alarmType1!=0){

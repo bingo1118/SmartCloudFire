@@ -134,6 +134,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 break;
             case "P"://@@10.31喷淋
                 smokeMac = smokeMac.replace("P","");
+                smokeMac = smokeMac.replace("N","");
                 break;
             case "K"://@@无线输入输出模块
                 smokeMac = smokeMac.replace("K","");
@@ -477,8 +478,13 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     deviceType="15";
                     break;
                 case "P":
+                    if((smokeMac.charAt(smokeMac.length()-1)+"").equals("N")){
+                        deviceType="82";//2019.03.08NB直连喷淋
+                    }else{
+                        deviceType="18";
+                    }
                     smokeMac = smokeMac.replace("P","");//10.31喷淋
-                    deviceType="18";
+                    smokeMac = smokeMac.replace("N","");
                     electrState=2;//@@11.01 1开2关
                     break;
 //                case "C"://@@创安

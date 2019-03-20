@@ -9,7 +9,7 @@
         android:id="@+id/title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="参数设置"
+        android:text="分励开关设置"
         android:padding="10dp"
         android:background="@color/colorPrimary"
         android:textSize="20sp"
@@ -20,41 +20,58 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical">
-        <Switch
-            android:id="@+id/fenli_switch"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="关联开关"/>
-        <LinearLayout
-            android:id="@+id/fenliHoldTime_line"
+            android:textSize="16sp"
+            android:text="是否开启分励？"/>
+        <RadioGroup
+            android:id="@+id/radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp"
-            android:visibility="gone">
-            <TextView
-                android:id="@+id/fenliHoldTime_value_name"
-                android:layout_width="0dp"
+            android:layout_margin="10dp">
+            <RadioButton
+                android:id="@+id/on"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
-                android:gravity="center"
-                android:text="关联时间(s):"/>
-            <EditText
-                android:id="@+id/fenliHoldTime_value"
-                android:layout_width="0dp"
+                android:text="开启"/>
+            <LinearLayout
+                android:id="@+id/fenliHoldTime_line"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:layout_weight="1.2"
-                android:background="@drawable/edit_view_bg"/>
-            <TextView
-                android:id="@+id/fenliHoldTime_value_yuzhi"
-                android:layout_width="0dp"
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/fenliHoldTime_value_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:text="关联时间(s):"/>
+                <EditText
+                    android:id="@+id/fenliHoldTime_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:layout_weight="1.2"
+                    android:background="@drawable/edit_view_bg"/>
+                <TextView
+                    android:id="@+id/fenliHoldTime_value_yuzhi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="(0-30s)"/>
+            </LinearLayout>
+            <RadioButton
+                android:id="@+id/off"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="(0-30s)"/>
-        </LinearLayout>
+                android:text="关闭"/>
+        </RadioGroup>
+
+
 
     </LinearLayout>
     <Button

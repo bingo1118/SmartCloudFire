@@ -269,6 +269,8 @@
     <string name="shengguang">【声光】</string>
     <string name="ywgzhf">【烟雾故障恢复】</string>
     <string name="wsdgzhf">【温湿度故障恢复】</string>
+    <string name="cuoxiang">【错相】</string>
+    <string name="kailu">【传感器开路】</string>
 
 
 </resources>

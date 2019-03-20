@@ -96,6 +96,9 @@ public class MyOverlayManager extends OverlayManager {
             ArrayList<BitmapDescriptor> giflistSY = new ArrayList<>();//@@水压5.4
             giflistSY.add(viewList.get(8));
             giflistSY.add(viewList.get(9));
+            ArrayList<BitmapDescriptor> giflistSW = new ArrayList<>();//@@水位5.4
+            giflistSY.add(viewList.get(11));
+            giflistSY.add(viewList.get(9));
             ArrayList<BitmapDescriptor> giflistSJSB = new ArrayList<>();//@@三江设备5.4
             giflistSJSB.add(viewList.get(10));
             giflistSJSB.add(viewList.get(1));
@@ -138,15 +141,33 @@ public class MyOverlayManager extends OverlayManager {
                     bundle.putSerializable("mNormalSmoke",smoke);
                     int devType = smoke.getDeviceType();
                     switch (devType){
-                        case 21:
-                        case 31:
-                        case 41:
+                        case 57://@@
+                        case 55://@@嘉德烟感
+                        case 31://@@12.26 三江iot烟感
+                        case 21://@@12.01 Lora烟感
+                        case 61://@@嘉德南京烟感
+                        case 58://@@嘉德移动烟感
+                        case 56://@@NBIot烟感
+                        case 41://@@NB烟感
                         case 1:
                             markMap(latLng,overlayOptionses,alarmState,giflist,viewList.get(0),bundle);
                             break;
+                        case 73://南京7020燃气
+                        case 72://防爆燃气
+                        case 22:
+                        case 23:
+                        case 16://@@9.29
                         case 2:
                             markMap(latLng,overlayOptionses,alarmState,giflistRQ,viewList.get(2),bundle);
                             break;
+                        case 81:
+                        case 80:
+                        case 77:
+                        case 76:
+                        case 75:
+                        case 59:
+                        case 53://NB电气
+                        case 52://@@Lara电气设备
                         case 5:
                             markMap(latLng,overlayOptionses,alarmState,giflistDq,viewList.get(5),bundle);
                             break;
@@ -160,6 +181,12 @@ public class MyOverlayManager extends OverlayManager {
                             markMap(latLng,overlayOptionses,alarmState,giflistSJSB,viewList.get(10),bundle);
                             break;
                         case 125:
+                        case 78:
+                        case 70:
+                        case 68:
+                        case 47:
+                        case 43://@@lora水压
+                        case 42:
                         case 10:
                             markMap(latLng,overlayOptionses,alarmState,giflistSY,viewList.get(8),bundle);
                             break;
@@ -169,6 +196,9 @@ public class MyOverlayManager extends OverlayManager {
                         case 12:
                             markMap(latLng,overlayOptionses,alarmState,giflistMC,viewList.get(11),bundle);
                             break;
+                        case 79://南京温湿度
+                        case 26://万科温湿度
+                        case 25://温湿度传感器
                         case 13:
                             markMap(latLng,overlayOptionses,alarmState,giflistHJTCQ,viewList.get(13),bundle);
                             break;
@@ -180,6 +210,14 @@ public class MyOverlayManager extends OverlayManager {
                             break;
                         case 18:
                             markMap(latLng,overlayOptionses,alarmState,giflistPL,viewList.get(16),bundle);
+                            break;
+                        case 124:
+                        case 69:
+                        case 48:
+                        case 46:
+                        case 44://万科水位
+                        case 19:
+                            markMap(latLng,overlayOptionses,alarmState,giflistSW,viewList.get(11),bundle);
                             break;
                     }
 //                }

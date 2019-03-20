@@ -124,9 +124,9 @@ public class CircleProgressBar extends View {
                     secondColor = ta.getColor(attr, Color.BLUE); // 默认进度条颜色为蓝色
                     break;
                 case R.styleable.circleProgressBar_circleWidth:
-//                    circleWidth = ta.getDimensionPixelSize(attr, (int) TypedValue.applyDimension(
-//                            TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics())); // 默认圆弧宽度为8dp
-                    circleWidth=35;
+                    circleWidth = ta.getDimensionPixelSize(attr, (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics())); // 默认圆弧宽度为8dp
+//                    circleWidth=35;
                     break;
                 default:
                     break;

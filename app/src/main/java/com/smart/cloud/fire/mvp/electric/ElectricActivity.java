@@ -18,11 +18,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -448,6 +452,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     }
 
     private void gotorestart() {
+        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+        dialog1.setTitle("提示");
+        dialog1.setMessage("设置中，请稍候");
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
         String url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?repeaterMac="+repeatMac
                 +"&deviceType="+devType+"&devCmd=16&imei="+electricMac;
         VolleyHelper helper=VolleyHelper.getInstance(mContext);
@@ -464,9 +473,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                             }else{
                                 T.showShort(mContext,"设置失败");
                             }
+                            dialog1.dismiss();
                             getYuzhi(electricMac);
                             getFenli(electricMac);
                         } catch (JSONException e) {
+                            dialog1.dismiss();
                             e.printStackTrace();
                         }
                     }
@@ -474,6 +485,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             @Override
             public void onErrorResponse(VolleyError error) {
                 T.showShort(mContext,"网络错误");
+                dialog1.dismiss();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
@@ -503,7 +515,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         final Switch fenli_switch=(Switch)layout.findViewById(R.id.fenli_switch);
         final LinearLayout fenliHoldTime_line=(LinearLayout) layout.findViewById(R.id.fenliHoldTime_line);
         final EditText fenliHoldTime_value=(EditText)layout.findViewById(R.id.fenliHoldTime_value);
-        if(energyEntity.getShuntRelevanceTime()>0){
+        if(energyEntity!=null&&energyEntity.getShuntRelevanceTime()>0){
             fenli_switch.setChecked(true);
             fenliHoldTime_value.setText(energyEntity.getShuntRelevanceTime()+"");
             fenliHoldTime_line.setVisibility(View.VISIBLE);
@@ -516,6 +528,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                            -0.1f, Animation.RELATIVE_TO_SELF, 0.0f);
+                    mShowAction.setDuration(500);
+                    fenliHoldTime_line.setAnimation(mShowAction);
                     fenliHoldTime_line.setVisibility(View.VISIBLE);
                 }else{
                     fenliHoldTime_line.setVisibility(View.GONE);
@@ -524,19 +541,19 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         });
 
         final Switch QI_switch=(Switch)layout.findViewById(R.id.QI_switch);
-        if(energyEntity.getShuntCuPer()==1){
+        if(energyEntity!=null&&energyEntity.getShuntCuPer()==1){
             QI_switch.setChecked(true);
         }else {
             QI_switch.setChecked(false);
         }
         final Switch TI_switch=(Switch)layout.findViewById(R.id.TI_switch);
-        if(energyEntity.getShuntTemp()==1){
+        if(energyEntity!=null&&energyEntity.getShuntTemp()==1){
             TI_switch.setChecked(true);
         }else {
             TI_switch.setChecked(false);
         }
         final Switch fenli_liandong_switch=(Switch)layout.findViewById(R.id.fenli_liandong_switch);
-        if(energyEntity.getShuntLink()==1){
+        if(energyEntity!=null&&energyEntity.getShuntLink()==1){
             fenli_liandong_switch.setChecked(true);
         }else {
             fenli_liandong_switch.setChecked(false);
@@ -568,6 +585,10 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                     }
                     if(value46<10||value46>1000){
                         T.showShort(mContext,"漏电流阈值设置范围为10-1000mA");
+                        return;
+                    }
+                    if(value47<0||value47>100){
+                        T.showShort(mContext,"漏电流阈值设置范围为0-100℃");
                         return;
                     }
                     if(low>high){
@@ -658,47 +679,43 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
         final AlertDialog dialog =builder.create();
 
-        final Switch fenli_switch=(Switch)layout.findViewById(R.id.fenli_switch);
+        final RadioGroup fenli_switch=(RadioGroup)layout.findViewById(R.id.radio_group);
+        final RadioButton btn_on=(RadioButton)layout.findViewById(R.id.on);
+        final RadioButton btn_off=(RadioButton)layout.findViewById(R.id.off);
         final LinearLayout fenliHoldTime_line=(LinearLayout) layout.findViewById(R.id.fenliHoldTime_line);
-        if(energyEntity.getShunt()==1){
-            fenli_switch.setChecked(true);
-            fenliHoldTime_line.setVisibility(View.VISIBLE);
-        }else {
-            fenli_switch.setChecked(false);
-            fenliHoldTime_line.setVisibility(View.GONE);
-        }
+//        if(energyEntity.getShunt()==1){
+//            fenli_switch.setChecked(true);
+//            fenliHoldTime_line.setVisibility(View.VISIBLE);
+//        }else {
+//            fenli_switch.setChecked(false);
+//            fenliHoldTime_line.setVisibility(View.GONE);
+//        }
 
-        fenli_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        fenli_switch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    fenliHoldTime_line.setVisibility(View.VISIBLE);
-                }else{
-                    fenliHoldTime_line.setVisibility(View.GONE);
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (group.getCheckedRadioButtonId()){
+                    case R.id.on:
+                        fenliHoldTime_line.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.off:
+                        fenliHoldTime_line.setVisibility(View.GONE);
+                        break;
                 }
             }
         });
+//        fenli_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    fenliHoldTime_line.setVisibility(View.VISIBLE);
+//                }else{
+//                    fenliHoldTime_line.setVisibility(View.GONE);
+//                }
+//            }
+//        });
 
         final EditText fenliHoldTime_value=(EditText)layout.findViewById(R.id.fenliHoldTime_value);
-
-//        final Switch QI_switch=(Switch)layout.findViewById(R.id.QI_switch);
-//        if(energyEntity.getShuntCuPer()==1){
-//            QI_switch.setChecked(true);
-//        }else {
-//            QI_switch.setChecked(false);
-//        }
-//        final Switch TI_switch=(Switch)layout.findViewById(R.id.TI_switch);
-//        if(energyEntity.getShuntTemp()==1){
-//            TI_switch.setChecked(true);
-//        }else {
-//            TI_switch.setChecked(false);
-//        }
-//        final Switch fenli_liandong_switch=(Switch)layout.findViewById(R.id.fenli_liandong_switch);
-//        if(energyEntity.getShuntLink()==1){
-//            fenli_liandong_switch.setChecked(true);
-//        }else {
-//            fenli_liandong_switch.setChecked(false);
-//        }
 
         Button commit=(Button)layout.findViewById(R.id.commit);
         commit.setOnClickListener(new View.OnClickListener() {
@@ -707,31 +724,12 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 String url="";
                 try{
 
-
-//                int b=0;
-//                if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()>0){
-//                    b= b+Integer.parseInt(fenliHoldTime_value.getText().toString());
-//                }else if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()==0){
-//                    b= 255;
-//                }
                     int b=0;
-                    if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()>0){
+                    if(btn_on.isChecked()&&fenliHoldTime_value.getText().length()>0){
                         b= b+Integer.parseInt(fenliHoldTime_value.getText().toString());
-                    }else if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()==0){
+                    }else if(btn_off.isChecked()&&fenliHoldTime_value.getText().length()==0){
                         b= b+31;
                     }
-
-//                    if(QI_switch.isChecked()){
-//                        b= b+32;
-//                    }
-//
-//                    if(TI_switch.isChecked()){
-//                        b= b+64;
-//                    }
-//
-//                    if(fenli_liandong_switch.isChecked()){
-//                        b= b+64;
-//                    }
 
                     url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?repeaterMac="+repeatMac
                             +"&deviceType="+devType+"&devCmd=31&imei="+electricMac
@@ -855,6 +853,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     }
 
     private void gotoClearvoice() {
+        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+        dialog1.setTitle("提示");
+        dialog1.setMessage("设置中，请稍候");
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
         String url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?repeaterMac="+repeatMac
                 +"&deviceType="+devType+"&devCmd=32&imei="+electricMac;
         VolleyHelper helper=VolleyHelper.getInstance(mContext);
@@ -871,9 +874,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                             }else{
                                 T.showShort(mContext,"设置失败");
                             }
+                            dialog1.dismiss();
                             getYuzhi(electricMac);
                             getFenli(electricMac);
                         } catch (JSONException e) {
+                            dialog1.dismiss();
                             e.printStackTrace();
                         }
                     }
@@ -881,6 +886,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             @Override
             public void onErrorResponse(VolleyError error) {
                 T.showShort(mContext,"网络错误");
+                dialog1.dismiss();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
@@ -890,6 +896,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     }
 
     private void gotoResetAlarm() {
+        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+        dialog1.setTitle("提示");
+        dialog1.setMessage("设置中，请稍候");
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
         String url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?repeaterMac="+repeatMac
                 +"&deviceType="+devType+"&devCmd=33&imei="+electricMac;
         VolleyHelper helper=VolleyHelper.getInstance(mContext);
@@ -906,9 +917,11 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                             }else{
                                 T.showShort(mContext,"设置失败");
                             }
+                            dialog1.dismiss();
                             getYuzhi(electricMac);
                             getFenli(electricMac);
                         } catch (JSONException e) {
+                            dialog1.dismiss();
                             e.printStackTrace();
                         }
                     }
@@ -916,6 +929,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             @Override
             public void onErrorResponse(VolleyError error) {
                 T.showShort(mContext,"网络错误");
+                dialog1.dismiss();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,

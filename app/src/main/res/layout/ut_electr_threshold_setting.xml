@@ -166,13 +166,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="(0-1000℃)"/>
+                        android:text="(0-100℃)"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:visibility="gone">
                     <TextView
                         android:id="@+id/CurrentMAX_value_name"
                         android:layout_width="0dp"
@@ -205,49 +206,59 @@
                     android:id="@+id/fenliHoldTime_line"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_margin="10dp"
                     android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/fenliHoldTime_value_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.2"
+                            android:gravity="center"
+                            android:text="分励时间(s):"/>
+                        <EditText
+                            android:id="@+id/fenliHoldTime_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:layout_weight="1.2"
+                            android:background="@drawable/edit_view_bg"/>
+                        <TextView
+                            android:id="@+id/fenliHoldTime_value_yuzhi"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="(1-30s)"/>
+                    </LinearLayout>
                     <TextView
-                        android:id="@+id/fenliHoldTime_value_name"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.2"
                         android:gravity="center"
-                        android:text="关联时间(s):"/>
-                    <EditText
-                        android:id="@+id/fenliHoldTime_value"
-                        android:layout_width="0dp"
+                        android:text="注:设置值为31时为常开状态。"/>
+                    <Switch
+                        android:id="@+id/QI_switch"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="3dp"
-                        android:layout_weight="1.2"
-                        android:background="@drawable/edit_view_bg"/>
-                    <TextView
-                        android:id="@+id/fenliHoldTime_value_yuzhi"
-                        android:layout_width="0dp"
+                        android:layout_margin="5dp"
+                        android:text="电压/电流关联"/>
+                    <Switch
+                        android:id="@+id/TI_switch"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="(0-30s)"/>
+                        android:layout_margin="5dp"
+                        android:text="温度/漏电关联"/>
+                    <Switch
+                        android:id="@+id/fenli_liandong_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="联动关联"/>
                 </LinearLayout>
-                <Switch
-                    android:id="@+id/QI_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="电压/电流关联"/>
-                <Switch
-                    android:id="@+id/TI_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="温度/漏电关联"/>
-                <Switch
-                    android:id="@+id/fenli_liandong_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="联动关联"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
