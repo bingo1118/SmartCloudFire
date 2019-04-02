@@ -476,6 +476,12 @@ public class DemoIntentService extends GTIntentService {
                                 alarmMsg = "电气探测器发出：过压报警（测试）";
                             }
                             break;
+                        case 138:
+                            alarmMsg = "电气探测器发出：温度探头故障";
+                            break;
+                        case 137:
+                            alarmMsg = "电气探测器发出：剩余电流探头故障";
+                            break;
                         case 136:
                         case 36:
                             int alarmType36 = pushAlarmMsg1.getAlarmType();

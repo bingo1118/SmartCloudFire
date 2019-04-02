@@ -271,6 +271,8 @@
     <string name="wsdgzhf">【温湿度故障恢复】</string>
     <string name="cuoxiang">【错相】</string>
     <string name="kailu">【传感器开路】</string>
+    <string name="xx_wdttgz">【温度探头故障】</string>
+    <string name="xx_sydlttgz">【剩余电流探头故障】</string>
 
 
 </resources>

@@ -177,8 +177,10 @@ public class GetLocationActivity extends Activity implements View.OnClickListene
                 //把返回数据存入Intent
                 Bundle bundle=new Bundle();
                 bundle.putString("address", location_address);
-                bundle.putDouble("lat",selectedLatlng.latitude);
-                bundle.putDouble("lon",selectedLatlng.longitude);
+                if(selectedLatlng!=null){
+                    bundle.putDouble("lat",selectedLatlng.latitude);
+                    bundle.putDouble("lon",selectedLatlng.longitude);
+                }
                 intent.putExtra("data",bundle);
                 this.setResult(this.RESULT_OK,intent);
                 finish();

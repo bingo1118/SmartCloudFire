@@ -417,6 +417,12 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         case 74://开路
                             ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.kailu);
                             break;
+                        case 137:
+                            ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_sydlttgz);
+                            break;
+                        case 138:
+                            ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_wdttgz);
+                            break;
                         case 136:
                         case 36:
                             ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_gz);

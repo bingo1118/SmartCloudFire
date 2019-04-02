@@ -219,7 +219,6 @@ public class CircleProgressBar extends View {
         canvas.drawText(percent, center, baseline, textPaint); // 绘制表示进度的文字
 
         float a = textPaint.measureText(percent);
-        int b= bounds.width();
 
         textPaint.setTextSize(20);
         canvas.drawText("分", center+a/2+10, baseline, textPaint); // 绘制表示进度的文字

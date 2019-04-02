@@ -1,5 +1,8 @@
 package com.smart.cloud.fire.global;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2016/7/27.
  */
@@ -72,6 +75,7 @@ package com.smart.cloud.fire.global;
         public static final int POLICEMAEN = 5;
         public static final int SUPER_ADMIN = 4;
     }
+
 
     public static class Update{
         public static final String SAVE_PATH = ConstantValues.CACHE_FOLDER_NAME+"/apk";
