@@ -71,8 +71,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     ProgressBar mProgressBar;
     @Bind(R.id.bmapView)
     MapView mMapView;
-    @Bind(R.id.lin1)
-    LinearLayout lin1;
+//    @Bind(R.id.lin1)
+//    LinearLayout lin1;
     @Bind(R.id.search_fire)
     ImageView search_fire;
     @Bind(R.id.search_fire_btn)
@@ -81,8 +81,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     ImageView add_fire;
     @Bind(R.id.area_condition1)
     AreaChooceListView areaCondition;
-    @Bind(R.id.shop_type_condition)
-    XCDropDownListViewMapSearch shopTypeCondition;
+//    @Bind(R.id.shop_type_condition)
+//    XCDropDownListViewMapSearch shopTypeCondition;
 //    @Bind(R.id.spinner)
 //    Spinner spinner;//@@9.12
     @Bind(R.id.area_search)
@@ -156,11 +156,11 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     public void onDestroyView() {
         mMapView.onDestroy();
         super.onDestroyView();
-        if(shopTypeCondition!=null){
-            if(shopTypeCondition.ifShow()){
-                shopTypeCondition.closePopWindow();
-            }
-        }
+//        if(shopTypeCondition!=null){
+//            if(shopTypeCondition.ifShow()){
+//                shopTypeCondition.closePopWindow();
+//            }
+//        }
         if(areaCondition!=null){
             if(areaCondition.ifShow()){
                 areaCondition.closePopWindow();
@@ -352,17 +352,17 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
      */
     @Override
     public void getShopType(ArrayList<Object> shopTypes) {
-        shopTypeCondition.setItemsData(shopTypes,mMapFragmentPresenter);
-        shopTypeCondition.showPopWindow();
-        shopTypeCondition.setClickable(true);
-        shopTypeCondition.closeLoading();
+//        shopTypeCondition.setItemsData(shopTypes,mMapFragmentPresenter);
+//        shopTypeCondition.showPopWindow();
+//        shopTypeCondition.setClickable(true);
+//        shopTypeCondition.closeLoading();
     }
 
     @Override
     public void getShopTypeFail(String msg) {
         T.showShort(mContext, msg);
-        shopTypeCondition.setClickable(true);
-        shopTypeCondition.closeLoading();
+//        shopTypeCondition.setClickable(true);
+//        shopTypeCondition.closeLoading();
     }
 
     /**
@@ -493,7 +493,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
 
     private boolean visibility = false;
 
-    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition, R.id.shop_type_condition, R.id.area_condition1,R.id.text})
+    @OnClick({R.id.search_fire_btn,R.id.search_fire, R.id.add_fire, R.id.area_condition1,R.id.text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_fire_btn://@@4.27
@@ -511,9 +511,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 }
                 break;
             case R.id.search_fire:
-                if (shopTypeCondition.ifShow()) {
-                    shopTypeCondition.closePopWindow();
-                }
+//                if (shopTypeCondition.ifShow()) {
+//                    shopTypeCondition.closePopWindow();
+//                }
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 }
@@ -522,7 +522,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     search_fire.setVisibility(View.GONE);
                     add_fire.setVisibility(View.VISIBLE);
                     areaCondition.searchClose();
-                    shopTypeCondition.searchClose();
+//                    shopTypeCondition.searchClose();
                     visibility = false;
                     if (mArea != null && mArea.getAreaId() != null) {
                         areaId = mArea.getAreaId();
@@ -543,36 +543,36 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                     if (areaCondition.ifShow()) {
                         areaCondition.closePopWindow();
                     }
-                    if (shopTypeCondition.ifShow()) {
-                        shopTypeCondition.closePopWindow();
-                    }
+//                    if (shopTypeCondition.ifShow()) {
+//                        shopTypeCondition.closePopWindow();
+//                    }
                 } else {
                     visibility = true;
                     areaCondition.setEditText("");
-                    shopTypeCondition.setEditText("");
+//                    shopTypeCondition.setEditText("");
                     areaCondition.setEditTextHint("区域");
-                    shopTypeCondition.setEditTextHint("类型");
+//                    shopTypeCondition.setEditTextHint("类型");
                     lin_search.setVisibility(View.VISIBLE);
                 }
                 break;
-            case R.id.shop_type_condition:
-                if (shopTypeCondition.ifShow()) {
-                    shopTypeCondition.closePopWindow();
-                } else {
-                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 1);
-                    shopTypeCondition.setClickable(false);
-                    shopTypeCondition.showLoading();
-                }
-                break;
-            case R.id.area_condition:
-                if (areaCondition.ifShow()) {
-                    areaCondition.closePopWindow();
-                } else {
-                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
-                    areaCondition.setClickable(false);
-                    areaCondition.showLoading();
-                }
-                break;
+//            case R.id.shop_type_condition:
+//                if (shopTypeCondition.ifShow()) {
+//                    shopTypeCondition.closePopWindow();
+//                } else {
+//                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 1);
+//                    shopTypeCondition.setClickable(false);
+//                    shopTypeCondition.showLoading();
+//                }
+//                break;
+//            case R.id.area_condition:
+//                if (areaCondition.ifShow()) {
+//                    areaCondition.closePopWindow();
+//                } else {
+//                    mvpPresenter.getPlaceTypeId(userID, privilege + "", 2);
+//                    areaCondition.setClickable(false);
+//                    areaCondition.showLoading();
+//                }
+//                break;
             case R.id.text://@@11.13
             case R.id.area_condition1:
                 if (areaCondition.ifShow()) {

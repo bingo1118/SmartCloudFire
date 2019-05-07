@@ -19,12 +19,12 @@ import com.google.zxing.common.StringUtils;
 import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.PushManager;
 import com.igexin.sdk.message.GTCmdMessage;
+import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
 import com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.Alarm.AlarmActivity;
-import com.smart.cloud.fire.mvp.Alarm.GetTaskActivity;
 import com.smart.cloud.fire.mvp.Alarm.UserAlarmActivity;
 import com.smart.cloud.fire.mvp.Alarm.WorkingTimeActivity;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
@@ -38,6 +38,7 @@ import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.TimeFormat;
 import com.smart.cloud.fire.utils.Utils;
 
@@ -81,25 +82,26 @@ public class DemoIntentService extends GTIntentService {
         boolean showDateChange=false;
         try {
             JSONObject dataJson = new JSONObject(msg);
-            String alarmTime=dataJson.getString("alarmTime");
+            String alarmTime=null;
+            if(dataJson.has("alarmTime")){
+                alarmTime=dataJson.getString("alarmTime");
+            }else if(dataJson.has("masterFault")){
+                alarmTime=dataJson.getJSONObject("masterFault").getString("faultTime");
+            }
             int pushStatus = 0;
             if(dataJson.has("pushStatus")){
                 pushStatus=dataJson.getInt("pushStatus");
             }
 
-            if(pushStatus==1){
-                Intent intent_task=new Intent(context, GetTaskActivity.class);
-                intent_task.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent_task.putExtra("mPushAlarmMsg",jsJson(dataJson));
-                context.startActivity(intent_task);
-                return;
-            }
             //过滤30分钟前的报警
             if(null!=alarmTime&&(System.currentTimeMillis()-TimeFormat.date2TimeStamp(alarmTime))>30*60*1000){
                 return;
             }
 
-            int alarm = dataJson.getInt("alarmType");
+            int alarm =0;
+            if(dataJson.has("alarmType")){
+                alarm = dataJson.getInt("alarmType");
+            }
             if(alarm==80){
                 Intent wiredIntent = new Intent(context, WorkingTimeActivity.class);
                 wiredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -163,6 +165,16 @@ public class DemoIntentService extends GTIntentService {
                 case 73://南京7020燃气
                 case 78://南京普通水压
                 case 79://南京温湿度
+                case 82://NB直连喷淋
+                case 85://南京普通水位
+                case 86://塞特维尔南京烟感
+                case 87://三江HN388烟感
+                case 89://塞特维尔移动烟感
+                case 90:
+                case 92:
+                case 93:
+                case 94:
+                case 95:
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -212,6 +224,10 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 119:
+                        case 92:
+                        case 89:
+                        case 87:
+                        case 86:
                         case 41:
                         case 61:
                         case 58:
@@ -262,6 +278,8 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 124:
+                        case 95:
+                        case 85:
                         case 69:
                         case 48:
                         case 46:
@@ -290,9 +308,11 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 90:
+                        case 82:
                         case 18://@@10.31 喷淋
                             if(alarmType==202||alarmType==66||alarmType==203) {
-                                message="发生报警";
+                                message="阀门开启";
                             }else if(alarmType==201){
                                 message="阀门已关闭";
                             } else if(alarmType==193){
@@ -320,6 +340,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 93:
                         case 73:
                         case 72:
                         case 51:
@@ -338,7 +359,11 @@ public class DemoIntentService extends GTIntentService {
                             message="声光发出报警";
                             break;
                         case 8:
-                            message="手动报警";
+                            if(alarmType==193){
+                                message="低电压报警";
+                            }else{
+                                message="手动报警";
+                            }
                             break;
                         case 11:
                             if(alarmType==202||alarmType==206) {
@@ -369,6 +394,7 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 125:
+                        case 94:
                         case 78:
                         case 70:
                         case 68:
@@ -413,6 +439,8 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 91:
+                case 83://南京中电电气
                 case 81://lora优特电气
                 case 80://南京优特电气
                 case 77://南京三相电气
@@ -465,9 +493,6 @@ public class DemoIntentService extends GTIntentService {
                         case 157:
                             alarmMsg = "电气探测器发出：定时试验";
                             break;
-                        case 74:
-                            alarmMsg = "电气探测器发出：开路故障";
-                            break;
                         case 43://电气报警
                             int alarmType1 = pushAlarmMsg1.getAlarmType();
                             if(alarmType1!=0){
@@ -475,6 +500,9 @@ public class DemoIntentService extends GTIntentService {
                             }else{
                                 alarmMsg = "电气探测器发出：过压报警（测试）";
                             }
+                            break;
+                        case 74:
+                            alarmMsg = "电气探测器发出：开路故障";
                             break;
                         case 138:
                             alarmMsg = "电气探测器发出：温度探头故障";
@@ -723,6 +751,16 @@ public class DemoIntentService extends GTIntentService {
 
     }
 
+    @Override
+    public void onNotificationMessageArrived(Context context, GTNotificationMessage gtNotificationMessage) {
+
+    }
+
+    @Override
+    public void onNotificationMessageClicked(Context context, GTNotificationMessage gtNotificationMessage) {
+
+    }
+
 
     private void goToServer(String cid,String userId){
         ApiStores apiStores = AppClient.retrofit(ConstantValues.SERVER_PUSH).create(ApiStores.class);
@@ -735,10 +773,12 @@ public class DemoIntentService extends GTIntentService {
 
             @Override
             public void onFailure(int code, String msg) {
+                int a=code;
             }
 
             @Override
             public void onCompleted() {
+                int a=1;
 //                stopSelf();
             }
         }));

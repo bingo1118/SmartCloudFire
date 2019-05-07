@@ -173,7 +173,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         String deviceType="1";//烟感。。
         DevType devType=getDevType(smokeMac,repeater);
         if(devType.getErrorCode()==0){
-            smokeMac=devType.getDevType();
+            smokeMac=devType.getMac();
             electrState=devType.getElectrState();
             deviceType=devType.getDevType();
         }else{
@@ -188,7 +188,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
                     principal2Phone,areaId,repeater,camera,deviceType,electrState+"");
         }else{
-            if(isUploadImage){
+            if(isUploadImage){//上传图片成功
                 mObservable = apiStores1.addSmoke(userID,smokeName,privilege,smokeMac,address,
                         longitude,latitude,placeAddress,placeTypeId,principal1,principal1Phone,principal2,
                         principal2Phone,areaId,repeater,camera,deviceType,electrState+"",smokeMac+".jpg");
@@ -350,6 +350,16 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         electrState=1;;
                         deviceType="81";
                     }//@@lora优特电气设备
+                    if(smokeMac.endsWith("H")){
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                        electrState=1;;
+                        deviceType="83";
+                    }//@@南京平台中电电气350
+                    if(smokeMac.endsWith("V")){
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                        electrState=1;;
+                        deviceType="88";
+                    }//@@lora中电电气
                     break;
                 case "T":
                     if(smokeMac.endsWith("N")){
@@ -373,12 +383,34 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     deviceType="20";
                     break;
                 case "S":
-                    smokeMac = smokeMac.substring(1, macLenghth);//手动报警，显示 7
-                    deviceType="8";
+                    if(smokeMac.endsWith("N")){//@@直连NB手报
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                        deviceType="84";
+                    }else{
+                        smokeMac = smokeMac.substring(1, macLenghth);//手动报警，显示 7
+                        deviceType="8";
+                    }
                     break;
                 case "J":
-                    smokeMac = smokeMac.substring(1, macLenghth);//三江设备
-                    deviceType="9";
+                    if(smokeMac.endsWith("V")){
+                        deviceType="91";//@@金特莱电气
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("S")){
+                        deviceType="92";//@@金特莱烟感
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("R")){
+                        deviceType="93";//@@金特莱燃气
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("W")){
+                        deviceType="94";//@@金特莱水压
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("Y")){
+                        deviceType="95";//@@金特莱水位
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else{
+                        smokeMac = smokeMac.substring(1, macLenghth);//三江设备
+                        deviceType="9";
+                    }
                     break;
                 case "W":
                     if(smokeMac.endsWith("W")){
@@ -404,6 +436,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         smokeMac =smokeMac.substring(1,macLenghth-1);
                     }else if(smokeMac.endsWith("H")){
                         deviceType="48";//@@NB直连水位
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("J")){
+                        deviceType="85";//@@南京普通
                         smokeMac =smokeMac.substring(1,macLenghth-1);
                     }else{
                         deviceType="10";//@@水压
@@ -444,6 +479,15 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         deviceType="75";//@@嘉德南京平台烟感
                         electrState=1;
                         smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("S")){
+                        deviceType="86";//@@赛特威尔南京平台烟感
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("L")){
+                        deviceType="87";//@@三江HN388南京平台烟感
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("K")){
+                        deviceType="89";//@@赛特威尔移动烟感
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         deviceType="41";
                         smokeMac = smokeMac.substring(1, macLenghth);
@@ -460,6 +504,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                 case "P":
                     if(smokeMac.endsWith("N")){
                         deviceType="82";//2019.03.08NB直连喷淋
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("J")){
+                        deviceType="90";//2019.03.08NB直连喷淋
                         smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         deviceType="18";

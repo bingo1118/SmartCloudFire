@@ -188,6 +188,10 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
+                case 92:
+                case 89:
+                case 87:
+                case 86:
                 case 61:
                 case 58:
                 case 56:
@@ -260,6 +264,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                     break;
                 case 124:
+                case 95:
+                case 85:
                 case 69:
                 case 48:
                 case 46:
@@ -280,6 +286,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
                     }
                     break;
+                case 90:
+                case 82://NB
                 case 18://@@10.31 喷淋
                     ((ItemViewHolder) holder).smokeMac.setText("喷淋:");
                     if (alarmType == 202||alarmType==66) {
@@ -312,6 +320,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
                     }
                     break;
+                case 93:
                 case 73:
                 case 72:
                 case 16:
@@ -333,6 +342,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.ranqi);
                     break;
                 case 125:
+                case 94:
                 case 78:
                 case 70:
                 case 68:
@@ -372,7 +382,9 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     }
                     break;
-                case 81://lora优特电气
+                case 91:
+                case 83://南京中电电气
+                case 81:
                 case 80://南京优特电气
                 case 77:
                 case 76:
@@ -490,6 +502,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMac.setText("声光探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shengguang);
                     break;
+                case 84:
                 case 8:
                     ((ItemViewHolder) holder).smokeMac.setText("手报探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shoubao);

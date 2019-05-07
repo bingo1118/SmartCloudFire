@@ -239,10 +239,10 @@ public class BigDataDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                                     call=apiStores1.NB_IOT_Control(userid,normalSmoke.getMac(),"1");
                                     break;
                                 case 58:
-                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"58");
+                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"58","0");
                                     break;
                                 case 61:
-                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"61");
+                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"61","0");
                                     break;
                             }
                             if (call != null) {

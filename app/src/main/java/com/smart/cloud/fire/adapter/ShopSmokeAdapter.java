@@ -244,6 +244,9 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
             });
             switch (devType){
+                case 89:
+                case 87:
+                case 86:
                 case 61://@@嘉德南京烟感
                 case 58://@@嘉德移动烟感
                 case 41://@@NB烟感
@@ -256,47 +259,46 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
-                    ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final ProgressDialog dialog1 = new ProgressDialog(mContext);
-                            dialog1.setTitle("提示");
-                            dialog1.setMessage("设置中，请稍候");
-                            dialog1.setCanceledOnTouchOutside(false);
-                            dialog1.show();
-                            String userid= SharedPreferencesManager.getInstance().getData(mContext,
-                                    SharedPreferencesManager.SP_FILE_GWELL,
-                                    SharedPreferencesManager.KEY_RECENTNAME);
-                            ApiStores apiStores1 = AppClient.retrofit(ConstantValues.SERVER_IP_NEW).create(ApiStores.class);
-                            Call<HttpError> call=null;
-                            switch (normalSmoke.getDeviceType()){
-                                case 41:
-                                    call=apiStores1.NB_IOT_Control(userid,normalSmoke.getMac(),"1");
-                                    break;
-                                case 58:
-                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"58");
-                                    break;
-                                case 61:
-                                    call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"61");
-                                    break;
-                            }
-                            if (call != null) {
-                                call.enqueue(new Callback<HttpError>() {
+                    if(devType==89||devType==86){
+                        ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                builder.setTitle("请选择消音类型");
+                                final String[] types = {"单次消音", "连续消音"};
+                                //    设置一个单项选择下拉框
+                                /**
+                                 * 第一个参数指定我们要显示的一组下拉单选框的数据集合
+                                 * 第二个参数代表索引，指定默认哪一个单选框被勾选上，1表示默认'女' 会被勾选上
+                                 * 第三个参数给每一个单选项绑定一个监听器
+                                 */
+                                builder.setSingleChoiceItems(types, 1, new DialogInterface.OnClickListener()
+                                {
                                     @Override
-                                    public void onResponse(Call<HttpError> call, retrofit2.Response<HttpError> response) {
-                                        T.showShort(mContext,response.body().getError()+"");
-                                        dialog1.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<HttpError> call, Throwable t) {
-                                        T.showShort(mContext,"失败");
-                                        dialog1.dismiss();
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        Toast.makeText(mContext, "类型为：" + types[which], Toast.LENGTH_SHORT).show();
                                     }
                                 });
+                                builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        cencelSound(normalSmoke,which+1+"");
+                                    }
+                                });
+                                builder.show();
                             }
-                        }
-                    });
+                        });
+                    }else{
+                        ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cencelSound(normalSmoke,"1");
+                            }
+                        });
+                    }
                     if(normalSmoke.getElectrState()==1){
                         ((ItemViewHolder) holder).power_button.setText("已消音");
                         ((ItemViewHolder) holder).power_button.setEnabled(false);
@@ -349,6 +351,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 92://@@金特莱南京烟感
                 case 57://@@
                 case 55://@@嘉德烟感
                 case 31://@@12.26 三江iot烟感
@@ -384,6 +387,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 93://金特莱南京燃气
                 case 16://@@9.29
                 case 2://燃气。。
                     if (netStates == 0) {//设备不在线。。
@@ -416,6 +420,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 91://金特莱南京烟感
                 case 53://NB电气
                 case 52://@@Lara电气设备
                 case 5://电气。。
@@ -478,6 +483,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 84:
                 case 8://手动。。
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("手动报警："+normalSmoke.getName()+"（已离线)");
@@ -559,6 +565,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
                     break;
                 case 125:
+                case 94://金特莱南京水压
                 case 78:
                 case 70:
                 case 68:
@@ -622,7 +629,9 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
                     break;
                 case 124:
+                case 95://金特莱南京水位
                 case 69:
+                case 85:
                 case 48:
                 case 46:
                 case 44://万科水位
@@ -656,7 +665,9 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
-                case 18://喷淋@@10.31。。
+                case 90://南京喷淋
+                case 82://NB直连喷淋
+                case 18://喷淋@@10.31
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("喷淋："+normalSmoke.getName()+"（已离线)");
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
@@ -888,5 +899,51 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void changeMoreStatus(int status) {
         load_more_status = status;
         notifyDataSetChanged();
+    }
+
+    //烟感设备消音
+    private void cencelSound(Smoke normalSmoke,String state) {
+        final ProgressDialog dialog1 = new ProgressDialog(mContext);
+        dialog1.setTitle("提示");
+        dialog1.setMessage("设置中，请稍候");
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
+        String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                SharedPreferencesManager.SP_FILE_GWELL,
+                SharedPreferencesManager.KEY_RECENTNAME);
+        ApiStores apiStores1 = AppClient.retrofit(ConstantValues.SERVER_IP_NEW).create(ApiStores.class);
+        Call<HttpError> call=null;
+        switch (normalSmoke.getDeviceType()){
+            case 41:
+                call=apiStores1.NB_IOT_Control(userid,normalSmoke.getMac(),"1");
+                break;
+            case 58:
+                call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"58",state);
+                break;
+            case 61:
+                call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"61",state);
+                break;
+            case 86:
+                call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"86",state);
+                break;
+            case 89:
+                call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),"89",state);
+                break;
+        }
+        if (call != null) {
+            call.enqueue(new Callback<HttpError>() {
+                @Override
+                public void onResponse(Call<HttpError> call, retrofit2.Response<HttpError> response) {
+                    T.showShort(mContext,response.body().getError()+"");
+                    dialog1.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<HttpError> call, Throwable t) {
+                    T.showShort(mContext,"失败");
+                    dialog1.dismiss();
+                }
+            });
+        }
     }
 }

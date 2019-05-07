@@ -216,11 +216,13 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
             @Override
             public void onLongClick(View view, int position) {
                 Smoke smoke =list.get(position);
-                if(smoke.getDeviceType()==22||smoke.getDeviceType()==23
-                        ||smoke.getDeviceType()==58||smoke.getDeviceType()==61
-                        ||smoke.getDeviceType()==73||smoke.getDeviceType()==75
-                        ||smoke.getDeviceType()==77||smoke.getDeviceType()==78
-                        ||smoke.getDeviceType()==79){
+                if(smoke.getDeviceType()==22||smoke.getDeviceType()==23||smoke.getDeviceType()==58||smoke.getDeviceType()==61
+                        ||smoke.getDeviceType()==73||smoke.getDeviceType()==75||smoke.getDeviceType()==77
+                        ||smoke.getDeviceType()==78||smoke.getDeviceType()==79||smoke.getDeviceType()==80
+                        ||smoke.getDeviceType()==83||smoke.getDeviceType()==85||smoke.getDeviceType()==86
+                        ||smoke.getDeviceType()==87||smoke.getDeviceType()==89||smoke.getDeviceType()==90
+                        ||smoke.getDeviceType()==91||smoke.getDeviceType()==92||smoke.getDeviceType()==93
+                        ||smoke.getDeviceType()==94||smoke.getDeviceType()==95){
                     showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
                 }else{
                     T.showShort(mContext,"该设备无法删除");

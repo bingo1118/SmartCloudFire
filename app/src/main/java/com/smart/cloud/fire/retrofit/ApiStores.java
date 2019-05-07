@@ -449,7 +449,7 @@ public interface ApiStores {
 
     @GET("nanjing_jiade_cancel")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Call<HttpError> nanjing_jiade_cancel(@Query("imeiValue") String imeiValue,@Query("deviceType") String deviceType);
+    Call<HttpError> nanjing_jiade_cancel(@Query("imeiValue") String imeiValue,@Query("deviceType") String deviceType,@Query("cancelState") String cancelState);//cancelState 1 单次消音 2 连续消音
 
     @GET("ackNB_IOT_Control")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
