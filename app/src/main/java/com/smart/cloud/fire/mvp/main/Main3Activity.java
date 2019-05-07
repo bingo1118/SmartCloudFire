@@ -226,7 +226,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                                     int errorCode=response.getInt("errorCode");
                                     if(errorCode==0){
                                         JSONObject lasteatalarm=response.getJSONObject("lasteatAlarm");
-                                        if(lasteatalarm.getString("ifDealAlarm")=="0"){
+                                        if(lasteatalarm.getInt("ifDealAlarm")==0){
                                             anim.start();
                                             home_alarm_info_text.setText(lasteatalarm.getString("address")+"\n"+lasteatalarm.getString("name")+"发生报警");
                                         }else{

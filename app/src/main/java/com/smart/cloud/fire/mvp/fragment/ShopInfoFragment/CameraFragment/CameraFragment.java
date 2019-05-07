@@ -192,7 +192,11 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         shopCameraAdapter.changeMoreStatus(ShopCameraAdapter.NO_DATA);
         String[] cameralist=new String[smokeList.size()];//@@5.18
         for(int i=0;i<smokeList.size();i++){
-            cameralist[i]=list.get(i).getCameraId();
+            if(0==list.get(i).getVideoType()){
+                cameralist[i]=list.get(i).getCameraId().length()>10?"0":list.get(i).getCameraId();
+            }else{
+                cameralist[i]="0";
+            }
         }//@@5.18
         P2PHandler.getInstance().getFriendStatus(cameralist);//@@5.18
     }
@@ -219,13 +223,18 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
     @Override
     public void onLoadingMore(List<?> smokeList) {
         loadMoreCount = smokeList.size();
-        list.addAll((List<Camera>)smokeList);
+        List<Camera> cameraList=(List<Camera>)smokeList;
+        list.addAll(cameraList);
         shopCameraAdapter.changeMoreStatus(ShopCameraAdapter.LOADING_MORE);
 
         String[] cameralist=new String[smokeList.size()];//@@10.18
-        for(int i=0;i<smokeList.size();i++){
-            cameralist[i]=((List<Camera>)smokeList).get(i).getCameraId();
-        }//@@10.18
+        for(int i=0;i<cameraList.size();i++){
+            if(0==cameraList.get(i).getVideoType()){
+                cameralist[i]=cameraList.get(i).getCameraId().length()>10?"0":cameraList.get(i).getCameraId();
+            }else{
+                cameralist[i]="0";
+            }
+        }//@@5.18
         P2PHandler.getInstance().getFriendStatus(cameralist);//@@10.18
     }
 

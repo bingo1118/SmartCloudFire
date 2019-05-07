@@ -14,6 +14,7 @@ import android.os.Vibrator;
 import android.widget.RemoteViews;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.hikvision.open.hikvideoplayer.HikVideoPlayerFactory;
 import com.p2p.core.update.UpdateManager;
 import com.smart.cloud.fire.activity.Functions.constant.Constant;
 import com.smart.cloud.fire.service.LocationService;
@@ -58,6 +59,7 @@ public class MyApp extends Application {
         LeakCanary.install(this);
         LitePal.initialize(this);//数据库框架
         SQLiteDatabase db = LitePal.getDatabase();
+        HikVideoPlayerFactory.initLib(null, true);
     }
 
     @Override

@@ -104,4 +104,7 @@
     <color name="hint_color_text">#c5c5c5</color>
     <color name="ddy_color_text">#e48d26</color>
     <color name="hj_color_text">#e9393d</color>
+
+    <!-- 回放，TimeBar底部可播放时间区域显示颜色 -->
+    <color name="playback_timebar_color">#2e78c2</color>
 </resources>

@@ -14,9 +14,7 @@ import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity;
 import com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity;
-import com.smart.cloud.fire.activity.PayActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
-import com.smart.cloud.fire.activity.Video.RecordVideoActivity;
 import com.smart.cloud.fire.activity.WebServer.WebServerActivity;
 import com.smart.cloud.fire.base.ui.MvpFragment;
 import com.smart.cloud.fire.global.ConstantValues;

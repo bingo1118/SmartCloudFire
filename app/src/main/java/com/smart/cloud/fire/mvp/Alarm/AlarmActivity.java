@@ -224,7 +224,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));
             if(pushWiredSmokeAlarmMsg.getFaultCode().equals("0")){
                 mAlarmType.setText("主机发生:"+pushWiredSmokeAlarmMsg.getFaultDevDesc());
-                alarmMac.setText("mac:"+pushWiredSmokeAlarmMsg.getRepeater());//@@2018.01.03
+                alarmMac.setText("ID:"+pushWiredSmokeAlarmMsg.getRepeater());//@@2018.01.03
             }else{
                 mAlarmType.setText(this.alarmMsg);
             }
@@ -334,7 +334,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             smokeMarkPhoneTv.setText(mPushAlarmMsg.getPrincipal2Phone());
             alarmInfo.setText(mPushAlarmMsg.getPlaceAddress() + mPushAlarmMsg.getAddress());
             alarmTime.setText(mPushAlarmMsg.getAlarmTime());
-            alarmMac.setText("Mac:"+mPushAlarmMsg.getMac());//@@2018.01.03
+            alarmMac.setText("ID:"+mPushAlarmMsg.getMac());//@@2018.01.03
 //        int devType = mPushAlarmMsg.getDeviceType();
             alarmFkImg.setBackgroundResource(R.drawable.allarm_bg_selector);
             mAlarmType.setTextColor(getResources().getColor(R.color.hj_color_text));

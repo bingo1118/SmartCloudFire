@@ -45,6 +45,7 @@ public class Camera implements Serializable {
     private String principal2;
     private String principal2Phone;
     private int isOnline=0;//@@5.18在线状态
+    private int videoType;//摄像机设备类型 0 技威 1 海康
 
     public String getAreaName() {
         return areaName;
@@ -196,5 +197,13 @@ public class Camera implements Serializable {
 
     public void setIsOnline(int isOnline) {
         this.isOnline = isOnline;
+    }
+
+    public int getVideoType() {
+        return videoType;
+    }
+
+    public void setVideoType(int videoType) {
+        this.videoType = videoType;
     }
 }

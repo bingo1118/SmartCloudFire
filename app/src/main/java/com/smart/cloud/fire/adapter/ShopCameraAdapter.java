@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hikvision.open.app.PreviewActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Contact;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
@@ -102,7 +103,7 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mContext.startActivity(intent);
                 }
             });
-            if (camera.getIsOnline() == 0) {//设备不在线。。
+            if (camera.getIsOnline() == 0&&camera.getVideoType()==0) {//设备不在线。。
                 ((ItemViewHolder) holder).smoke_name_text.setText("摄像机："+camera.getCameraName()+"（已离线)");
                 ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
             } else {//设备在线。。
@@ -146,7 +147,11 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mContact.apModeState = 1;
 
                     Intent monitor = new Intent();
-                    monitor.setClass(mContext, ApMonitorActivity.class);
+                    if(camera.getVideoType()==0){
+                        monitor.setClass(mContext, ApMonitorActivity.class);
+                    }else{
+                        monitor.setClass(mContext, PreviewActivity.class);
+                    }
                     monitor.putExtra("contact", mContact);
                     monitor.putExtra("connectType", ConstantValues.ConnectType.P2PCONNECT);
                     monitor.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -154,7 +159,7 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
 
-            if (camera.getIsOnline() == 0) {//设备不在线。。
+            if (camera.getIsOnline() == 0&&camera.getVideoType()==0) {//设备不在线。。
                     ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
                 } else {//设备在线。。
                     ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);

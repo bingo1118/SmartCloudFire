@@ -841,7 +841,7 @@ public class DemoIntentService extends GTIntentService {
         m_builder.setWhen(System.currentTimeMillis());
         m_builder.setAutoCancel(true);
         long[] vibrates = {0, 1000, 1000, 1000};
-        m_builder.mNotification.vibrate = vibrates;
+        m_builder.getNotification().vibrate = vibrates;
         if(clazz!=null){
             m_builder.setContentText("点击查看详情"); //设置主要内容
             //通知消息与Intent关联
