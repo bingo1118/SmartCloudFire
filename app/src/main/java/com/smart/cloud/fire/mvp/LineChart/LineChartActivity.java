@@ -786,8 +786,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         try{
                             float high=Float.parseFloat(high_value.getText().toString());
                             float low=Float.parseFloat(low_value.getText().toString());
-                            float uploadtime=Float.parseFloat(uploadtime_value.getText().toString());
-                            float getdatatime=Float.parseFloat(getdatatime_value.getText().toString());
+                            float uploadtime=Float.parseFloat(uploadtime_value.getText().length()>0?uploadtime_value.getText().toString():"0");
+                            float getdatatime=Float.parseFloat(getdatatime_value.getText().length()>0?getdatatime_value.getText().toString():"0");
                             if(low>high){
                                 T.showShort(context,"低水位阈值不能高于高水位阈值");
                                 return;
