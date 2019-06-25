@@ -16,6 +16,7 @@ import com.smart.cloud.fire.activity.Functions.constant.Constant;
 import com.smart.cloud.fire.activity.Functions.interfaces.LoadApplyInterface;
 import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
 import com.smart.cloud.fire.activity.Functions.util.ACache;
+import com.smart.cloud.fire.activity.Functions.util.ApplyTableManager;
 import com.smart.cloud.fire.global.MyApp;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class ApplyHeadAdapter extends RecyclerView.Adapter<ApplyHeadAdapter.Chan
     public void onBindViewHolder(ChannelViewHolder holder, int position) {
         final ApplyTable table = mTables.get(position);
         holder.mTextView.setText(table.getName());
-        holder.mImageView.setImageResource(table.getImgRes());
+        holder.mImageView.setImageBitmap(ApplyTableManager.getImageFromAssetsFile(MyApp.app,table.getImgRes()));
         holder.iv_add.setVisibility(View.VISIBLE);
         if (table.getState() == 0) {
             holder.iv_add.setImageResource(R.drawable.item_del);

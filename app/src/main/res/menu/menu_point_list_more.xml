@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:id="@+id/add_nfc"  android:title="添加NFC巡检项目"/>
+    <item  android:id="@+id/add_dev"  android:title="添加常规巡检项目"/>
+    <item  android:id="@+id/all_items"  android:title="所有巡检项目"/>
+
+</menu>

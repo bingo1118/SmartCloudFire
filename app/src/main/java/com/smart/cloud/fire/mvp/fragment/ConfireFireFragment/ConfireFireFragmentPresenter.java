@@ -232,9 +232,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
         int macLenghth=smokeMac.length();
 
         String macStr = (String) smokeMac.subSequence(0, 1);
-        if(macLenghth==15){
-            deviceType="41";//海曼NB
-        }else if(macLenghth==4){
+        if(macLenghth==4){
             deviceType="68";//恒星法兰盘水压
         }else if (macLenghth==6){
             deviceType="70";//恒星水压
@@ -439,6 +437,21 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         smokeMac =smokeMac.substring(1,macLenghth-1);
                     }else if(smokeMac.endsWith("J")){
                         deviceType="85";//@@南京普通
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("O")){
+                        deviceType="97";//@@南京普通水压
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("P")){
+                        deviceType="98";//@@南京普通水位
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("Q")){
+                        deviceType="99";//@@南京普通温湿度
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("I")){
+                        deviceType="100";//@@南京防爆水压
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("K")){
+                        deviceType="101";//@@南京防爆水位
                         smokeMac =smokeMac.substring(1,macLenghth-1);
                     }else{
                         deviceType="10";//@@水压

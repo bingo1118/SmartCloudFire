@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.Point;
 import com.smart.cloud.fire.global.ShopType;
 
 import java.util.ArrayList;
@@ -85,6 +86,9 @@ public class XCDropDownListView extends LinearLayout {
                     }
                     if (object instanceof ShopType) {
                         basePresenter.getShop(new ShopType());
+                    }
+                    if (object instanceof Point) {
+                        basePresenter.getPoint(new Point());
                     }
                     imageView.setVisibility(View.VISIBLE);
                     clear_choice.setVisibility(View.GONE);
@@ -231,6 +235,23 @@ public class XCDropDownListView extends LinearLayout {
                         imageView.setVisibility(View.GONE);
                         clear_choice.setVisibility(View.VISIBLE);
                         basePresenter.getNFCDeviceType(nfcDeviceType);
+                        closePopWindow();
+                    }
+                });
+            }else if(object instanceof Point){
+                final Point point = (Point) object;
+                // 设置数据
+                listItemView.tv.setText(point.getName());
+                final String text = point.getName();
+                listItemView.layout.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        editText.setText(text);
+                        imageView.setVisibility(View.GONE);
+                        clear_choice.setVisibility(View.VISIBLE);
+                        basePresenter.getPoint(point);
                         closePopWindow();
                     }
                 });

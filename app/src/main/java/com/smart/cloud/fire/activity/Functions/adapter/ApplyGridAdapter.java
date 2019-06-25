@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 
 import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
+import com.smart.cloud.fire.activity.Functions.util.ApplyTableManager;
+import com.smart.cloud.fire.global.MyApp;
 
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class ApplyGridAdapter extends BaseAdapter {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.mImageView.setImageResource(mTables.get(position).getImgRes());
+        viewHolder.mImageView.setImageBitmap(ApplyTableManager.getImageFromAssetsFile(MyApp.app,mTables.get(position).getImgRes()));
         viewHolder.mTextView.setText(mTables.get(position).getName());
         return view;
     }

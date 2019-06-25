@@ -132,4 +132,16 @@
     </style>
 
     <dimen name="line">1dp</dimen>
+
+    <style name="TaskDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsTranslucent">true</item><!-- 半透明 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimAmount">0.1</item><!-- 背景模糊的透明度 数值越小越透明-->
+        <item name="android:windowIsFloating">true</item><!-- 浮现在Activity之上 -->
+        <item name="windowNoTitle">true</item><!-- 无标题 -->
+        <item name="android:windowAnimationStyle">@null</item><!-- 进入和退出动画 -->
+    </style>
+
 </resources>

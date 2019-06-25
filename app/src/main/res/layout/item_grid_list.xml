@@ -9,8 +9,7 @@
         android:id="@+id/iv_channel_logo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="5dp"
-        android:src="@drawable/shouye_anniu_tjsb_android" />
+        android:padding="5dp"/>
 
     <TextView
         android:id="@+id/tv_channel_name"

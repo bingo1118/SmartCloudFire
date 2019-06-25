@@ -56,7 +56,6 @@ public class ElectricActivityAdapterTest extends RecyclerView.Adapter<RecyclerVi
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.electricList = electricList;
-        this.mContext = mContext;
         this.electricPresenter = electricPresenter;
     }
 

@@ -6,6 +6,10 @@ package com.smart.cloud.fire.utils;
 
 import android.util.Log;
 
+import com.smart.cloud.fire.activity.UploadNFCInfo.FileUtil;
+import com.smart.cloud.fire.activity.UploadNFCInfo.FormFile;
+import com.smart.cloud.fire.global.ConstantValues;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +18,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -114,6 +120,27 @@ public class UploadUtil {
             return null;
         }
         return result;
+    }
+
+
+    public static boolean uploadFile(File imageFile,String userId,String areaId,String uploadtime,String mac,String location) {
+        try {
+            String requestUrl = ConstantValues.SERVER_IP_NEW+"UploadFileAction";
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("username", userId);
+            params.put("areaId", areaId);
+            params.put("time", uploadtime);
+//            params.put("mac", mac);
+            params.put("location", location);
+            FormFile formfile = new FormFile(imageFile.getName(), imageFile, "image", "application/octet-stream");
+            FileUtil.post(requestUrl, params, formfile);
+            System.out.println("Success");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Fail");
+            return false;
+        }
     }
 }
 

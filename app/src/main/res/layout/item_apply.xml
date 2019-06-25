@@ -9,8 +9,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/shouye_anniu_tjsb_android" />
+        android:layout_marginTop="16dp"/>
 
 
     <TextView

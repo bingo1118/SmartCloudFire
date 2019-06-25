@@ -14,6 +14,7 @@ package com.smart.cloud.fire.ui.view;
     import android.util.AttributeSet;
     import android.util.TypedValue;
     import android.view.View;
+    import android.view.animation.DecelerateInterpolator;
     import android.view.animation.OvershootInterpolator;
 
     import fire.cloud.smart.com.smartcloudfire.R;
@@ -325,7 +326,7 @@ public class CircleProgressBar extends View {
                     invalidate();
                 }
             });
-            animator.setInterpolator(new OvershootInterpolator());
+            animator.setInterpolator(new DecelerateInterpolator());//插值器
             animator.setDuration(5000);
             animator.start();
         }

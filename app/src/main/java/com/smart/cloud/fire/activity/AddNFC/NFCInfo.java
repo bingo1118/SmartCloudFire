@@ -25,6 +25,12 @@ public class NFCInfo {
     String workerPhone;//巡检人账号
     String makeAddress;//生产地址
 
+    private String pid; //属于哪个巡检点
+
+    private String tid;//属于哪次任务
+    private String ischeck; //是否检查
+    private String qualified; //是否合格
+
     public String getMakeAddress() {
         return makeAddress;
     }

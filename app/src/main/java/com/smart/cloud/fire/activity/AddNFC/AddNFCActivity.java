@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.activity.AddNFC;
 
+import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -137,6 +138,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
 
     String getDate;
     int fromOrto=0;
+    boolean canNFC=true;//设备是否支持NFC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +154,7 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter==null) {
             toast("设备不支持NFC功能");
+            canNFC=false;
             return;
         }
         init();
@@ -229,29 +232,6 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
             @Override
             public void call(Void aVoid) {
                 addFire();
-//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
-//                String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+addFireMac.getText().toString().trim();
-//                StringRequest stringRequest = new StringRequest(url,
-//                        new Response.Listener<String>() {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                if(response.equals("0")){
-//                                    if(isAddInfo){
-//                                        addFire();
-//                                    }else{
-//                                        addFire2();
-//                                    };
-//                                }else{
-//                                    T.showShort(mContext,"该标签未入库");
-//                                }
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.e("TAG", error.getMessage(), error);
-//                    }
-//                });//@@11.20
-//                mQueue.add(stringRequest);
             }
         });
         nfcInfo=new NFCInfo();
@@ -283,14 +263,6 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
                                              enableNdefExchangeMode();
                                          }
                                      });
-//        alertDialog=new AlertDialog.Builder(this).setTitle("接触标签进行写入操作")
-//                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-//                    @Override
-//                    public void onCancel(DialogInterface dialog) {
-//                        disableTagWriteMode();
-//                        enableNdefExchangeMode();
-//                    }
-//                }).create();
         alertDialog=builder.create();
         alertDialog.show();
     }
@@ -399,6 +371,10 @@ public class AddNFCActivity extends MvpActivity<AddNFCPresenter> implements AddN
         switch (view.getId()) {
             case R.id.scan_er_wei_ma:
                 // Write to a tag for as long as the dialog is shown.
+                if(!canNFC){
+                    T.showShort(mContext,"设备不支持NFC");
+                    return;
+                }
                 disableTagWriteMode();
                 enableNdefExchangeMode();
 

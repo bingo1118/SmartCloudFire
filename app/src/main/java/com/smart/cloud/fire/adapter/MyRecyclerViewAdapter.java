@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
+import com.smart.cloud.fire.activity.Functions.util.ApplyTableManager;
 import com.smart.cloud.fire.global.ItemBean;
+import com.smart.cloud.fire.global.MyApp;
 
 import java.util.List;
 
@@ -71,7 +73,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ApplyTable bean = mList.get(position);
-        holder.imageView.setBackgroundResource(bean.getImgRes());
+        holder.imageView.setImageBitmap(ApplyTableManager.getImageFromAssetsFile(MyApp.app,bean.getImgRes()));
         holder.title.setText(bean.getName());
     }
 

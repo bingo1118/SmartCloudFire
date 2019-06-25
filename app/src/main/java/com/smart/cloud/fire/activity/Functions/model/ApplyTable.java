@@ -1,5 +1,7 @@
 package com.smart.cloud.fire.activity.Functions.model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -10,7 +12,7 @@ public class ApplyTable implements Serializable {
     private String id;
     private boolean fixed;//点击是否可以进行增删
     private int index;//控件的初始位置，可以用于判断长按是否可以拖拽
-    private int imgRes;//显示的图片
+    private String imgRes;//显示的图片的名称
     private int state;//是否处于头部的状态,0：在头部，1：不在头部
 
     public ApplyTable() {
@@ -21,7 +23,7 @@ public class ApplyTable implements Serializable {
     }
 
     public ApplyTable(String name, String id,
-                      int index, boolean fixed, int imgRes, int state) {
+                      int index, boolean fixed, String imgRes, int state) {
         this.name = name;
         this.id = id;
         this.fixed = fixed;
@@ -62,11 +64,11 @@ public class ApplyTable implements Serializable {
         this.index = index;
     }
 
-    public int getImgRes() {
+    public String getImgRes() {
         return imgRes;
     }
 
-    public void setImgRes(int imgRes) {
+    public void setImgRes(String imgRes) {
         this.imgRes = imgRes;
     }
 

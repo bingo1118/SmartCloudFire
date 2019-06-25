@@ -234,6 +234,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
                     }
                     break;
+                case 99://南京温湿度
                 case 79://南京温湿度
                 case 26://万科温湿度
                 case 25:
@@ -264,6 +265,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                     break;
                 case 124:
+                case 101://南京防爆水位
+                case 98://南京普通水位
                 case 95:
                 case 85:
                 case 69:
@@ -342,6 +345,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.ranqi);
                     break;
                 case 125:
+                case 100://南京防爆水压
+                case 97://南京普通水压
                 case 94:
                 case 78:
                 case 70:

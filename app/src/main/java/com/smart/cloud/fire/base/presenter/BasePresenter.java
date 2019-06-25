@@ -9,6 +9,7 @@ import android.content.Context;
 import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.global.Area;
 import com.smart.cloud.fire.global.ConstantValues;
+import com.smart.cloud.fire.global.Point;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.State;
 import com.smart.cloud.fire.retrofit.ApiStores;
@@ -25,7 +26,9 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class BasePresenter<V> implements Presenter<V> {
-        public V mvpView;
+
+
+    public V mvpView;
         public ApiStores[] apiStores = {AppClient.retrofit(ConstantValues.SERVER_YOOSEE_IP_ONE).create(ApiStores.class),
                 AppClient.retrofit(ConstantValues.SERVER_YOOSEE_IP_TWO).create(ApiStores.class),
                 AppClient.retrofit(ConstantValues.SERVER_YOOSEE_IP_TWO).create(ApiStores.class),
@@ -64,6 +67,11 @@ public class BasePresenter<V> implements Presenter<V> {
 
     @Override
     public void getNFCDeviceType(NFCDeviceType nfcDeviceType) {
+
+    }
+
+    @Override
+    public void getPoint(Point point) {
 
     }
 

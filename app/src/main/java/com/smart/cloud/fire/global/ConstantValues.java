@@ -27,7 +27,7 @@ import java.util.Map;
 //    public static final String SERVER_IP_NEW ="http://193.112.231.227:51091/vanke/";
 
     //2018正式新IP:139.199.58.208
-//    public static final String SERVER_IP_NEW ="http://139.199.58.208:80/vanke/";
+    public static final String SERVER_IP_NEW ="http://139.199.58.208:80/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://192.168.4.88:51091/fireSystem/";
     //测试IP:
     public static final String SERVER_IP_NEW_TEST="http://119.29.224.28:51090/fireSystem/";
@@ -35,7 +35,7 @@ import java.util.Map;
 //    public static final String SERVER_IP_NEW ="http://193.112.59.214:51091/fireSystem/";
     //正式IP:
 //    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
-    public static final String SERVER_IP_NEW ="http://119.29.155.148:51999/fireSystem/";
+//    public static final String SERVER_IP_NEW ="http://119.29.155.148:51999/fireSystem/";
     //正式2.0版本:
 //    public static final String SERVER_IP_NEW ="http://193.112.215.201:51091/fireSystem/";
     // 聊城IP:
@@ -46,7 +46,7 @@ import java.util.Map;
 //    public static final String SERVER_IP_NEW ="http://192.168.0.188:8080/fireSystem/";
 
     public static boolean isThe148Service(){
-        if(SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
+        if(SERVER_IP_NEW.contains("119.29.155.148")){
             return true;
         }else {
             return false;

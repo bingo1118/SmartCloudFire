@@ -442,6 +442,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     break;
+                case 99://南京温湿度
                 case 79://南京温湿度
                 case 26://万科温湿度
                 case 25://温湿度传感器
@@ -565,6 +566,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
                     break;
                 case 125:
+                case 100://南京防爆水压
+                case 97://南京普通水压
                 case 94://金特莱南京水压
                 case 78:
                 case 70:
@@ -629,6 +632,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
                     break;
                 case 124:
+                case 101://南京防爆水位
+                case 98://南京普通水位
                 case 95://金特莱南京水位
                 case 69:
                 case 85:

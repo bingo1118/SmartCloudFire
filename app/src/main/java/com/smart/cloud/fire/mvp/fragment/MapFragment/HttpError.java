@@ -3,6 +3,9 @@ package com.smart.cloud.fire.mvp.fragment.MapFragment;
 import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.global.ElectricInfo;
+import com.smart.cloud.fire.global.InspectionTask;
+import com.smart.cloud.fire.global.NFCInfoEntity;
+import com.smart.cloud.fire.global.Point;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.mvp.electricChangeHistory.HistoryBean;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
@@ -36,6 +39,9 @@ public class HttpError<T> {
 
     private ArrayList<NFCDeviceType> deviceType;//@@8.16 NFC设备类型
     private ArrayList<NFCRecordBean> nfcList;//@@8.16 NFC设备
+    private ArrayList<Point> points;//巡检点
+    private ArrayList<NFCInfoEntity> nfcinfos;//巡检项目
+    private ArrayList<InspectionTask> tasks;//巡检项目
 
     public List<WiredSmokeHistory> getalarm() {
         return alarm;
@@ -141,5 +147,29 @@ public class HttpError<T> {
 
     public void setEleList(List<HistoryBean> eleList) {
         this.eleList = eleList;
+    }
+
+    public ArrayList<Point> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<Point> points) {
+        this.points = points;
+    }
+
+    public ArrayList<NFCInfoEntity> getNfcinfos() {
+        return nfcinfos;
+    }
+
+    public void setNfcinfos(ArrayList<NFCInfoEntity> nfcinfos) {
+        this.nfcinfos = nfcinfos;
+    }
+
+    public ArrayList<InspectionTask> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<InspectionTask> tasks) {
+        this.tasks = tasks;
     }
 }

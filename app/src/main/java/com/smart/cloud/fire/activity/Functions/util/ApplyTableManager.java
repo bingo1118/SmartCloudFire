@@ -1,15 +1,18 @@
 package com.smart.cloud.fire.activity.Functions.util;
 
 
-import com.smart.cloud.fire.activity.Functions.constant.Constant;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
 import com.smart.cloud.fire.global.MyApp;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import fire.cloud.smart.com.smartcloudfire.R;
 
 public class ApplyTableManager {
     private static int[] fixed = new int[]{0, 1};
@@ -20,42 +23,33 @@ public class ApplyTableManager {
      * @return
      */
     public static List<ApplyTable> loadNewsChannelsMore(int privilege) {
-//        List<String> channelName = Arrays.asList(MyApp.app.getResources().getStringArray(R.array.all_apply_name));
-//        List<String> channelId = Arrays.asList(MyApp.app.getResources().getStringArray(R.array.all_apply_id));
-//        List<Integer> channelImgRes = new ArrayList<Integer>();
-//        channelImgRes.add(R.drawable.shouye_anniu_tjsb_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_sxcs_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_zddw_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_dqfh_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_xfwl_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_spjk_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_wbxt_android);
-//        if(privilege!=51){
-//            channelImgRes.add(R.drawable.shouye_anniu_zjgl);
-//        }
-//        ArrayList<ApplyTable> newsChannelTables = new ArrayList<>();
-//        for (int i = 0; i < channelName.size(); i++) {
-//            ApplyTable entity = new ApplyTable(
-//                    channelName.get(i),
-//                    channelId.get(i),
-//                    i,
-//                    isFixed(i),
-//                    channelImgRes.get(i),
-//                    i < 8 ? 0 : 1);
-//            newsChannelTables.add(entity);
-//        }
+
         ArrayList<ApplyTable> newsChannelTables = new ArrayList<>();
-        newsChannelTables.add(new ApplyTable("添加设备","0", 0, isFixed(0), R.drawable.shouye_anniu_tjsb_android, 0));
-        newsChannelTables.add(new ApplyTable("重点单位","1", 1, isFixed(1), R.drawable.shouye_anniu_sxcs_android, 0));
-        newsChannelTables.add(new ApplyTable("传输装置","2", 2, isFixed(2), R.drawable.shouye_anniu_zddw_android, 0));
-        newsChannelTables.add(new ApplyTable("电气防火","3", 3, isFixed(3), R.drawable.shouye_anniu_dqfh_android, 0));
-        newsChannelTables.add(new ApplyTable("消防物联","4", 4, isFixed(4), R.drawable.shouye_anniu_xfwl_android, 0));
-        newsChannelTables.add(new ApplyTable("视频监控","5", 5, isFixed(5), R.drawable.shouye_anniu_zddw_android, 0));
-        newsChannelTables.add(new ApplyTable("维保系统","6", 6, isFixed(6), R.drawable.shouye_anniu_xfwl_android, 0));
+        newsChannelTables.add(new ApplyTable("添加设备","0", 0, isFixed(0),"tjsb.png", 0));
+        newsChannelTables.add(new ApplyTable("重点单位","1", 1, isFixed(1),"sxcs.png", 0));
+        newsChannelTables.add(new ApplyTable("传输装置","2", 2, isFixed(2),"zddw.png", 0));
+        newsChannelTables.add(new ApplyTable("电气防火","3", 3, isFixed(3), "dqfh.png", 0));
+        newsChannelTables.add(new ApplyTable("消防物联","4", 4, isFixed(4),  "xfwl.png", 0));
+        newsChannelTables.add(new ApplyTable("视频监控","5", 5, isFixed(5),  "spjk.png", 0));
+        newsChannelTables.add(new ApplyTable("维保系统","6", 6, isFixed(6),  "wbxt.png", 0));
+        newsChannelTables.add(new ApplyTable("巡检系统","8", 8, isFixed(8), "xunjian.png", 0));
         if(privilege!=51){
-            newsChannelTables.add(new ApplyTable("主机管理","7", 7, isFixed(7), R.drawable.shouye_anniu_zddw_android, 0));
+            newsChannelTables.add(new ApplyTable("主机管理","7", 7, isFixed(7), "zjgl.png", 0));
         }
         return newsChannelTables;
+    }
+
+    public static Bitmap getImageFromAssetsFile(Context context, String fileName) {
+        Bitmap image = null;
+        AssetManager am = context.getResources().getAssets();
+        try {
+            InputStream is = am.open(fileName);
+            image = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
     /**
@@ -65,33 +59,18 @@ public class ApplyTableManager {
      */
 
     public static List<ApplyTable> loadNewsChannelsStatic(int privilege) {
-//        List<String> channelName = Arrays.asList(MyApp.app.getResources().getStringArray(R.array.all_apply_name_s));
-//        System.out.println(channelName);
-//        List<String> channelId = Arrays.asList(MyApp.app.getResources().getStringArray(R.array.all_apply_id_s));
-//        List<Integer> channelImgRes = new ArrayList<Integer>();
-//        channelImgRes.add(R.drawable.shouye_anniu_tjsb_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_sxcs_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_zddw_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_dqfh_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_xfwl_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_spjk_android);
-//        channelImgRes.add(R.drawable.shouye_anniu_wbxt_android);
-//        if(privilege!=51){
-//            channelImgRes.add(R.drawable.shouye_anniu_zjgl);
-//        }
-
         ArrayList<ApplyTable> newsChannelTables = new ArrayList<>();
-        newsChannelTables.add(new ApplyTable("添加设备","0", 0, isFixed(0), R.drawable.shouye_anniu_tjsb_android, 0));
-        newsChannelTables.add(new ApplyTable("重点单位","1", 1, isFixed(1), R.drawable.shouye_anniu_sxcs_android, 0));
-        newsChannelTables.add(new ApplyTable("传输装置","2", 2, isFixed(2), R.drawable.shouye_anniu_zddw_android, 0));
-        newsChannelTables.add(new ApplyTable("电气防火","3", 3, isFixed(3), R.drawable.shouye_anniu_dqfh_android, 0));
-        newsChannelTables.add(new ApplyTable("消防物联","4", 4, isFixed(4), R.drawable.shouye_anniu_xfwl_android, 0));
-        newsChannelTables.add(new ApplyTable("视频监控","5", 5, isFixed(5), R.drawable.shouye_anniu_zddw_android, 0));
-        newsChannelTables.add(new ApplyTable("维保系统","6", 6, isFixed(6), R.drawable.shouye_anniu_xfwl_android, 0));
+        newsChannelTables.add(new ApplyTable("添加设备","0", 0, isFixed(0),"tjsb.png", 0));
+        newsChannelTables.add(new ApplyTable("重点单位","1", 1, isFixed(1),"sxcs.png", 0));
+        newsChannelTables.add(new ApplyTable("传输装置","2", 2, isFixed(2),"zddw.png", 0));
+        newsChannelTables.add(new ApplyTable("电气防火","3", 3, isFixed(3), "dqfh.png", 0));
+        newsChannelTables.add(new ApplyTable("消防物联","4", 4, isFixed(4),  "xfwl.png", 0));
+        newsChannelTables.add(new ApplyTable("视频监控","5", 5, isFixed(5),  "spjk.png", 0));
+        newsChannelTables.add(new ApplyTable("维保系统","6", 6, isFixed(6),  "wbxt.png", 0));
+        newsChannelTables.add(new ApplyTable("巡检系统","8", 8, isFixed(8), "xunjian.png", 0));
         if(privilege!=51){
-            newsChannelTables.add(new ApplyTable("主机管理","7", 7, isFixed(7), R.drawable.shouye_anniu_zddw_android, 0));
+            newsChannelTables.add(new ApplyTable("主机管理","7", 7, isFixed(7), "zjgl.png", 0));
         }
-
         return newsChannelTables;
     }
 

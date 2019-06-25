@@ -1,6 +1,5 @@
 package com.smart.cloud.fire.mvp.main;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +33,7 @@ import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
 import com.smart.cloud.fire.activity.Functions.util.ACache;
 import com.smart.cloud.fire.activity.Functions.util.ApplyTableManager;
 import com.smart.cloud.fire.activity.Host.HostActivity;
+import com.smart.cloud.fire.activity.Inspection.PointList.PointListActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCDevActivity;
 import com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity;
 import com.smart.cloud.fire.activity.Setting.MyZoomActivity;
@@ -41,7 +41,6 @@ import com.smart.cloud.fire.activity.WiredDev.WiredDevActivity;
 import com.smart.cloud.fire.adapter.MyRecyclerViewAdapter;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
-import com.smart.cloud.fire.global.ItemBean;
 import com.smart.cloud.fire.global.MainService;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.SafeScore;
@@ -63,7 +62,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -137,7 +135,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
             ACache.get(MyApp.app).put(Constant.APPLY_MINE,list);
         }
         if(privilege==31||privilege==32||privilege==4||privilege==6||privilege==61||privilege==7){
-            ApplyTable editModel=new ApplyTable("更多功能","11",11,false,R.drawable.shouye_bianji,1);
+            ApplyTable editModel=new ApplyTable("更多功能","11",11,false, "bianji.png",1);
             list.add(editModel);
             scan_btn.setVisibility(View.VISIBLE);
             circleProgressBar.setVisibility(View.VISIBLE);
@@ -185,6 +183,10 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                         break;
                     case 7:
                         intent= new Intent(mContext, HostActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 8:
+                        intent=new Intent(mContext, PointListActivity.class);
                         startActivity(intent);
                         break;
                     case 11:
@@ -377,7 +379,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                             if(response.getInt("errorCode")==0){
                                 circleProgressBar.setProgress(response.getInt("safeScore"), true);
                             }
-                            T.showShort(mContext,response.getString("error"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

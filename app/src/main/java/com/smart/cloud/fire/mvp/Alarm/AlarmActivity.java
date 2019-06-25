@@ -151,10 +151,15 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
      * 根据推送过来的PushAlarmMsg对象填充数据。。
      */
     private void init() {
-        final String uploadpeople=mPushAlarmMsg.getUploadpeople();
+        String uploadpeople=null;
+        if(mPushAlarmMsg!=null){
+            uploadpeople=mPushAlarmMsg.getUploadpeople();
+        }
+
         if(uploadpeople!=null&&uploadpeople.length()>0){
             alarm_tb_image.setImageResource(R.drawable.upload_alarm);
             makesure_getalarm.setVisibility(View.VISIBLE);
+            String finalUploadpeople = uploadpeople;
             makesure_getalarm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -163,7 +168,7 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                     String userid= SharedPreferencesManager.getInstance().getData(mContext,
                             SharedPreferencesManager.SP_FILE_GWELL,
                             SharedPreferencesManager.KEY_RECENTNAME);
-                    String url= ConstantValues.SERVER_IP_NEW+"makeSureGetUpload?userId="+userid+"&uploadpeolpe="+uploadpeople;
+                    String url= ConstantValues.SERVER_IP_NEW+"makeSureGetUpload?userId="+userid+"&uploadpeolpe="+ finalUploadpeople;
                     StringRequest stringRequest = new StringRequest(url,
                             new Response.Listener<String>() {
                                 @Override

@@ -131,6 +131,31 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getNFCDeviceTypeId();
 
+    //获取所有的巡检点类型
+    @GET("getPoints")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getPoints(@Query("userId") String userId, @Query("areaId") String areaId);
+
+    //获取所有的巡检任务
+    @GET("getTasks")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getTasks(@Query("userId") String userId);
+
+    //获取所有的巡检点下的巡检项目
+    @GET("getItemsByPid")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getItemsByPid(@Query("pid") String pid);
+
+    //获取用户名下的巡检项目
+    @GET("getAllItems")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getAllItems(@Query("userId") String userid);
+
+    //获取所有的巡检点下的巡检项目
+    @GET("getItems")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getItems(@Query("tid") String pid);
+
     //获取所有的区域类型
     @GET("getAreaId")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -412,6 +437,28 @@ public interface ApiStores {
                                         @Field("producer") String producer,
                                         @Field("makeTime") String makeTime,@Field("workerPhone") String workerPhone,
                                         @Field("makeAddress") String makeAddress);
+
+    //添加巡检项目
+    @FormUrlEncoded
+    @POST("addNFCInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ConfireFireModel> addNFCInfo(@Field("userId") String userId, @Field("privilege") String privilege,
+                                        @Field("smokeName") String smokeName, @Field("uid") String uid,
+                                        @Field("address") String address, @Field("longitude") String longitude,
+                                        @Field("latitude") String latitude,
+                                        @Field("deviceType") String deviceType,@Field("areaId") String areaId,
+                                        @Field("producer") String producer,
+                                        @Field("makeTime") String makeTime,@Field("memo") String memo,
+                                        @Field("makeAddress") String makeAddress,@Field("pid") String pid);
+
+    //修改巡检项目
+    @FormUrlEncoded
+    @POST("updateItemInfo")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ConfireFireModel> updateItemInfo(@Field("userId") String userId,
+                                            @Field("smokeName") String smokeName, @Field("uid") String uid,
+                                            @Field("address") String address,
+                                            @Field("deviceType") String deviceType,@Field("memo") String memo);
 
     //获取NFC
     @GET("getNFCInfo")

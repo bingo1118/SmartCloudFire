@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.smart.cloud.fire.activity.Functions.callback.ItemDragHelperCallback;
 import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
+import com.smart.cloud.fire.activity.Functions.util.ApplyTableManager;
+import com.smart.cloud.fire.global.MyApp;
 
 import java.util.Collections;
 import java.util.List;
@@ -87,7 +89,7 @@ public class ApplyAdapter extends RecyclerView.Adapter<ApplyAdapter.ChannelViewH
     public void onBindViewHolder(ChannelViewHolder holder, int position) {
         ApplyTable table = mTables.get(position);
         holder.mTextView.setText(table.getName());
-        holder.mImageView.setImageResource(table.getImgRes());
+        holder.mImageView.setImageBitmap(ApplyTableManager.getImageFromAssetsFile(MyApp.app,table.getImgRes()));
         handleOnClick(holder, table);//设置点击监听
         handleLongPress(holder, table);//设置长按监听
     }

@@ -37,6 +37,7 @@ import com.smart.cloud.fire.retrofit.ApiStores;
 import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
+import com.smart.cloud.fire.ui.TaskDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.TimeFormat;
@@ -64,6 +65,7 @@ public class DemoIntentService extends GTIntentService {
     public void onReceiveServicePid(Context context, int i) {
 
     }
+
 
     @Override
     public void onReceiveClientId(Context context, String cid) {
@@ -101,6 +103,12 @@ public class DemoIntentService extends GTIntentService {
             int alarm =0;
             if(dataJson.has("alarmType")){
                 alarm = dataJson.getInt("alarmType");
+            }
+            if(alarm==241){//临时任务推送
+                Intent intent=new Intent(context, TaskDialogActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                return;
             }
             if(alarm==80){
                 Intent wiredIntent = new Intent(context, WorkingTimeActivity.class);
@@ -175,6 +183,11 @@ public class DemoIntentService extends GTIntentService {
                 case 93:
                 case 94:
                 case 95:
+                case 97:
+                case 98:
+                case 99:
+                case 100:
+                case 101:
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -195,6 +208,7 @@ public class DemoIntentService extends GTIntentService {
                         case 111:
                             message="主机处于备电状态";
                             break;
+                        case 99:
                         case 79:
                         case 26:
                         case 25:
@@ -278,6 +292,8 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 124:
+                        case 101://南京防爆水位
+                        case 98://南京普通水位
                         case 95:
                         case 85:
                         case 69:
@@ -394,6 +410,8 @@ public class DemoIntentService extends GTIntentService {
                             }
                             break;
                         case 125:
+                        case 100://南京防爆水压
+                        case 97://南京普通水压
                         case 94:
                         case 78:
                         case 70:

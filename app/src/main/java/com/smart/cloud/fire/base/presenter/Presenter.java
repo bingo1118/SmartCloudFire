@@ -2,6 +2,7 @@ package com.smart.cloud.fire.base.presenter;
 
 import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.global.Area;
+import com.smart.cloud.fire.global.Point;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.global.State;
 
@@ -29,5 +30,7 @@ public interface Presenter<V> {
     void getState(State state);
 
     void getNFCDeviceType(NFCDeviceType nfcDeviceType);
+
+    void getPoint(Point point);
 
 }

@@ -34,11 +34,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.autofocus" />
-
 
     <supports-screens
         android:anyDensity="true"
@@ -278,7 +277,7 @@
         <activity android:name="com.smart.cloud.fire.activity.WebServer.WebServerActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.main.Main3Activity" />
         <activity android:name="com.smart.cloud.fire.activity.Functions.FunctionsActivity" />
-        <activity android:name="com.smart.cloud.fire.mvp.BigDataDetail.BigDataDetailActivity"></activity>
+        <activity android:name="com.smart.cloud.fire.mvp.BigDataDetail.BigDataDetailActivity" />
         <activity
             android:name="com.hikvision.open.app.PreviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -294,6 +293,22 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/voice_talk"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name="com.smart.cloud.fire.activity.Inspection.PointList.PointListActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.AddInspectionNFCItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name="com.smart.cloud.fire.activity.Inspection.ItemsList.ItemsListActivity" />
+        <activity android:name="com.smart.cloud.fire.activity.Inspection.TaskList.TaskListActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.AddInspectionNormalItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.UploadInspectionInfo.UploadInspectionInfoActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.smart.cloud.fire.ui.TaskDialogActivity"
+            android:theme="@style/TaskDialogStyle" />
+        <activity android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.UpdateItemInfoActivity"></activity>
     </application>
 
 </manifest>

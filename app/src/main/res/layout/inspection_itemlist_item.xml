@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/nfc_devinfo_shape">
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/action_color"
+        android:layout_margin="8dp"
+        android:textStyle="bold"
+        android:text="PointName"/>
+
+    <TextView
+        android:id="@+id/state_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name_tv"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/blue"
+        android:textStyle="bold"
+        android:text="合格"/>
+
+    <Button
+        android:id="@+id/turn_to_insp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/turn_to_insp_selector"/>
+
+    <Button
+        android:id="@+id/turn_to_update"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:background="@drawable/update_info"/>
+
+
+    <TextView
+        android:id="@+id/id_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/state_tv"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="ID:"
+        android:textColor="@color/dialog_back_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/worker_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_alignLeft="@id/id_tv"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/id_tv"
+        android:textColor="@color/dialog_back_color"
+        android:text="巡检人:"/>
+</RelativeLayout>
