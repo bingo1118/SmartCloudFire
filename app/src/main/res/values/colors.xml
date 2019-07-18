@@ -108,4 +108,7 @@
 
     <!-- 回放，TimeBar底部可播放时间区域显示颜色 -->
     <color name="playback_timebar_color">#2e78c2</color>
+
+
+    <color name="task_select">#b37e42</color>
 </resources>

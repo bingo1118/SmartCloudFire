@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/inspection_back">
 
     <RelativeLayout
+        android:id="@+id/title_rela"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
         android:background="@color/inspection_back">
@@ -24,7 +24,7 @@
             android:textSize="18sp" />
 
         <ImageButton
-            android:id="@+id/more"
+            android:id="@+id/select_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
@@ -32,8 +32,7 @@
             android:layout_margin="10dp"
             android:layout_marginRight="5dp"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:background="@drawable/tab_more"/>
+            android:background="@drawable/select_task"/>
     </RelativeLayout>
 
 
@@ -42,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
+        android:layout_below="@id/title_rela"
         android:scrollbars="vertical"
         >
         <android.support.v7.widget.RecyclerView
@@ -53,6 +53,189 @@
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <RelativeLayout
+        android:id="@+id/select_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ede1d0"
+        android:layout_below="@id/title_rela"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/task_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="类型:"/>
+
+        <com.smart.cloud.fire.view.MyRadioGroup
+            android:id="@+id/task_type_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/task_type">
+                <RadioButton
+                    android:id="@+id/task_type0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="普通任务"
+                    android:textSize="16sp"
+                    />
+                <RadioButton
+                    android:id="@+id/task_type1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="临时任务"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/task_type0"/>
+                <RadioButton
+                    android:id="@+id/task_type2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="周任务"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/task_type1"/>
+                <RadioButton
+                    android:id="@+id/task_type3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="月任务"
+                    android:textSize="16sp"
+                    android:layout_below="@id/task_type0"/>
+                <RadioButton
+                    android:id="@+id/task_type4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="年任务"
+                    android:textSize="16sp"
+                    android:layout_below="@id/task_type0"
+                    android:layout_alignLeft="@+id/task_type1"/>
+        </com.smart.cloud.fire.view.MyRadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_color_gray"
+            android:layout_below="@+id/task_type_rg"/>
+
+        <TextView
+            android:id="@+id/task_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="状态:"
+            android:layout_below="@+id/task_type_rg"/>
 
 
-</LinearLayout>
+        <com.smart.cloud.fire.view.MyRadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:id="@+id/task_state_rg"
+            android:layout_toRightOf="@id/task_state"
+            android:layout_below="@+id/task_type_rg">
+
+                <RadioButton
+                    android:id="@+id/task_state0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未完成"
+                    android:textSize="16sp"/>
+                <RadioButton
+                    android:id="@+id/task_state1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已完成"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/task_state0"/>
+                <RadioButton
+                    android:id="@+id/task_state2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已超时"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/task_state1"/>
+        </com.smart.cloud.fire.view.MyRadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_color_gray"
+            android:layout_below="@id/task_state_rg"/>
+
+        <TextView
+            android:id="@+id/starttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:text="起始时间:"
+            android:textColor="#000"
+            android:layout_below="@id/task_state_rg"/>
+        <TextView
+            android:id="@+id/starttime_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击选择起始时间"
+            android:paddingTop="10dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/starttime"
+            android:layout_below="@id/task_state_rg"/>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_color_gray"
+            android:layout_below="@id/starttime"/>
+
+        <TextView
+            android:id="@+id/endtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:text="结束时间:"
+            android:textColor="#000"
+            android:layout_below="@id/starttime"/>
+
+        <TextView
+            android:id="@+id/endtime_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击选择结束时间"
+            android:paddingTop="10dp"
+            android:textSize="14sp"
+            android:layout_below="@id/starttime"
+            android:layout_toRightOf="@id/endtime"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_color_gray"
+            android:layout_below="@id/endtime"/>
+
+        <TextView
+            android:id="@+id/commit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textSize="12sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/task_select_btn_shape"
+            android:layout_below="@id/endtime"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

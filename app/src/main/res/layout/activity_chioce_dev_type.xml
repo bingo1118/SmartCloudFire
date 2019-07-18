@@ -14,11 +14,14 @@
         android:gravity="center"
         android:textSize="18sp"
         />
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/title_tv"
-        android:background="@drawable/tianjia_bj">
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title_tv"
+            android:background="@drawable/tianjia_bj">
         <TextView
             android:id="@+id/chioce_text"
             android:layout_width="match_parent"
@@ -44,25 +47,25 @@
                 android:padding="20dp"
                 android:background="#fff"
                 android:layout_margin="5dp">
-            <ImageButton
-                android:id="@+id/sdsr_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:background="@drawable/tianjia_shoudong"/>
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="手动添加"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fff"
-                android:padding="10dp"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:background="@drawable/corner_blue"/>
+                <ImageButton
+                    android:id="@+id/sdsr_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/tianjia_shoudong"/>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="手动添加"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#fff"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_blue"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/smsr_lin"
@@ -74,25 +77,25 @@
                 android:padding="20dp"
                 android:background="#fff"
                 android:layout_margin="5dp">
-            <ImageButton
-                android:id="@+id/smsr_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:background="@drawable/tianjia_saoma"/>
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="扫码添加"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fff"
-                android:padding="10dp"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:background="@drawable/corner_blue"/>
+                <ImageButton
+                    android:id="@+id/smsr_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/tianjia_saoma"/>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="扫码添加"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#fff"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_blue"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/spjk_lin"
@@ -155,7 +158,40 @@
                     android:layout_gravity="center"
                     android:background="@drawable/corner_blue"/>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/yongchuang_lin"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/spjk_lin"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="#fff"
+                android:layout_margin="5dp">
+                <ImageButton
+                    android:id="@+id/yongchuan_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/yongchuan"/>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="传输装置"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#fff"
+                    android:padding="10dp"
+                    android:layout_margin="15dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_blue"/>
+            </LinearLayout>
         </RelativeLayout>
-    </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
 
 </RelativeLayout>

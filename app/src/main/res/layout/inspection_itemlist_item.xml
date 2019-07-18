@@ -47,6 +47,16 @@
         android:visibility="gone"
         android:background="@drawable/update_info"/>
 
+    <Button
+        android:id="@+id/modify"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:background="@drawable/modify_insp"/>
+
 
     <TextView
         android:id="@+id/id_tv"

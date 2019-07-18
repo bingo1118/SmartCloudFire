@@ -49,7 +49,7 @@ public class MainThread {
     private UpdateInfo mUpdateInfo = new UpdateInfo();
     public int checkUpdate(long last_check_update_time) {
         try {
-            if(!ConstantValues.SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
+            if(!ConstantValues.SERVER_IP_NEW.contains("http://119.29.155.148")){
                 return 1;
             }
             long now_time = System.currentTimeMillis();
@@ -100,7 +100,7 @@ public class MainThread {
                         if(last_check_update_time!=-1&&serverCode.equals(SharedPreferencesManager.getInstance().getData(mContext,"ignoreVersion"))){
                             return 1;//@@7.12
                         }
-                        if(ConstantValues.SERVER_IP_NEW.equals("http://119.29.155.148:51091/fireSystem/")){
+                        if(ConstantValues.SERVER_IP_NEW.contains("http://119.29.155.148")){
                             Intent i = new Intent("Constants.Action.ACTION_UPDATE");
                             i.putExtra("url", mUpdateInfo.url);
                             i.putExtra("message", mUpdateInfo.message);

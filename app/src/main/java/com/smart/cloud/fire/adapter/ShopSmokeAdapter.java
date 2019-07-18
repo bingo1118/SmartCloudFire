@@ -366,6 +366,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 96://南京防爆燃气
                 case 73://南京7020燃气
                 case 72://防爆燃气
                     if (netStates == 0) {//设备不在线。。
@@ -461,6 +462,47 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             intent.putExtra("Position",normalSmoke.getName());
                             intent.putExtra("devType",normalSmoke.getDeviceType()+"");
                             mContext.startActivity(intent);
+                        }
+                    });
+                    break;
+                case 102:
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("声光报警器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final ProgressDialog dialog1 = new ProgressDialog(mContext);
+                            dialog1.setTitle("提示");
+                            dialog1.setMessage("设置中，请稍候");
+                            dialog1.setCanceledOnTouchOutside(false);
+                            dialog1.show();
+                            String userid= SharedPreferencesManager.getInstance().getData(mContext,
+                                    SharedPreferencesManager.SP_FILE_GWELL,
+                                    SharedPreferencesManager.KEY_RECENTNAME);
+                            ApiStores apiStores1 = AppClient.retrofit(ConstantValues.SERVER_IP_NEW).create(ApiStores.class);
+                            Call<HttpError> call=apiStores1.nanjing_jiade_cancel(normalSmoke.getMac(),normalSmoke.getDeviceType()+"","2");
+                            if (call != null) {
+                                call.enqueue(new Callback<HttpError>() {
+                                    @Override
+                                    public void onResponse(Call<HttpError> call, retrofit2.Response<HttpError> response) {
+                                        T.showShort(mContext,response.body().getError()+"");
+                                        dialog1.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<HttpError> call, Throwable t) {
+                                        T.showShort(mContext,"失败");
+                                        dialog1.dismiss();
+                                    }
+                                });
+                            }
                         }
                     });
                     break;
@@ -588,7 +630,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater","1");//@@是否为水压
-                            intent.putExtra("devType",devType);//@@是否为水压
+                            intent.putExtra("devType",devType);
                             mContext.startActivity(intent);
                         }
                     });

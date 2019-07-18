@@ -104,6 +104,9 @@ public class DemoIntentService extends GTIntentService {
             if(dataJson.has("alarmType")){
                 alarm = dataJson.getInt("alarmType");
             }
+            if(alarm==163){
+                T.showShort(MyApp.app,"声光已下发");
+            }
             if(alarm==241){//临时任务推送
                 Intent intent=new Intent(context, TaskDialogActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -183,6 +186,7 @@ public class DemoIntentService extends GTIntentService {
                 case 93:
                 case 94:
                 case 95:
+                case 96:
                 case 97:
                 case 98:
                 case 99:
@@ -356,6 +360,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 96:
                         case 93:
                         case 73:
                         case 72:

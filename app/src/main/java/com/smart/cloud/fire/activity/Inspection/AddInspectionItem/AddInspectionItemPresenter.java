@@ -160,10 +160,10 @@ public class AddInspectionItemPresenter extends BasePresenter<AddInspectionItemV
         }
 
     public void addNFCInspectItem(String userID,String privilege,String smokeName,String smokeMac,String address,String longitude,
-                       String latitude,String placeTypeId,String areaId,String producer,String makeTime,String makeAddress,String memo,String pid){
+                       String latitude,String placeTypeId,String areaId,String producer,String makeTime,String makeAddress,String memo,String pid,String photo1){
         mvpView.showLoading();
         Observable mObservable = apiStores1.addNFCInfo(userID,privilege,smokeName,smokeMac,address,
-                longitude,latitude,placeTypeId,areaId,producer,makeTime,memo,makeAddress,pid);
+                longitude,latitude,placeTypeId,areaId,producer,makeTime,memo,makeAddress,pid,photo1);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ConfireFireModel>() {
             @Override
             public void onSuccess(ConfireFireModel model) {

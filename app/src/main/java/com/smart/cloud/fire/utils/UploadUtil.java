@@ -22,6 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 
 public class UploadUtil {
     private static final String TAG = "uploadFile";

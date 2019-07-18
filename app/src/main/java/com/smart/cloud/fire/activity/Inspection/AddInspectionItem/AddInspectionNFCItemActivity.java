@@ -4,22 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NdefFormatable;
+import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
@@ -34,9 +34,6 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.jakewharton.rxbinding.view.RxView;
 import com.smart.cloud.fire.GetLocationActivity;
-import com.smart.cloud.fire.activity.AddNFC.AddNFCActivity;
-import com.smart.cloud.fire.activity.AddNFC.AddNFCPresenter;
-import com.smart.cloud.fire.activity.AddNFC.AddNFCView;
 import com.smart.cloud.fire.activity.AddNFC.NFCDeviceType;
 import com.smart.cloud.fire.activity.AddNFC.NFCInfo;
 import com.smart.cloud.fire.base.ui.MvpActivity;
@@ -48,14 +45,14 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.utils.NFCHelper;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.utils.UploadUtil;
 import com.smart.cloud.fire.utils.Utils;
+import com.smart.cloud.fire.view.SelectPhotoView;
 import com.smart.cloud.fire.view.XCDropDownListView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -64,7 +61,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemPresenter> implements AddInspectionItemView {
 
@@ -96,10 +97,10 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
     TextView addFireDevBtn;//添加设备按钮。。
     @Bind(R.id.makeTime_rela)
     RelativeLayout makeTime_rela;//生产日期
+    @Bind(R.id.select_photo_view)
+    SelectPhotoView select_photo_view;//@@拍照上传
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;//加载进度。。
-    @Bind(R.id.add_camera_name)
-    EditText addCameraName;
     @Bind(R.id.producer_edit)
     EditText producer_edit;
     @Bind(R.id.memo_edit)
@@ -132,6 +133,8 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
 
     private NFCHelper nfcHelper;
 
+    private String imageFilePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,11 +147,13 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         nfcHelper=NFCHelper.getInstance(this);
+        select_photo_view.setActivity(this);
+        init();
         if (!nfcHelper.isSupportNFC()) {
             toast("设备不支持NFC功能");
             return;
         }
-        init();
+
     }
 
     @Override
@@ -194,13 +199,26 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
         });
         nfcInfo=new NFCInfo();
 
-
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
         setDateTime();
     }
+
+    private static Uri getUriForFile(Context context, File file) {
+        if (context == null || file == null) {
+            throw new NullPointerException();
+        }
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= 24) {
+            uri = FileProvider.getUriForFile(context.getApplicationContext(), "fire.cloud.smart.com.smartcloudfire.fileprovider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+        return uri;
+    }
+
 
 
     /**
@@ -249,9 +267,46 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
         nfcHelper.setOnWriteCompeletedListener(new NFCHelper.OnWriteCompeletedListener() {
             @Override
             public void onWriteCompeleted() {
-                mvpPresenter.addNFCInspectItem(userID, privilege + "", nfcInfo.getDeviceName(), nfcInfo.getUid(), nfcInfo.getAddress(),
-                        nfcInfo.getLon(), nfcInfo.getLat(), nfcInfo.getDeviceTypeId(),nfcInfo.getAreaId(),nfcInfo.getProducer(),
-                        nfcInfo.getMakeTime(),nfcInfo.getMakeAddress(),memo,mPoint.getPid());
+                final String photo=System.currentTimeMillis()+"";
+                String photo1="";
+                if(select_photo_view.isPhotoExist()){
+                    photo1=photo;
+                    Observable.create(new Observable.OnSubscribe<String>() {
+                        @Override public void call(Subscriber<? super String> subscriber) {
+                            boolean isSuccess= select_photo_view.upload(photo,"oriImgs");
+                            if(isSuccess){
+                                subscriber.onNext("Success");
+                            }else{
+                                subscriber.onNext("Fail");
+                            }
+                        }
+                    }).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<String>()
+                            {
+                                @Override public void onCompleted() {
+                                }
+                                @Override public void onError(Throwable e) {
+                                }
+                                @Override public void onNext(String s) {
+                                    if(s.equals("Success")){
+                                        T.showShort(mContext,"图片上传成功");
+                                        mvpPresenter.addNFCInspectItem(userID, privilege + "", nfcInfo.getDeviceName(), nfcInfo.getUid(), nfcInfo.getAddress(),
+                                                nfcInfo.getLon(), nfcInfo.getLat(), nfcInfo.getDeviceTypeId(),nfcInfo.getAreaId(),nfcInfo.getProducer(),
+                                                nfcInfo.getMakeTime(),nfcInfo.getMakeAddress(),memo,mPoint.getPid(),photo);
+                                    }else{
+                                        T.showShort(mContext,"图片上传失败");
+                                        mvpPresenter.addNFCInspectItem(userID, privilege + "", nfcInfo.getDeviceName(), nfcInfo.getUid(), nfcInfo.getAddress(),
+                                                nfcInfo.getLon(), nfcInfo.getLat(), nfcInfo.getDeviceTypeId(),nfcInfo.getAreaId(),nfcInfo.getProducer(),
+                                                nfcInfo.getMakeTime(),nfcInfo.getMakeAddress(),memo,mPoint.getPid(),"");
+                                    }
+                                }
+                            });
+                }else{
+                    mvpPresenter.addNFCInspectItem(userID, privilege + "", nfcInfo.getDeviceName(), nfcInfo.getUid(), nfcInfo.getAddress(),
+                            nfcInfo.getLon(), nfcInfo.getLat(), nfcInfo.getDeviceTypeId(),nfcInfo.getAreaId(),nfcInfo.getProducer(),
+                            nfcInfo.getMakeTime(),nfcInfo.getMakeAddress(),memo,mPoint.getPid(),photo1);
+                }
             }
         });
         nfcHelper.writeNFC(nfcInfo);
@@ -445,11 +500,65 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
                     addFireAddress.setText(bundle.getString("address"));
                 }
                 break;
+            case 102:
+//                if (resultCode == Activity.RESULT_OK) {
+//                    Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
+//                    try {
+//                        saveFile(compressBySize(Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg",1500,2000),Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg");
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    DisplayMetrics dm = new DisplayMetrics();
+//                    getWindowManager().getDefaultDisplay().getMetrics(dm);
+//                    int screenWidth=dm.widthPixels;
+//                    if(bmp.getWidth()<=screenWidth){
+//                        photo_image.setImageBitmap(bmp);
+//                    }else{
+//                        Bitmap mp=Bitmap.createScaledBitmap(bmp, screenWidth, bmp.getHeight()*screenWidth/bmp.getWidth(), true);
+//                        photo_image.setImageBitmap(mp);
+//                    }
+//                }
+                select_photo_view.onActivityResult(data);
+                break;
         }
 
     }
 
+    //@@10.12存储文件到sd卡
+    public void saveFile(Bitmap bm, String fileName) throws Exception {
+        File dirFile = new File(fileName);//检测图片是否存在
+        if(dirFile.exists()){
+            dirFile.delete();  //删除原图片
+        }
+        File myCaptureFile = new File(fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));//100表示不进行压缩，70表示压缩率为30%
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        bos.flush();
+        bos.close();
+    }
 
+    //@@10.12压缩图片尺寸
+    public Bitmap compressBySize(String pathName, int targetWidth,
+                                 int targetHeight) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;// 不去真的解析图片，只是获取图片的头部信息，包含宽高等；
+        Bitmap bitmap = BitmapFactory.decodeFile(pathName, opts);// 得到图片的宽度、高度；
+        float imgWidth = opts.outWidth;
+        float imgHeight = opts.outHeight;// 分别计算图片宽度、高度与目标宽度、高度的比例；取大于等于该比例的最小整数；
+        int widthRatio = (int) Math.ceil(imgWidth / (float) targetWidth);
+        int heightRatio = (int) Math.ceil(imgHeight / (float) targetHeight);
+        opts.inSampleSize = 1;
+        if (widthRatio > 1 || widthRatio > 1) {
+            if (widthRatio > heightRatio) {
+                opts.inSampleSize = widthRatio;
+            } else {
+                opts.inSampleSize = heightRatio;
+            }
+        }//设置好缩放比例后，加载图片进内容；
+        opts.inJustDecodeBounds = false;
+        bitmap = BitmapFactory.decodeFile(pathName, opts);
+        return bitmap;
+    }
 
     @Override
     public void addSmokeResult(String msg, int errorCode) {
@@ -463,6 +572,7 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
             addFireZjq.addFinish();
             addFireType.addFinish();
             add_fire_point.addFinish();
+            select_photo_view.deleteTempPhoto();
         }
     }
 
@@ -502,7 +612,6 @@ public class AddInspectionNFCItemActivity extends MvpActivity<AddInspectionItemP
         addFireType.setEditTextData("");
         addFireZjq.setEditTextData("");//@@10.19
         add_fire_point.setEditTextData("");
-        addCameraName.setText("");
         makeAddress_edit.setText("");//@@11.28
     }
 

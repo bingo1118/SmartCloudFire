@@ -66,10 +66,16 @@ public class ItemsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(mPoint.getIscheck()!=null){
             ((ItemViewHolder) holder).state_tv.setVisibility(View.VISIBLE);
             ((ItemViewHolder) holder).turn_to_update.setVisibility(View.GONE);
+            if(tid==null){
+                ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.GONE);
+            }else{
+                ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.VISIBLE);
+            }
             switch (mPoint.getIscheck()){
                 case "0":
                     state="未检";
                     ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).modify.setVisibility(View.GONE);
                     break;
                 case "1":
                     if(mPoint.getQualified().equals("1")){
@@ -78,29 +84,37 @@ public class ItemsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         state="不合格";
                     }
                     ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.GONE);
-                    ((ItemViewHolder) holder).worker_tv.setText("地址:"+mPoint.getAddress());
+                    ((ItemViewHolder) holder).modify.setVisibility(View.VISIBLE);
                     break;
             }
         }else{
             ((ItemViewHolder) holder).state_tv.setVisibility(View.GONE);
             ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.GONE);
             ((ItemViewHolder) holder).turn_to_update.setVisibility(View.VISIBLE);
-            ((ItemViewHolder) holder).worker_tv.setText("巡检人:"+mPoint.getWorkerName());
         }
 
+        ((ItemViewHolder) holder).worker_tv.setText("地址:"+mPoint.getAddress());
         ((ItemViewHolder) holder).state_tv.setText("状态:"+state);
         ((ItemViewHolder) holder).id_tv.setText("ID:"+mPoint.getUid());
-        if(tid==null){
-            ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.GONE);
-        }else{
-            ((ItemViewHolder) holder).turn_to_insp.setVisibility(View.VISIBLE);
-        }
+
         ((ItemViewHolder) holder).turn_to_insp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, UploadInspectionInfoActivity.class);
                 intent.putExtra("uid",mPoint.getUid());
                 intent.putExtra("tid",tid);
+                intent.putExtra("memo",mPoint.getMemo());
+                mContext.startActivity(intent);
+            }
+        });
+        ((ItemViewHolder) holder).modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, UploadInspectionInfoActivity.class);
+                intent.putExtra("uid",mPoint.getUid());
+                intent.putExtra("tid",tid);
+                intent.putExtra("memo",mPoint.getMemo());
+                intent.putExtra("modify","1");
                 mContext.startActivity(intent);
             }
         });
@@ -143,6 +157,8 @@ public class ItemsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Button turn_to_insp;
         @Bind(R.id.turn_to_update)
         Button turn_to_update;
+        @Bind(R.id.modify)
+        Button modify;
 
 
         public ItemViewHolder(View view) {

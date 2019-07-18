@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+    <include layout="@layout/progress_bar"/>
     <RelativeLayout
         android:id="@+id/add_fire_title"
         android:layout_width="match_parent"
@@ -155,6 +156,16 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/saoma_selector"/>
             </RelativeLayout>
+            <TextView
+                android:id="@+id/yc_mac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center_horizontal"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:textColor="@color/wifi_acclerate_green"
+                android:text="您输入的设备码:"/>
             <RelativeLayout
                 android:id="@+id/add_camera_relative"
                 android:layout_width="match_parent"

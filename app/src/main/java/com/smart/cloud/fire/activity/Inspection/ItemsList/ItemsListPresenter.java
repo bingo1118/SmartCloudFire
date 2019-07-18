@@ -5,6 +5,8 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.rxjava.ApiCallback;
 import com.smart.cloud.fire.rxjava.SubscriberCallBack;
 
+import java.util.ArrayList;
+
 import rx.Observable;
 
 public class ItemsListPresenter extends BasePresenter<ItemsListView>{
@@ -34,8 +36,8 @@ public class ItemsListPresenter extends BasePresenter<ItemsListView>{
         }));
     }
 
-    public void getAllItems(String userid){
-        Observable mObservable=apiStores1.getAllItems(userid);
+    public void getAllItems(String userid,String pid){
+        Observable mObservable=apiStores1.getAllItems(userid,pid);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
@@ -55,15 +57,15 @@ public class ItemsListPresenter extends BasePresenter<ItemsListView>{
         }));
     }
 
-    public void getTaskItems(String tid){
-        Observable mObservable=apiStores1.getItems(tid);
+    public void getTaskItems(String tid,String state){
+        Observable mObservable=apiStores1.getItems(tid,state);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {
                 if(model.getErrorCode()==0){
-                    mvpView.getDataSuccess(model.getNfcinfos());
+                    mvpView.getDataSuccess(model.getNfcinfos(),model.getTotal(),model.getPass(),model.getChecked());
                 }else{
-                    mvpView.getDataFail(model.getError());
+                    mvpView.getDataSuccess(new ArrayList<>());
                 }
             }
             @Override

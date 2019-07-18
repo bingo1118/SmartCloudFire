@@ -16,6 +16,10 @@ public class InspectionTask {
     private String itemNum;
     private String dates; //
     private String uids;//
+    private String levelName;//任务类型
+    private String state;//任务状态
+
+
     public String getTid() {
         return tid;
     }
@@ -105,5 +109,21 @@ public class InspectionTask {
     }
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

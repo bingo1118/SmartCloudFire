@@ -63,7 +63,6 @@ public class UploadAlarmInfoPresenter extends BasePresenter<UploadAlarmInfoView>
 
             @Override
             public void onFailure(int code, String msg) {
-
                 mvpView.T("失败");
             }
 

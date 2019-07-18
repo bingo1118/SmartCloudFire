@@ -298,6 +298,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     }else if(smokeMac.endsWith("J")){
                         deviceType="73";
                         smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("G")){
+                        deviceType="96";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         deviceType="2";//@@燃气
                         smokeMac = smokeMac.replace("R","");//燃气
@@ -358,6 +361,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         electrState=1;;
                         deviceType="88";
                     }//@@lora中电电气
+                    smokeMac =smokeMac.replace("Q","");
                     break;
                 case "T":
                     if(smokeMac.endsWith("N")){
@@ -373,8 +377,13 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     deviceType="119";
                     break;
                 case "G":
-                    smokeMac = smokeMac.substring(1, macLenghth);//声光报警器 6
-                    deviceType="7";
+                    if(smokeMac.endsWith("N")){
+                        deviceType="102";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else{
+                        smokeMac = smokeMac.substring(1, macLenghth);//声光报警器 6
+                        deviceType="7";
+                    }
                     break;
                 case "K":
                     smokeMac = smokeMac.substring(1, macLenghth);//@@无线输出输入模块2018.01.24

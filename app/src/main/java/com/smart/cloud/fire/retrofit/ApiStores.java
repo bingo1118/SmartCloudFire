@@ -139,7 +139,9 @@ public interface ApiStores {
     //获取所有的巡检任务
     @GET("getTasks")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getTasks(@Query("userId") String userId);
+    Observable<HttpError> getTasks(@Query("userId") String userId,@Query("tlevel") String tlevel
+                                    ,@Query("state") String state,@Query("startDate") String startDate
+                                    ,@Query("endDate") String endDate);
 
     //获取所有的巡检点下的巡检项目
     @GET("getItemsByPid")
@@ -149,12 +151,12 @@ public interface ApiStores {
     //获取用户名下的巡检项目
     @GET("getAllItems")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getAllItems(@Query("userId") String userid);
+    Observable<HttpError> getAllItems(@Query("userId") String userid,@Query("pid") String pid);
 
     //获取所有的巡检点下的巡检项目
     @GET("getItems")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getItems(@Query("tid") String pid);
+    Observable<HttpError> getItems(@Query("tid") String pid,@Query("state") String state);
 
     //获取所有的区域类型
     @GET("getAreaId")
@@ -449,7 +451,8 @@ public interface ApiStores {
                                         @Field("deviceType") String deviceType,@Field("areaId") String areaId,
                                         @Field("producer") String producer,
                                         @Field("makeTime") String makeTime,@Field("memo") String memo,
-                                        @Field("makeAddress") String makeAddress,@Field("pid") String pid);
+                                        @Field("makeAddress") String makeAddress,@Field("pid") String pid,
+                                        @Field("photo1") String photo1);
 
     //修改巡检项目
     @FormUrlEncoded

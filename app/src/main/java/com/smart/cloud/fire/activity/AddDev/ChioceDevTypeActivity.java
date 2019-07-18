@@ -25,7 +25,7 @@ public class ChioceDevTypeActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.spjk_lin,R.id.nfc_lin,R.id.sdtj_lin,R.id.smsr_lin})
+    @OnClick({R.id.spjk_lin,R.id.nfc_lin,R.id.sdtj_lin,R.id.smsr_lin,R.id.yongchuang_lin})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.spjk_lin:
@@ -47,6 +47,11 @@ public class ChioceDevTypeActivity extends Activity {
                 Intent intent8=new Intent(ChioceDevTypeActivity.this,AddCaptureActivity.class);
                 intent8.putExtra("devType",6);
                 startActivity(intent8);
+                break;
+            case R.id.yongchuang_lin:
+                Intent intent10=new Intent(ChioceDevTypeActivity.this,AddDevActivity.class);
+                intent10.putExtra("devType",221);
+                startActivity(intent10);
                 break;
         }
     }

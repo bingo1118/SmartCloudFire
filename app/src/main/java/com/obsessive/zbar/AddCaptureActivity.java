@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import com.smart.cloud.fire.activity.AddDev.AddDevActivity;
 import com.smart.cloud.fire.activity.AddNFC.AddNFCActivity;
 import com.smart.cloud.fire.global.DeviceType;
+import com.smart.cloud.fire.utils.JsonUtils;
 import com.smart.cloud.fire.utils.TestAuthorityUtil;
 
 import net.sourceforge.zbar.Config;
@@ -238,6 +239,10 @@ public class AddCaptureActivity  extends Activity implements View.OnClickListene
             }
 
             if (!TextUtils.isEmpty(resultStr)&&!ifGetData) {
+                String temp= JsonUtils.isJson(resultStr);
+                if(temp!=null){
+                    resultStr=temp;
+                }
                 DeviceType devType=getDevType(resultStr);
                 Intent intent=new Intent(mContext,AddDevActivity.class);
                 intent.putExtra("devType",devType.getDeviceName());

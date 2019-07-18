@@ -107,7 +107,7 @@ public class OneTHDevInfoActivity extends Activity {
     }
 
     private void initview() {
-        if(devType!=null&&devType.equals("79")){
+        if(devType!=null&&(devType.equals("79")||devType.equals("99"))){
             temperature_yuzhi_set.setVisibility(View.GONE);
             humidity_yuzhi_set.setVisibility(View.GONE);
             chanshuzhezhi_text.setVisibility(View.VISIBLE);
@@ -139,8 +139,8 @@ public class OneTHDevInfoActivity extends Activity {
                                 threshold_tem_l=response.getString("threshold2")==null?"--":response.getString("threshold2");
                                 threshold_hum_h=response.getString("threshold3")==null?"--":response.getString("threshold3");
                                 threshold_hum_l=(response.getString("threshold4")==null?"--":response.getString("threshold4"));
-                                getdatatime=response.getString("ackTimes");
-                                uploaddatatime=response.getString("waveValue");
+                                getdatatime=response.getString("waveValue");
+                                uploaddatatime=response.getString("ackTimes");
                                 t_low.setText(threshold_tem_l+"℃");
                                 t_top.setText(threshold_tem_h+"℃");
                                 h_low.setText(threshold_hum_l+"%");
@@ -172,10 +172,15 @@ public class OneTHDevInfoActivity extends Activity {
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
-                                t_low.setText((response.getString("value307")==null?"--":response.getString("value307"))+"℃");
-                                t_top.setText((response.getString("value308")==null?"--":response.getString("value308"))+"℃");
-                                h_low.setText((response.getString("value407")==null?"--":response.getString("value407"))+"%");
-                                h_top.setText((response.getString("value408")==null?"--":response.getString("value408"))+"%");
+                                threshold_tem_h=response.getString("value308")==null?"--":response.getString("value308");
+                                threshold_tem_l=response.getString("value307")==null?"--":response.getString("value307");
+                                threshold_hum_h=response.getString("value408")==null?"--":response.getString("value408");
+                                threshold_hum_l=response.getString("value407")==null?"--":response.getString("value407");
+
+                                t_low.setText(threshold_tem_l+"℃");
+                                t_top.setText(threshold_tem_h+"℃");
+                                h_low.setText(threshold_hum_l+"%");
+                                h_top.setText(threshold_hum_h+"%");
                             }else{
                                 T.showShort(mContext,"无数据");
                             }
@@ -251,7 +256,11 @@ public class OneTHDevInfoActivity extends Activity {
                 high2_line.setVisibility(View.VISIBLE);
                 low2_line.setVisibility(View.VISIBLE);
                 uploadtime_lin.setVisibility(View.VISIBLE);
-                getdatatime_lin.setVisibility(View.VISIBLE);
+                if(devType.equals("99")){
+                    getdatatime_lin.setVisibility(View.GONE);
+                }else{
+                    getdatatime_lin.setVisibility(View.VISIBLE);
+                }
                 title.setText("参数设置");
                 high_value_name.setText("高温阈值（℃）:");
                 low_value_name.setText("低温阈值（℃）:");
@@ -279,7 +288,7 @@ public class OneTHDevInfoActivity extends Activity {
                                         T.showShort(mContext,"低阈值不能高于高阈值");
                                         return;
                                     }
-                                    url= ConstantValues.SERVER_IP_NEW+"nanjing_set_TempHumi_data?imeiValue="+mac+"&deviceType=79&Hight_HumiSet="+high2+"&Low_HumiSet="+low2
+                                    url= ConstantValues.SERVER_IP_NEW+"nanjing_set_TempHumi_data?imeiValue="+mac+"&deviceType="+devType+"&Hight_HumiSet="+high2+"&Low_HumiSet="+low2
                                             +"&Hight_TempSet="+high+"&Low_TempSet="+low+"&Tcollect_time="+getdatatime+"&Tsend_time="+uploadtime;
                                 }catch(Exception e){
                                     e.printStackTrace();

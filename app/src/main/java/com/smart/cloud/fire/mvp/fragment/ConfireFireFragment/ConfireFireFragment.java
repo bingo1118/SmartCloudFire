@@ -16,8 +16,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +41,8 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.utils.IntegerTo16;
+import com.smart.cloud.fire.utils.JsonUtils;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
@@ -113,6 +113,8 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     LinearLayout tip_line;
     @Bind(R.id.clean_all)
     TextView clean_all;
+    @Bind(R.id.yc_mac)
+    TextView yc_mac;
 
     private Context mContext;
     private int scanType = 0;//0表示扫描中继器，1表示扫描烟感
@@ -180,9 +182,29 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     }
 
     private void init() {
+        Intent intent=getActivity().getIntent();
+        String mac=intent.getStringExtra("mac");
+        devType=intent.getIntExtra("devType",0)+"";
         addFireMac.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                if(devType.equals("221")&&!hasFocus){
+                    String temp=addFireMac.getText().toString();
+                    if(temp.length()!=12){
+                        T.showShort(mContext,"用传设备MAC长度必须为12位数字");
+                        return;
+                    }
+                    if(!Utils.isNumeric(temp)){
+                        T.showShort(mContext,"用传设备MAC长度必须为12位数字");
+                        return;
+                    }
+                    yc_mac.setText("您输入的设备码:"+temp);
+                    yc_mac.setVisibility(View.VISIBLE);
+
+                    temp=changeYongChuanMac(temp);
+                    addFireMac.setText("A"+temp.toUpperCase());
+                    T.showShort(mContext,"用传设备MAC转换成功");
+                }
                 if (!hasFocus&&addFireMac.getText().toString().length()>0) {
                     mvpPresenter.getOneSmoke(userID, privilege + "", addFireMac.getText().toString());//@@5.5如果添加过该烟感则显示出原来的信息
                 }
@@ -197,9 +219,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                 addFire();
             }
         });
-        Intent intent=getActivity().getIntent();
-        String mac=intent.getStringExtra("mac");
-        String devType=intent.getStringExtra("devType");
+
         if (mac!=null){
             addFireMac.setText(mac);
             device_type_name.setVisibility(View.VISIBLE);
@@ -232,6 +252,19 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                 cleanAllView();
             }
         });
+    }
+
+    private String changeYongChuanMac(String temp) {
+        String s="";
+        String[] ss=new String[6];//等长切分
+        for(int i=0;i<temp.length();i+=2){
+            ss[i/2]=temp.substring(i,i+2);
+        }
+        for (String each:ss) {
+            String t=Integer.toHexString(Integer.parseInt(each));
+            s=(t.length()==2?t:"0"+t)+s;
+        }
+        return s;
     }
 
     /**
@@ -483,6 +516,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         addFireZjq.addFinish();
         addFireType.addFinish();
         tip_line.setVisibility(View.GONE);
+        yc_mac.setVisibility(View.GONE);
     }
 
     @Override
@@ -509,6 +543,10 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                         if(scanResult.contains("-")){
                             scanResult=scanResult.substring(scanResult.lastIndexOf("=")+1);
                         }//@@12.26三江nb-iot烟感
+                        String temp= JsonUtils.isJson(scanResult);
+                        if(temp!=null){
+                            scanResult=temp;
+                        }
                         addFireMac.setText(scanResult);
                         clearText();
                         mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息

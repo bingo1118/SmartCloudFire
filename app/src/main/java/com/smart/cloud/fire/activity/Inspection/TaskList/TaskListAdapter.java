@@ -42,7 +42,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.pointlist_item, parent, false);
+        View view = mInflater.inflate(R.layout.task_pointlist_item, parent, false);
         //这边可以做一些属性设置，甚至事件监听绑定
         ItemViewHolder viewHolder = new ItemViewHolder(view);
         view.setOnClickListener(this);
@@ -55,6 +55,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ((ItemViewHolder) holder).name_tv.setText(mPoint.getTid());
         ((ItemViewHolder) holder).area_tv.setText("区域:"+mPoint.getArea());
         ((ItemViewHolder) holder).address_tv.setText("地址:"+mPoint.getPname());
+        ((ItemViewHolder) holder).level_tv.setText("类型:"+mPoint.getLevelName());
+        ((ItemViewHolder) holder).state_tv.setText("状态:"+mPoint.getState());
+        ((ItemViewHolder) holder).sum_tv.setText("总数:"+mPoint.getItemNum());
+        ((ItemViewHolder) holder).pass_tv.setText("合格:"+mPoint.getPass());
+        ((ItemViewHolder) holder).progress_tv.setText("已检:"+mPoint.getProgress());
+
         holder.itemView.setTag(mPoint);
     }
 
@@ -80,6 +86,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView area_tv;
         @Bind(R.id.address_tv)
         TextView address_tv;
+        @Bind(R.id.state_tv)
+        TextView state_tv;
+        @Bind(R.id.pass_tv)
+        TextView pass_tv;
+        @Bind(R.id.progress_tv)
+        TextView progress_tv;
+        @Bind(R.id.sum_tv)
+        TextView sum_tv;
+        @Bind(R.id.level_tv)
+        TextView level_tv;
+
+
+
 
 
         public ItemViewHolder(View view) {

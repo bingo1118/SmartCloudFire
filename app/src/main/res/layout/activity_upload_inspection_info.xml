@@ -17,12 +17,15 @@
             android:layout_alignParentLeft="true"
             >
             <ImageView
+                android:id="@+id/memo"
                 android:layout_width="10dp"
                 android:layout_height="16.5dp"
                 android:layout_centerInParent="true"
                 android:visibility="gone"
                 android:src="@drawable/selector_back"/>
         </RelativeLayout>
+
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,6 +35,15 @@
             android:text="上传设备信息"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/memo_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/memo_insp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"/>
     </RelativeLayout>
 
     <ScrollView
@@ -326,6 +338,18 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/memo_tv"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_fire_title"
+        android:layout_alignParentRight="true"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
     <RelativeLayout
         android:id="@+id/add_fire_dev_btn"
         android:layout_width="150dp"
@@ -343,5 +367,9 @@
             android:layout_centerInParent="true"
             />
     </RelativeLayout>
-    <include layout="@layout/progress_bar"/>
+
+    <include
+        layout="@layout/progress_bar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

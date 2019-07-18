@@ -30,8 +30,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -44,11 +46,13 @@ import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.UploadUtil;
 import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -82,6 +86,14 @@ public class UploadInspectionInfoActivity extends Activity {
     EditText memo_name;//@@备注
     @Bind(R.id.photo_image)
     ImageView photo_image;//@@拍照上传
+    @Bind(R.id.memo_iv)
+    ImageView memo_iv;
+    @Bind(R.id.memo_tv)
+    TextView memo_tv;
+    @Bind(R.id.radio1)
+    RadioButton radio1;
+    @Bind(R.id.radio2)
+    RadioButton radio2;
     private Context mContext;
     private int privilege;
     private String userID;
@@ -122,6 +134,11 @@ public class UploadInspectionInfoActivity extends Activity {
     String uid;
     String pid;
     String tid;
+    String tuid;//巡检记录id
+
+    String memo;
+    String modify;
+    boolean showMemoTv=false;
 
 
 
@@ -139,6 +156,11 @@ public class UploadInspectionInfoActivity extends Activity {
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         uid=getIntent().getStringExtra("uid");
         tid=getIntent().getStringExtra("tid");
+        memo=getIntent().getStringExtra("memo");
+        modify=getIntent().getStringExtra("modify");
+        if(modify!=null&&modify.length()>0){
+            getRecentRecord();
+        }
         getNormalDevInfo(uid);
 
         if(f.exists()){
@@ -150,6 +172,43 @@ public class UploadInspectionInfoActivity extends Activity {
         }
         initView();
         initNFC();
+    }
+
+    private void getRecentRecord() {
+        VolleyHelper helper=VolleyHelper.getInstance(mContext);
+        RequestQueue mQueue = helper.getRequestQueue();
+        String url="";
+
+        url= ConstantValues.SERVER_IP_NEW+"getRecentRecord?uid="+uid;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String qualified=response.getString("qualified");
+                            String memo=response.getString("desc");
+                            if(qualified.equals("1")){
+                                radio1.setChecked(true);
+                            }else{
+                                radio2.setChecked(true);
+                            }
+                            memo_name.setText(memo);
+                            tuid=response.getString("tuid");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                toast("网络错误");
+                Message message = new Message();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
 
     private void getNormalDevInfo(String uid) {
@@ -189,6 +248,23 @@ public class UploadInspectionInfoActivity extends Activity {
     }
 
     private void initView() {
+        memo_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!showMemoTv){
+                    if(memo!=null&&memo.length()>0){
+                        memo_tv.setText("检查细则:"+memo);
+                        memo_tv.setVisibility(View.VISIBLE);
+                        showMemoTv=true;
+                    }else{
+                        T.showShort(mContext,"无检查细则");
+                    }
+                }else{
+                    memo_tv.setVisibility(View.GONE);
+                    showMemoTv=false;
+                }
+            }
+        });
         addFireDevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,24 +301,34 @@ public class UploadInspectionInfoActivity extends Activity {
                         if(isHavePhoto&&isSuccess){
                             File file = new File(imageFilePath);//9.29
                             file.delete();//@@9.29
-//                            url= ConstantValues.SERVER_IP_NEW+"addNFCRecord?userId="+userID+"&uid="+uid_name.getText().toString()
-//                                    +"&longitude="+lon+"&latitude="+lat+"&devicestate="+deviceState+"&memo="+ URLEncoder.encode(memo_name.getText().toString())
-//                                    +"&photo1="+areaId+URLEncoder.encode("\\")+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
-                            url= ConstantValues.SERVER_IP_NEW+"postResult?userId="+userID+"&uid="+uid_name.getText().toString()
-                                    +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
-                                    +"&photo1="+"cheakImg"+URLEncoder.encode("\\")+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
+                            if(modify!=null&&modify.length()>0){
+                                //"cheakImg"图片路径
+                                url= ConstantValues.SERVER_IP_NEW+"updateResult?tuid="+tuid+"&uid="+uid_name.getText().toString()
+                                        +"&tid="+tid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
+                                        +"&photo1="+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
+                            }else{
+                                url= ConstantValues.SERVER_IP_NEW+"postResult?userId="+userID+"&uid="+uid_name.getText().toString()
+                                        +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
+                                        +"&photo1="+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
+
+                            }
+
                         }else{
                             if(isHavePhoto&&!isSuccess){
                                 Message message= new Message();
                                 message.what = 2;
                                 handler.sendMessage(message);
                             }
-//                            url= ConstantValues.SERVER_IP_NEW+"addNFCRecord?userId="+userID+"&uid="+uid_name.getText().toString()
-//                                    +"&longitude="+lon+"&latitude="+lat+"&devicestate="+deviceState+"&memo="+ URLEncoder.encode(memo_name.getText().toString())
-//                                    +"&photo1=";
-                            url= ConstantValues.SERVER_IP_NEW+"postResult?userId="+userID+"&uid="+uid_name.getText().toString()
-                                    +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
-                                    +"&photo1=";
+                            if(modify!=null&&modify.length()>0){
+                                url= ConstantValues.SERVER_IP_NEW+"updateResult?tuid="+tuid+"&uid="+uid_name.getText().toString()
+                                        +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
+                                        +"&photo1=";
+                            }else{
+                                url= ConstantValues.SERVER_IP_NEW+"postResult?userId="+userID+"&uid="+uid_name.getText().toString()
+                                        +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
+                                        +"&photo1=";
+                            }
+
                         }
 
                         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
@@ -647,4 +733,5 @@ public class UploadInspectionInfoActivity extends Activity {
     private void toast(String text) {
         Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
     }
+
 }

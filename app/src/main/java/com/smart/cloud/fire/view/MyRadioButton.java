@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 
 import fire.cloud.smart.com.smartcloudfire.R;
 
-public class MyRadioButton extends RadioButton {
+public class MyRadioButton extends android.support.v7.widget.AppCompatRadioButton {
 
     private int mDrawableSize;// xml文件中设置的大小
 

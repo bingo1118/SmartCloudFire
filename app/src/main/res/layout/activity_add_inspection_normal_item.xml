@@ -88,93 +88,6 @@
                     android:src="@drawable/saoma_selector"/>
             </RelativeLayout>
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:id="@+id/producer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="厂家:"/>
-                <EditText
-                    android:id="@+id/producer_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:textSize="14sp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginLeft="50dp"
-                    android:gravity="center_vertical"
-                    android:padding="6dp"
-                    android:hint="厂家"
-                    android:textColorHint="@color/hint_color_text"
-                    android:imeOptions="actionNext"
-                    android:background="@drawable/edit_view_bg"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/makeTime_rela">
-                <TextView
-                    android:id="@+id/makeTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="生产日期:"/>
-                <EditText
-                    android:id="@+id/makeTime_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:textSize="14sp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:padding="6dp"
-                    android:hint="生产日期"
-                    android:focusable="false"
-                    android:layout_toRightOf="@id/makeTime"
-                    android:textColorHint="@color/hint_color_text"
-                    android:imeOptions="actionNext"
-                    android:background="@drawable/edit_view_bg" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:id="@+id/makeAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="生产地址:"/>
-                <EditText
-                    android:id="@+id/makeAddress_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:textSize="14sp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:padding="6dp"
-                    android:hint="生产地址"
-                    android:layout_toRightOf="@id/makeAddress"
-                    android:textColorHint="@color/hint_color_text"
-                    android:imeOptions="actionNext"
-                    android:background="@drawable/edit_view_bg"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
                 android:id="@+id/add_camera_relative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -429,7 +342,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="备注:"/>
+                        android:text="细则:"/>
                     <EditText
                         android:id="@+id/memo_edit"
                         android:layout_width="match_parent"
@@ -441,10 +354,116 @@
                         android:padding="6dp"
                         android:gravity="start"
                         android:layout_toRightOf="@id/memo_tv"
-                        android:hint="备注"
+                        android:hint="细则"
                         android:textColorHint="@color/hint_color_text"
                         android:imeOptions="actionNext"
                         android:background="@drawable/edit_view_bg" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/producer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="厂家:"/>
+                    <EditText
+                        android:id="@+id/producer_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:textSize="14sp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="6dp"
+                        android:hint="厂家"
+                        android:textColorHint="@color/hint_color_text"
+                        android:imeOptions="actionNext"
+                        android:background="@drawable/edit_view_bg"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/makeTime_rela">
+                    <TextView
+                        android:id="@+id/makeTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="生产日期:"/>
+                    <EditText
+                        android:id="@+id/makeTime_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:textSize="14sp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="6dp"
+                        android:hint="生产日期"
+                        android:focusable="false"
+                        android:layout_toRightOf="@id/makeTime"
+                        android:textColorHint="@color/hint_color_text"
+                        android:imeOptions="actionNext"
+                        android:background="@drawable/edit_view_bg" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/makeAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="生产地址:"/>
+                    <EditText
+                        android:id="@+id/makeAddress_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:textSize="14sp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="6dp"
+                        android:hint="生产地址"
+                        android:layout_toRightOf="@id/makeAddress"
+                        android:textColorHint="@color/hint_color_text"
+                        android:imeOptions="actionNext"
+                        android:background="@drawable/edit_view_bg"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/photo_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="拍照上传:"/>
+
+                    <com.smart.cloud.fire.view.SelectPhotoView
+                        android:id="@+id/select_photo_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/photo_tv"/>
                 </RelativeLayout>
             </LinearLayout>
 

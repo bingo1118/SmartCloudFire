@@ -323,6 +323,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
                     }
                     break;
+                case 96:
                 case 93:
                 case 73:
                 case 72:
@@ -503,6 +504,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             break;
                     }
                     break;
+                case 102:
                 case 7:
                     ((ItemViewHolder) holder).smokeMac.setText("声光探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shengguang);

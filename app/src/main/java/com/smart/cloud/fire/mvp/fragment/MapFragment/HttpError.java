@@ -43,6 +43,10 @@ public class HttpError<T> {
     private ArrayList<NFCInfoEntity> nfcinfos;//巡检项目
     private ArrayList<InspectionTask> tasks;//巡检项目
 
+    private int total;
+    private int pass;
+    private int checked;
+
     public List<WiredSmokeHistory> getalarm() {
         return alarm;
     }
@@ -171,5 +175,29 @@ public class HttpError<T> {
 
     public void setTasks(ArrayList<InspectionTask> tasks) {
         this.tasks = tasks;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getPass() {
+        return pass;
+    }
+
+    public void setPass(int pass) {
+        this.pass = pass;
+    }
+
+    public int getChecked() {
+        return checked;
+    }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
     }
 }

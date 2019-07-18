@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -352,10 +352,10 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
-                                threshold_h=response.getString("value208");
-                                threshold_l=response.getString("value207");
+                                threshold_h=response.has("value208")?response.getString("value208"):response.getString("threshold1");
+                                threshold_l=response.has("value207")?response.getString("value207"):response.getString("threshold2");
                                 try {
-                                    getdatatime=response.getString("askTimes");
+                                    getdatatime=response.getString("ackTimes");
                                     uploaddatatime=response.getString("waveValue");
                                 }catch (JSONException e) {
                                     e.printStackTrace();
@@ -489,7 +489,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         axisX.setTextColor(Color.GRAY);//X轴灰色
         axisX.setMaxLabelChars(3);
         axisX.setValues(axisValuesX);
-        axisX.setHasTiltedLabels(true);
+        axisX.setHasTiltedLabels(true);//X坐标轴字体是斜的显示还是直的，true是斜的显示
         axisX.setTextSize(10);
         axisX.setInside(true);
         axisY.setTextColor(Color.GRAY);
@@ -752,9 +752,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
                 LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
                 if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
-                    if(devType==78||devType==47){
+                    if(devType==78||devType==47||devType==100){
                         uploadtime_lin.setVisibility(View.VISIBLE);
-                        getdatatime_lin.setVisibility(View.VISIBLE);
+//                        getdatatime_lin.setVisibility(View.VISIBLE);
                         high_value.setText(threshold_h);
                         low_value.setText(threshold_l);
                         getdatatime_value.setText(getdatatime);
@@ -792,12 +792,15 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                 T.showShort(context,"低水位阈值不能高于高水位阈值");
                                 return;
                             }
-                            if(devType==78){
+                            if(devType==78||devType==85||devType==97||devType==98){
                                 url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
                                         +"&hight_set="+high+"&low_set="+low+"&send_time="+uploadtime+"&collect_time="+getdatatime;
                             }else if(devType==47||devType==48){
                                 url= ConstantValues.SERVER_IP_NEW+"set_water_level_Control?smokeMac="+electricMac+"&deviceType="+devType
                                         +"&hvalue="+high+"&lvalue="+low+"&waveValue="+uploadtime+"&waveTime="+getdatatime;
+                            }else if(devType==100||devType==101){
+                                url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
+                                        +"&hight_set="+high+"&low_set="+low+"&send_time="+uploadtime+"&collect_time="+getdatatime+"&lowpow_set=0";
                             }else{
                                 url= ConstantValues.SERVER_IP_NEW+"reSetAlarmNum?mac="+electricMac+"&threshold207="+low+"&threshold208="+high;
                             }

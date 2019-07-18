@@ -516,6 +516,8 @@ public class UploadAlarmInfoActivity extends MvpActivity<UploadAlarmInfoPresente
             T.showShort(mContext,"处理完成");
             clearView();
             finish();
+        }else{
+            T.showShort(mContext,"处理失败");
         }
 
     }
