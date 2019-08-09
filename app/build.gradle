@@ -39,8 +39,8 @@ android {
         applicationId "fire.cloud.smart.com.smartcloudfire"
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 43
-        versionName "4.3.36"
+        versionCode 45
+        versionName "4.3.38"
         multiDexEnabled true
 
         manifestPlaceholders = [

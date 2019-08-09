@@ -4,8 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/inspection_back">
+    android:layout_height="match_parent">
+
+    <include layout="@layout/progress_bar"/>
 
     <RelativeLayout
         android:id="@+id/title_rela"
@@ -57,7 +58,7 @@
         android:id="@+id/select_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ede1d0"
+        android:background="#c2edf0"
         android:layout_below="@id/title_rela"
         android:visibility="gone">
 

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/insp_main_back">
+
+
+    <ImageButton
+        android:id="@+id/insp_quickly_ib"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/insp_quickly_btn_selector"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/insp_main_shape"
+        android:padding="20dp">
+
+        <ImageButton
+            android:id="@+id/insp_add_normal_ib"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/insp_add_normal"
+            android:layout_marginRight="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="常规添加"
+            android:textStyle="bold"
+            android:layout_below="@id/insp_add_normal_ib"
+            android:layout_alignLeft="@id/insp_add_normal_ib"
+            android:layout_alignRight="@id/insp_add_normal_ib"
+            android:layout_marginTop="5dp"
+            android:gravity="center"/>
+        <ImageButton
+            android:id="@+id/insp_add_nfc_ib"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/insp_add_nfc"
+            android:layout_toRightOf="@id/insp_add_normal_ib"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NFC添加"
+            android:textStyle="bold"
+            android:layout_below="@id/insp_add_nfc_ib"
+            android:layout_alignLeft="@id/insp_add_nfc_ib"
+            android:layout_alignRight="@id/insp_add_nfc_ib"
+            android:layout_marginTop="5dp"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/insp_task_ib"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/insp_task"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/insp_add_nfc_ib"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="任务"
+            android:textStyle="bold"
+            android:layout_below="@id/insp_task_ib"
+            android:layout_alignLeft="@id/insp_task_ib"
+            android:layout_alignRight="@id/insp_task_ib"
+            android:layout_marginTop="5dp"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/insp_points_ib"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/insp_points"
+            android:layout_marginTop="35dp"
+            android:layout_below="@id/insp_add_normal_ib"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="巡检点"
+            android:textStyle="bold"
+            android:layout_below="@id/insp_points_ib"
+            android:layout_alignLeft="@id/insp_points_ib"
+            android:layout_alignRight="@id/insp_points_ib"
+            android:layout_marginTop="5dp"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/insp_map_ib"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/insp_map"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/insp_add_normal_ib"
+            android:layout_toRightOf="@id/insp_points_ib"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地图"
+            android:textStyle="bold"
+            android:layout_below="@id/insp_map_ib"
+            android:layout_alignLeft="@id/insp_map_ib"
+            android:layout_alignRight="@id/insp_map_ib"
+            android:layout_marginTop="5dp"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/insp_upload_problem_ib"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/insp_upload_problem"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/insp_add_normal_ib"
+            android:layout_toRightOf="@id/insp_map_ib"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="隐患上报"
+            android:textStyle="bold"
+            android:layout_below="@id/insp_upload_problem_ib"
+            android:layout_alignLeft="@id/insp_upload_problem_ib"
+            android:layout_alignRight="@id/insp_upload_problem_ib"
+            android:layout_marginTop="5dp"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+</RelativeLayout>

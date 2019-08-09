@@ -75,5 +75,11 @@
     <attr name="progress" format="float"/>
 
 </declare-styleable>
+
+
+    <declare-styleable name="BingoSearchView">
+        <attr name="edit_hint_text" format="string"/>
+        <attr name="max_search_items" format="integer"/>
+    </declare-styleable>
     
 </resources>

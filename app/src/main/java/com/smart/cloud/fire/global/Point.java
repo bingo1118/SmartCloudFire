@@ -1,6 +1,8 @@
 package com.smart.cloud.fire.global;
 
-public class Point {
+import com.smart.cloud.fire.view.BingoViewModel;
+
+public class Point implements BingoViewModel{
 	private String pid;
 	private String name;
 	private String longtitude;
@@ -72,5 +74,15 @@ public class Point {
 
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
+	}
+
+	@Override
+	public String getModelId() {
+		return pid;
+	}
+
+	@Override
+	public String getModelName() {
+		return name;
 	}
 }

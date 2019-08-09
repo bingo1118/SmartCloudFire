@@ -106,12 +106,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
+        ex.printStackTrace();
         // 使用Toast来显示异常信息
         new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
-                T.showShort(mContext, "很抱歉,程序出现异常,即将退出.");
+//                T.showShort(mContext, "很抱歉,程序出现异常,即将退出.");
                 Looper.loop();
             }
         }.start();

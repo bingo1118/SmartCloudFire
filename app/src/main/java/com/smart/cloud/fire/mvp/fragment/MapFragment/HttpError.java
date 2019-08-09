@@ -7,6 +7,7 @@ import com.smart.cloud.fire.global.InspectionTask;
 import com.smart.cloud.fire.global.NFCInfoEntity;
 import com.smart.cloud.fire.global.Point;
 import com.smart.cloud.fire.global.ShopType;
+import com.smart.cloud.fire.global.User;
 import com.smart.cloud.fire.mvp.electricChangeHistory.HistoryBean;
 import com.smart.cloud.fire.mvp.fragment.CollectFragment.AlarmMessageModel;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmoke;
@@ -40,8 +41,10 @@ public class HttpError<T> {
     private ArrayList<NFCDeviceType> deviceType;//@@8.16 NFC设备类型
     private ArrayList<NFCRecordBean> nfcList;//@@8.16 NFC设备
     private ArrayList<Point> points;//巡检点
-    private ArrayList<NFCInfoEntity> nfcinfos;//巡检项目
-    private ArrayList<InspectionTask> tasks;//巡检项目
+    private ArrayList<NFCInfoEntity> nfcinfos;
+    private ArrayList<InspectionTask> tasks;
+    private ArrayList<User> list;
+
 
     private int total;
     private int pass;
@@ -199,5 +202,13 @@ public class HttpError<T> {
 
     public void setChecked(int checked) {
         this.checked = checked;
+    }
+
+    public ArrayList<User> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<User> list) {
+        this.list = list;
     }
 }

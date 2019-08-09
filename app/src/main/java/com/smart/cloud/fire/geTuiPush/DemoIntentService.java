@@ -192,6 +192,7 @@ public class DemoIntentService extends GTIntentService {
                 case 99:
                 case 100:
                 case 101:
+                case 103:
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -379,6 +380,7 @@ public class DemoIntentService extends GTIntentService {
                         case 7:
                             message="声光发出报警";
                             break;
+                        case 103:
                         case 8:
                             if(alarmType==193){
                                 message="低电压报警";

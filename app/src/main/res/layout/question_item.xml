@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/quession_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="问题:"/>
+
+    <RadioGroup
+        android:id="@+id/question_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quession_text"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/yes_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是"/>
+        <RadioButton
+            android:id="@+id/no_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="否"/>
+    </RadioGroup>
+
+</RelativeLayout>

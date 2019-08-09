@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -41,6 +42,10 @@ public class TaskListActivity extends MvpActivity<TaskListPresenter> implements 
     RecyclerView recycler_view;
     @Bind(R.id.swipere_fresh_layout)
     SwipeRefreshLayout swipereFreshLayout;
+    @Bind(R.id.mProgressBar)
+    ProgressBar mProgressBar;
+    @Bind(R.id.null_data_iv)
+    ImageView null_data_iv;
 
     @Bind(R.id.select_btn)
     ImageButton select_btn;
@@ -211,7 +216,10 @@ public class TaskListActivity extends MvpActivity<TaskListPresenter> implements 
     public void getDataSuccess(List<InspectionTask> pointList) {
         if(pointList.size()==0){
             Toast.makeText(mContext,"无数据",Toast.LENGTH_SHORT).show();
-        }//@@7.7
+            null_data_iv.setVisibility(View.VISIBLE);
+        }else{
+            null_data_iv.setVisibility(View.GONE);
+        }
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
@@ -234,16 +242,17 @@ public class TaskListActivity extends MvpActivity<TaskListPresenter> implements 
     @Override
     public void getDataFail(String msg) {
         T.showShort(mContext,msg);
+        null_data_iv.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showLoading() {
-
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

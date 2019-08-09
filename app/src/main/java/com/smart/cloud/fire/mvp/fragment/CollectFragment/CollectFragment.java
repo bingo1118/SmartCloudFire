@@ -612,19 +612,23 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                 @Override
                 public void onClick(View view, int position) {
                     if(view.getId()==R.id.deal_alarm_action_tv){
-                        Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
-            PushAlarmMsg mPushAlarmMsg=new PushAlarmMsg();
-            mPushAlarmMsg.setMac(messageModelList.get(position).getMac());
-            mPushAlarmMsg.setName(messageModelList.get(position).getName());
-            mPushAlarmMsg.setAddress(messageModelList.get(position).getAddress());
-            mPushAlarmMsg.setAlarmTypeName(messageModelList.get(position).getAlarmTypeName());
-            mPushAlarmMsg.setAlarmTime(messageModelList.get(position).getAlarmTime());
-            intent.putExtra("mPushAlarmMsg",mPushAlarmMsg);
-            intent.putExtra("mac",messageModelList.get(position).getMac());
-            intent.putExtra("alarm",messageModelList.get(position).getAlarmType()+"");
-            getActivity().startActivityForResult(intent,6);
-            deal_position=position;
-        }
+//                        Intent intent=new Intent(mContext, UploadAlarmInfoActivity.class);
+//                        PushAlarmMsg mPushAlarmMsg=new PushAlarmMsg();
+//                        mPushAlarmMsg.setMac(messageModelList.get(position).getMac());
+//                        mPushAlarmMsg.setName(messageModelList.get(position).getName());
+//                        mPushAlarmMsg.setAddress(messageModelList.get(position).getAddress());
+//                        mPushAlarmMsg.setAlarmTypeName(messageModelList.get(position).getAlarmTypeName());
+//                        mPushAlarmMsg.setAlarmTime(messageModelList.get(position).getAlarmTime());
+//                        intent.putExtra("mPushAlarmMsg",mPushAlarmMsg);
+//                        intent.putExtra("mac",messageModelList.get(position).getMac());
+//                        intent.putExtra("alarm",messageModelList.get(position).getAlarmType()+"");
+//                        getActivity().startActivityForResult(intent,6);
+                        deal_position=position;
+
+                        collectFragmentPresenter.dealAlarmDetail(userID, messageModelList.get(deal_position).getMac(), privilege+"" ,deal_position,userID,
+                                "","",
+                                "","");
+                    }
     }
 });
         demoRecycler.setAdapter(adapter);

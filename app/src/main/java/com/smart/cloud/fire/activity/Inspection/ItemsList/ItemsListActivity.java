@@ -18,6 +18,7 @@ import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.NFCInfoEntity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.view.BingoSearchView;
 
 import java.util.List;
 
@@ -43,6 +44,8 @@ public class ItemsListActivity extends MvpActivity<ItemsListPresenter> implement
     TextView change;
     @Bind(R.id.change_iv)
     ImageView change_iv;
+    @Bind(R.id.search_bingo)
+    BingoSearchView search_bingo;
 
 
     private ItemsListPresenter mPresenter;
@@ -102,6 +105,20 @@ public class ItemsListActivity extends MvpActivity<ItemsListPresenter> implement
                     change.setText("已巡检项目");
                 }
                 mPresenter.getTaskItems(tid,state);
+            }
+        });
+        search_bingo.setListener(new BingoSearchView.OnGetSearchTextListener() {
+            @Override
+            public void onGetText(String text) {
+                if(tid!=null&&tid.length()>0){
+                    mPresenter.getTaskItemsByName(tid,state);
+                    change.setVisibility(View.GONE);
+                    change_iv.setVisibility(View.GONE);
+                }else if(pid!=null&&pid.length()>0){
+                    mPresenter.getItemsByName(pid,text);
+                }else{
+                    mPresenter.getAllItems(userID,"");
+                }
             }
         });
     }

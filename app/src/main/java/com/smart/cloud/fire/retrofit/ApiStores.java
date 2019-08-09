@@ -136,6 +136,21 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getPoints(@Query("userId") String userId, @Query("areaId") String areaId);
 
+    //获取区域下的管理员
+    @GET("getManagersByAreaId")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getManagersByAreaId(@Query("areaId") String areaId);
+
+    //获取查找的巡检点类型
+    @GET("getItemsByName")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getItemsByName(@Query("pid") String pid, @Query("deviceName") String areaId);
+
+    //获取查找任务中的巡检点类型
+    @GET("getItemsByName2")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpError> getItemsByName2(@Query("pid") String pid, @Query("deviceName") String areaId);
+
     //获取所有的巡检任务
     @GET("getTasks")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -439,6 +454,15 @@ public interface ApiStores {
                                         @Field("producer") String producer,
                                         @Field("makeTime") String makeTime,@Field("workerPhone") String workerPhone,
                                         @Field("makeAddress") String makeAddress);
+
+    //巡检隐患上报
+    @FormUrlEncoded
+    @POST("uploadHiddenDanger")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ConfireFireModel> uploadHiddenDanger(@Field("title") String title, @Field("address") String address,
+                                        @Field("managers") String managers, @Field("workerId") String workerId,
+                                        @Field("areaId") String areaId, @Field("desc") String desc,
+                                        @Field("imgs") String imgs);
 
     //添加巡检项目
     @FormUrlEncoded

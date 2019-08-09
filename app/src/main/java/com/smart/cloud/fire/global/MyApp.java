@@ -19,6 +19,7 @@ import com.p2p.core.update.UpdateManager;
 import com.smart.cloud.fire.activity.Functions.constant.Constant;
 import com.smart.cloud.fire.service.LocationService;
 import com.smart.cloud.fire.ui.ForwardDownActivity;
+import com.smart.cloud.fire.utils.CrashHandler;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.squareup.leakcanary.LeakCanary;
@@ -53,8 +54,8 @@ public class MyApp extends Application {
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(this);
         //启动集错程序
-//        CrashHandler crashHandler = CrashHandler.getInstance();
-//        crashHandler.init(this);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         //检查内存是否泄漏初始化，正式版应该关闭
         LeakCanary.install(this);
         LitePal.initialize(this);//数据库框架

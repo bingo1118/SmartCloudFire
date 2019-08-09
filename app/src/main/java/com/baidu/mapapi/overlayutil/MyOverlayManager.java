@@ -16,7 +16,9 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.model.LatLng;
+import com.smart.cloud.fire.activity.Inspection.InspectionMap.InspectionMapPresenter;
 import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
+import com.smart.cloud.fire.global.NFCInfoEntity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.MapFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
@@ -32,6 +34,7 @@ public class MyOverlayManager extends OverlayManager {
     private List<BitmapDescriptor> viewList;
 
     private static List<NFCRecordBean> mapNormalNFC;//@@8.18
+    private static List<NFCInfoEntity> mInspectionList;
 
 
 
@@ -43,6 +46,14 @@ public class MyOverlayManager extends OverlayManager {
         initBaiduMap(baiduMap);
         this.mapNormalSmoke = mapNormalSmoke;
         this.mMapFragmentPresenter = mMapFragmentPresenter;
+        this.viewList = viewList;
+        mContext=context;
+        mBaiduMap=baiduMap;
+    }
+
+    public void initInspection(Context context, BaiduMap baiduMap, List<NFCInfoEntity> mapNormalSmoke, List<BitmapDescriptor> viewList){
+        initBaiduMap(baiduMap);
+        this.mInspectionList = mapNormalSmoke;
         this.viewList = viewList;
         mContext=context;
         mBaiduMap=baiduMap;
@@ -249,6 +260,33 @@ public class MyOverlayManager extends OverlayManager {
                         break;
                     }
                 }
+        }else if(mInspectionList!=null&&mInspectionList.size()>0){//@@8.18 NFC设备地图
+            for (NFCInfoEntity smoke : mInspectionList) {
+                Bundle bundle = new Bundle();
+                if(smoke.getLatitude()==null||smoke.getLongitude()==null||smoke.getLatitude().length()==0||smoke.getLongitude().length()==0){
+                    continue;
+                }//@@
+                double latitude = Double.parseDouble(smoke.getLatitude());
+                double longitude = Double.parseDouble(smoke.getLongitude());
+
+                LatLng latLng = new LatLng(latitude, longitude);
+                bundle.putSerializable("mNormalSmoke",smoke);
+//                String stateType = smoke.getIscheck();
+//                switch (stateType) {
+//                    case "0":
+//                        markMap(latLng, overlayOptionses, 1, null, viewList.get(7), bundle);//待检 Yellow
+//                        break;
+//                    case "1":
+//                        markMap(latLng, overlayOptionses, 1, null, viewList.get(2), bundle);//合格 Green
+//                        break;
+//                    case "2":
+                        markMap(latLng, overlayOptionses, 1, null, viewList.get(0), bundle);//不合格 Red
+//                        break;
+//                    default:
+//                        markMap(latLng, overlayOptionses, 1, null, viewList.get(7), bundle);//待检 Yellow
+//                        break;
+//                }
+            }
         }
         return overlayOptionses;
     }

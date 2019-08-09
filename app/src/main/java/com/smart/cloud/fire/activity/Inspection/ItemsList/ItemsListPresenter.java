@@ -78,4 +78,46 @@ public class ItemsListPresenter extends BasePresenter<ItemsListView>{
         }));
     }
 
+    public void getItemsByName(String pid,String text){
+        Observable mObservable=apiStores1.getItemsByName(pid,text);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                if(model.getErrorCode()==0){
+                    mvpView.getDataSuccess(model.getNfcinfos());
+                }else{
+                    mvpView.getDataSuccess(new ArrayList<>());
+                }
+            }
+            @Override
+            public void onFailure(int code, String msg) {
+                mvpView.getDataFail("网络错误");
+            }
+            @Override
+            public void onCompleted() {
+            }
+        }));
+    }
+
+    public void getTaskItemsByName(String tid,String text){
+        Observable mObservable=apiStores1.getItemsByName2(tid,text);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
+            @Override
+            public void onSuccess(HttpError model) {
+                if(model.getErrorCode()==0){
+                    mvpView.getDataSuccess(model.getNfcinfos());
+                }else{
+                    mvpView.getDataSuccess(new ArrayList<>());
+                }
+            }
+            @Override
+            public void onFailure(int code, String msg) {
+                mvpView.getDataFail("网络错误");
+            }
+            @Override
+            public void onCompleted() {
+            }
+        }));
+    }
+
 }

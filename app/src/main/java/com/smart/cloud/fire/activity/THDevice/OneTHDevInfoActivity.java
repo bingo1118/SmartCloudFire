@@ -288,6 +288,10 @@ public class OneTHDevInfoActivity extends Activity {
                                         T.showShort(mContext,"低阈值不能高于高阈值");
                                         return;
                                     }
+                                    if(uploadtime<1||uploadtime>1440){
+                                        T.showShort(mContext,"上报时间范围为1-1400分钟");
+                                        return;
+                                    }
                                     url= ConstantValues.SERVER_IP_NEW+"nanjing_set_TempHumi_data?imeiValue="+mac+"&deviceType="+devType+"&Hight_HumiSet="+high2+"&Low_HumiSet="+low2
                                             +"&Hight_TempSet="+high+"&Low_TempSet="+low+"&Tcollect_time="+getdatatime+"&Tsend_time="+uploadtime;
                                 }catch(Exception e){

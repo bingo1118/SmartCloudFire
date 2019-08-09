@@ -13,8 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -133,32 +131,6 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     private String imageFilePath;
     File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/devimage.jpg");//@@9.30
 
-    Handler handler = new Handler() {//@@9.29
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    mProgressBar.setVisibility(View.GONE);
-                    break;
-                case 1:
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    break;
-                case 2:
-                    T.showShort(mContext,"图片上传失败");
-                    break;
-                case 3:
-                    T.showShort(mContext,"图片上传成功");
-                    break;
-                case 4:
-                    T.showShort(mContext,"添加成功");
-                    break;
-                case 5:
-                    T.showShort(mContext,msg.obj.toString());
-                    photo_image.setImageResource(R.drawable.add_photo);
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -305,13 +277,19 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                     if(isHavePhoto){
                         isSuccess=uploadFile(file,userID,areaId,uploadTime,getdevmac(smokeMac),"devimages");
                         if(isSuccess){
-                            Message message = new Message();
-                            message.what = 3;
-                            handler.sendMessage(message);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    T.showShort(mContext,"图片上传成功");
+                                }
+                            });
                         }else{
-                            Message message = new Message();
-                            message.what =2 ;
-                            handler.sendMessage(message);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    T.showShort(mContext,"图片上传失败");
+                                }
+                            });
                         }
                     }
 
@@ -416,18 +394,23 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
 
     @Override
     public void showLoading() {
-//        mProgressBar.setVisibility(View.VISIBLE);
-        Message message = new Message();
-        message.what = 1;
-        handler.sendMessage(message);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     @Override
     public void hideLoading() {
-//        mProgressBar.setVisibility(View.GONE);
-        Message message = new Message();
-        message.what = 0;
-        handler.sendMessage(message);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -489,19 +472,25 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
 
     @Override
     public void addSmokeResult(String msg, int errorCode) {
-//        T.showShort(mContext, msg);
         if (errorCode == 0) {
             cleanAllView();
-            Message message = new Message();
-            message.what = 4;
-            handler.sendMessage(message);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    T.showShort(mContext,"添加成功");
+                }
+            });
         }else{
             imageFilePath=null;
-            Message message = new Message();
-            message.what = 5;
-            message.obj=msg;
-            handler.sendMessage(message);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    T.showShort(mContext,msg);
+                    photo_image.setImageResource(R.drawable.add_photo);
+                }
+            });
         }
+
         tip_line.setVisibility(View.GONE);
     }
 

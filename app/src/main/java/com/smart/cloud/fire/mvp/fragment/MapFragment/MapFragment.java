@@ -203,18 +203,6 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
             }
         });
 
-//        ClusterManager mClusterManager=null;
-//        if(mClusterManager==null){
-//            mClusterManager = new ClusterManager<DeviceItem>(mContext, mBaiduMap);
-//            for(int i=0;i<smokeList.size();i++){
-//                double latitude = Double.parseDouble(smokeList.get(i).getLatitude());
-//                double longitude = Double.parseDouble(smokeList.get(i).getLongitude());
-//
-//                LatLng latLng = new LatLng(latitude, longitude);
-//                mClusterManager.addItem(new DeviceItem(latLng));
-//            }
-//        }
-//        mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
     }
 
     @Override

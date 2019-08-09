@@ -33,6 +33,7 @@ import com.smart.cloud.fire.activity.Functions.model.ApplyTable;
 import com.smart.cloud.fire.activity.Functions.util.ACache;
 import com.smart.cloud.fire.activity.Functions.util.ApplyTableManager;
 import com.smart.cloud.fire.activity.Host.HostActivity;
+import com.smart.cloud.fire.activity.Inspection.InspectionMain.InspectionMainActivity;
 import com.smart.cloud.fire.activity.Inspection.PointList.PointListActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCDevActivity;
 import com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity;
@@ -186,7 +187,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                         startActivity(intent);
                         break;
                     case 8:
-                        intent=new Intent(mContext, PointListActivity.class);
+                        intent=new Intent(mContext, InspectionMainActivity.class);
                         startActivity(intent);
                         break;
                     case 11:

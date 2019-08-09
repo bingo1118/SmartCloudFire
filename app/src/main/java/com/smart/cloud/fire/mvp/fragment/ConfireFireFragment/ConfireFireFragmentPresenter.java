@@ -393,6 +393,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     if(smokeMac.endsWith("N")){//@@直连NB手报
                         smokeMac = smokeMac.substring(1, macLenghth-1);
                         deviceType="84";
+                    }else if(smokeMac.endsWith("J")){
+                        deviceType="103";//@@南京手报
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         smokeMac = smokeMac.substring(1, macLenghth);//手动报警，显示 7
                         deviceType="8";

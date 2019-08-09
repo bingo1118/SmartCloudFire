@@ -1,6 +1,8 @@
 package com.smart.cloud.fire.global;
 
-public class NFCInfoEntity {
+import java.io.Serializable;
+
+public class NFCInfoEntity implements Serializable {
     private String uid;		//nfc   MAC
     private String areaId;	//所属区域ID
     private String areaName;	// 所属区域名称

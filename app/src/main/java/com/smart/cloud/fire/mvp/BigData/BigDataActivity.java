@@ -131,14 +131,14 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
                 model=new SafeScore();
             }
             switch (msg.what){
-                case 0:
-                    fault_rela.startAnimation(mShowAnim );
-                    fault_text.setText("一共"+model.getTotalSum()+"个设备");
-                    fault_rela.setVisibility(View.VISIBLE);
-                    break;
+//                case 0:
+//                    fault_rela.startAnimation(mShowAnim );
+//                    fault_text.setText("一共"+model.getTotalSum()+"个设备");
+//                    fault_rela.setVisibility(View.VISIBLE);
+//                    break;
                 case 1:
                     offline_rela.startAnimation(mShowAnim );
-                    offline_text.setText("离线有"+model.getOfflineSum()+"个设备");
+                    offline_text.setText("离线设备:"+model.getOffline()+"分");
                     offline_rela.setVisibility(View.VISIBLE);
                     offline_rela.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -153,14 +153,14 @@ public class BigDataActivity extends MvpActivity<BigDataPresenter> implements Bi
                     break;
                 case 2:
                     yangan_rela.startAnimation(mShowAnim );
-                    yangan_text.setText("高频报警设备有"+model.getHistoriAlarmSum()+"个设备");
+                    yangan_text.setText("高频报警设备:"+model.getHistoriAlarm()+"分");
                     yangan_rela.setVisibility(View.VISIBLE);
 //                    core=core+(int)model.getHistoriAlarm();
 //                    circleProgressBar.setProgress(core,true);
                     break;
                 case 3:
                     water_rela.startAnimation(mShowAnim );
-                    water_text.setText("实时报警设备有"+model.getRealtimeAlarmSum()+"个设备");
+                    water_text.setText("实时报警设备:"+model.getRealtimeAlarm()+"分");
                     water_rela.setVisibility(View.VISIBLE);
                     core=(int)model.getSafeScore();
                     circleProgressBar.setProgress(core,true);

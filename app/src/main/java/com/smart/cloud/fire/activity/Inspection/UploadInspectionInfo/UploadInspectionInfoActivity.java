@@ -24,6 +24,8 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -40,16 +42,20 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.JsonObject;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FileUtil;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FormFile;
 import com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity;
+import com.smart.cloud.fire.adapter.QuestionAdapter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.global.Question;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.UploadUtil;
 import com.smart.cloud.fire.utils.VolleyHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -59,7 +65,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -94,6 +102,8 @@ public class UploadInspectionInfoActivity extends Activity {
     RadioButton radio1;
     @Bind(R.id.radio2)
     RadioButton radio2;
+    @Bind(R.id.question_recyclerview)
+    RecyclerView question_recyclerview;
     private Context mContext;
     private int privilege;
     private String userID;
@@ -107,6 +117,10 @@ public class UploadInspectionInfoActivity extends Activity {
     IntentFilter[] mWriteTagFilters;
     IntentFilter[] mNdefExchangeFilters;
     private Tag mDetectedTag;
+
+    String questionJson;
+    List<Question> listQ;
+    QuestionAdapter questionAdapter;
 
     private String deviceState="1";
     String lon="";
@@ -158,9 +172,9 @@ public class UploadInspectionInfoActivity extends Activity {
         tid=getIntent().getStringExtra("tid");
         memo=getIntent().getStringExtra("memo");
         modify=getIntent().getStringExtra("modify");
-        if(modify!=null&&modify.length()>0){
+//        if(modify!=null&&modify.length()>0){
             getRecentRecord();
-        }
+//        }
         getNormalDevInfo(uid);
 
         if(f.exists()){
@@ -186,14 +200,16 @@ public class UploadInspectionInfoActivity extends Activity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String qualified=response.getString("qualified");
-                            String memo=response.getString("desc");
-                            if(qualified.equals("1")){
-                                radio1.setChecked(true);
-                            }else{
-                                radio2.setChecked(true);
+                            if(modify!=null&&modify.length()>0){
+                                String qualified=response.getString("qualified");
+                                String memo=response.getString("desc");
+                                if(qualified.equals("1")){
+                                    radio1.setChecked(true);
+                                }else{
+                                    radio2.setChecked(true);
+                                }
+                                memo_name.setText(memo);
                             }
-                            memo_name.setText(memo);
                             tuid=response.getString("tuid");
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -229,6 +245,8 @@ public class UploadInspectionInfoActivity extends Activity {
                                 addFireAddress.setText(response.getString("address"));
                                 area_name.setText(response.getString("areaName"));
                                 device_type_name.setText(response.getString("deviceTypeName"));
+                                questionJson=response.getString("questionTypes");
+                                dealwithQuestionJson(questionJson);
                             }
                             pid=response.getString("pid");
                         } catch (JSONException e) {
@@ -245,6 +263,30 @@ public class UploadInspectionInfoActivity extends Activity {
             }
         });
         mQueue.add(jsonObjectRequest);
+    }
+
+    private void dealwithQuestionJson(String questionJson) {
+        try {
+            JSONArray jsonArray=new JSONArray(questionJson);
+            if(jsonArray.length()!=0){
+                listQ=new ArrayList<>();
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject temp=jsonArray.getJSONObject(i);
+                    JSONArray tempA=temp.getJSONArray("questions");
+                    for(int j=0;j<tempA.length();j++){
+                        Question question=new Question();
+                        question.setQdetail(tempA.getJSONObject(j).getString("qdetail"));
+                        question.setQid(tempA.getJSONObject(j).getInt("qid"));
+                        listQ.add(question);
+                    }
+                }
+            }
+            questionAdapter=new QuestionAdapter(mContext,listQ);
+            question_recyclerview.setLayoutManager(new LinearLayoutManager(mContext));
+            question_recyclerview.setAdapter(questionAdapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initView() {
@@ -273,6 +315,14 @@ public class UploadInspectionInfoActivity extends Activity {
                 handler.sendMessage(message);
                 if(uid_name.getText()==null||uid_name.getText().toString().equals("")){
                     toast("请先录入设备标签信息");
+                    Message message1 = new Message();
+                    message.what = 0;
+                    handler.sendMessage(message1);
+                    return;
+                }
+                String answer=questionAdapter.getAnwserJson();
+                if(answer==null){
+                    toast("请完成所有选项");
                     Message message1 = new Message();
                     message.what = 0;
                     handler.sendMessage(message1);
@@ -307,9 +357,11 @@ public class UploadInspectionInfoActivity extends Activity {
                                         +"&tid="+tid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
                                         +"&photo1="+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
                             }else{
+                                String answer=questionAdapter.getAnwserJson();
                                 url= ConstantValues.SERVER_IP_NEW+"postResult?userId="+userID+"&uid="+uid_name.getText().toString()
                                         +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
-                                        +"&photo1="+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."));
+                                        +"&photo1="+uploadTime+imageFilePath.substring(imageFilePath.lastIndexOf("."))
+                                        +"&questionJson="+answer+"&tuid="+tuid;
 
                             }
 
@@ -326,7 +378,7 @@ public class UploadInspectionInfoActivity extends Activity {
                             }else{
                                 url= ConstantValues.SERVER_IP_NEW+"postResult?userId="+userID+"&uid="+uid_name.getText().toString()
                                         +"&tid="+tid+"&pid="+pid+"&qualified="+deviceState+"&desc="+ URLEncoder.encode(memo_name.getText().toString())
-                                        +"&photo1=";
+                                        +"&photo1="+"&questionJson="+URLEncoder.encode(answer)+"&tuid="+tuid;
                             }
 
                         }

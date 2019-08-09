@@ -20,6 +20,7 @@ public class T
     }
 
     public static boolean isShow = true;
+    private static Toast toast;
 
     /**
      * 短时间显示Toast
@@ -29,8 +30,15 @@ public class T
      */
     public static void showShort(Context context, CharSequence message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if (isShow){
+            if (toast == null) {
+                toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            } else {
+                toast.setText(message);
+            }
+            toast.show();
+        }
+
     }
 
     /**
@@ -41,8 +49,14 @@ public class T
      */
     public static void showShort(Context context, int message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if (isShow){
+            if (toast == null) {
+                toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            } else {
+                toast.setText(message);
+            }
+            toast.show();
+        }
     }
 
     /**
@@ -53,8 +67,14 @@ public class T
      */
     public static void showLong(Context context, CharSequence message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        if (isShow){
+            if (toast == null) {
+                toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+            } else {
+                toast.setText(message);
+            }
+            toast.show();
+        }
     }
 
     /**
@@ -65,8 +85,14 @@ public class T
      */
     public static void showLong(Context context, int message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        if (isShow){
+            if (toast == null) {
+                toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+            } else {
+                toast.setText(message);
+            }
+            toast.show();
+        }
     }
 
     /**
@@ -78,8 +104,14 @@ public class T
      */
     public static void show(Context context, CharSequence message, int duration)
     {
-        if (isShow)
-            Toast.makeText(context, message, duration).show();
+        if (isShow){
+            if (toast == null) {
+                toast = Toast.makeText(context, message, duration);
+            } else {
+                toast.setText(message);
+            }
+            toast.show();
+        }
     }
 
     /**
@@ -91,8 +123,14 @@ public class T
      */
     public static void show(Context context, int message, int duration)
     {
-        if (isShow)
-            Toast.makeText(context, message, duration).show();
+        if (isShow){
+            if (toast == null) {
+                toast = Toast.makeText(context, message, duration);
+            } else {
+                toast.setText(message);
+            }
+            toast.show();
+        }
     }
 
 }

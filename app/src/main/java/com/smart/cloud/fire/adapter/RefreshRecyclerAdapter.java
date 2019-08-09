@@ -509,6 +509,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMac.setText("声光探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shengguang);
                     break;
+                case 103:
                 case 84:
                 case 8:
                     ((ItemViewHolder) holder).smokeMac.setText("手报探测器:");

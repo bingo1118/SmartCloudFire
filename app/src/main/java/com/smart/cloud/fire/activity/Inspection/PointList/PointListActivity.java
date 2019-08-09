@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.smart.cloud.fire.activity.Inspection.AddInspectionItem.AddInspectionNFCItemActivity;
 import com.smart.cloud.fire.activity.Inspection.AddInspectionItem.AddInspectionNormalItemActivity;
+import com.smart.cloud.fire.activity.Inspection.InspectionMap.InspectionMapActivity;
 import com.smart.cloud.fire.activity.Inspection.ItemsList.ItemsListActivity;
 import com.smart.cloud.fire.activity.Inspection.TaskList.TaskListActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.Point;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.view.BingoSearchView;
 
 import java.util.List;
 
@@ -105,6 +107,10 @@ public class PointListActivity extends MvpActivity<PointListPresenter> implement
                         break;
                     case R.id.all_items:
                         intent=new Intent(PointListActivity.this, ItemsListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.map:
+                        intent=new Intent(PointListActivity.this, InspectionMapActivity.class);
                         startActivity(intent);
                         break;
                 }

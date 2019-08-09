@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:background="@drawable/bingo_edit_bg">
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/search_bingo"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/img_goahead"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/goahead"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+        <ImageView
+            android:id="@+id/img_cancel"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:background="@drawable/cancel2"
+            android:layout_toLeftOf="@id/img_goahead"
+            android:layout_marginRight="5dp"
+            android:visibility="invisible"
+            android:layout_centerVertical="true"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/edit"
+            android:layout_toRightOf="@id/img1"
+            android:layout_toLeftOf="@id/img_cancel"
+            android:background="@null"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

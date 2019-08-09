@@ -39,7 +39,9 @@ public class AlarmPresenter extends BasePresenter<AlarmView>{
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onCompleted() {
-                        mvpView.finishActivity();
+                        if(mvpView!=null){
+                            mvpView.finishActivity();
+                        }
                     }
 
                     @Override
