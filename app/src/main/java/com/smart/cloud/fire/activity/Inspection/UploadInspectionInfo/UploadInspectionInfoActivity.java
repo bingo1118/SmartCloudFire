@@ -189,13 +189,8 @@ public class UploadInspectionInfoActivity extends Activity {
     }
 
     private void getRecentRecord() {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        String url="";
-
-        url= ConstantValues.SERVER_IP_NEW+"getRecentRecord?uid="+uid;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        String url= ConstantValues.SERVER_IP_NEW+"getRecentRecord?uid="+uid;
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -224,17 +219,11 @@ public class UploadInspectionInfoActivity extends Activity {
                 handler.sendMessage(message);
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void getNormalDevInfo(String uid) {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        String url="";
-
-        url= ConstantValues.SERVER_IP_NEW+"getItemInfo?uid="+uid;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        String url= ConstantValues.SERVER_IP_NEW+"getItemInfo?uid="+uid;
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -262,7 +251,6 @@ public class UploadInspectionInfoActivity extends Activity {
                 handler.sendMessage(message);
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void dealwithQuestionJson(String questionJson) {
@@ -344,9 +332,6 @@ public class UploadInspectionInfoActivity extends Activity {
                             }//@@11.07
                             isSuccess= UploadUtil.uploadFile(file,userID,areaId,uploadTime,"","cheakImg");
                         }
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-//                        RequestQueue mQueue = Volley.newRequestQueue(mContext);
                         String url="";
                         if(isHavePhoto&&isSuccess){
                             File file = new File(imageFilePath);//9.29
@@ -382,8 +367,7 @@ public class UploadInspectionInfoActivity extends Activity {
                             }
 
                         }
-
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -418,7 +402,6 @@ public class UploadInspectionInfoActivity extends Activity {
                                 handler.sendMessage(message);
                             }
                         });
-                        mQueue.add(jsonObjectRequest);
                     }
                 }).start();
 

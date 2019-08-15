@@ -78,10 +78,8 @@ public class DealMsgDetailActivity extends Activity {
 
     private void initData() {
         Intent i=getIntent();
-        VolleyHelper helper= VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"getNeedAlarmMessage?userId=13622215085&privilege=4&id="+i.getIntExtra("id",0);
-        StringRequest stringRequest = new StringRequest(url,
+        VolleyHelper.getInstance(mContext).getStringResponse(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -101,7 +99,6 @@ public class DealMsgDetailActivity extends Activity {
                 Log.e("error","error");
             }
         });
-        mQueue.add(stringRequest);
     }
 
     private void initView(JSONObject alarm) {

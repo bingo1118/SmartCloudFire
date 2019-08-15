@@ -71,10 +71,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
     private void getUrl(String contactId) {
         String url="http://139.159.220.138:8081/hkvideo/getPreviewUrl?cameraIndexCode="+contactId;
-//        RequestQueue mQueue = Volley.newRequestQueue(this);
-        VolleyHelper helper= VolleyHelper.getInstance(this);
-        RequestQueue mQueue = helper.getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(this).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -93,7 +90,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void initView() {

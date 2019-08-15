@@ -52,12 +52,7 @@ public class VpSimpleFragment extends Fragment {
 	
 	private void initData(String mac) {
 		String url= ConstantValues.SERVER_IP_NEW+"getEnvironmentHistory"+"?airMac="+mac;
-		VolleyHelper helper=VolleyHelper.getInstance(getActivity());
-		RequestQueue mQueue = helper.getRequestQueue();
-//		RequestQueue mQueue = Volley.newRequestQueue(getActivity());
-		JsonObjectRequest mJsonRequest = new JsonObjectRequest(Method.GET,
-				url, 
-				null, 
+		VolleyHelper.getInstance(getActivity()).getJsonResponse(url,
 				new Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject jsonObject) {
@@ -96,7 +91,6 @@ public class VpSimpleFragment extends Fragment {
 						Toast.makeText(getActivity(), "获取失败", Toast.LENGTH_SHORT).show();
 					}
 				});
-		mQueue.add(mJsonRequest);
 	}
 
 	private void initView(View view) {

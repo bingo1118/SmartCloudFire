@@ -202,11 +202,8 @@ public class HostActivity extends Activity {
     }
 
     private void getData(String page1,String search){
-        VolleyHelper helper=VolleyHelper.getInstance(MyApp.app);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"getRepeaterInfo?userId="+userID+"&privilege="+privilege+"&page="+page1+"&search="+search;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(this).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -252,6 +249,5 @@ public class HostActivity extends Activity {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 }

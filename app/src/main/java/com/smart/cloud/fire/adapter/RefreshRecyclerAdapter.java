@@ -138,14 +138,10 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String username = SharedPreferencesManager.getInstance().getData(mContext,
-                                            SharedPreferencesManager.SP_FILE_GWELL,
-                                            SharedPreferencesManager.KEY_RECENTNAME);
+                                    String username = MyApp.getUserID();
                                     String url= ConstantValues.SERVER_IP_NEW+"makeSureAlarm?userId="+username
                                             +"&smokeMac="+mNormalAlarmMessage.getMac()+"&alarmType="+alarmType;
-                                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                    RequestQueue mQueue = helper.getRequestQueue();
-                                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                    VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                             new Response.Listener<JSONObject>() {
                                                 @Override
                                                 public void onResponse(JSONObject response) {
@@ -166,7 +162,6 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                             T.showShort(MyApp.app,"上报失败");
                                         }
                                     });
-                                    mQueue.add(jsonObjectRequest);
                                 }
                             });
                     builder.setNegativeButton("关闭",
@@ -512,8 +507,12 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case 103:
                 case 84:
                 case 8:
+                    if(alarmType == 193){
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_ddy);
+                    }else{
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shoubao);
+                    }
                     ((ItemViewHolder) holder).smokeMac.setText("手报探测器:");
-                    ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shoubao);
                     break;
                 case 11://@@8.3
                     ((ItemViewHolder) holder).smokeMac.setText("红外探测器:");
@@ -533,6 +532,14 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_ddy);
                     }else{
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
+                    }
+                    break;
+                case 104://热电偶温度器
+                    ((ItemViewHolder) holder).smokeMac.setText("热电偶温度器:");
+                    if (alarmType == 36) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_gz);//@@8.10
+                    } else if(alarmType == 308){
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_gw);
                     }
                     break;
                 case 27:

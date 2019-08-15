@@ -30,6 +30,7 @@ import com.smart.cloud.fire.mvp.electric.ElectricView;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
+import com.smart.cloud.fire.view.LochoLineChartView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,10 +82,8 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
                 String url= ConstantValues.SERVER_IP_NEW+"getChuangAnData?mac="+electricMac;
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -105,7 +104,6 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
                         T.showShort(mContext,"网络错误");
                     }
                 });
-                mQueue.add(jsonObjectRequest);
             }
         };
         timer.schedule(timerTask, 0, 60*1000);
@@ -153,7 +151,7 @@ public class ChuangAnActivity extends MvpActivity<ChuangAnPresenter> implements 
                 Intent intent = new Intent(mContext, LineChartActivity.class);
                 intent.putExtra("electricMac",electricMac);
                 intent.putExtra("electricNum",data.getId());
-                intent.putExtra("isWater","chuangan");
+                intent.putExtra("isWater", LochoLineChartView.TYPE_CHUANAN);
                 startActivity(intent);
             }
         });

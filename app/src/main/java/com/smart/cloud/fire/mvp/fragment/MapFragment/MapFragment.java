@@ -566,11 +566,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                    RequestQueue mQueue = helper.getRequestQueue();
-//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String url= ConstantValues.SERVER_IP_NEW+"getAreaInfo?userId="+userID+"&privilege="+privilege;
-                    StringRequest stringRequest = new StringRequest(url,
+                    VolleyHelper.getInstance(mContext).getStringResponse(url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -634,7 +631,6 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                             Log.e("error","error");
                         }
                     });
-                    mQueue.add(stringRequest);
                     areaCondition.setClickable(false);
                     areaCondition.showLoading();
                 }

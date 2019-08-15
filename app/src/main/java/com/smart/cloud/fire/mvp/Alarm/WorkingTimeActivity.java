@@ -98,11 +98,8 @@ public class WorkingTimeActivity extends MvpActivity<AlarmPresenter> implements 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.stop_alarm:
-                VolleyHelper helper= VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
                 String url= ConstantValues.SERVER_IP_NEW+"dealAlarm?userId="+userID+"&smokeMac="+userID;
-                StringRequest stringRequest = new StringRequest(url,
+                VolleyHelper.getInstance(mContext).getStringResponse(url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -122,7 +119,6 @@ public class WorkingTimeActivity extends MvpActivity<AlarmPresenter> implements 
                         Log.e("error","error");
                     }
                 });
-                mQueue.add(stringRequest);
                 break;
             default:
                 break;

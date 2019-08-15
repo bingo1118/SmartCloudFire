@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/title_rela"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/back_devlist">
+        <com.smart.cloud.fire.view.AreaChooceListView
+            android:id="@+id/area_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="30dp"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:background="@drawable/areachooce_shape"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/title_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/top_checkedtextview_selector">
+            <TextView
+                android:id="@+id/title_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:text="电气防火" />
+            <TextView
+                android:id="@+id/online_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/wifi_acclerate_green"
+                android:text="--"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#e6e6e6"/>
+        <LinearLayout
+            android:id="@+id/title_lose_dev"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/top_checkedtextview_selector">
+            <TextView
+                android:id="@+id/title_lose_dev_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:text="离线设备" />
+            <TextView
+                android:id="@+id/offline_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_lose_dev_text"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/wifi_acclerate_red"
+                android:text="--"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

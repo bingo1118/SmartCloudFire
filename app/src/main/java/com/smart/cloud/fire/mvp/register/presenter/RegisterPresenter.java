@@ -145,11 +145,8 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
     }
 
     private void addUser(final String phoneNo, final String pwd, final Context mContext) {
-//        final RequestQueue mQueue = Volley.newRequestQueue(mContext);
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"AddUserAction?userId="+phoneNo+"&pwd="+pwd;
-        final StringRequest stringRequest = new StringRequest(url,
+        VolleyHelper.getInstance(mContext).getStringResponse(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -180,7 +177,6 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                 Log.e("error","error");
             }
         });
-        mQueue.add(stringRequest);
     }
 
 }

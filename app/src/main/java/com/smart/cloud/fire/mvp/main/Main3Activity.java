@@ -53,6 +53,7 @@ import com.smart.cloud.fire.mvp.main.view.MainView;
 import com.smart.cloud.fire.service.RemoteService;
 import com.smart.cloud.fire.ui.view.CircleProgressBar;
 import com.smart.cloud.fire.ui.view.ItemDivider;
+import com.smart.cloud.fire.utils.ButtonUtils;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
@@ -116,7 +117,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
         mContext=this;
         privilege = MyApp.app.getPrivilege();
 
-//        initView();
         regFilter();
         dealWithScan();
         anim = (AnimationDrawable) home_alarm_light.getBackground();
@@ -153,48 +153,43 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
             @Override
             public void onItemClick(View view, int position) {
                 ApplyTable table=list.get(position);
+                if (ButtonUtils.isFastDoubleClick(Integer.parseInt(table.getId()))) {
+                    return;
+                }
                 switch (Integer.parseInt(table.getId())){
                     case 0:
                         intent = new Intent(mContext, ChioceDevTypeActivity.class);
-                        startActivity(intent);
                         break;
                     case 1:
                         intent = new Intent(mContext, AllSmokeActivity.class);
-                        startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(mContext, WiredDevActivity.class);
-                        startActivity(intent);
                         break;
                     case 3:
                         intent = new Intent(mContext, ElectricDevActivity.class);
-                        startActivity(intent);
                         break;
                     case 4:
                         intent = new Intent(mContext, SecurityDevActivity.class);
-                        startActivity(intent);
                         break;
                     case 5:
                         intent = new Intent(mContext, CameraDevActivity.class);
-                        startActivity(intent);
                         break;
                     case 6:
                         intent = new Intent(mContext, NFCDevActivity.class);
-                        startActivity(intent);
                         break;
                     case 7:
                         intent= new Intent(mContext, HostActivity.class);
-                        startActivity(intent);
                         break;
                     case 8:
                         intent=new Intent(mContext, InspectionMainActivity.class);
-                        startActivity(intent);
                         break;
                     case 11:
                         intent=new Intent(mContext, FunctionsActivity.class);
-                        startActivity(intent);
                         break;
                 }
+                startActivity(intent);
+                MyApp.a=System.currentTimeMillis();
             }
         });
 
@@ -205,42 +200,36 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(myAdapte1r);
 
-        P2PHandler.getInstance().p2pInit(this,
-                new P2PListener(),
-                new SettingListener());
+
         connect();
         getlastestAlarm=new Timer();
         getlastestAlarm.schedule(new TimerTask() {
             @Override
             public void run() {
-                String username = SharedPreferencesManager.getInstance().getData(mContext,
-                        SharedPreferencesManager.SP_FILE_GWELL,
-                        SharedPreferencesManager.KEY_RECENTNAME);
-
+                String username = MyApp.getUserID();
                 String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(MyApp.app);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
                                     int errorCode=response.getInt("errorCode");
+                                    String content = "";
                                     if(errorCode==0){
                                         JSONObject lasteatalarm=response.getJSONObject("lasteatAlarm");
+
                                         if(lasteatalarm.getInt("ifDealAlarm")==0){
                                             anim.start();
-                                            home_alarm_info_text.setText(lasteatalarm.getString("address")+"\n"+lasteatalarm.getString("name")+"发生报警");
+                                            content=lasteatalarm.getString("address")+"\n"+lasteatalarm.getString("name")+"发生报警";
                                         }else{
                                             anim.stop();
-                                            home_alarm_info_text.setText(lasteatalarm.getString("address")
-                                                    +"\n"+lasteatalarm.getString("name")+"发生报警【已处理】");
+                                            content=lasteatalarm.getString("address") +"\n"+lasteatalarm.getString("name")+"发生报警【已处理】";
                                         }
                                     }else{
                                         anim.stop();
-                                        home_alarm_info_text.setText("无最新报警信息");
+                                        content="无最新报警信息";
                                     }
+                                    home_alarm_info_text.setText(content);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -252,7 +241,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                         home_alarm_info_text.setText("未获取到数据");
                     }
                 });
-                mQueue.add(jsonObjectRequest);
             }
         },0,10000);
     }
@@ -305,10 +293,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         String url= ConstantValues.SERVER_IP_NEW+"loginOut?userId="+username+"&alias="+username+"&cid="+userCID+"&appId=1";//@@5.27添加app编号
-//        RequestQueue mQueue = Volley.newRequestQueue(this);
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -319,7 +304,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
 
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void dealWithScan() {
@@ -370,9 +354,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         String url= ConstantValues.SERVER_IP_NEW+"getHistorSafeScore?userId="+username;
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -390,7 +372,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                 T.showShort(mContext,"获取历史分数错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     @Override

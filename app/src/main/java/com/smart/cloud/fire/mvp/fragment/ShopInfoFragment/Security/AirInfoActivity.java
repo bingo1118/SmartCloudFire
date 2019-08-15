@@ -59,10 +59,7 @@ public class AirInfoActivity extends Activity {
         textView.setText(devPos);
         progressBar.setVisibility(View.VISIBLE);
         String url= ConstantValues.SERVER_IP_NEW+"getEnvironmentInfo?userId=&privilege=&page=&airMac="+devMac;
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -90,7 +87,6 @@ public class AirInfoActivity extends Activity {
                 Toast.makeText(mContext,"获取服务器数据失败",Toast.LENGTH_SHORT).show();
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
     private String getQuality(int priority) {
         String quality="";

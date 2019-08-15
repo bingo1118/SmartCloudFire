@@ -122,10 +122,7 @@ public class NewAirInfoActivity extends FragmentActivity {
         tv_time=(TextView)findViewById(R.id.tv_info_time);
 
         String url= ConstantValues.SERVER_IP_NEW+"getEnvironmentInfo?userId=&privilege=&page=&airMac="+devMac;
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -210,7 +207,6 @@ public class NewAirInfoActivity extends FragmentActivity {
                 Toast.makeText(mContext,"获取服务器数据失败",Toast.LENGTH_SHORT).show();
             }
         });
-        mQueue.add(jsonObjectRequest);
         tv_position.setText(devPos);
 
         btn_methanal=(LinearLayout)findViewById(R.id.btn_methanal);

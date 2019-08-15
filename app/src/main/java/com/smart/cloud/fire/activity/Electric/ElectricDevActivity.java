@@ -55,7 +55,7 @@ import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 
 public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> implements ElectricDevView {
-    RelativeLayout title_name_rela,title_lose_dev_rela;
+    LinearLayout title_name_rela,title_lose_dev_rela;
     TextView title_name_tv,title_lose_dev_tv;
     Context mContext;
     private ElectricDevPresenter mElectricDevPresenter;
@@ -75,51 +75,54 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
     private String parentId="";//@@9.1
     private String shopTypeId = "";
 
-//    @Bind(R.id.add_fire)
-//    ImageView addFire;//显示搜索界面按钮。。
-//    @Bind(R.id.lin1)
-//    LinearLayout lin1;//搜素界面。。
     @Bind(R.id.area_condition)
     AreaChooceListView areaCondition;//区域下拉选择。。
-//    @Bind(R.id.shop_type_condition)
-//    XCDropDownListViewMapSearch shopTypeCondition;//商铺类型下拉选择。。
-//    @Bind(R.id.smoke_total)
-//    LinearLayout smokeTotal;
-//    @Bind(R.id.total_num)
-//    TextView totalNum;
     @Bind(R.id.online_num)
     TextView onlineNum;
     @Bind(R.id.offline_num)
     TextView offlineNum;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
-//    @Bind(R.id.search_fire)
-//    ImageView searchFire;//搜索按钮。。
     @Bind(R.id.turn_map_btn)
-    RelativeLayout turn_map_btn;
+    TextView turn_map_btn;
 
     List<Area> parent = null;//@@8.31
     Map<String, List<Area>> map = null;//@@8.31
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApp.b=System.currentTimeMillis();
+        long c1=MyApp.b-MyApp.a;
+        System.out.print("@@@@@@@@@@@@@1："+c1);
         super.onCreate(savedInstanceState);
+        MyApp.b=System.currentTimeMillis();
+        long c2=MyApp.b-MyApp.a;
+        System.out.print("@@@@@@@@@@@@@2："+c2);
         setContentView(R.layout.activity_all_smoke);
-        ButterKnife.bind(this);
-
+        MyApp.b=System.currentTimeMillis();
+        long c3=MyApp.b-MyApp.a;
+        System.out.print("@@@@@@@@@@@@@3："+c3);
         //透明状态栏          
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // 透明导航栏          
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
+        MyApp.b=System.currentTimeMillis();
+        long c4=MyApp.b-MyApp.a;
+        System.out.print("@@@@@@@@@@@@@4："+c4);
         mContext=this;
+        MyApp.b=System.currentTimeMillis();
+        long c5=MyApp.b-MyApp.a;
+        System.out.print("@@@@@@@@@@@@@5："+c5);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ButterKnife.bind(this);
         init();
-//        addFire.setVisibility(View.VISIBLE);
-//        addFire.setImageResource(R.drawable.search);
-//        title_name_tv=(TextView)findViewById(R.id.title_name) ;
         title_name_tv=(TextView )findViewById(R.id.title_name_text);
         title_lose_dev_tv=(TextView)findViewById(R.id.title_lose_dev_text) ;
-        title_name_rela=(RelativeLayout)findViewById(R.id.title_name) ;
+        title_name_rela=(LinearLayout) findViewById(R.id.title_name) ;
         title_name_rela.setEnabled(false);
         title_name_rela.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +133,7 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
                 position=FRAGMENT_THREE;//@@在线设备
             }
         });
-        title_lose_dev_rela=(RelativeLayout)findViewById(R.id.title_lose_dev) ;
+        title_lose_dev_rela=(LinearLayout) findViewById(R.id.title_lose_dev) ;
         title_lose_dev_rela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,6 +150,10 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
         areaCondition.setHintTextColor("#ffffffff");
         areaCondition.setEditTextHint("#ffffffff");
         areaCondition.setEditTextHint("选择区域");
+
+        MyApp.b=System.currentTimeMillis();
+        long c6=MyApp.b-MyApp.a;
+        System.out.print("@@@@@@@@@@@@@6："+c6);
     }
 
     @OnClick({ R.id.area_condition, R.id.turn_map_btn})
@@ -175,11 +182,8 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                    RequestQueue mQueue = helper.getRequestQueue();
-//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String url= ConstantValues.SERVER_IP_NEW+"/getAreaInfo?userId="+userID+"&privilege="+privilege;
-                    StringRequest stringRequest = new StringRequest(url,
+                    VolleyHelper.getInstance(mContext).getStringResponse(url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -224,7 +228,6 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
                             Log.e("error","error");
                         }
                     });
-                    mQueue.add(stringRequest);
                     areaCondition.setClickable(false);
                     areaCondition.showLoading();
                 }
@@ -316,10 +319,6 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
                 SharedPreferencesManager.KEY_RECENTNAME);
         privilege = MyApp.app.getPrivilege();
         showFragment(FRAGMENT_THREE);
-//        addFire.setVisibility(View.VISIBLE);
-//        addFire.setImageResource(R.drawable.search);
-//        smokeTotal.setVisibility(View.VISIBLE);
-//        mElectricDevPresenter.getSmokeSummary(userID,privilege+"","","","","3",electricFragment);
     }
 
     public void showFragment(int index) {

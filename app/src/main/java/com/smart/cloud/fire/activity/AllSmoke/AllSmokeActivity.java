@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 
 public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements AllSmokeView {
-    RelativeLayout title_name_rela,title_lose_dev_rela;
+    LinearLayout title_name_rela,title_lose_dev_rela;
     TextView title_name_tv,title_lose_dev_tv;
     Context mContext;
     private AllSmokePresenter mAllSmokePresenter;
@@ -98,7 +99,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
 //    @Bind(R.id.search_fire)
 //    ImageView searchFire;//搜索按钮。。
     @Bind(R.id.turn_map_btn)
-    RelativeLayout turn_map_btn;
+    TextView turn_map_btn;
 
     List<Area> parent = null;//@@8.31
     Map<String, List<Area>> map = null;//@@8.31
@@ -144,11 +145,8 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 if (areaCondition.ifShow()) {
                     areaCondition.closePopWindow();
                 } else {
-                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                    RequestQueue mQueue = helper.getRequestQueue();
-//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String url= ConstantValues.SERVER_IP_NEW+"getAreaInfo?userId="+userID+"&privilege="+privilege;
-                    StringRequest stringRequest = new StringRequest(url,
+                    VolleyHelper.getInstance(mContext).getStringResponse(url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -193,7 +191,6 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                             Log.e("error","error");
                         }
                     });
-                    mQueue.add(stringRequest);
                     areaCondition.setClickable(false);
                     areaCondition.showLoading();
                 }
@@ -296,7 +293,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
         showFragment(FRAGMENT_ONE);
         title_name_tv=(TextView )findViewById(R.id.title_name_text);
         title_lose_dev_tv=(TextView)findViewById(R.id.title_lose_dev_text) ;
-        title_name_rela=(RelativeLayout)findViewById(R.id.title_name) ;
+        title_name_rela=(LinearLayout) findViewById(R.id.title_name) ;
         title_name_rela.setEnabled(false);
         title_name_rela.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,7 +304,7 @@ public class AllSmokeActivity extends MvpActivity<AllSmokePresenter> implements 
                 position=FRAGMENT_ONE;//@@在线设备
             }
         });
-        title_lose_dev_rela=(RelativeLayout)findViewById(R.id.title_lose_dev) ;
+        title_lose_dev_rela=(LinearLayout) findViewById(R.id.title_lose_dev) ;
         title_lose_dev_rela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

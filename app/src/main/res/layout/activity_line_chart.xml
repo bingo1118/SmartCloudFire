@@ -70,7 +70,7 @@
             android:text="低阈值:"/>
     </LinearLayout>
 
-    <lecho.lib.hellocharts.view.LineChartView
+    <com.smart.cloud.fire.view.LochoLineChartView
         android:id="@+id/lvc_main"
         android:layout_width="wrap_content"
         android:layout_height="300dp"

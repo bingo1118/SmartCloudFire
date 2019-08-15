@@ -10,4 +10,6 @@
     <item  android:id="@+id/heartime_set"  android:title="心跳时间设置"/>
     <item  android:id="@+id/restart"  android:title="重启"/>
     <item  android:id="@+id/electr_yuzhi_set"  android:title="阈值设置"/>
+    <item  android:id="@+id/electr_yuzhi_set_zd"  android:title="阈值设置"/>
+    <item  android:id="@+id/electr_yuzhi_set_refresh"  android:title="阈值刷新"/>
 </menu>

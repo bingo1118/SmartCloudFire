@@ -193,6 +193,7 @@ public class DemoIntentService extends GTIntentService {
                 case 100:
                 case 101:
                 case 103:
+                case 104:
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
@@ -340,6 +341,13 @@ public class DemoIntentService extends GTIntentService {
                                 message="电量低，请更换电池";
                             }else{
                                 message="发生未知类型报警";
+                            }
+                            break;
+                        case 104://热电偶温度器
+                            if(alarmType==36) {
+                                message="发生故障";
+                            }else if(alarmType==308){
+                                message="发生高温报警";
                             }
                             break;
                         case 45://@@海曼气感

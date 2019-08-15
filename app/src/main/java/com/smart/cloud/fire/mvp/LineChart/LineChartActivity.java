@@ -1,14 +1,10 @@
 package com.smart.cloud.fire.mvp.LineChart;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,27 +18,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
-import com.smart.cloud.fire.global.ProofGasEntity;
 import com.smart.cloud.fire.global.TemperatureTime;
-import com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
 import com.smart.cloud.fire.utils.VolleyHelper;
+import com.smart.cloud.fire.view.LochoLineChartView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +61,7 @@ import lecho.lib.hellocharts.util.ChartUtils;
 public class LineChartActivity extends MvpActivity<LineChartPresenter> implements LineChartView {
     /*=========== 控件相关 ==========*/
     @Bind(R.id.lvc_main)
-    lecho.lib.hellocharts.view.LineChartView mLineChartView;//线性图表控件
+    LochoLineChartView mLineChartView;//线性图表控件
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.btn_next)
@@ -92,26 +84,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     TextView more;//@@菜单
     private LineChartPresenter lineChartPresenter;
 
-    /*=========== 数据相关 ==========*/
-    private LineChartData mLineData;                    //图表数据
-    private int numberOfLines = 1;                      //图上折线/曲线的显示条数
-    private int maxNumberOfLines = 4;                   //图上折线/曲线的最多条数
-    private int numberOfPoints = 8;                    //图上的节点数
 
-    /*=========== 状态相关 ==========*/
-    private boolean isHasAxes = true;                   //是否显示坐标轴
-    private boolean isHasAxesNames = true;              //是否显示坐标轴名称
-    private boolean isHasLines = true;                  //是否显示折线/曲线
-    private boolean isHasPoints = true;                 //是否显示线上的节点
-    private boolean isFilled = true;                   //是否填充线下方区域
-    private boolean isHasPointsLabels = false;          //是否显示节点上的标签信息
-    private boolean isCubic = false;                    //是否是立体的
-    private boolean isPointsHasSelected = false;        //设置节点点击后效果(消失/显示标签)
-    private boolean isPointsHaveDifferentColor;         //节点是否有不同的颜色
 
-    /*=========== 其他相关 ==========*/
-    private ValueShape pointsShape = ValueShape.CIRCLE; //点的形状(圆/方/菱形)
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints]; //将线上的点放在一个数组中
     private Context context;
     private String userID;
     private int privilege;
@@ -121,10 +95,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     private int page = 1;
     private List<TemperatureTime.ElectricBean> electricBeen;
     private boolean haveDataed = true;
-    private Map<Integer, String> data = new HashMap<>();
 
-    private String isWater=null;//@@12.15
+
+    private int isWater=0;
     private int devType;
+    String axisYText="";
 
     String threshold_h;
     String threshold_l;
@@ -137,36 +112,73 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         setContentView(R.layout.activity_line_chart);
         ButterKnife.bind(this);
         context = this;
-        userID = SharedPreferencesManager.getInstance().getData(context,
-                SharedPreferencesManager.SP_FILE_GWELL,
-                SharedPreferencesManager.KEY_RECENTNAME);
+        userID = MyApp.getUserID();
         privilege = MyApp.app.getPrivilege();
+
         electricMac = getIntent().getExtras().getString("electricMac");
         electricType = getIntent().getExtras().getInt("electricType") + "";
         electricNum = getIntent().getExtras().getInt("electricNum") + "";
-        isWater=getIntent().getExtras().getString("isWater");//@@12.15
+        isWater=getIntent().getExtras().getInt("isWater",0);//@@12.15
         devType=getIntent().getExtras().getInt("devType");
         electricBeen = new ArrayList<>();
-        if(isWater==null){
-            mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
-        }else if(isWater.equals("chuangan")){
-            mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
-        }else if(isWater.equals("tem")){
-            mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
-        }else if(isWater.equals("hum")){
-            mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
-        }else if(isWater.equals("gas")){
-            mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
-        }else{
-            if(isWater.equals("19")||isWater.equals("124")||electricMac.length()>10){
+
+        getData();
+        initListener();
+    }
+
+    private void getData() {
+        switch (isWater){
+            case 0:
+            case LochoLineChartView.TYPE_ELECTRIC:
+                mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
+                switch (electricType) {
+                    case "6":
+                        axisYText="电压值(V)";
+                        titleTv.setText("电压折线图");
+                        break;
+                    case "7":
+                        axisYText="电流值(A)";
+                        titleTv.setText("电流折线图");
+                        break;
+                    case "8":
+                        axisYText="漏电流(mA)";
+                        titleTv.setText("漏电流线图");
+                        break;
+                    case "9":
+                        axisYText="温度值(℃)";
+                        titleTv.setText("温度折线图");
+                        break;
+                }
+                break;
+            case LochoLineChartView.TYPE_CHUANAN:
+                mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
+                axisYText="燃气值";
+                titleTv.setText("历史燃气值折线图");
+                break;
+            case LochoLineChartView.TYPE_TEM:
+                mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", LineChartPresenter.TYPE_TEM,false);
+                axisYText="温度值(℃)";
+                titleTv.setText("历史温度折线图");
+                break;
+            case LochoLineChartView.TYPE_HUM:
+                mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", LineChartPresenter.TYPE_HUM,false);
+                axisYText="湿度值（%）";
+                titleTv.setText("历史湿度折线图");
+                break;
+            case LochoLineChartView.TYPE_GAS:
+                mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
+                axisYText="燃气值";
+                titleTv.setText("历史燃气值折线图");
+                break;
+            case LochoLineChartView.TYPE_WATER_PRESURE:
                 water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
                 yuzhi_line.setVisibility(View.VISIBLE);
                 getYuzhi();
-            }else if(isWater.equals("10")){
-                water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
-                yuzhi_line.setVisibility(View.VISIBLE);
-                getYuzhi();
-            }else if(isWater.equals("3")){
+                mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                axisYText="水压值(kPa)";
+                titleTv.setText("历史水压值折线图");
+                break;
+            case LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE:
                 more.setVisibility(View.VISIBLE);
                 more.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -176,11 +188,19 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 });
                 yuzhi_line.setVisibility(View.VISIBLE);
                 getYuzhi();
-            }
-            mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                axisYText="水压值(kPa)";
+                titleTv.setText("历史水压值折线图");
+                break;
+            case LochoLineChartView.TYPE_WATER_LEVEL:
+                water_threshold.setVisibility(View.VISIBLE);//@@2018.01.03
+                yuzhi_line.setVisibility(View.VISIBLE);
+                getYuzhi();
+                mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
+                axisYText="水位值(m)";
+                titleTv.setText("历史水位值折线图");
+                break;
         }
-        initView();
-        initListener();
     }
 
     private void showPopupMenu(View view) {
@@ -218,20 +238,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                     T.showShort(context,"输入数据不完全或有误");
                                     return;
                                 }
-                                VolleyHelper helper=VolleyHelper.getInstance(context);
-                                RequestQueue mQueue = helper.getRequestQueue();
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                VolleyHelper.getInstance(context).getJsonResponse(url,
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
                                                 try {
-                                                    int errorCode=response.getInt("errorCode");
-//                                                            if(errorCode==0){
-//                                                                T.showShort(context,"设置成功");
-//                                                                getYuzhi();
-//                                                            }else{
-//                                                                T.showShort(context,"设置失败");
-//                                                            }
                                                     T.showShort(context,response.getString("error"));
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
@@ -243,14 +254,13 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                         T.showShort(context,"网络错误");
                                     }
                                 });
-                                mQueue.add(jsonObjectRequest);
                                 dialog.dismiss();
                             }
                         });
                         TextView title=(TextView)layout.findViewById(R.id.title_text);
                         TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
                         TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
-                        if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
+                        if(isWater==LochoLineChartView.TYPE_WATER_PRESURE||isWater==LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE){
                             title.setText("水压阈值设置");
                             high_value_name.setText("高水压阈值（kpa）:");
                             low_value_name.setText("低水压阈值（kpa）:");
@@ -285,9 +295,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                     T.showShort(context,"输入数据不完全或有误");
                                     return;
                                 }
-                                VolleyHelper helper=VolleyHelper.getInstance(context);
-                                RequestQueue mQueue = helper.getRequestQueue();
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                VolleyHelper.getInstance(context).getJsonResponse(url,
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
@@ -303,7 +311,6 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                         T.showShort(context,"网络错误");
                                     }
                                 });
-                                mQueue.add(jsonObjectRequest);
                                 dialog1.dismiss();
                             }
                         });
@@ -331,21 +338,11 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         mLineChartView.setOnValueTouchListener(new ValueTouchListener());
     }
 
-    private void initView() {
-        /**
-         * 禁用视图重新计算 主要用于图表在变化时动态更改，不是重新计算
-         * 类似于ListView中数据变化时，只需notifyDataSetChanged()，而不用重新setAdapter()
-         */
-        mLineChartView.setViewportCalculationEnabled(false);
-        mLineChartView.setZoomEnabled(false);
-    }
+
 
     private void getYuzhi() {
-        VolleyHelper helper=VolleyHelper.getInstance(context);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(context);
         String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+electricMac+"&deviceType="+devType;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(context).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -360,7 +357,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                 }catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
+                                if(isWater==LochoLineChartView.TYPE_WATER_PRESURE||isWater==LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE){
                                     low_value.setText("低水压阈值："+threshold_l+"kpa");
                                     high_value.setText("高水压阈值："+threshold_h+"kpa");
                                 }else{
@@ -368,7 +365,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                     high_value.setText("高水位阈值："+threshold_h+"m");
                                 }
                             }else{
-                                if(isWater.equals("1")||isWater.equals("3")){
+                                if(isWater==LochoLineChartView.TYPE_WATER_PRESURE||isWater==LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE){
                                     low_value.setText("低水压阈值:未设置");
                                     high_value.setText("高水压阈值:未设置");
                                 }else{
@@ -387,192 +384,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 T.showShort(context,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
-    /**
-     * 利用随机数设置每条线对应节点的值
-     */
-    private void setPointsValues(List<TemperatureTime.ElectricBean> list) {
-        data.clear();
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < (list.size()+1); ++j) {
-                if (j > 0 && j < 7) {
-                    String str = list.get(j - 1).getElectricValue();
-                    if (electricType.equals("7")) {
-                        data.put(j, str);
-                    }
-                    float f = new BigDecimal(str).floatValue();
-                    randomNumbersTab[i][j] = (f);
-                }
-            }
-        }
-    }
-
-    /**
-     * 设置线的相关数据
-     */
-    private void setLinesDatas(List<TemperatureTime.ElectricBean> list) {
-        List<Line> lines = new ArrayList<>();
-        ArrayList<AxisValue> axisValuesX = new ArrayList<>();
-        //循环将每条线都设置成对应的属性
-        for (int i = 0; i < numberOfLines; ++i) {
-            //节点的值
-            List<PointValue> values = new ArrayList<>();
-            for (int j = 0; j < (list.size()+1); ++j) {
-                if (j > 0 && j < 7) {
-                    values.add(new PointValue(j, randomNumbersTab[i][j]));
-                    axisValuesX.add(new AxisValue(j).setLabel(getTime(list.get(j-1).getElectricTime())));
-                }
-            }
-
-            Line line = new Line(values);               //根据值来创建一条线
-            line.setColor(ChartUtils.COLORS[i]);        //设置线的颜色
-            line.setShape(pointsShape);                 //设置点的形状
-            line.setHasLines(isHasLines);               //设置是否显示线
-            line.setHasPoints(isHasPoints);             //设置是否显示节点
-            line.setCubic(isCubic);                     //设置线是否立体或其他效果
-            line.setFilled(isFilled);                   //设置是否填充线下方区域
-            line.setHasLabels(isHasPointsLabels);       //设置是否显示节点标签
-            //设置节点点击的效果
-            line.setHasLabelsOnlyForSelected(isPointsHasSelected);
-            //如果节点与线有不同颜色 则设置不同颜色
-            if (isPointsHaveDifferentColor) {
-                line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
-            }
-            lines.add(line);
-        }
-
-        Axis axisX = new Axis().setHasLines(true);                    //X轴
-        Axis axisY = new Axis().setHasLines(true);  //Y轴          //设置名称
-        switch (electricType) {
-            case "6":
-                axisY.setName("电压值(V)");
-                titleTv.setText("电压折线图");
-                break;
-            case "7":
-                axisY.setName("电流值(A)");
-                titleTv.setText("电流折线图");
-                break;
-            case "8":
-                axisY.setName("漏电流(mA)");
-                titleTv.setText("漏电流线图");
-                break;
-            case "9":
-                axisY.setName("温度值(℃)");
-                titleTv.setText("温度折线图");
-                break;
-            default:
-                if(isWater!=null){
-                    if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
-                        axisY.setName("水压值(kPa)");
-                        titleTv.setText("历史水压值折线图");
-                    }else if(isWater.equals("chuangan")){
-                        axisY.setName("燃气值");
-                        titleTv.setText("历史燃气值折线图");
-                    }else if(isWater.equals("tem")){
-                        axisY.setName("温度值(℃)");
-                        titleTv.setText("历史温度折线图");
-                    }else if(isWater.equals("hum")){
-                        axisY.setName("湿度值（%）");
-                        titleTv.setText("历史湿度折线图");
-                    }else if(isWater.equals("gas")){
-                        axisY.setName("燃气值");
-                        titleTv.setText("历史燃气值折线图");
-                    }else{
-                        axisY.setName("水位值(m)");
-                        titleTv.setText("历史水位值折线图");
-                    }
-                }
-                break;
-        }
-        axisX.setTextColor(Color.GRAY);//X轴灰色
-        axisX.setMaxLabelChars(3);
-        axisX.setValues(axisValuesX);
-        axisX.setHasTiltedLabels(true);//X坐标轴字体是斜的显示还是直的，true是斜的显示
-        axisX.setTextSize(10);
-        axisX.setInside(true);
-        axisY.setTextColor(Color.GRAY);
-
-        mLineData = new LineChartData(lines);                      //将所有的线加入线数据类中
-        mLineData.setBaseValue(Float.NaN);
-        mLineData.setAxisXBottom(axisX);            //设置X轴位置 下方
-        mLineData.setAxisYLeft(axisY);
-        mLineData.setValueLabelBackgroundColor(Color.BLUE);     //设置数据背景颜色
-        mLineData.setValueLabelTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
-        //设置基准数(大概是数据范围)
-        /* 其他的一些属性方法 可自行查看效果
-         * mLineData.setValueLabelBackgroundAuto(true);            //设置数据背景是否跟随节点颜色
-         * mLineData.setValueLabelBackgroundColor(Color.BLUE);     //设置数据背景颜色
-         * mLineData.setValueLabelBackgroundEnabled(true);         //设置是否有数据背景
-         * mLineData.setValueLabelsTextColor(Color.RED);           //设置数据文字颜色
-         * mLineData.setValueLabelTextSize(15);                    //设置数据文字大小
-         * mLineData.setValueLabelTypeface(Typeface.MONOSPACE);    //设置数据文字样式
-        */
-
-        mLineChartView.setLineChartData(mLineData);    //设置图表控件
-    }
-
-//    private String getTime(String str) {
-//        String[] strings = str.split(" ");
-//        return strings[1];
-//    }
-
-    private String getTime(String str) {
-        if(str.length()<5){
-            return "";
-        }else{
-            String strings = str.substring(5, str.length());
-            return strings;
-        }
-    }
-
-    /**
-     * 重点方法，计算绘制图表
-     */
-    private void resetViewport(List<TemperatureTime.ElectricBean> tem) {
-        //创建一个图标视图,大小为控件的最大大小
-        float value=0;
-        if(tem!=null&&tem.size()>0){
-            value = Utils.getMaxFloat(tem)*1.5f;
-        }
-        final Viewport v = new Viewport(mLineChartView.getMaximumViewport());
-        v.left = 0;                             //坐标原点在左下
-        v.bottom = 0;
-        v.top = value;
-        if(value==0){
-            switch (electricType) {
-                case "6":
-                    v.top = 400;
-                    break;
-                case "7":
-                    v.top = 50;
-                    break;
-                case "8":
-                    v.top = 700;
-                    break;
-                case "9":
-                    v.top = 80;
-                    break;
-                default:
-                    if(isWater!=null){
-                        if(isWater.equals("1")){
-                            v.top=10;
-                        }else{
-                            v.top=10;
-                        }
-                    }else{
-                        v.top=100;
-                    }
-                    break;
-            }
-        }
-
-        //最高点为100
-        v.right = numberOfPoints - 1;           //右边为点 坐标从0开始 点号从1 需要 -1
-        mLineChartView.setMaximumViewport(v);   //给最大的视图设置 相当于原图
-        mLineChartView.setCurrentViewport(v);   //给当前的视图设置 相当于当前展示的图
-    }
 
     @Override
     public void getDataSuccess(List<TemperatureTime.ElectricBean> temperatureTimes) {
@@ -598,9 +411,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
         }else{
             T.showShort(mActivity,"无数据");
         }
-        setPointsValues(electricBeen);
-        setLinesDatas(electricBeen);
-        resetViewport(electricBeen);
+        mLineChartView.initChartView(axisYText,electricBeen,electricType,isWater);
     }
 
     @Override
@@ -633,9 +444,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     Toast.makeText(LineChartActivity.this, "电压值为: " + value.getY() + "V", Toast.LENGTH_SHORT).show();
                     break;
                 case "7":
-                    int i = (int) value.getX();
-                    String str = data.get(i);
-                    Toast.makeText(LineChartActivity.this, "电流值为: " + str + "A", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LineChartActivity.this, "电流值为: " + value.getY() + "A", Toast.LENGTH_SHORT).show();
                     break;
                 case "8":
                     Toast.makeText(LineChartActivity.this, "漏电流值为: " + value.getY() + "mA", Toast.LENGTH_SHORT).show();
@@ -644,16 +453,16 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     Toast.makeText(LineChartActivity.this, "温度值为: " + value.getY() + "℃", Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    if(isWater!=null){
-                        if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
+                    if(isWater!=0){
+                        if(isWater==LochoLineChartView.TYPE_WATER_PRESURE||isWater==LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE){
                             Toast.makeText(LineChartActivity.this, "水压值为: " + value.getY() + "kPa", Toast.LENGTH_SHORT).show();
-                        }else if(isWater.equals("tem")){
+                        }else if(isWater==LochoLineChartView.TYPE_TEM){
                             Toast.makeText(LineChartActivity.this, "温度值为: " + value.getY() + "℃", Toast.LENGTH_SHORT).show();
-                        }else if(isWater.equals("hum")){
+                        }else if(isWater==LochoLineChartView.TYPE_HUM){
                             Toast.makeText(LineChartActivity.this, "湿度值为: " + value.getY() + "%", Toast.LENGTH_SHORT).show();
-                        }else if(isWater.equals("chuangan")){
+                        }else if(isWater==LochoLineChartView.TYPE_CHUANAN){
                             Toast.makeText(LineChartActivity.this, "燃气值为: " + value.getY() + "%", Toast.LENGTH_SHORT).show();
-                        }else if(isWater.equals("gas")){
+                        }else if(isWater==LochoLineChartView.TYPE_GAS){
                             Toast.makeText(LineChartActivity.this, "燃气值为: " + value.getY() , Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(LineChartActivity.this, "水位值为: " + value.getY() + "m", Toast.LENGTH_SHORT).show();
@@ -683,19 +492,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     btnBefore.setClickable(true);
                     btnBefore.setBackgroundResource(R.drawable.before_selector);
                 }
-                if(isWater==null){
-                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
-                }else if(isWater.equals("chuangan")){
-                    mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
-                }else if(isWater.equals("tem")){
-                    mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
-                }else if(isWater.equals("hum")){
-                    mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
-                }else if(isWater.equals("gas")){
-                    mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
-                }else{
-                    mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
-                }
+                getData();
                 break;
             case R.id.btn_before:
                 if (page > 1) {
@@ -704,19 +501,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         btnBefore.setClickable(false);
                         btnBefore.setBackgroundResource(R.mipmap.prve_an);
                     }
-                    if(isWater==null){
-                        mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
-                    }else if(isWater.equals("chuangan")){
-                        mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
-                    }else if(isWater.equals("tem")){
-                        mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
-                    }else if(isWater.equals("hum")){
-                        mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
-                    }else if(isWater.equals("gas")){
-                        mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
-                    }else{
-                        mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
-                    }
+                    getData();
                 }
                 break;
             case R.id.btn_new:
@@ -725,19 +510,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 btnBefore.setBackgroundResource(R.mipmap.prve_an);
                 btnNext.setClickable(true);
                 btnNext.setBackgroundResource(R.drawable.next_selector);
-                if(isWater==null){
-                    mvpPresenter.getElectricTypeInfo(userID, privilege + "", electricMac, electricType, electricNum, page + "", false,devType);
-                }else if(isWater.equals("chuangan")){
-                    mvpPresenter.getChuanganInfo(userID, privilege + "", electricMac, electricNum, page + "", false);
-                }else if(isWater.equals("tem")){
-                    mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "1",false);
-                }else if(isWater.equals("hum")){
-                    mvpPresenter.getTHDevInfoHistoryInfo(electricMac,page+"", "2",false);
-                }else if(isWater.equals("gas")){
-                    mvpPresenter.getGasHistoryInfo(userID, privilege + "",electricMac,page+"",false);
-                }else{
-                    mvpPresenter.getWaterHistoryInfo(userID, privilege + "", electricMac, page + "", false);
-                }
+                getData();
                 break;
             case R.id.water_threshold:
                 LayoutInflater inflater = getLayoutInflater();
@@ -751,10 +524,9 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 final EditText getdatatime_value=(EditText)layout.findViewById(R.id.getdatatime_value);
                 LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
                 LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
-                if(isWater.equals("1")||isWater.equals("3")||isWater.equals("10")){
+                if(isWater==LochoLineChartView.TYPE_WATER_PRESURE||isWater==LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE){
                     if(devType==78||devType==47||devType==100){
                         uploadtime_lin.setVisibility(View.VISIBLE);
-//                        getdatatime_lin.setVisibility(View.VISIBLE);
                         high_value.setText(threshold_h);
                         low_value.setText(threshold_l);
                         getdatatime_value.setText(getdatatime);
@@ -809,10 +581,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                             T.showShort(context,"输入数据不完全或有误");
                             return;
                         }
-                        VolleyHelper helper=VolleyHelper.getInstance(context);
-                        RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        VolleyHelper.getInstance(context).getJsonResponse(url,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -833,7 +602,6 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                 T.showShort(context,"网络错误");
                             }
                         });
-                        mQueue.add(jsonObjectRequest);
                         dialog.dismiss();
                     }
                 });

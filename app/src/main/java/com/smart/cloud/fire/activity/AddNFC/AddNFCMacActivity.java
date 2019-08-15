@@ -72,11 +72,8 @@ public class AddNFCMacActivity extends Activity {
         add_fire_dev_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
                 String url= ConstantValues.SERVER_IP_NEW+"addNFC?uid="+UID+"&userId="+userID;
-                StringRequest stringRequest = new StringRequest(url,
+                VolleyHelper.getInstance(mContext).getStringResponse(url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -99,7 +96,6 @@ public class AddNFCMacActivity extends Activity {
                         Log.e("TAG", error.getMessage(), error);
                     }
                 });
-                mQueue.add(stringRequest);
 
             }
         });
@@ -129,11 +125,8 @@ public class AddNFCMacActivity extends Activity {
             byte[] myNFCID = getIntent().getByteArrayExtra(NfcAdapter.EXTRA_ID);
             UID = Utils.ByteArrayToHexString(myNFCID);
             uid_edit.setText(UID);
-            VolleyHelper helper=VolleyHelper.getInstance(mContext);
-            RequestQueue mQueue = helper.getRequestQueue();
-//            RequestQueue mQueue = Volley.newRequestQueue(mContext);
             String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+UID;
-            StringRequest stringRequest = new StringRequest(url,
+            VolleyHelper.getInstance(mContext).getStringResponse(url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -151,7 +144,6 @@ public class AddNFCMacActivity extends Activity {
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
-            mQueue.add(stringRequest);
             setIntent(new Intent()); // Consume this intent.
         }
         if (mNfcAdapter != null)
@@ -180,11 +172,8 @@ public class AddNFCMacActivity extends Activity {
         UID = Utils.ByteArrayToHexString(myNFCID);
         uid_edit.setText(UID);
 
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"ifNFCExist?uid="+UID;
-        StringRequest stringRequest = new StringRequest(url,
+        VolleyHelper.getInstance(mContext).getStringResponse(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -202,12 +191,7 @@ public class AddNFCMacActivity extends Activity {
                 Log.e("TAG", error.getMessage(), error);
             }
         });
-        mQueue.add(stringRequest);
 
-
-
-//        readNfcTag(intent);
-//        uid_edit.setText("");
     }
 
     /**

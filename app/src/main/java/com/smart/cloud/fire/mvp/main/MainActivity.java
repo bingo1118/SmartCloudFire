@@ -219,10 +219,7 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
                         SharedPreferencesManager.KEY_RECENTNAME);
                 int privilege = MyApp.app.getPrivilege();
                 String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(MyApp.app);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -258,7 +255,6 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
                         home_alarm_lin.setBackgroundResource(R.drawable.corners_shape_top_normal);
                     }
                 });
-                mQueue.add(jsonObjectRequest);
             }
         },0,10000);
     }
@@ -309,22 +305,13 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
      */
     private void unbindAlias() {
         String userCID = SharedPreferencesManager.getInstance().getData(this,SharedPreferencesManager.SP_FILE_GWELL,"CID");//@@
-        String username = SharedPreferencesManager.getInstance().getData(mContext,
-                SharedPreferencesManager.SP_FILE_GWELL,
-                SharedPreferencesManager.KEY_RECENTNAME);
+        String username = MyApp.getUserID();
         String url= ConstantValues.SERVER_IP_NEW+"loginOut?userId="+username+"&alias="+username+"&cid="+userCID+"&appId=1";//@@5.27添加app编号
-//        RequestQueue mQueue = Volley.newRequestQueue(this);
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-//                        try {
-//                            Toast.makeText(mContext,response.getString("error"),Toast.LENGTH_SHORT).show();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -332,7 +319,6 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
 
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     @Override

@@ -163,13 +163,9 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             makesure_getalarm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                    RequestQueue mQueue = helper.getRequestQueue();
-                    String userid= SharedPreferencesManager.getInstance().getData(mContext,
-                            SharedPreferencesManager.SP_FILE_GWELL,
-                            SharedPreferencesManager.KEY_RECENTNAME);
+                    String userid= MyApp.getUserID();
                     String url= ConstantValues.SERVER_IP_NEW+"makeSureGetUpload?userId="+userid+"&uploadpeolpe="+ finalUploadpeople;
-                    StringRequest stringRequest = new StringRequest(url,
+                    VolleyHelper.getInstance(mContext).getStringResponse(url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -193,7 +189,6 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                             T.showShort(mContext,"设置失败");
                         }
                     });
-                    mQueue.add(stringRequest);
                 }
             });
         }else{
@@ -274,11 +269,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                         dialog1.setMessage("设置中，请稍候");
                         dialog1.setCanceledOnTouchOutside(false);
                         dialog1.show();
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
-                                SharedPreferencesManager.SP_FILE_GWELL,
-                                SharedPreferencesManager.KEY_RECENTNAME);
+                        String userid= MyApp.getUserID();
+
                         String url="";
                         switch (mPushAlarmMsg.getDeviceType()){
                             case 41:
@@ -292,19 +284,12 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                                 break;
 
                         }
-//                            String url= ConstantValues.SERVER_IP_NEW+"ackNB_IOT_Control?userId="+userid+"&smokeMac="+normalSmoke.getMac()+"&eleState=1";
-                        StringRequest stringRequest = new StringRequest(url,
+                        VolleyHelper.getInstance(mContext).getStringResponse(url,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         try {
                                             JSONObject jsonObject=new JSONObject(response);
-                                            int errorCode=jsonObject.getInt("errorCode");
-//                                                if(errorCode==0){
-//                                                    T.showShort(mContext,"成功");
-//                                                }else{
-//                                                    T.showShort(mContext,"失败");
-//                                                }
                                             T.showShort(mContext,jsonObject.getString("error"));
                                             dialog1.dismiss();
                                         } catch (JSONException e) {
@@ -321,7 +306,6 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                                 dialog1.dismiss();
                             }
                         });
-                        mQueue.add(stringRequest);
                     }
                 });
             }else{
@@ -429,11 +413,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                 finish();
                 break;
             case R.id.stop_alarm:
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
                 String url= ConstantValues.SERVER_IP_NEW+"StopAlarm?mac="+mPushAlarmMsg.getMac();
-                StringRequest stringRequest = new StringRequest(url,
+                VolleyHelper.getInstance(mContext).getStringResponse(url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -453,17 +434,12 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                         Log.e("error","error");
                     }
                 });
-                mQueue.add(stringRequest);
                 break;
             case R.id.make_sure_upload_btn:
-                String username = SharedPreferencesManager.getInstance().getData(mContext,
-                        SharedPreferencesManager.SP_FILE_GWELL,
-                        SharedPreferencesManager.KEY_RECENTNAME);
+                String username = MyApp.getUserID();
                 String url1= ConstantValues.SERVER_IP_NEW+"makeSureAlarm?userId="+username
                         +"&smokeMac="+mPushAlarmMsg.getMac()+"&alarmType="+mPushAlarmMsg.getAlarmType();
-                VolleyHelper helper1=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue1 = helper1.getRequestQueue();
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url1, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url1,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -484,7 +460,6 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
                         T.showShort(MyApp.app,"上报失败");
                     }
                 });
-                mQueue1.add(jsonObjectRequest);
                 break;
             default:
                 break;

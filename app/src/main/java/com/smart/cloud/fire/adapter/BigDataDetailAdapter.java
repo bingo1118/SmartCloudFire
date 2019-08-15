@@ -31,6 +31,7 @@ import com.smart.cloud.fire.retrofit.AppClient;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.view.LochoLineChartView;
 
 import java.util.List;
 
@@ -541,8 +542,8 @@ public class BigDataDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater","1");//@@是否为水压
-                            intent.putExtra("devType",normalSmoke.getDeviceType());//@@是否为水压
+                            intent.putExtra("isWater", LochoLineChartView.TYPE_WATER_PRESURE);//@@是否为水压
+                            intent.putExtra("devType",normalSmoke.getDeviceType());
                             mContext.startActivity(intent);
                         }
                     });
@@ -561,7 +562,7 @@ public class BigDataDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater",normalSmoke.getDeviceType()+"");//@@是否为水压
+                            intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_PRESURE);//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });
@@ -580,7 +581,7 @@ public class BigDataDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater","3");//@@是否为水压
+                            intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE);
                             mContext.startActivity(intent);
                         }
                     });
@@ -603,7 +604,7 @@ public class BigDataDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater",normalSmoke.getDeviceType()+"");//@@是否为水压
+                            intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_LEVEL);//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });

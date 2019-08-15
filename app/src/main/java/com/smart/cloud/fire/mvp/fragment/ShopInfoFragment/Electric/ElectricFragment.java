@@ -228,11 +228,6 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-                        String userid= SharedPreferencesManager.getInstance().getData(mContext,
-                                SharedPreferencesManager.SP_FILE_GWELL,
-                                SharedPreferencesManager.KEY_RECENTNAME);
                         String url="";
                         switch (deviceType){
                             case 58:
@@ -242,7 +237,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                                 url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
                                 break;
                         }
-                        StringRequest stringRequest = new StringRequest(url,
+                        VolleyHelper.getInstance(mContext).getStringResponse(url,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
@@ -269,7 +264,6 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                                 T.showShort(mContext,"删除失败");
                             }
                         });
-                        mQueue.add(stringRequest);
                     }
                 });
         normalDialog.setNegativeButton("取消",

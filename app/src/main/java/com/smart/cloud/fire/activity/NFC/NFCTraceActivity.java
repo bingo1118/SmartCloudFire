@@ -81,11 +81,8 @@ public class NFCTraceActivity extends Activity {
     }
 
     private void initTrace() {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"getNFCTrace?areaId="+areaId+"&begintime="+begintime+"&endtime="+endtime;
-        StringRequest stringRequest = new StringRequest(url,
+        VolleyHelper.getInstance(mContext).getStringResponse(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -127,7 +124,6 @@ public class NFCTraceActivity extends Activity {
                 Log.e("TAG", error.getMessage(), error);
             }
         });
-        mQueue.add(stringRequest);
     }
 
 

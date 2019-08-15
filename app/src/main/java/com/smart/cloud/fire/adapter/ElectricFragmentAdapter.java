@@ -592,14 +592,10 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         command=7;
                         break;
                 }
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-                String userID = SharedPreferencesManager.getInstance().getData(mContext,
-                        SharedPreferencesManager.SP_FILE_GWELL,
-                        SharedPreferencesManager.KEY_RECENTNAME);
+                String userID = MyApp.getUserID();
                 String url= ConstantValues.SERVER_IP_NEW+"EasyIot_arc_electric?devSerial="+mac+
                         "&userId="+userID+"&appId=1&arcValue="+command;
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -623,10 +619,6 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         dialog1.dismiss();
                     }
                 });
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                mQueue.add(jsonObjectRequest);
                 dialog1.show();
 
                 return false;
@@ -669,14 +661,10 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         command=7;
                         break;
                 }
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-                String userID = SharedPreferencesManager.getInstance().getData(mContext,
-                        SharedPreferencesManager.SP_FILE_GWELL,
-                        SharedPreferencesManager.KEY_RECENTNAME);
+                String userID = MyApp.getUserID();
                 String url= ConstantValues.SERVER_IP_NEW+"EasyIot_arc_electric?devSerial="+mac+
                         "&userId="+userID+"&appId=1&arcValue="+command;
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -700,10 +688,6 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         dialog1.dismiss();
                     }
                 });
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                mQueue.add(jsonObjectRequest);
                 dialog1.show();
 
                 return false;

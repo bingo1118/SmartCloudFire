@@ -325,10 +325,7 @@ public class  Main2Activity extends MvpActivity<MainPresenter> implements MainVi
                         SharedPreferencesManager.KEY_RECENTNAME);
                 int privilege = MyApp.app.getPrivilege();
                 String url= ConstantValues.SERVER_IP_NEW+"getLastestAlarm?userId="+username+"&privilege="+privilege;
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(MyApp.app);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -364,7 +361,6 @@ public class  Main2Activity extends MvpActivity<MainPresenter> implements MainVi
 //                        home_alarm_lin.setBackgroundResource(R.drawable.corners_shape_top_normal);
                     }
                 });
-                mQueue.add(jsonObjectRequest);
             }
         },0,10000);
     }
@@ -419,10 +415,8 @@ public class  Main2Activity extends MvpActivity<MainPresenter> implements MainVi
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTNAME);
         String url= ConstantValues.SERVER_IP_NEW+"loginOut?userId="+username+"&alias="+username+"&cid="+userCID+"&appId=1";//@@5.27添加app编号
-//        RequestQueue mQueue = Volley.newRequestQueue(this);
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -438,7 +432,6 @@ public class  Main2Activity extends MvpActivity<MainPresenter> implements MainVi
 
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     @Override

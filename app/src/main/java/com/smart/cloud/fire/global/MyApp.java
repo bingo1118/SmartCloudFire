@@ -15,6 +15,7 @@ import android.widget.RemoteViews;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.hikvision.open.hikvideoplayer.HikVideoPlayerFactory;
+import com.p2p.core.P2PHandler;
 import com.p2p.core.update.UpdateManager;
 import com.smart.cloud.fire.activity.Functions.constant.Constant;
 import com.smart.cloud.fire.service.LocationService;
@@ -22,6 +23,8 @@ import com.smart.cloud.fire.ui.ForwardDownActivity;
 import com.smart.cloud.fire.utils.CrashHandler;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.yoosee.P2PListener;
+import com.smart.cloud.fire.yoosee.SettingListener;
 import com.squareup.leakcanary.LeakCanary;
 //import com.taobao.sophix.PatchStatus;
 //import com.taobao.sophix.SophixManager;
@@ -46,6 +49,9 @@ public class MyApp extends Application {
     public Vibrator mVibrator;
     public static String userid;
 
+    public static long a;
+    public static long b;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -60,8 +66,12 @@ public class MyApp extends Application {
         LeakCanary.install(this);
         LitePal.initialize(this);//数据库框架
         SQLiteDatabase db = LitePal.getDatabase();
+        P2PHandler.getInstance().p2pInit(this,
+                new P2PListener(),
+                new SettingListener());
         HikVideoPlayerFactory.initLib(null, true);
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

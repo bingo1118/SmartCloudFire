@@ -374,11 +374,8 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                 if (areaTypeChoice.ifShow()) {
                     areaTypeChoice.closePopWindow();
                 } else {
-                    VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                    RequestQueue mQueue = helper.getRequestQueue();
-//                    RequestQueue mQueue = Volley.newRequestQueue(mContext);
                     String url= ConstantValues.SERVER_IP_NEW+"getAreaInfo?userId="+userID+"&privilege="+privilege;
-                    StringRequest stringRequest = new StringRequest(url,
+                    VolleyHelper.getInstance(mContext).getStringResponse(url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -423,7 +420,6 @@ public class CollectFragment extends MvpFragment<CollectFragmentPresenter> imple
                             Log.e("error","error");
                         }
                     });
-                    mQueue.add(stringRequest);
                     areaTypeChoice.setClickable(false);
                     areaTypeChoice.showLoading();
                 }

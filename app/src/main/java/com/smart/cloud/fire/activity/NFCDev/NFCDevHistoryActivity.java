@@ -103,16 +103,13 @@ public class NFCDevHistoryActivity extends Activity{
 
 
     private void getNFCInfo(String uid,int page) {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url="";
         if(uid.length()>0){
             url= ConstantValues.SERVER_IP_NEW+"getNFCRecord?uid="+uid+"&page="+page;
         }else{
             url= ConstantValues.SERVER_IP_NEW+"getNFCRecord?uid="+uid+"&page="+page+"&userId="+userID+"&privilege="+privilege;
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -152,7 +149,6 @@ public class NFCDevHistoryActivity extends Activity{
                 toast("网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void refreshListView() {

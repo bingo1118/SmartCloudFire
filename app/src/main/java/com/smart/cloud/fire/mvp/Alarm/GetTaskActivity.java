@@ -193,18 +193,11 @@ public class GetTaskActivity extends MvpActivity<AlarmPresenter> implements Alar
                 }
                 break;
             case R.id.makesure_getalarm:
-//                Intent intent_dealtask=new Intent(mContext, UploadAlarmInfoActivity.class);
-//                intent_dealtask.putExtra("mPushAlarmMsg",mPushAlarmMsg);
-//                startActivity(intent_dealtask);
-//                T.showShort(mContext,"接单成功");
-//                finish();
                 String username = SharedPreferencesManager.getInstance().getData(mContext,
                         SharedPreferencesManager.SP_FILE_GWELL,
                         SharedPreferencesManager.KEY_RECENTNAME);
                 String url= ConstantValues.SERVER_IP_NEW+"receiveOrder?userId="+username+"&smokeMac="+mPushAlarmMsg.getMac();
-                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                RequestQueue mQueue = helper.getRequestQueue();
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -228,7 +221,6 @@ public class GetTaskActivity extends MvpActivity<AlarmPresenter> implements Alar
                     public void onErrorResponse(VolleyError error) {
                     }
                 });
-                mQueue.add(jsonObjectRequest);
                 break;
             default:
                 break;

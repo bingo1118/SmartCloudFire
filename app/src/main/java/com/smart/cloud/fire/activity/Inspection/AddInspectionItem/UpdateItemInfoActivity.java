@@ -119,13 +119,8 @@ public class UpdateItemInfoActivity extends MvpActivity<AddInspectionItemPresent
     }
 
     private void getNormalDevInfo(String uid) {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-        String url="";
-
-        url= ConstantValues.SERVER_IP_NEW+"getItemInfo?uid="+uid;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        String url= ConstantValues.SERVER_IP_NEW+"getItemInfo?uid="+uid;
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -147,7 +142,6 @@ public class UpdateItemInfoActivity extends MvpActivity<AddInspectionItemPresent
                 toast("网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
 

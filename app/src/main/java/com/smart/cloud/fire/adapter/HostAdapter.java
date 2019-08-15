@@ -243,11 +243,8 @@ public class HostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void restart(String repeater) {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
-//        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         String url= ConstantValues.SERVER_IP_NEW+"resetRepeater?repeaterMac="+repeater;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -268,6 +265,5 @@ public class HostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 }

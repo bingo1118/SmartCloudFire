@@ -171,9 +171,6 @@ public class UploadNFCInfoActivity extends Activity {
                             }//@@11.07
                             isSuccess=uploadFile(file,userID,areaId,uploadTime);
                         }
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-//                        RequestQueue mQueue = Volley.newRequestQueue(mContext);
                         String url="";
                         if(isHavePhoto&&isSuccess){
                             File file = new File(imageFilePath);//9.29
@@ -191,8 +188,7 @@ public class UploadNFCInfoActivity extends Activity {
                                     +"&longitude="+lon+"&latitude="+lat+"&devicestate="+deviceState+"&memo="+ URLEncoder.encode(memo_name.getText().toString())
                                     +"&photo1=";
                         }
-
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -227,7 +223,6 @@ public class UploadNFCInfoActivity extends Activity {
                                 handler.sendMessage(message);
                             }
                         });
-                        mQueue.add(jsonObjectRequest);
                     }
                 }).start();
 

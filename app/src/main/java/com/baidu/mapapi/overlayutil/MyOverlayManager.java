@@ -160,6 +160,8 @@ public class MyOverlayManager extends OverlayManager {
                         case 58://@@嘉德移动烟感
                         case 56://@@NBIot烟感
                         case 41://@@NB烟感
+                        case 86:
+                        case 89:
                         case 1:
                             markMap(latLng,overlayOptionses,alarmState,giflist,viewList.get(0),bundle);
                             break;

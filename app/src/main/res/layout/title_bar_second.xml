@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/title_rela"
@@ -86,27 +87,6 @@
                 android:background="@drawable/areachooce_shape"/>
         </RelativeLayout>
 
-        <!--<ImageView-->
-            <!--android:id="@+id/add_fire"-->
-            <!--android:layout_width="45dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:src="@drawable/erweima"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:visibility="gone"-->
-            <!--/>-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/search_fire"-->
-            <!--android:layout_width="90dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:src="@drawable/search_condition_selector"-->
-            <!--android:visibility="gone"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--/>-->
 
     </RelativeLayout>
 </RelativeLayout>

@@ -27,6 +27,7 @@ import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
+import com.smart.cloud.fire.view.LochoLineChartView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,10 +126,8 @@ public class OneTHDevInfoActivity extends Activity {
     }
 
     private void getYuzhi_79() {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"getWaterAlarmThreshold?mac="+mac+"&deviceType=79";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -158,14 +157,11 @@ public class OneTHDevInfoActivity extends Activity {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void getYuzhi() {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"getTHAlarmThreshold?mac="+mac;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -194,14 +190,11 @@ public class OneTHDevInfoActivity extends Activity {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     public void getTHData(){
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"getOneTHDeviceInfo?mac="+mac;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -227,7 +220,6 @@ public class OneTHDevInfoActivity extends Activity {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     @OnClick({R.id.chanshuzhezhi_text,R.id.temperature_yuzhi_set,R.id.humidity_yuzhi_set,R.id.temperature_rela,R.id.humidity_rela})
@@ -299,10 +291,7 @@ public class OneTHDevInfoActivity extends Activity {
                                     T.showShort(mContext,"输入数据不完全或有误");
                                     return;
                                 }
-                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
@@ -324,7 +313,6 @@ public class OneTHDevInfoActivity extends Activity {
                                         T.showShort(mContext,"网络错误");
                                     }
                                 });
-                                mQueue.add(jsonObjectRequest);
                             }
                         }).show();
                 break;
@@ -351,10 +339,7 @@ public class OneTHDevInfoActivity extends Activity {
                                     T.showShort(mContext,"输入数据不完全或有误");
                                     return;
                                 }
-                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
@@ -376,7 +361,6 @@ public class OneTHDevInfoActivity extends Activity {
                     T.showShort(mContext,"网络错误");
                 }
             });
-            mQueue.add(jsonObjectRequest);
         }
         }).show();
                 break;
@@ -411,10 +395,7 @@ public class OneTHDevInfoActivity extends Activity {
                                     T.showShort(mContext,"输入数据不完全或有误");
                                     return;
                                 }
-                                VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                                RequestQueue mQueue = helper.getRequestQueue();
-//                            RequestQueue mQueue = Volley.newRequestQueue(context);
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                                VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
@@ -436,20 +417,19 @@ public class OneTHDevInfoActivity extends Activity {
                                         T.showShort(mContext,"网络错误");
                                     }
                                 });
-                                mQueue.add(jsonObjectRequest);
                             }
                         }).show();
                 break;
             case R.id.temperature_rela:
                 Intent intent=new Intent(this, LineChartActivity.class);
                 intent.putExtra("electricMac",mac);
-                intent.putExtra("isWater","tem");
+                intent.putExtra("isWater", LochoLineChartView.TYPE_TEM);
                 startActivity(intent);
                 break;
             case R.id.humidity_rela:
                 Intent intent1=new Intent(this, LineChartActivity.class);
                 intent1.putExtra("electricMac",mac);
-                intent1.putExtra("isWater","hum");
+                intent1.putExtra("isWater",LochoLineChartView.TYPE_HUM);
                 startActivity(intent1);
                 break;
         }

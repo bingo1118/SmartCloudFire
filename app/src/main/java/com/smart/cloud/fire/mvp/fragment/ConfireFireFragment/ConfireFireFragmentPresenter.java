@@ -367,6 +367,9 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     if(smokeMac.endsWith("N")){
                         deviceType="79";
                         smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("Z")){
+                        deviceType="104";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         deviceType="25";
                         smokeMac = smokeMac.substring(1, macLenghth);
@@ -467,7 +470,7 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                         smokeMac =smokeMac.substring(1,macLenghth-1);
                     }else{
                         deviceType="10";//@@水压
-                        smokeMac = smokeMac.substring(0, macLenghth-0);
+                        smokeMac = smokeMac.substring(1, macLenghth);
                     }
                     break;
                 case "L":

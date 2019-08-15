@@ -16,6 +16,10 @@ import rx.Observable;
  * Created by Administrator on 2016/11/1.
  */
 public class LineChartPresenter extends BasePresenter<LineChartView> {
+
+    public final  static String TYPE_TEM="1";
+    public final  static String TYPE_HUM="2";
+
     public LineChartPresenter(LineChartView view){
         attachView(view);
     }

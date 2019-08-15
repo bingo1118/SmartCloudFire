@@ -46,6 +46,7 @@ import com.smart.cloud.fire.ui.CallManagerDialogActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
+import com.smart.cloud.fire.view.LochoLineChartView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -416,6 +417,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 104://热电偶温度器
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("热电偶温度器："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("热电偶温度器："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    break;
                 case 91://金特莱南京烟感
                 case 53://NB电气
                 case 52://@@Lara电气设备
@@ -625,7 +636,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater","1");//@@是否为水压
+                            intent.putExtra("isWater", LochoLineChartView.TYPE_WATER_PRESURE);//@@是否为水压
                             intent.putExtra("devType",devType);
                             mContext.startActivity(intent);
                         }
@@ -645,7 +656,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater",normalSmoke.getDeviceType()+"");//@@是否为水压
+                            intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_PRESURE);
                             mContext.startActivity(intent);
                         }
                     });
@@ -664,7 +675,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater","3");//@@是否为水压
+                            intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE);//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });
@@ -692,7 +703,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
-                            intent.putExtra("isWater",normalSmoke.getDeviceType()+"");//@@是否为水压
+                            intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_LEVEL);//@@是否为水压
                             mContext.startActivity(intent);
                         }
                     });

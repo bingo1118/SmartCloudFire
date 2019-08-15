@@ -141,11 +141,8 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-//                RequestQueue mQueue = Volley.newRequestQueue(mContext);
                         String url= ConstantValues.SERVER_IP_NEW+"cancelSound?repeaterMac="+normalSmoke.getMac();
-                        StringRequest stringRequest = new StringRequest(url,
+                        VolleyHelper.getInstance(mContext).getStringResponse(url,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
@@ -168,7 +165,6 @@ public class WiredDevAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 Log.e("TAG", error.getMessage(), error);
                             }
                         });
-                        mQueue.add(stringRequest);
                     }
                 });
             }

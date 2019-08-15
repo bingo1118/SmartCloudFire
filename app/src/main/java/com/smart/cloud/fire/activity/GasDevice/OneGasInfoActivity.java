@@ -90,14 +90,10 @@ public class OneGasInfoActivity extends Activity {
     }
 
     private void getdata() {
-        String userID = SharedPreferencesManager.getInstance().getData(mContext,
-                SharedPreferencesManager.SP_FILE_GWELL,
-                SharedPreferencesManager.KEY_RECENTNAME);
+        String userID = MyApp.getUserID();
         int privilege = MyApp.app.getPrivilege();
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"getGasHistoryInfo?userId="+userID+"&privilege="+privilege+"&smokeMac="+smokeMac+"&page=0";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -215,14 +211,11 @@ public class OneGasInfoActivity extends Activity {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void sendCom(final int i) {
-        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-        RequestQueue mQueue = helper.getRequestQueue();
         String url= ConstantValues.SERVER_IP_NEW+"nanjing_ranqi_7020?imeiValue="+smokeMac+"&deviceType="+devType+"&state="+i;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -245,7 +238,6 @@ public class OneGasInfoActivity extends Activity {
                 T.showShort(mContext,"网络错误");
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     private void resetSwitch(int i) {

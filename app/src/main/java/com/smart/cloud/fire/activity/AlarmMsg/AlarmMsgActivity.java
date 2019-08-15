@@ -423,9 +423,7 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                                 SharedPreferencesManager.SP_FILE_GWELL,
                                 SharedPreferencesManager.KEY_RECENTNAME);
                         String url= ConstantValues.SERVER_IP_NEW+"receiveOrder?userId="+username+"&smokeMac="+messageModelList.get(position).getMac();
-                        VolleyHelper helper=VolleyHelper.getInstance(mContext);
-                        RequestQueue mQueue = helper.getRequestQueue();
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
+                        VolleyHelper.getInstance(mContext).getJsonResponse(url,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -456,7 +454,6 @@ public class AlarmMsgActivity extends MvpActivity<AlarmMsgPresenter> implements 
                             public void onErrorResponse(VolleyError error) {
                             }
                         });
-                        mQueue.add(jsonObjectRequest);
                         deal_position=position;
                     }
                 }
