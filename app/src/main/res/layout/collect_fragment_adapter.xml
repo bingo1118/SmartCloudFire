@@ -4,20 +4,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
+
+    <TextView
+        android:id="@+id/alarm_time_tv"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/alpha">
-        <TextView
-            android:id="@+id/alarm_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#666666"
-            android:textSize="12sp"
-            android:layout_marginLeft="15dp"
-            android:layout_alignParentBottom="true"
-            android:text="2016-08-04 17:29:56"/>
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/alpha"
+        android:text="2016-08-04 17:29:56"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,9 +28,10 @@
             android:orientation="vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/smoke_mac"
@@ -44,23 +42,20 @@
                     android:text="@string/smoke_name"/>
                 <TextView
                     android:id="@+id/smoke_mac_tv"
-                    android:layout_toRightOf="@id/smoke_mac"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textColor="#e9393d"
-                    android:layout_marginLeft="5dp"
                     android:text="HJKDSA545FD"/>
 
                 <TextView
                     android:id="@+id/alarm_mark_image"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="5dp"
                     android:text="报警"
                     android:textColor="@color/wifi_acclerate_red"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

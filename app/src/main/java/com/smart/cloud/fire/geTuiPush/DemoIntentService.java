@@ -348,6 +348,8 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生故障";
                             }else if(alarmType==308){
                                 message="发生高温报警";
+                            }else if(alarmType==193){
+                                message="发生低电压报警";
                             }
                             break;
                         case 45://@@海曼气感

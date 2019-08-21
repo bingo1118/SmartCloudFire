@@ -540,6 +540,8 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_gz);//@@8.10
                     } else if(alarmType == 308){
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_gw);
+                    }else if(alarmType == 193){
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_ddy);
                     }
                     break;
                 case 27:
