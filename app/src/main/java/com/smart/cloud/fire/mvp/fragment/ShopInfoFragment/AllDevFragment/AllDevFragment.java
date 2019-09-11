@@ -1,13 +1,13 @@
 package com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.AllDevFragment;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +40,7 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragment;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
+import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
@@ -222,7 +223,10 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
                         ||smoke.getDeviceType()==83||smoke.getDeviceType()==85||smoke.getDeviceType()==86
                         ||smoke.getDeviceType()==87||smoke.getDeviceType()==89||smoke.getDeviceType()==90
                         ||smoke.getDeviceType()==91||smoke.getDeviceType()==92||smoke.getDeviceType()==93
-                        ||smoke.getDeviceType()==94||smoke.getDeviceType()==95){
+                        ||smoke.getDeviceType()==94||smoke.getDeviceType()==95||smoke.getDeviceType()==96
+                        ||smoke.getDeviceType()==97||smoke.getDeviceType()==98||smoke.getDeviceType()==99
+                        ||smoke.getDeviceType()==100||smoke.getDeviceType()==101||smoke.getDeviceType()==102
+                        ||smoke.getDeviceType()==103||smoke.getDeviceType()==104||smoke.getDeviceType()==105){
                     showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
                 }else{
                     T.showShort(mContext,"该设备无法删除");
@@ -304,7 +308,8 @@ public class AllDevFragment extends MvpFragment<AllSmokePresenter> implements Sh
                     }
                 });
         // 显示
-        normalDialog.show();
+        BingoDialog dialog=new BingoDialog(normalDialog);
+        dialog.show();
     }
 
     @Override

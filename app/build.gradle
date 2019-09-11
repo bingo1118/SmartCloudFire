@@ -45,14 +45,14 @@ android {
 
         manifestPlaceholders = [
                 //正式
-//                GETUI_APP_ID    : "WUieDSVpdYAFJRxVSTpVA3",
-//                GETUI_APP_KEY   : "81wzEpKaYp7vEzcFgDEWp2",
-//                GETUI_APP_SECRET: "qGM9DuOZnW51PL6hai9xB5",
+                GETUI_APP_ID    : "WUieDSVpdYAFJRxVSTpVA3",
+                GETUI_APP_KEY   : "81wzEpKaYp7vEzcFgDEWp2",
+                GETUI_APP_SECRET: "qGM9DuOZnW51PL6hai9xB5",
 
                 //测试
-                GETUI_APP_ID    : "pJoinMzN1q5FzNbbYJ25f3",
-                GETUI_APP_KEY   : "R1SYtxOilj8qHZGXeMvCq4",
-                GETUI_APP_SECRET: "itOMWaQZwg5KYU3YlEIJ48",
+//                GETUI_APP_ID    : "pJoinMzN1q5FzNbbYJ25f3",
+//                GETUI_APP_KEY   : "R1SYtxOilj8qHZGXeMvCq4",
+//                GETUI_APP_SECRET: "itOMWaQZwg5KYU3YlEIJ48",
                 PACKAGE_NAME    : applicationId
         ]
 
@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.blankj:utilcode:1.20.3'
     implementation project(':p2PCore')
-    implementation 'com.getui:sdk:2.13.1.0'
+    implementation 'com.getui:sdk:2.13.2.0'
     implementation 'io.reactivex:rxjava:1.1.0'
     implementation 'io.reactivex:rxandroid:1.1.0'
     implementation 'com.jakewharton.rxbinding:rxbinding:1.0.0'

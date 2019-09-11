@@ -22,7 +22,7 @@ import java.util.Map;
     //测试IP:
 //    public static final String SERVER_IP_NEW ="http://139.159.209.212:51091/fireSystem/";
     //测试IP:
-//    public static final String SERVER_IP_NEW ="http://139.159.220.138:51091/fireSystem/";
+    public static final String SERVER_IP_NEW ="http://139.159.220.138:51091/fireSystem/";
     //万科测试IP:
 //    public static final String SERVER_IP_NEW ="http://193.112.231.227:51091/vanke/";
 
@@ -34,7 +34,7 @@ import java.util.Map;
     //NB IP:
 //    public static final String SERVER_IP_NEW ="http://193.112.59.214:51091/fireSystem/";
     //正式IP:
-    public static final String SERVER_IP_NEW ="http://193.112.150.195:51091/fireSystem/";
+//    public static final String SERVER_IP_NEW ="http://193.112.150.195:51091/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://119.29.155.148:51999/fireSystem/";
     //正式2.0版本:
@@ -65,6 +65,7 @@ import java.util.Map;
 
     //更新接口
     public static final String UPDATE_URL="http://139.159.220.138:6660/download/update_cloudfire.xml";
+//    public static final String UPDATE_URL="http://139.159.220.138:6660/download/update_cloudfire_big.xml";
 //    public static final String UPDATE_URL="http://119.29.155.148/download/update_cloudfire.xml";
 //    public static final String UPDATE_URL="http://119.29.155.148/download/update_liaocheng.xml";
 //    public static final String UPDATE_URL="http://119.29.223.106:51091/download/update_bqyl.xml";

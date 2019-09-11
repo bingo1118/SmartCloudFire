@@ -1,10 +1,10 @@
 package com.smart.cloud.fire.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +25,7 @@ import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
+import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
 
@@ -239,7 +240,8 @@ public class HostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
         // 显示
-        normalDialog.show();
+        BingoDialog dialog=new BingoDialog(normalDialog);
+        dialog.show();
     }
 
     private void restart(String repeater) {

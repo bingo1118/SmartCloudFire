@@ -20,6 +20,7 @@ import com.p2p.core.update.UpdateManager;
 import com.smart.cloud.fire.activity.Functions.constant.Constant;
 import com.smart.cloud.fire.service.LocationService;
 import com.smart.cloud.fire.ui.ForwardDownActivity;
+import com.smart.cloud.fire.utils.AutoScreenUtils;
 import com.smart.cloud.fire.utils.CrashHandler;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
@@ -70,6 +71,7 @@ public class MyApp extends Application {
                 new P2PListener(),
                 new SettingListener());
         HikVideoPlayerFactory.initLib(null, true);
+        AutoScreenUtils.AdjustDensity(this);
     }
 
 

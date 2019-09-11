@@ -2,13 +2,13 @@ package com.smart.cloud.fire.mvp.LineChart;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,42 +18,30 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.TemperatureTime;
-import com.smart.cloud.fire.utils.SharedPreferencesManager;
+import com.smart.cloud.fire.ui.BingoSerttingDialog;
+import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.T;
-import com.smart.cloud.fire.utils.Utils;
 import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.LochoLineChartView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fire.cloud.smart.com.smartcloudfire.R;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.ValueShape;
-import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.util.ChartUtils;
 
 /**
  * Created by Administrator on 2016/11/1.
@@ -105,6 +93,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
     String threshold_l;
     String getdatatime;
     String uploaddatatime;
+
+    Window win;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,8 +206,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     case R.id.yuzhi_set:
                         LayoutInflater inflater = getLayoutInflater();
                         View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
-                        AlertDialog.Builder builder=new AlertDialog.Builder(context).setView(layout);
-                        final AlertDialog dialog=builder.create();
+                        BingoDialog dialog=new BingoDialog(mActivity,layout);
                         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
                         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
                         Button commit=(Button)layout.findViewById(R.id.commit);
@@ -317,6 +306,12 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         title1.setText("波动阈值设置");
                         high_value_name1.setText("波动阈值（kpa）:");
                         low_value_name1.setText("上传时间间隔（min）:");
+                        win = dialog1.getWindow();
+                        win.getDecorView().setPadding(0, 0, 0, 0);
+                        WindowManager.LayoutParams lp1 = win.getAttributes();
+                        lp1.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        lp1.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        win.setAttributes(lp1);
                         dialog1.show();
                         break;
                 }
@@ -513,64 +508,61 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                 getData();
                 break;
             case R.id.water_threshold:
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.water_threshold_setting,(ViewGroup) findViewById(R.id.rela));
-                final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
-                final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
-                TextView title=(TextView)layout.findViewById(R.id.title_text);
-                TextView high_value_name=(TextView)layout.findViewById(R.id.high_value_name);
-                TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
-                final EditText uploadtime_value=(EditText)layout.findViewById(R.id.uploadtime_value);
-                final EditText getdatatime_value=(EditText)layout.findViewById(R.id.getdatatime_value);
-                LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
-                LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
+                List<BingoSerttingDialog.SettingItem> itemlist=new ArrayList<>();
+                BingoSerttingDialog dialog;
                 if(isWater==LochoLineChartView.TYPE_WATER_PRESURE||isWater==LochoLineChartView.TYPE_WATER_PRESURE_WITH_MORE){
-                    if(devType==78||devType==47||devType==100){
-                        uploadtime_lin.setVisibility(View.VISIBLE);
-                        high_value.setText(threshold_h);
-                        low_value.setText(threshold_l);
-                        getdatatime_value.setText(getdatatime);
-                        uploadtime_value.setText(uploaddatatime);
+                    itemlist.add(new BingoSerttingDialog.SettingItem("高水压阈值(kpa)",threshold_h,"3000-0",3000,0));
+                    itemlist.add(new BingoSerttingDialog.SettingItem("低水压阈值(kpa)",threshold_l,"3000-0",3000,0));
+                    if(devType==78||devType==47){
+                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"",0,0));
+                    }else if(devType==100){
+                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"",0,0));
+                        itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"",0,0));
+
                     }
-                    title.setText("水压阈值设置");
-                    high_value_name.setText("高水压阈值（kpa）:");
-                    low_value_name.setText("低水压阈值（kpa）:");
+                    dialog=new BingoSerttingDialog(this,itemlist,"水压阈值设置");
                 }else{
-                    if(devType==48){
-                        uploadtime_lin.setVisibility(View.VISIBLE);
-                        getdatatime_lin.setVisibility(View.VISIBLE);
-                        high_value.setText(threshold_h);
-                        low_value.setText(threshold_l);
-                        getdatatime_value.setText(getdatatime);
-                        uploadtime_value.setText(uploaddatatime);
+                    itemlist.add(new BingoSerttingDialog.SettingItem("高水位阈值(m)",threshold_h,"",0,0));
+                    itemlist.add(new BingoSerttingDialog.SettingItem("低水位阈值(m)",threshold_l,"",0,0));
+                    if(devType==48||devType==101){
+                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"",0,0));
+                        itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"",0,0));
                     }
-                    title.setText("水位阈值设置");
-                    high_value_name.setText("高水位阈值（m）:");
-                    low_value_name.setText("低水位阈值（m）:");
+                    dialog=new BingoSerttingDialog(this,itemlist,"水位阈值设置");
                 }
-                AlertDialog.Builder builder=new AlertDialog.Builder(this).setView(layout);
-                final AlertDialog dialog=builder.create();
-                Button commit=(Button)layout.findViewById(R.id.commit);
-                commit.setOnClickListener(new View.OnClickListener() {
+                dialog.setmOnCommitListener(new BingoSerttingDialog.OnCommitListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onCimmit(List<BingoSerttingDialog.SettingItem> items, boolean isTrueData) {
                         String url="";
                         try{
-                            float high=Float.parseFloat(high_value.getText().toString());
-                            float low=Float.parseFloat(low_value.getText().toString());
-                            float uploadtime=Float.parseFloat(uploadtime_value.getText().length()>0?uploadtime_value.getText().toString():"0");
-                            float getdatatime=Float.parseFloat(getdatatime_value.getText().length()>0?getdatatime_value.getText().toString():"0");
+                            float high=Float.parseFloat(items.get(0).getContent());
+                            float low=Float.parseFloat(items.get(1).getContent());
+                            float uploadtime;
+                            float getdatatime = 0;
                             if(low>high){
                                 T.showShort(context,"低水位阈值不能高于高水位阈值");
                                 return;
                             }
                             if(devType==78||devType==85||devType==97||devType==98){
+                                uploadtime=Float.parseFloat(items.get(2).getContent().length()>0?items.get(2).getContent().toString():"0");
                                 url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
                                         +"&hight_set="+high+"&low_set="+low+"&send_time="+uploadtime+"&collect_time="+getdatatime;
                             }else if(devType==47||devType==48){
+                                uploadtime=Float.parseFloat(items.get(2).getContent().length()>0?items.get(2).getContent().toString():"0");
+                                getdatatime=Float.parseFloat(items.get(3).getContent().length()>0?items.get(3).getContent().toString():"0");
+                                if(getdatatime>uploadtime){
+                                    T.showShort(context,"采样时间不能高于上报时间");
+                                    return;
+                                }
                                 url= ConstantValues.SERVER_IP_NEW+"set_water_level_Control?smokeMac="+electricMac+"&deviceType="+devType
                                         +"&hvalue="+high+"&lvalue="+low+"&waveValue="+uploadtime+"&waveTime="+getdatatime;
                             }else if(devType==100||devType==101){
+                                uploadtime=Float.parseFloat(items.get(2).getContent().length()>0?items.get(2).getContent().toString():"0");
+                                getdatatime=Float.parseFloat(items.get(3).getContent().length()>0?items.get(3).getContent().toString():"0");
+                                if(getdatatime>uploadtime){
+                                    T.showShort(context,"采样时间不能高于上报时间");
+                                    return;
+                                }
                                 url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
                                         +"&hight_set="+high+"&low_set="+low+"&send_time="+uploadtime+"&collect_time="+getdatatime+"&lowpow_set=0";
                             }else{
@@ -597,16 +589,35 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                                         }
                                     }
                                 }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                T.showShort(context,"网络错误");
-                            }
-                        });
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        T.showShort(context,"网络错误");
+                                    }
+                                });
                         dialog.dismiss();
                     }
                 });
                 dialog.show();
                 break;
         }
+    }
+    private void testdialog() {
+        List<BingoSerttingDialog.SettingItem> itemlist=new ArrayList<>();
+        itemlist.add(new BingoSerttingDialog.SettingItem("高水压阈值","100","100-1200",1200,100));
+        itemlist.add(new BingoSerttingDialog.SettingItem("低水压阈值","30","1-90",90,1));
+        BingoSerttingDialog dialog=new BingoSerttingDialog(this,itemlist,"");
+        dialog.setmOnCommitListener(new BingoSerttingDialog.OnCommitListener() {
+            @Override
+            public void onCimmit(List<BingoSerttingDialog.SettingItem> items, boolean isTrueData) {
+                if(isTrueData){
+                    T.showShort(mActivity,items.get(0).getContent()+"      "+items.get(1).getContent());
+                    dialog.dismiss();
+                }else{
+                    T.showShort(mActivity,"data error");
+                }
+
+            }
+        });
+        dialog.show();
     }
 }

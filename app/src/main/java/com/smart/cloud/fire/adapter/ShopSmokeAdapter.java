@@ -425,6 +425,18 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setText("热电偶温度器："+normalSmoke.getName());
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
+
+                    ((ItemViewHolder) holder).category_group_lin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(mContext, LineChartActivity.class);
+                            intent.putExtra("electricMac",normalSmoke.getMac());
+                            intent.putExtra("isWater", LochoLineChartView.TYPE_TEM);
+                            mContext.startActivity(intent);
+                        }
+                    });
+
+
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 91://金特莱南京烟感
@@ -704,6 +716,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Intent intent = new Intent(mContext, LineChartActivity.class);
                             intent.putExtra("electricMac",normalSmoke.getMac());
                             intent.putExtra("isWater",LochoLineChartView.TYPE_WATER_LEVEL);//@@是否为水压
+                            intent.putExtra("devType",devType);
                             mContext.startActivity(intent);
                         }
                     });

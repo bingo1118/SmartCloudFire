@@ -39,6 +39,9 @@ public class VolleyHelper {
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(300000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        if(mRequestQueue==null){
+            mRequestQueue=getRequestQueue();
+        }
         mRequestQueue.add(jsonObjectRequest);
     }
 

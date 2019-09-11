@@ -474,6 +474,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 105://中电Lora
                 case 91:
                 case 83://南京中电电气
                 case 81://lora优特电气

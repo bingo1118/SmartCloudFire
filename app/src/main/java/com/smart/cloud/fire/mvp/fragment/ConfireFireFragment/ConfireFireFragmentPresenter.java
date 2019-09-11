@@ -529,6 +529,12 @@ public class ConfireFireFragmentPresenter extends BasePresenter<ConfireFireFragm
                     smokeMac = smokeMac.substring(1, macLenghth);//水禁
                     deviceType="15";
                     break;
+                case "Z":
+                    if(smokeMac.endsWith("Q")){
+                        deviceType="105";//中电Lora
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }
+                    break;
                 case "P":
                     if(smokeMac.endsWith("N")){
                         deviceType="82";//2019.03.08NB直连喷淋

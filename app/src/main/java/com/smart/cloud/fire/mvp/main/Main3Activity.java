@@ -51,6 +51,7 @@ import com.smart.cloud.fire.mvp.login.SplashActivity;
 import com.smart.cloud.fire.mvp.main.presenter.MainPresenter;
 import com.smart.cloud.fire.mvp.main.view.MainView;
 import com.smart.cloud.fire.service.RemoteService;
+import com.smart.cloud.fire.ui.BingoSerttingDialog;
 import com.smart.cloud.fire.ui.view.CircleProgressBar;
 import com.smart.cloud.fire.ui.view.ItemDivider;
 import com.smart.cloud.fire.utils.ButtonUtils;
@@ -64,6 +65,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -326,8 +328,9 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
         Intent intent;
         switch (view.getId()) {
             case R.id.scan_btn:
-                intent=new Intent(mContext, BigDataActivity.class);
-                startActivity(intent);
+//                intent=new Intent(mContext, BigDataActivity.class);
+//                startActivity(intent);
+                getHistoryCore();
                 break;
             case R.id.alarm_msg:
                 intent=new Intent(mContext, AlarmMsgActivity.class);

@@ -2,6 +2,7 @@ package com.smart.cloud.fire.activity.THDevice;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,6 +28,7 @@ import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
 import com.smart.cloud.fire.view.LochoLineChartView;
@@ -264,7 +268,7 @@ public class OneTHDevInfoActivity extends Activity {
                 low2_value.setText(threshold_hum_l);
                 uploadtime_value.setText(uploaddatatime);
                 getdatatime_value.setText(getdatatime);
-                new AlertDialog.Builder(this).setView(layout)
+                AlertDialog.Builder builder=new AlertDialog.Builder(this).setView(layout)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -314,14 +318,16 @@ public class OneTHDevInfoActivity extends Activity {
                                     }
                                 });
                             }
-                        }).show();
+                        });
+                BingoDialog dialog=new BingoDialog(builder);
+                dialog.show();
                 break;
             case R.id.temperature_yuzhi_set:
                 commit.setVisibility(View.GONE);
                 title.setText("温度阈值设置");
                 high_value_name.setText("高温阈值（℃）:");
                 low_value_name.setText("低温阈值（℃）:");
-                new AlertDialog.Builder(this).setView(layout)
+                AlertDialog.Builder builder1=new AlertDialog.Builder(this).setView(layout)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -362,7 +368,17 @@ public class OneTHDevInfoActivity extends Activity {
                 }
             });
         }
-        }).show();
+        });
+                Dialog dialog1=builder1.create();
+                Window win1 = dialog1.getWindow();
+                win1.getDecorView().setPadding(0, 0, 0, 0);
+                WindowManager.LayoutParams lp1 = win1.getAttributes();
+                lp1.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp1.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                win1.setBackgroundDrawableResource(android.R.color.white);
+                win1.setAttributes(lp1);
+
+                dialog1.show();
                 break;
             case R.id.humidity_yuzhi_set:
                 LayoutInflater inflater2 = getLayoutInflater();

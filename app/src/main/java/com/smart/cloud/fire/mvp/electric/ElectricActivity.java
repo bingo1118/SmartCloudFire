@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -42,6 +44,7 @@ import com.smart.cloud.fire.global.ElectricValue;
 import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity;
+import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
@@ -263,8 +266,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         LayoutInflater inflater = getLayoutInflater();
         View layout= inflater.inflate(R.layout.electr_yuzhi_setting_zd,(ViewGroup) findViewById(R.id.rela));
 
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
-        final AlertDialog dialog =builder.create();
+        BingoDialog dialog=new BingoDialog(this,layout);
         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
         high_value.setText(yuzhi43);
         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
@@ -388,8 +390,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         LayoutInflater inflater = getLayoutInflater();
         View layout= inflater.inflate(R.layout.electr_yuzhi_setting,(ViewGroup) findViewById(R.id.rela));
 
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
-        final AlertDialog dialog =builder.create();
+        BingoDialog dialog=new BingoDialog(this,layout);
         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
         high_value.setText(yuzhi43);
         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
@@ -906,6 +907,13 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 dialog.dismiss();
             }
         });
+        Window win = dialog.getWindow();
+        win.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = win.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        win.setBackgroundDrawableResource(android.R.color.white);
+        win.setAttributes(lp);
         dialog.show();
     }
 
@@ -913,8 +921,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         LayoutInflater inflater = getLayoutInflater();
         View layout= inflater.inflate(R.layout.ut_fenli_setting,(ViewGroup) findViewById(R.id.rela));
 
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
-        final AlertDialog dialog =builder.create();
+        BingoDialog dialog=new BingoDialog(this,layout);
 
         final Switch fenli_switch=(Switch)layout.findViewById(R.id.fenli_switch);
         final LinearLayout fenliHoldTime_line=(LinearLayout) layout.findViewById(R.id.fenliHoldTime_line);
@@ -938,26 +945,6 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         });
 
         final EditText fenliHoldTime_value=(EditText)layout.findViewById(R.id.fenliHoldTime_value);
-
-//        final Switch QI_switch=(Switch)layout.findViewById(R.id.QI_switch);
-//        if(energyEntity.getShuntCuPer()==1){
-//            QI_switch.setChecked(true);
-//        }else {
-//            QI_switch.setChecked(false);
-//        }
-//        final Switch TI_switch=(Switch)layout.findViewById(R.id.TI_switch);
-//        if(energyEntity.getShuntTemp()==1){
-//            TI_switch.setChecked(true);
-//        }else {
-//            TI_switch.setChecked(false);
-//        }
-//        final Switch fenli_liandong_switch=(Switch)layout.findViewById(R.id.fenli_liandong_switch);
-//        if(energyEntity.getShuntLink()==1){
-//            fenli_liandong_switch.setChecked(true);
-//        }else {
-//            fenli_liandong_switch.setChecked(false);
-//        }
-
         Button commit=(Button)layout.findViewById(R.id.commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -965,36 +952,15 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 String url="";
                 try{
 
-
-//                int b=0;
-//                if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()>0){
-//                    b= b+Integer.parseInt(fenliHoldTime_value.getText().toString());
-//                }else if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()==0){
-//                    b= 255;
-//                }
                     int b=0;
                     if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()>0){
                         b= b+Integer.parseInt(fenliHoldTime_value.getText().toString());
                     }else if(fenli_switch.isChecked()&&fenliHoldTime_value.getText().length()==0){
                         b= b+31;
                     }
-
-//                    if(QI_switch.isChecked()){
-//                        b= b+32;
-//                    }
-//
-//                    if(TI_switch.isChecked()){
-//                        b= b+64;
-//                    }
-//
-//                    if(fenli_liandong_switch.isChecked()){
-//                        b= b+64;
-//                    }
-
                     url= ConstantValues.SERVER_IP_NEW+"Telegraphy_Uool_control?repeaterMac="+repeatMac
                             +"&deviceType="+devType+"&devCmd=31&imei="+electricMac
                             +"&ShuntRelevance="+b;
-
 
                 }catch(Exception e){
                     e.printStackTrace();
@@ -1114,6 +1080,13 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 dialog.dismiss();
             }
         });
+        Window win = dialog.getWindow();
+        win.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = win.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        win.setBackgroundDrawableResource(android.R.color.white);
+        win.setAttributes(lp);
         dialog.show();
     }
 
@@ -1190,12 +1163,9 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     private void gotoYuzhiSet() {
         LayoutInflater inflater;
         View layout;
-        AlertDialog.Builder builder;
-        final AlertDialog dialog;
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.electr_threshold_setting,(ViewGroup) findViewById(R.id.rela));
-        builder=new AlertDialog.Builder(mContext).setView(layout);
-        dialog =builder.create();
+        BingoDialog dialog=new BingoDialog(this,layout);
         final EditText high_value=(EditText)layout.findViewById(R.id.high_value);
         high_value.setText(yuzhi43);
         final EditText low_value=(EditText)layout.findViewById(R.id.low_value);
@@ -1343,8 +1313,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         LayoutInflater inflater = getLayoutInflater();
         View layout= inflater.inflate(R.layout.electr_fenli_race,(ViewGroup) findViewById(R.id.rela));
 
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext).setView(layout);
-        final AlertDialog dialog =builder.create();
+        BingoDialog dialog=new BingoDialog(this,layout);
 
         final TextView ActivePowerA=(TextView)layout.findViewById(R.id.ActivePowerA);
         final TextView ActivePowerB=(TextView)layout.findViewById(R.id.ActivePowerB);
@@ -1399,12 +1368,6 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         final TextView ApparentEnergyC=(TextView)layout.findViewById(R.id.ApparentEnergyC);
 
         ApparentEnergyA.setText(energyEntity.getApparentEnergyA()+"kVAh");
-
-
-
-
-
-
         ApparentEnergyB.setText(energyEntity.getApparentEnergyB()+"kVAh");
         ApparentEnergyC.setText(energyEntity.getApparentEnergyC()+"kVAh");
 
