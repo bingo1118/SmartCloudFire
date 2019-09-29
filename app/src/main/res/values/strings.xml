@@ -313,6 +313,8 @@
     <string name="stop_talk">关闭对讲</string>
 
     <string name="start_talk">开启对讲</string>
+    <string name="temp_unit">℃</string>
+    <string name="hum_unit">%RH</string>
 
 
 </resources>

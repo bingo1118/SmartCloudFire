@@ -27,13 +27,13 @@ public class BingoDialog {
     }
 
     public void show(){
-        mWindow = mDialog.getWindow();
-        mWindow.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = mWindow.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindow.setBackgroundDrawableResource(android.R.color.white);
-        mWindow.setAttributes(lp);
+//        mWindow = mDialog.getWindow();
+//        mWindow.getDecorView().setPadding(0, 0, 0, 0);
+//        WindowManager.LayoutParams lp = mWindow.getAttributes();
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        mWindow.setBackgroundDrawableResource(android.R.color.white);
+//        mWindow.setAttributes(lp);
         mDialog.show();
     }
 

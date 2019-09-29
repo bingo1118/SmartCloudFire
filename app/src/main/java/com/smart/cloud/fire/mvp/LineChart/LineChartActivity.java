@@ -516,8 +516,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     if(devType==78||devType==47){
                         itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"",0,0));
                     }else if(devType==100){
-                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"",0,0));
-                        itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"",0,0));
+                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"600-0",600,0));
+                        itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"600-0",600,0));
 
                     }
                     dialog=new BingoSerttingDialog(this,itemlist,"水压阈值设置");
@@ -525,8 +525,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     itemlist.add(new BingoSerttingDialog.SettingItem("高水位阈值(m)",threshold_h,"",0,0));
                     itemlist.add(new BingoSerttingDialog.SettingItem("低水位阈值(m)",threshold_l,"",0,0));
                     if(devType==48||devType==101){
-                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"",0,0));
-                        itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"",0,0));
+                        itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"600-0",600,0));
+                        itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"600-0",600,0));
                     }
                     dialog=new BingoSerttingDialog(this,itemlist,"水位阈值设置");
                 }

@@ -40,11 +40,11 @@ public class ShopInfoFragmentPresenter extends BasePresenter<ShopInfoFragmentVie
 
 
 
-    public void getAllCamera(String userId, String privilege, String page, final List<Camera> list,boolean refresh){
+    public void getAllCamera(String userId, String privilege, String page, final List<Camera> list,boolean refresh,String areaid){
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getAllCamera(userId,privilege,page);
+        Observable mObservable = apiStores1.getAllCamera(userId,privilege,page,areaid);
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

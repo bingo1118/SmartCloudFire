@@ -14,10 +14,18 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.smart.cloud.fire.base.presenter.BasePresenter;
+import com.smart.cloud.fire.global.MyApp;
+import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpAreaResult;
+import com.smart.cloud.fire.rxjava.ApiCallback;
+import com.smart.cloud.fire.rxjava.SubscriberCallBack;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fire.cloud.smart.com.smartcloudfire.R;
+import rx.Observable;
+import rx.functions.Func1;
 
 public class BingoDropDowmListView extends LinearLayout {
 
@@ -39,6 +47,17 @@ public class BingoDropDowmListView extends LinearLayout {
 
     String selecedName;
     String selecedId;
+
+    public void setOnItemCheaked(OnItemCheaked mOnItemCheaked) {
+        this.onItemCheaked = mOnItemCheaked;
+    }
+
+    public interface OnItemCheaked{
+        public void onItemCheak(String selecedId);
+    }
+
+    private OnItemCheaked onItemCheaked;
+
 
 
     public BingoDropDowmListView(Context context) {
@@ -80,16 +99,20 @@ public class BingoDropDowmListView extends LinearLayout {
         clear_choice.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dataList.size() > 0) {
-                    selecedName=null;
-                    selecedId=null;
-
-                    imageView.setVisibility(View.VISIBLE);
-                    clear_choice.setVisibility(View.GONE);
-                    editText.setText("");
-                }
+                clearCheaked();
             }
         });
+    }
+
+    public void clearCheaked() {
+        if (dataList.size() > 0) {
+            selecedName=null;
+            selecedId=null;
+
+            imageView.setVisibility(View.VISIBLE);
+            clear_choice.setVisibility(View.GONE);
+            editText.setText("");
+        }
     }
 
     public void showLoading(){
@@ -214,6 +237,9 @@ public class BingoDropDowmListView extends LinearLayout {
                     clear_choice.setVisibility(View.VISIBLE);
                     selecedId=model.getModelId();
                     selecedName=model.getModelName();
+                    if(onItemCheaked!=null){
+                        onItemCheaked.onItemCheak(selecedId);
+                    }
                     closePopWindow();
                 }
             });
@@ -234,6 +260,32 @@ public class BingoDropDowmListView extends LinearLayout {
 
     public void setEditTextHint(String textStr){
         editText.setHint(textStr);
+    }
+
+    public void initData(String Type){
+        Observable mObservable ;
+        mObservable= BasePresenter.apiStores1.getAreaId(MyApp.getUserID(), MyApp.getPrivilege()+"","").map(new Func1<HttpAreaResult,ArrayList<Object>>() {
+            @Override
+            public ArrayList<Object> call(HttpAreaResult o) {
+                return o.getSmoke();
+            }
+        });
+
+        BasePresenter.addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ArrayList<BingoViewModel>>() {
+            @Override
+            public void onSuccess(ArrayList<BingoViewModel> model) {
+                if(model!=null&&model.size()>0){
+                    dataList=model;
+                }
+            }
+            @Override
+            public void onFailure(int code, String msg) {
+
+            }
+            @Override
+            public void onCompleted() {
+            }
+        }));
     }
 
 }

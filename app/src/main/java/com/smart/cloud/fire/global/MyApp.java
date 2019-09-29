@@ -45,7 +45,7 @@ public class MyApp extends Application {
     private Notification mNotification;
     public static final int NOTIFICATION_DOWN_ID = 0x53256562;
     private RemoteViews cur_down_view;
-    private int privilege=-1;
+    private static int privilege=-1;
     public LocationService locationService;
     public Vibrator mVibrator;
     public static String userid;
@@ -71,7 +71,7 @@ public class MyApp extends Application {
                 new P2PListener(),
                 new SettingListener());
         HikVideoPlayerFactory.initLib(null, true);
-        AutoScreenUtils.AdjustDensity(this);
+//        AutoScreenUtils.AdjustDensity(this);//屏幕适配
     }
 
 
@@ -131,15 +131,9 @@ public class MyApp extends Application {
     }
 
 
-    public int getPrivilege(){
+    public static int getPrivilege(){
         //return privilege;
-        if(privilege==-1){
-            return SharedPreferencesManager.getInstance().getIntData(this,
-                    SharedPreferencesManager.SP_FILE_GWELL,
-                    SharedPreferencesManager.KEY_RECENT_PRIVILEGE);
-        }else{
-            return privilege;
-        }//@@5.5防止突然网络错误问题
+        return privilege;
     }
 
     public static String getUserID(){

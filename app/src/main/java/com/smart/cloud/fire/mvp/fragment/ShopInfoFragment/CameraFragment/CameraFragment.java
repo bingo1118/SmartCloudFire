@@ -33,6 +33,7 @@ import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentView;
 import com.smart.cloud.fire.utils.SerializableMap;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
+import com.smart.cloud.fire.view.BingoDropDowmListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
     SwipeRefreshLayout swipereFreshLayout;
     @Bind(R.id.mProgressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.area_condition)
+    BingoDropDowmListView area_condition;
     private LinearLayoutManager linearLayoutManager;
     private ShopCameraAdapter shopCameraAdapter;
     private int lastVisibleItem;
@@ -65,6 +68,8 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
     private String userID;
     private int privilege;
     private ShopInfoFragmentPresenter mShopInfoFragmentPresenter;
+
+    private String areaid="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,8 +90,22 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
         list = new ArrayList<>();
         refreshListView();
         regFilter();
-        mvpPresenter.getAllCamera(userID, privilege + "", page, list,false);
+        mvpPresenter.getAllCamera(userID, privilege + "", page, list,false,"");
+        initView();
     }
+
+    private void initView() {
+        area_condition.setEditTextHint("区域选择");
+        area_condition.initData("");
+        area_condition.setOnItemCheaked(new BingoDropDowmListView.OnItemCheaked() {
+            @Override
+            public void onItemCheak(String selecedId) {
+                mvpPresenter.getAllCamera(userID, privilege + "", page, list,false,selecedId);
+                areaid=selecedId;
+            }
+        });
+    }
+
     private void regFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConstantValues.Action.REFRESH_CAMERA_PWD);
@@ -103,7 +122,7 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
             if(intent.getAction().equals(ConstantValues.Action.REFRESH_CAMERA_PWD)){
                 page = "1";
                 list.clear();
-                mvpPresenter.getAllCamera(userID, privilege + "", page, list,false);
+                mvpPresenter.getAllCamera(userID, privilege + "", page, list,false,"");
             }
             //@@5.18获取摄像机状态
             if(intent.getAction().equals(ConstantValues.Action.GET_FRIENDS_STATE)){
@@ -137,7 +156,9 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
             public void onRefresh() {
                 page = "1";
                 list.clear();
-                mvpPresenter.getAllCamera(userID, privilege + "", page, list,true);
+                mvpPresenter.getAllCamera(userID, privilege + "", page, list,true,"");
+                area_condition.clearCheaked();
+                areaid="";
             }
         });
 
@@ -154,7 +175,7 @@ public class CameraFragment extends MvpFragment<ShopInfoFragmentPresenter> imple
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == shopCameraAdapter.getItemCount()) {
                     if (list != null &&loadMoreCount >= 20 && research == false) {
                         page = Integer.parseInt(page) + 1 + "";
-                        mvpPresenter.getAllCamera(userID, privilege + "", page, list,true);
+                        mvpPresenter.getAllCamera(userID, privilege + "", page, list,true,areaid);
                     }else{
                         T.showShort(mContext,"已经没有更多数据了");
                     }

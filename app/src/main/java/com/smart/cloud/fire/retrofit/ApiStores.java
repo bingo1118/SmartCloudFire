@@ -119,7 +119,7 @@ public interface ApiStores {
     //获取用户所有的摄像头
     @GET("getAllCamera")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
-    Observable<HttpError> getAllCamera(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page);
+    Observable<HttpError> getAllCamera(@Query("userId") String userId, @Query("privilege") String privilege,@Query("page") String page,@Query("areaid") String areaid);
 
     //获取所有的店铺类型
     @GET("getPlaceTypeId")

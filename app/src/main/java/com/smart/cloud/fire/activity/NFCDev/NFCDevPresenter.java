@@ -41,7 +41,7 @@ public class NFCDevPresenter extends BasePresenter<NFCDevView> {
         if(!refresh){
             mvpView.showLoading();
         }
-        Observable mObservable = apiStores1.getAllCamera(userId,privilege,page);
+        Observable mObservable = apiStores1.getAllCamera(userId,privilege,page,"");
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

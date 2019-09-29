@@ -97,7 +97,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:background="@drawable/saomiao_shoudong"/>
+                android:background="@drawable/saomiao_shoudong_selector"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:background="@drawable/saomiao_diantong"/>
+                android:background="@drawable/saomiao_diantong_selector"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

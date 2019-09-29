@@ -91,6 +91,8 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
     RelativeLayout tjsb_btn;
     @Bind(R.id.dqfh_btn)
     RelativeLayout dqfh_btn;
+    @Bind(R.id.dqfh_btn2)
+    RelativeLayout dqfh_btn2;
     @Bind(R.id.spjk_btn)
     RelativeLayout spjk_btn;
     @Bind(R.id.spjk_btn2)
@@ -99,6 +101,8 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
     RelativeLayout zddw_btn;
     @Bind(R.id.xfwl_btn)
     RelativeLayout xfwl_btn;
+    @Bind(R.id.xfwl_btn2)
+    RelativeLayout xfwl_btn2;
     @Bind(R.id.nfc_btn)
     RelativeLayout nfc_btn;
     @Bind(R.id.zjgl_btn)
@@ -131,8 +135,8 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.smart.cloud.fire.geTuiPush.DemoIntentService.class);
     }
 
-    @OnClick({R.id.banner_image,R.id.my_image,R.id.sxcs_btn,R.id.sxcs_btn2,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.spjk_btn,R.id.spjk_btn2,R.id.zddw_btn,
-            R.id.xfwl_btn,R.id.nfc_btn,R.id.zjgl_btn,R.id.alarm_msg})
+    @OnClick({R.id.banner_image,R.id.my_image,R.id.sxcs_btn,R.id.sxcs_btn2,R.id.tjsb_btn,R.id.alarm_history_lin,R.id.dqfh_btn,R.id.dqfh_btn2,R.id.spjk_btn,R.id.spjk_btn2,R.id.zddw_btn,
+            R.id.xfwl_btn,R.id.xfwl_btn2,R.id.nfc_btn,R.id.zjgl_btn,R.id.alarm_msg})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -162,6 +166,7 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
                 startActivity(intent);
                 break;
             case R.id.dqfh_btn:
+            case R.id.dqfh_btn2:
                 intent = new Intent(mContext, ElectricDevActivity.class);
                 startActivity(intent);
                 break;
@@ -175,6 +180,7 @@ public class  MainActivity extends MvpActivity<MainPresenter> implements MainVie
                 startActivity(intent);
                 break;
             case R.id.xfwl_btn:
+            case R.id.xfwl_btn2:
                 intent = new Intent(mContext, SecurityDevActivity.class);
                 startActivity(intent);
                 break;

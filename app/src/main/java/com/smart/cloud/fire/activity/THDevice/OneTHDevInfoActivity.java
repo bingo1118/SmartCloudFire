@@ -28,6 +28,7 @@ import com.smart.cloud.fire.adapter.ShopSmokeAdapter;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.ui.BingoSerttingDialog;
 import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
@@ -144,10 +145,10 @@ public class OneTHDevInfoActivity extends Activity {
                                 threshold_hum_l=(response.getString("threshold4")==null?"--":response.getString("threshold4"));
                                 getdatatime=response.getString("waveValue");
                                 uploaddatatime=response.getString("ackTimes");
-                                t_low.setText(threshold_tem_l+"℃");
-                                t_top.setText(threshold_tem_h+"℃");
-                                h_low.setText(threshold_hum_l+"%");
-                                h_top.setText(threshold_hum_h+"%");
+                                t_low.setText(threshold_tem_l+getString(R.string.temp_unit));
+                                t_top.setText(threshold_tem_h+getString(R.string.temp_unit));
+                                h_low.setText(threshold_hum_l+getString(R.string.hum_unit));
+                                h_top.setText(threshold_hum_h+getString(R.string.hum_unit));
                             }else{
                                 T.showShort(mContext,"无数据");
                             }
@@ -177,10 +178,10 @@ public class OneTHDevInfoActivity extends Activity {
                                 threshold_hum_h=response.getString("value408")==null?"--":response.getString("value408");
                                 threshold_hum_l=response.getString("value407")==null?"--":response.getString("value407");
 
-                                t_low.setText(threshold_tem_l+"℃");
-                                t_top.setText(threshold_tem_h+"℃");
-                                h_low.setText(threshold_hum_l+"%");
-                                h_top.setText(threshold_hum_h+"%");
+                                t_low.setText(threshold_tem_l+getString(R.string.temp_unit));
+                                t_top.setText(threshold_tem_h+getString(R.string.temp_unit));
+                                h_low.setText(threshold_hum_l+getString(R.string.hum_unit));
+                                h_top.setText(threshold_hum_h+getString(R.string.hum_unit));
                             }else{
                                 T.showShort(mContext,"无数据");
                             }
@@ -205,8 +206,8 @@ public class OneTHDevInfoActivity extends Activity {
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
-                                temperature_text.setText(response.getString("temperature")+"℃");
-                                humidity_text.setText(response.getString("humidity")+"%");
+                                temperature_text.setText(response.getString("temperature")+getString(R.string.temp_unit));
+                                humidity_text.setText(response.getString("humidity")+getString(R.string.hum_unit));
                                 if(response.getString("time")!=null){
                                     update_time.setVisibility(View.VISIBLE);
                                     update_time.setText("更新时间:"+response.getString("time"));
@@ -238,54 +239,36 @@ public class OneTHDevInfoActivity extends Activity {
         TextView low_value_name=(TextView)layout.findViewById(R.id.low_value_name);
         switch (view.getId()) {
             case R.id.chanshuzhezhi_text:
-                commit.setVisibility(View.GONE);
-                TextView high2_value_name=(TextView)layout.findViewById(R.id.high2_value_name);
-                TextView low2_value_name=(TextView)layout.findViewById(R.id.low2_value_name);
-                LinearLayout high2_line=(LinearLayout)layout.findViewById(R.id.high2_line);
-                LinearLayout low2_line=(LinearLayout)layout.findViewById(R.id.low2_line);
-                LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
-                LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
-                final EditText high2_value=(EditText)layout.findViewById(R.id.high2_value);
-                final EditText low2_value=(EditText)layout.findViewById(R.id.low2_value);
-                final EditText uploadtime_value=(EditText)layout.findViewById(R.id.uploadtime_value);
-                final EditText getdatatime_value=(EditText)layout.findViewById(R.id.getdatatime_value);
-                high2_line.setVisibility(View.VISIBLE);
-                low2_line.setVisibility(View.VISIBLE);
-                uploadtime_lin.setVisibility(View.VISIBLE);
-                if(devType.equals("99")){
-                    getdatatime_lin.setVisibility(View.GONE);
-                }else{
-                    getdatatime_lin.setVisibility(View.VISIBLE);
+                List<BingoSerttingDialog.SettingItem> itemlist=new ArrayList<>();
+                BingoSerttingDialog dialog;
+                itemlist.add(new BingoSerttingDialog.SettingItem("高温阈值("+getString(R.string.temp_unit)+")",threshold_tem_h,"80至-40",80,-40));
+                itemlist.add(new BingoSerttingDialog.SettingItem("低温阈值("+getString(R.string.temp_unit)+")",threshold_tem_l,"80至-40",80,-40));
+                itemlist.add(new BingoSerttingDialog.SettingItem("高湿阈值("+getString(R.string.hum_unit)+")",threshold_hum_h,"100-0",100,0));
+                itemlist.add(new BingoSerttingDialog.SettingItem("低湿阈值("+getString(R.string.hum_unit)+")",threshold_hum_l,"100-0",100,0));
+                itemlist.add(new BingoSerttingDialog.SettingItem("上传时间(min)",uploaddatatime,"600-0",600,0));
+                if(!devType.equals("99")){
+                    itemlist.add(new BingoSerttingDialog.SettingItem("采集时间(min)",getdatatime,"600-0",600,0));
                 }
-                title.setText("参数设置");
-                high_value_name.setText("高温阈值（℃）:");
-                low_value_name.setText("低温阈值（℃）:");
-                high2_value_name.setText("高湿阈值（%）:");
-                low2_value_name.setText("低湿阈值（%）:");
-                high_value.setText(threshold_tem_h);
-                low_value.setText(threshold_tem_l);
-                high2_value.setText(threshold_hum_h);
-                low2_value.setText(threshold_hum_l);
-                uploadtime_value.setText(uploaddatatime);
-                getdatatime_value.setText(getdatatime);
-                AlertDialog.Builder builder=new AlertDialog.Builder(this).setView(layout)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String url="";
+                dialog=new BingoSerttingDialog(this,itemlist,"参数设置");
+                dialog.setmOnCommitListener(new BingoSerttingDialog.OnCommitListener() {
+                    @Override
+                    public void onCimmit(List<BingoSerttingDialog.SettingItem> items, boolean isTrueData) {
+                        if(!isTrueData){
+                            T.showShort(mContext,"数据输入范围错误");
+                            return;
+                        }
+                        String url="";
                                 try{
-                                    float high=Float.parseFloat(high_value.getText().toString());
-                                    float low=Float.parseFloat(low_value.getText().toString());
-                                    float high2=Float.parseFloat(high2_value.getText().toString());
-                                    float low2=Float.parseFloat(low2_value.getText().toString());
-                                    float uploadtime=Float.parseFloat(uploadtime_value.getText().toString());
-                                    float getdatatime=Float.parseFloat(getdatatime_value.getText().toString());
+                                    float high=Float.parseFloat(items.get(0).getContent());
+                                    float low=Float.parseFloat(items.get(1).getContent());
+                                    float high2=Float.parseFloat(items.get(2).getContent());
+                                    float low2=Float.parseFloat(items.get(3).getContent());
+                                    float uploadtime=Float.parseFloat(items.get(4).getContent());
+                                    if(!devType.equals("99")) {
+                                        float getdatatime = Float.parseFloat(items.get(4).getContent());
+                                    }
                                     if(low>high||low2>high2){
                                         T.showShort(mContext,"低阈值不能高于高阈值");
-                                        return;
-                                    }
-                                    if(uploadtime<1||uploadtime>1440){
-                                        T.showShort(mContext,"上报时间范围为1-1400分钟");
                                         return;
                                     }
                                     url= ConstantValues.SERVER_IP_NEW+"nanjing_set_TempHumi_data?imeiValue="+mac+"&deviceType="+devType+"&Hight_HumiSet="+high2+"&Low_HumiSet="+low2
@@ -318,15 +301,103 @@ public class OneTHDevInfoActivity extends Activity {
                                     }
                                 });
                             }
-                        });
-                BingoDialog dialog=new BingoDialog(builder);
+
+                });
                 dialog.show();
+
+//                commit.setVisibility(View.GONE);
+//                TextView high2_value_name=(TextView)layout.findViewById(R.id.high2_value_name);
+//                TextView low2_value_name=(TextView)layout.findViewById(R.id.low2_value_name);
+//                LinearLayout high2_line=(LinearLayout)layout.findViewById(R.id.high2_line);
+//                LinearLayout low2_line=(LinearLayout)layout.findViewById(R.id.low2_line);
+//                LinearLayout uploadtime_lin=(LinearLayout)layout.findViewById(R.id.uploadtime_lin);
+//                LinearLayout getdatatime_lin=(LinearLayout)layout.findViewById(R.id.getdatatime_lin);
+//                final EditText high2_value=(EditText)layout.findViewById(R.id.high2_value);
+//                final EditText low2_value=(EditText)layout.findViewById(R.id.low2_value);
+//                final EditText uploadtime_value=(EditText)layout.findViewById(R.id.uploadtime_value);
+//                final EditText getdatatime_value=(EditText)layout.findViewById(R.id.getdatatime_value);
+//                high2_line.setVisibility(View.VISIBLE);
+//                low2_line.setVisibility(View.VISIBLE);
+//                uploadtime_lin.setVisibility(View.VISIBLE);
+//                if(devType.equals("99")){
+//                    getdatatime_lin.setVisibility(View.GONE);
+//                }else{
+//                    getdatatime_lin.setVisibility(View.VISIBLE);
+//                }
+//                title.setText("参数设置");
+//                high_value_name.setText("高温阈值（"+getString(R.string.temp_unit)+"）:");
+//                low_value_name.setText("低温阈值（"+getString(R.string.temp_unit)+"）:");
+//                high2_value_name.setText("高湿阈值（"+getString(R.string.hum_unit)+"）:");
+//                low2_value_name.setText("低湿阈值（"+getString(R.string.hum_unit)+"）:");
+//                high_value.setText(threshold_tem_h);
+//                low_value.setText(threshold_tem_l);
+//                high2_value.setText(threshold_hum_h);
+//                low2_value.setText(threshold_hum_l);
+//                uploadtime_value.setText(uploaddatatime);
+//                getdatatime_value.setText(getdatatime);
+//                AlertDialog.Builder builder=new AlertDialog.Builder(this).setView(layout)
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                String url="";
+//                                try{
+//                                    float high=Float.parseFloat(high_value.getText().toString());
+//                                    float low=Float.parseFloat(low_value.getText().toString());
+//                                    float high2=Float.parseFloat(high2_value.getText().toString());
+//                                    float low2=Float.parseFloat(low2_value.getText().toString());
+//                                    float uploadtime=Float.parseFloat(uploadtime_value.getText().toString());
+//                                    float getdatatime=Float.parseFloat(getdatatime_value.getText().toString());
+//                                    if(low>80||low<-40){
+//                                        T.showShort(mContext,"低阈值不能高于高阈值");
+//                                        return;
+//                                    }
+//                                    if(low>high||low2>high2){
+//                                        T.showShort(mContext,"低阈值不能高于高阈值");
+//                                        return;
+//                                    }
+//                                    if(uploadtime<1||uploadtime>1440){
+//                                        T.showShort(mContext,"上报时间范围为1-1400分钟");
+//                                        return;
+//                                    }
+//                                    url= ConstantValues.SERVER_IP_NEW+"nanjing_set_TempHumi_data?imeiValue="+mac+"&deviceType="+devType+"&Hight_HumiSet="+high2+"&Low_HumiSet="+low2
+//                                            +"&Hight_TempSet="+high+"&Low_TempSet="+low+"&Tcollect_time="+getdatatime+"&Tsend_time="+uploadtime;
+//                                }catch(Exception e){
+//                                    e.printStackTrace();
+//                                    T.showShort(mContext,"输入数据不完全或有误");
+//                                    return;
+//                                }
+//                                VolleyHelper.getInstance(mContext).getJsonResponse(url,
+//                                        new Response.Listener<JSONObject>() {
+//                                            @Override
+//                                            public void onResponse(JSONObject response) {
+//                                                try {
+//                                                    int errorCode=response.getInt("errorCode");
+//                                                    if(errorCode==0){
+//                                                        T.showShort(mContext,"命令下发成功，请稍后刷新");
+//                                                        getYuzhi();
+//                                                    }else{
+//                                                        T.showShort(mContext,"设置失败");
+//                                                    }
+//                                                } catch (JSONException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                            }
+//                                        }, new Response.ErrorListener() {
+//                                    @Override
+//                                    public void onErrorResponse(VolleyError error) {
+//                                        T.showShort(mContext,"网络错误");
+//                                    }
+//                                });
+//                            }
+//                        });
+//                BingoDialog dialog=new BingoDialog(builder);
+//                dialog.show();
                 break;
             case R.id.temperature_yuzhi_set:
                 commit.setVisibility(View.GONE);
                 title.setText("温度阈值设置");
-                high_value_name.setText("高温阈值（℃）:");
-                low_value_name.setText("低温阈值（℃）:");
+                high_value_name.setText("高温阈值（"+getString(R.string.temp_unit)+"）:");
+                low_value_name.setText("低温阈值（"+getString(R.string.temp_unit)+"）:");
                 AlertDialog.Builder builder1=new AlertDialog.Builder(this).setView(layout)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
@@ -391,8 +462,8 @@ public class OneTHDevInfoActivity extends Activity {
                 TextView high_value_name2=(TextView)layout2.findViewById(R.id.high_value_name);
                 TextView low_value_name2=(TextView)layout2.findViewById(R.id.low_value_name);
                 title2.setText("湿度阈值设置");
-                high_value_name2.setText("高阈值（%）:");
-                low_value_name2.setText("低阈值（%）:");
+                high_value_name2.setText("高阈值（"+getString(R.string.hum_unit)+"）:");
+                low_value_name2.setText("低阈值（"+getString(R.string.hum_unit)+"）:");
                 new AlertDialog.Builder(this).setView(layout2)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override

@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Electric;
 import com.smart.cloud.fire.global.MyApp;
@@ -302,7 +303,15 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ItemViewHolder) holder).rssi_value.setText(normalSmoke.getRssivalue());
             }
 
-
+            ((ItemViewHolder) holder).dev_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String path=ConstantValues.NFC_IMAGES+"devimages/"+normalSmoke.getMac()+".jpg";
+                    Intent intent=new Intent(mContext, NFCImageShowActivity.class);
+                    intent.putExtra("path",path);
+                    mContext.startActivity(intent);
+                }
+            });
 
             ((ItemViewHolder) holder).manager_img.setOnClickListener(new View.OnClickListener() {//拨打电话提示框。。
                 @Override
@@ -398,6 +407,8 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         RelativeLayout dev_info_rela;
         @Bind(R.id.online_state_image)
         ImageView online_state_image;
+        @Bind(R.id.dev_image)
+        TextView dev_image;//@@2018.03.07
 
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07

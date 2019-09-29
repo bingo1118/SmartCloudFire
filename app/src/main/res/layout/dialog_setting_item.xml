@@ -21,6 +21,8 @@
         android:padding="3dp"
         android:layout_weight="1.2"
         android:focusable="true"
+        android:inputType="text"
+        android:lines="1"
         android:background="@drawable/edit_view_bg"/>
     <com.smart.cloud.fire.view.SingleLineZoomTextView
         android:id="@+id/tv_demind"
