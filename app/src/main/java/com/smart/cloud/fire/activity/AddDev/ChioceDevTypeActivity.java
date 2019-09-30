@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.obsessive.zbar.AddCaptureActivity;
 import com.smart.cloud.fire.activity.AddNFC.AddNFCActivity;
 import com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity;
+import com.smart.cloud.fire.rqcode.Capture2Activity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +47,9 @@ public class ChioceDevTypeActivity extends Activity {
                 startActivity(intent7);
                 break;
             case R.id.smsr_lin:
-                Intent intent8=new Intent(ChioceDevTypeActivity.this,AddCaptureActivity.class);
+//                Intent intent8=new Intent(ChioceDevTypeActivity.this,AddCaptureActivity.class);
+                Intent intent8=new Intent(ChioceDevTypeActivity.this,Capture2Activity.class);
+//                startActivityForResult(intent8, 100);
                 intent8.putExtra("devType",6);
                 startActivity(intent8);
                 break;
@@ -55,4 +60,6 @@ public class ChioceDevTypeActivity extends Activity {
                 break;
         }
     }
+
+
 }

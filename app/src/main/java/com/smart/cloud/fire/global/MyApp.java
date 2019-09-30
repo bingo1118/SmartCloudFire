@@ -27,6 +27,7 @@ import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.yoosee.P2PListener;
 import com.smart.cloud.fire.yoosee.SettingListener;
 import com.squareup.leakcanary.LeakCanary;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 //import com.taobao.sophix.PatchStatus;
 //import com.taobao.sophix.SophixManager;
 //import com.taobao.sophix.listener.PatchLoadStatusListener;
@@ -72,6 +73,7 @@ public class MyApp extends Application {
                 new SettingListener());
         HikVideoPlayerFactory.initLib(null, true);
 //        AutoScreenUtils.AdjustDensity(this);//屏幕适配
+        ZXingLibrary.initDisplayOpinion(this);
     }
 
 

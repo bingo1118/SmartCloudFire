@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.jakewharton.rxbinding.view.RxView;
-import com.obsessive.zbar.CaptureActivity;
 import com.smart.cloud.fire.GetLocationActivity;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FileUtil;
 import com.smart.cloud.fire.activity.UploadNFCInfo.FormFile;
@@ -39,6 +38,7 @@ import com.smart.cloud.fire.global.MyApp;
 import com.smart.cloud.fire.global.ShopType;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Camera;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
+import com.smart.cloud.fire.rqcode.Capture2Activity;
 import com.smart.cloud.fire.utils.IntegerTo16;
 import com.smart.cloud.fire.utils.JsonUtils;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
@@ -65,6 +65,12 @@ import rx.functions.Action1;
  * Created by Administrator on 2016/9/21.
  */
 public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresenter> implements ConfireFireFragmentView {
+
+    public static final int REQUEST_CODE_LOCATION=1;
+    public static final int REQUEST_CODE_SCAN_REPEATER=8;
+    public static final int REQUEST_CODE_SCAN_DEV=9;
+    public static final int REQUEST_CODE_CAMERA=102;
+
     @Bind(R.id.add_repeater_mac)
     EditText addRepeaterMac;//集中器。。
     @Bind(R.id.add_fire_mac)
@@ -115,7 +121,6 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     TextView yc_mac;
 
     private Context mContext;
-    private int scanType = 0;//0表示扫描中继器，1表示扫描烟感
     private int privilege;
     private String userID;
     private ShopType mShopType;
@@ -136,6 +141,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_add_fire, null);
         ButterKnife.bind(this, view);
+
         if(f.exists()){
             f.delete();
         }//@@9.30
@@ -156,7 +162,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     private void init() {
         Intent intent=getActivity().getIntent();
         String mac=intent.getStringExtra("mac");
-        devType=intent.getIntExtra("devType",0)+"";
+        devType=intent.getStringExtra("devType");
         addFireMac.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -207,7 +213,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                     Uri imageFileUri = Uri.fromFile(temp);//获取文件的Uri
                     Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//跳转到相机Activity
                     it.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageFileUri);//告诉相机拍摄完毕输出图片到指定的Uri
-                    startActivityForResult(it, 102);
+                    startActivityForResult(it, REQUEST_CODE_CAMERA);
                 }else{
                     //使用Intent
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -348,19 +354,19 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.scan_repeater_ma:
-                scanType = 0;
-                Intent scanRepeater = new Intent(mContext, CaptureActivity.class);
-                startActivityForResult(scanRepeater, 0);
+                Intent scanRepeater = new Intent(mContext, Capture2Activity.class);
+                scanRepeater.putExtra("isNeedResult",true);
+                startActivityForResult(scanRepeater, REQUEST_CODE_SCAN_REPEATER);
                 break;
             case R.id.scan_er_wei_ma:
-                scanType = 1;
-                Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
-                startActivityForResult(openCameraIntent, 0);
+                Intent openCameraIntent = new Intent(mContext, Capture2Activity.class);
+                openCameraIntent.putExtra("isNeedResult",true);
+                startActivityForResult(openCameraIntent, REQUEST_CODE_SCAN_DEV);
                 break;
             case R.id.location_image:
                 mvpPresenter.startLocation();
                 Intent intent=new Intent(mContext, GetLocationActivity.class);
-                startActivityForResult(intent,1);//@@6.20
+                startActivityForResult(intent,REQUEST_CODE_LOCATION);//@@6.20
                 break;
             case R.id.add_fire_zjq:
                 if (addFireZjq.ifShow()) {
@@ -522,27 +528,26 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case 0:
+            case REQUEST_CODE_SCAN_REPEATER:
                 if (resultCode == getActivity().RESULT_OK) {
                     Bundle bundle = data.getExtras();
                     String scanResult = bundle.getString("result");
-                    if (scanType == 0) {
-                        addRepeaterMac.setText(scanResult);
-                    } else {
-                        if(scanResult.contains("-")){
-                            scanResult=scanResult.substring(scanResult.lastIndexOf("=")+1);
-                        }//@@12.26三江nb-iot烟感
-                        String temp= JsonUtils.isJson(scanResult);
-                        if(temp!=null){
-                            scanResult=temp;
-                        }
-                        addFireMac.setText(scanResult);
-                        clearText();
-                        mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息
-                    }
+                    addRepeaterMac.setText(scanResult);
+
                 }
                 break;
-            case 1://@@6.20
+            case REQUEST_CODE_SCAN_DEV:
+                if (resultCode == getActivity().RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    String scanResult = bundle.getString("result");
+
+                    addFireMac.setText(scanResult);
+                    clearText();
+                    mvpPresenter.getOneSmoke(userID, privilege + "", scanResult);//@@5.5如果添加过该烟感则显示出原来的信息
+
+                }
+                break;
+            case REQUEST_CODE_LOCATION://@@6.20
                 if (resultCode == getActivity().RESULT_OK) {
                     Bundle bundle=data.getBundleExtra("data");
                     try{
@@ -554,7 +559,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
                     }
                 }
                 break;
-            case 102:
+            case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
                     Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
                     try {

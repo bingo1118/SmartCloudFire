@@ -112,8 +112,8 @@
         <activity
             android:name="com.smart.cloud.fire.mvp.register.RegisterPhoneActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.smart.cloud.fire.mvp.login.LoginActivity"
             android:label="@string/title_activity_register"
@@ -145,11 +145,6 @@
             android:name="com.smart.cloud.fire.ui.AboutActivity"
             android:label="@string/title_activity_about" />
         <activity
-            android:name="com.obsessive.zbar.CaptureActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
             android:name="com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity"
             android:label="@string/title_activity_add_camera_first" />
         <activity
@@ -177,13 +172,13 @@
         <activity
             android:name="com.smart.cloud.fire.mvp.LineChart.LineChartActivity"
             android:label="@string/line_chart_activity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.smart.cloud.fire.mvp.electric.ElectricActivity"
             android:label="@string/line_chart_activity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
 
         <service
             android:name="com.smart.cloud.fire.service.DaemonService"
@@ -208,9 +203,11 @@
         <activity android:name="com.smart.cloud.fire.GetLocationActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeListActivity" />
         <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.WiredDevFragment.WiredSmokeHistoryActivity" />
-        <activity android:name="com.smart.cloud.fire.activity.Setting.MyZoomActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Setting.MyZoomActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.AllSmoke.AllSmokeActivity"
             android:launchMode="singleTop" />
         <activity
             android:name="com.smart.cloud.fire.ui.CallManagerDialogActivity"
@@ -230,94 +227,123 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name="com.smart.cloud.fire.activity.Map.MapActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Map.MapActivity"
             android:launchMode="singleTop" />
         <activity
             android:name="com.smart.cloud.fire.activity.AddDev.AddDevActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name="com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.Electric.ElectricDevActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.AlarmHistory.AlarmHistoryActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.Camera.CameraDevActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Electric.ElectricDevActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.WiredDev.WiredDevActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Camera.CameraDevActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.WiredDev.WiredDevActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.SecurityDev.SecurityDevActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity"
+        <activity
+            android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.AirInfoActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.NFC.NFCActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.AddDev.ChioceDevTypeActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.NFC.NFCActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActivity"
             android:launchMode="singleTop" />
         <activity
             android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name="com.smart.cloud.fire.activity.UploadNFCInfo.UploadNFCInfoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.NFCDev.NFCDevHistoryActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity"
+        <activity
+            android:name="com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.Security.NewAirInfoActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.NFC.NFCTraceActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.NFC.NFCTraceActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.NFC.ChooseConditionActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.NFC.ChooseConditionActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity"
             android:launchMode="singleTop" />
         <activity
             android:name="com.smart.cloud.fire.activity.AddNFC.AddNFCMacActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.Host.HostActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Host.HostActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity"
+        <activity
+            android:name="com.smart.cloud.fire.mvp.ChuangAn.ChuangAnActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity"
             android:launchMode="singleTop" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep1Activity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep2Activity" />
         <activity android:name="com.smart.cloud.fire.activity.ChuangAnWifiSet.ChuanganWifiStep3Activity" />
-        <activity android:name="com.obsessive.zbar.AddCaptureActivity" />
         <activity
             android:name="com.smart.cloud.fire.activity.UploadAlarmInfo.UploadAlarmInfoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.smart.cloud.fire.activity.Video.RecordVideoActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Video.RecordVideoActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.Video.VideoPreviewActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Video.VideoPreviewActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.AlarmMsg.AlarmMsgActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.AlarmMsg.DealMsgDetailActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.AlarmMsg.TestSafetyActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.AlarmMsg.TestSafetyActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.BigData.BigDataActivity"
+        <activity
+            android:name="com.smart.cloud.fire.mvp.BigData.BigDataActivity"
             android:launchMode="singleTop" />
         <activity android:name="com.smart.cloud.fire.mvp.main.Main2Activity" />
         <activity
             android:name="com.smart.cloud.fire.mvp.Alarm.GetTaskActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.activity.WebServer.WebServerActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.WebServer.WebServerActivity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.main.Main3Activity"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.Functions.FunctionsActivity"
+        <activity
+            android:name="com.smart.cloud.fire.mvp.main.Main3Activity"
             android:launchMode="singleTop" />
-        <activity android:name="com.smart.cloud.fire.mvp.BigDataDetail.BigDataDetailActivity"
+        <activity
+            android:name="com.smart.cloud.fire.activity.Functions.FunctionsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smart.cloud.fire.mvp.BigDataDetail.BigDataDetailActivity"
             android:launchMode="singleTop" />
         <activity
             android:name="com.hikvision.open.app.PreviewActivity"
@@ -334,16 +360,17 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/voice_talk"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name="com.smart.cloud.fire.activity.Inspection.PointList.PointListActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.PointList.PointListActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.AddInspectionNFCItemActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.smart.cloud.fire.activity.Inspection.ItemsList.ItemsListActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name="com.smart.cloud.fire.activity.Inspection.TaskList.TaskListActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -355,25 +382,30 @@
         </activity>
         <activity
             android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.AddInspectionNormalItemActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.smart.cloud.fire.activity.Inspection.UploadInspectionInfo.UploadInspectionInfoActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.smart.cloud.fire.ui.TaskDialogActivity"
-            android:theme="@style/TaskDialogStyle"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.UpdateItemInfoActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.Inspection.InspectionMap.InspectionMapActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.Inspection.InspectionMain.InspectionMainActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name="com.smart.cloud.fire.activity.Inspection.UploadInspectionInfo.UploadProblemActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"
+            android:theme="@style/TaskDialogStyle" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.AddInspectionItem.UpdateItemInfoActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.InspectionMap.InspectionMapActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.InspectionMain.InspectionMainActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.Inspection.UploadInspectionInfo.UploadProblemActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name="com.smart.cloud.fire.rqcode.Capture2Activity"></activity>
     </application>
 
 </manifest>

@@ -4,28 +4,59 @@ package com.smart.cloud.fire.global;
  * Created by Rain on 2018/6/12.
  */
 public class DeviceType {
-    private int deviceId=1;
 
-    public DeviceType(int deviceId, String deviceName) {
-        this.deviceId = deviceId;
-        this.deviceName = deviceName;
+    private int errorCode;
+    private String error;
+    private String mac;
+    private String devType;
+    private String devTypeName;
+    private int electrState;
+
+    public String getMac() {
+        return mac;
     }
 
-    private String deviceName="";
-
-    public int getDeviceId() {
-        return deviceId;
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 
-    public void setDeviceId(int deviceId) {
-        this.deviceId = deviceId;
+    public String getDevType() {
+        return devType;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public void setDevType(String devType) {
+        this.devType = devType;
     }
 
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
+    public int getElectrState() {
+        return electrState;
+    }
+
+    public void setElectrState(int electrState) {
+        this.electrState = electrState;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getDevTypeName() {
+        return devTypeName;
+    }
+
+    public void setDevTypeName(String devTypeName) {
+        this.devTypeName = devTypeName;
     }
 }
