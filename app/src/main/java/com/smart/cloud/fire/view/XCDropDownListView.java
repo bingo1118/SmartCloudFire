@@ -1,11 +1,16 @@
 package com.smart.cloud.fire.view;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +38,7 @@ public class XCDropDownListView extends LinearLayout {
     private BasePresenter basePresenter;
     private TextView editText;
     private ImageView imageView;
+    private LinearLayout search_line;
     private PopupWindow popupWindow = null;
     private List<Object> dataList =  new ArrayList<>();
     private View mView;
@@ -116,12 +122,63 @@ public class XCDropDownListView extends LinearLayout {
         LayoutInflater layoutInflater;
         layoutInflater =  (LayoutInflater) getContext().getSystemService(infServie);
         View contentView  = layoutInflater.inflate(R.layout.dropdownlist_popupwindow, null,false);
+        search_line=contentView.findViewById(R.id.search_line);
+        TextView info_tv=contentView.findViewById(R.id.info_tv);
+        if (dataList.size() > 0) {
+            Object object = dataList.get(0);
+            if (object instanceof Area) {
+                search_line.setVisibility(VISIBLE);
+            }else{
+                search_line.setVisibility(GONE);
+            }
+        }
+        EditText search_edittext=contentView.findViewById(R.id.search_edittext);
+        XCDropDownListAdapter xcDropDownListAdapter=new XCDropDownListAdapter(getContext(), dataList);
+        //EditText添加监听
+        search_edittext.addTextChangedListener(new TextWatcher() {
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}//文本改变之前执行
+
+            @Override
+            //文本改变的时候执行
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()==0){
+                    xcDropDownListAdapter.setmData(dataList);
+                    xcDropDownListAdapter.notifyDataSetChanged();
+                    return;
+                }
+                List<Object> list=new ArrayList<>();
+                for(int i=0;i<dataList.size();i++){
+                    Area mArea= (Area) dataList.get(i);
+                    if(mArea.getAreaName().contains(s)){
+                        list.add(mArea);
+                    }
+                }
+                if(list.size()==0){
+                    info_tv.setVisibility(VISIBLE);
+                }else{
+                    info_tv.setVisibility(GONE);
+                }
+                xcDropDownListAdapter.setmData(list);
+                xcDropDownListAdapter.notifyDataSetChanged();
+            }
+
+            public void afterTextChanged(Editable s) { }//文本改变之后执行
+        });
+
+
         ListView listView = (ListView)contentView.findViewById(R.id.listView);
 
-        listView.setAdapter(new XCDropDownListAdapter(getContext(), dataList));
+
+        listView.setAdapter(xcDropDownListAdapter);
         popupWindow = new PopupWindow(contentView,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+
         popupWindow.setOutsideTouchable(true);
-        popupWindow.showAsDropDown(this);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popupWindow.showAtLocation(contentView, Gravity.CENTER_VERTICAL,0,0);
     }
     /**
      * 关闭下拉列表弹窗
@@ -170,6 +227,10 @@ public class XCDropDownListView extends LinearLayout {
         public int getCount() {
             // TODO Auto-generated method stub
             return mData.size();
+        }
+
+        public void setmData(List<Object> mData) {
+            this.mData = mData;
         }
 
         @Override

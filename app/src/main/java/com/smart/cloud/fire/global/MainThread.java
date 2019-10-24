@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.constraint.Constraints;
 import android.util.Xml;
 
 import com.smart.cloud.fire.utils.CompareVersion;
@@ -49,7 +50,7 @@ public class MainThread {
     private UpdateInfo mUpdateInfo = new UpdateInfo();
     public int checkUpdate(long last_check_update_time) {
         try {
-            if(!ConstantValues.SERVER_IP_NEW.contains("http://119.29.155.148")){
+            if(!ConstantValues.isThe148Service()){
                 return 1;
             }
             long now_time = System.currentTimeMillis();
@@ -100,7 +101,7 @@ public class MainThread {
                         if(last_check_update_time!=-1&&serverCode.equals(SharedPreferencesManager.getInstance().getData(mContext,"ignoreVersion"))){
                             return 1;//@@7.12
                         }
-                        if(ConstantValues.SERVER_IP_NEW.contains("http://119.29.155.148")){
+                        if(ConstantValues.isThe148Service()){
                             Intent i = new Intent("Constants.Action.ACTION_UPDATE");
                             i.putExtra("url", mUpdateInfo.url);
                             i.putExtra("message", mUpdateInfo.message);

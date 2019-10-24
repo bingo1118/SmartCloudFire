@@ -93,26 +93,21 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
     protected void onCreate(Bundle savedInstanceState) {
         MyApp.b=System.currentTimeMillis();
         long c1=MyApp.b-MyApp.a;
-        System.out.print("@@@@@@@@@@@@@1："+c1);
         super.onCreate(savedInstanceState);
         MyApp.b=System.currentTimeMillis();
         long c2=MyApp.b-MyApp.a;
-        System.out.print("@@@@@@@@@@@@@2："+c2);
         setContentView(R.layout.activity_all_smoke);
         MyApp.b=System.currentTimeMillis();
         long c3=MyApp.b-MyApp.a;
-        System.out.print("@@@@@@@@@@@@@3："+c3);
         //透明状态栏          
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // 透明导航栏          
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         MyApp.b=System.currentTimeMillis();
         long c4=MyApp.b-MyApp.a;
-        System.out.print("@@@@@@@@@@@@@4："+c4);
         mContext=this;
         MyApp.b=System.currentTimeMillis();
         long c5=MyApp.b-MyApp.a;
-        System.out.print("@@@@@@@@@@@@@5："+c5);
     }
 
     @Override
@@ -153,7 +148,6 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
 
         MyApp.b=System.currentTimeMillis();
         long c6=MyApp.b-MyApp.a;
-        System.out.print("@@@@@@@@@@@@@6："+c6);
     }
 
     @OnClick({ R.id.area_condition, R.id.turn_map_btn})

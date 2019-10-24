@@ -344,8 +344,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
-                                threshold_h=response.has("value208")?response.getString("value208"):response.getString("threshold1");
-                                threshold_l=response.has("value207")?response.getString("value207"):response.getString("threshold2");
+                                threshold_h=response.has("value208")?response.getString("value208"):response.getString("thresholdA");
+                                threshold_l=response.has("value207")?response.getString("value207"):response.getString("thresholdB");
                                 try {
                                     getdatatime=response.getString("ackTimes");
                                     uploaddatatime=response.getString("waveValue");
@@ -522,8 +522,8 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                     }
                     dialog=new BingoSerttingDialog(this,itemlist,"水压阈值设置");
                 }else{
-                    itemlist.add(new BingoSerttingDialog.SettingItem("高水位阈值(m)",threshold_h,"",0,0));
-                    itemlist.add(new BingoSerttingDialog.SettingItem("低水位阈值(m)",threshold_l,"",0,0));
+                    itemlist.add(new BingoSerttingDialog.SettingItem("高水位阈值(m)",threshold_h,"6-0",6,0));
+                    itemlist.add(new BingoSerttingDialog.SettingItem("低水位阈值(m)",threshold_l,"6-0",6,0));
                     if(devType==48||devType==101){
                         itemlist.add(new BingoSerttingDialog.SettingItem("上报时间（min）",uploaddatatime,"600-0",600,0));
                         itemlist.add(new BingoSerttingDialog.SettingItem("采集时间（min）",getdatatime,"600-0",600,0));
@@ -540,7 +540,7 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                             float uploadtime;
                             float getdatatime = 0;
                             if(low>high){
-                                T.showShort(context,"低水位阈值不能高于高水位阈值");
+                                T.showShort(context,"低阈值不能高于高阈值");
                                 return;
                             }
                             if(devType==78||devType==85||devType==97||devType==98){

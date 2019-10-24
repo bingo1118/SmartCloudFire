@@ -34,8 +34,8 @@ import java.util.Map;
     //NB IP:
 //    public static final String SERVER_IP_NEW ="http://193.112.59.214:51091/fireSystem/";
     //正式IP:
-//    public static final String SERVER_IP_NEW ="http://193.112.150.195:51091/fireSystem/";
-    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
+    public static final String SERVER_IP_NEW ="http://193.112.150.195:51091/fireSystem/";
+//    public static final String SERVER_IP_NEW ="http://119.29.155.148:51091/fireSystem/";
 //    public static final String SERVER_IP_NEW ="http://119.29.155.148:51999/fireSystem/";
     //正式2.0版本:
 //    public static final String SERVER_IP_NEW ="http://193.112.215.201:51091/fireSystem/";
@@ -47,7 +47,7 @@ import java.util.Map;
 //    public static final String SERVER_IP_NEW ="http://192.168.0.188:8080/fireSystem/";
 
     public static boolean isThe148Service(){
-        if(SERVER_IP_NEW.contains("119.29.155.148")){
+        if(SERVER_IP_NEW.contains("119.29.155.148")||SERVER_IP_NEW.contains("193.112.150.195")){
             return true;
         }else {
             return false;

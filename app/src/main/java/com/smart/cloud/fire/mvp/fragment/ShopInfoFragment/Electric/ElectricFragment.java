@@ -230,12 +230,13 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String url="";
+                        String userid=MyApp.getUserID();
                         switch (deviceType){
                             case 58:
-                                url= ConstantValues.SERVER_IP_NEW+"deleteOneNetDevice?imei="+mac;
+                                url= ConstantValues.SERVER_IP_NEW+"deleteOneNetDevice?imei="+mac+"&userid="+userid;
                                 break;
                             default:
-                                url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                                url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac+"&userid="+userid;
                                 break;
                         }
                         VolleyHelper.getInstance(mContext).getStringResponse(url,

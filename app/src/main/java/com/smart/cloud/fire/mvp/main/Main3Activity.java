@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -204,6 +205,7 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
 
 
         connect();
+        getlastestAlarm=null;
         getlastestAlarm=new Timer();
         getlastestAlarm.schedule(new TimerTask() {
             @Override
@@ -244,7 +246,15 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                     }
                 });
             }
-        },0,10000);
+        },0,60000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(getlastestAlarm!=null){
+            getlastestAlarm.cancel();
+        }
     }
 
     private void connect() {

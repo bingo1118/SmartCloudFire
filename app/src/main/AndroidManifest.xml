@@ -44,6 +44,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.autofocus" />
 
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -59,6 +60,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

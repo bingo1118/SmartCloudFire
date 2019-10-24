@@ -217,10 +217,10 @@ public class SecurityFragment extends MvpFragment<SecurityDevPresenter> implemen
                         String url="";
                         switch (deviceType){
                             case 58:
-                                url= ConstantValues.SERVER_IP_NEW+"deleteOneNetDevice?imei="+mac;
+                                url= ConstantValues.SERVER_IP_NEW+"deleteOneNetDevice?imei="+mac+"&userid="+userid;
                                 break;
                             default:
-                                url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac;
+                                url= ConstantValues.SERVER_IP_NEW+"deleteDeviceById?imei="+mac+"&userid="+userid;
                                 break;
                         }
                         VolleyHelper.getInstance(mContext).getStringResponse(url,

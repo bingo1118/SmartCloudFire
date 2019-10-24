@@ -130,7 +130,7 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
     private String camera = "";
 
     String mac="";
-    String devType="";
+    String devType="0";
 
     private String uploadTime;
     private String imageFilePath;
@@ -163,6 +163,9 @@ public class ConfireFireFragment extends MvpFragment<ConfireFireFragmentPresente
         Intent intent=getActivity().getIntent();
         String mac=intent.getStringExtra("mac");
         devType=intent.getStringExtra("devType");
+        if(devType==null){
+            devType="";
+        }
         addFireMac.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

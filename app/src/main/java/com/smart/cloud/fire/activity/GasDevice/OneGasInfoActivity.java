@@ -22,6 +22,7 @@ import com.smart.cloud.fire.mvp.LineChart.LineChartActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
+import com.smart.cloud.fire.view.LochoLineChartView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -267,7 +268,7 @@ public class OneGasInfoActivity extends Activity {
             case R.id.gas_history:
                 Intent intent=new Intent(mContext, LineChartActivity.class);
                 intent.putExtra("electricMac",smokeMac);
-                intent.putExtra("isWater","gas");
+                intent.putExtra("isWater", LochoLineChartView.TYPE_GAS);
                 startActivity(intent);
                 break;
         }

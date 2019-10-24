@@ -203,6 +203,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onFailure(int code, String msg) {
                 //跳转到登陆界面
                 mvpView.getDataFail("网络错误，请检查网络");
+
             }
 
             @Override
@@ -354,7 +355,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             String userId = SharedPreferencesManager.getInstance().getData(activity, SharedPreferencesManager.SP_FILE_GWELL, SharedPreferencesManager.KEY_RECENTNAME);
             String userPwd = SharedPreferencesManager.getInstance().getData(activity, SharedPreferencesManager.SP_FILE_GWELL, SharedPreferencesManager.KEY_RECENTPASS);
             if(userId!=null&&userId.length()>0&&userPwd!=null&&userPwd.length()>0){
-                mvpView.autoLogin(userId,userPwd);
+//                mvpView.autoLogin(userId,userPwd);
+                int privilege=SharedPreferencesManager.getInstance().getIntData(activity,
+                        SharedPreferencesManager.SP_FILE_GWELL,
+                        SharedPreferencesManager.KEY_RECENT_PRIVILEGE);
+                MyApp.app.setPrivilege(privilege);
+                mvpView.getDataSuccess();
             }else{
                 mvpView.autoLoginFail();
             }
