@@ -304,6 +304,16 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
                     }
                     break;
+                case 131://@@Lora标签
+                    ((ItemViewHolder) holder).smokeMac.setText("标签:");
+                    if (alarmType == 14) {
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.chaichu);
+                    } else if(alarmType == 193){
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_ddy);
+                    }else{
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.xx_huojing);
+                    }
+                    break;
                 case 45:
                     ((ItemViewHolder) holder).smokeMac.setText("HM气感:");
                     if (alarmType == 71) {
@@ -322,6 +332,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.weizhi);
                     }
                     break;
+                case 106:
                 case 96:
                 case 93:
                 case 73:
@@ -387,7 +398,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     }
                     break;
-
+                case 107:
                 case 105://中电Lora
                 case 91:
                 case 83://南京中电电气
@@ -510,6 +521,7 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ItemViewHolder) holder).smokeMac.setText("声光探测器:");
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.shengguang);
                     break;
+                case 108:
                 case 103:
                 case 84:
                 case 8:

@@ -306,12 +306,12 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         title1.setText("波动阈值设置");
                         high_value_name1.setText("波动阈值（kpa）:");
                         low_value_name1.setText("上传时间间隔（min）:");
-                        win = dialog1.getWindow();
-                        win.getDecorView().setPadding(0, 0, 0, 0);
-                        WindowManager.LayoutParams lp1 = win.getAttributes();
-                        lp1.width = WindowManager.LayoutParams.MATCH_PARENT;
-                        lp1.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                        win.setAttributes(lp1);
+//                        win = dialog1.getWindow();
+//                        win.getDecorView().setPadding(0, 0, 0, 0);
+//                        WindowManager.LayoutParams lp1 = win.getAttributes();
+//                        lp1.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                        lp1.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//                        win.setAttributes(lp1);
                         dialog1.show();
                         break;
                 }

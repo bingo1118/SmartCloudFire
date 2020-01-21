@@ -1,5 +1,6 @@
 package com.hikvision.open.app;
 
+import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.hikvision.open.hikvideoplayer.HikVideoPlayer;
 import com.hikvision.open.hikvideoplayer.HikVideoPlayerCallback;
 import com.hikvision.open.hikvideoplayer.HikVideoPlayerFactory;
 import com.smart.cloud.fire.global.Contact;
+import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
 
 import org.json.JSONException;
@@ -38,17 +40,16 @@ import fire.cloud.smart.com.smartcloudfire.R;
  */
 public class PreviewActivity extends AppCompatActivity implements View.OnClickListener, HikVideoPlayerCallback, TextureView.SurfaceTextureListener {
     private static final String TAG = "PreviewActivity";
-    private static String previewUri = "无地址";
+    private static String previewUri = "";
 
     protected TextureView textureView;
     protected ProgressBar progressBar;
     protected TextView playHintText;
+    protected TextView playStatusText;
     protected Button captureButton;
     protected Button recordButton;
     protected Button soundButton;
-    protected EditText reviewUriEdit;
     protected Button start;
-    protected Button stop;
     private String mUri;
     private HikVideoPlayer mPlayer;
     private boolean mSoundOpen = false;
@@ -57,12 +58,13 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     private TextView mRecordFilePathText;
 
     private Contact mContact;
+    private boolean isPlayying=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);//防止键盘弹出
-        super.setContentView(R.layout.activity_preview);
+        super.setContentView(R.layout.activity_preview2);
         mContact=(Contact) getIntent().getSerializableExtra("contact");
         initView();
         getUrl(mContact.getContactId());
@@ -78,7 +80,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                         try {
                             if(response.getInt("code")==0){
                                 previewUri=response.getString("url");
-                                reviewUriEdit.setText(previewUri);
+                                playStatusText.setText("状态:已就绪");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -92,6 +94,8 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+
+
     private void initView() {
         textureView = findViewById(R.id.texture_view);
         progressBar = findViewById(R.id.progress_bar);
@@ -103,29 +107,29 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         recordButton.setOnClickListener(PreviewActivity.this);
         soundButton = findViewById(R.id.sound_button);
         soundButton.setOnClickListener(PreviewActivity.this);
-        reviewUriEdit = findViewById(R.id.review_uri_edit);
+        playStatusText=findViewById(R.id.text_input_layout);
         start = findViewById(R.id.start);
-        stop = findViewById(R.id.stop);
         start.setOnClickListener(this);
-        stop.setOnClickListener(this);
-        reviewUriEdit.setText(previewUri);
         textureView.setSurfaceTextureListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.start) {
-            if (mPlayerStatus != PlayerStatus.SUCCESS && getPreviewUri()) {
-                startRealPlay(textureView.getSurfaceTexture());
-            }
-        } else if (view.getId() == R.id.stop) {
-            if (mPlayerStatus == PlayerStatus.SUCCESS) {
-                mPlayerStatus = PlayerStatus.IDLE;//释放这个窗口
-                mRecordFilePathText.setText(null);
-                progressBar.setVisibility(View.GONE);
-                playHintText.setVisibility(View.VISIBLE);
-                playHintText.setText("");
-                mPlayer.stopPlay();
+            if(isPlayying){
+                if (mPlayerStatus == PlayerStatus.SUCCESS) {
+                    mPlayerStatus = PlayerStatus.IDLE;//释放这个窗口
+                    mRecordFilePathText.setText(null);
+                    progressBar.setVisibility(View.GONE);
+                    playHintText.setVisibility(View.VISIBLE);
+                    playHintText.setText("");
+                    mPlayer.stopPlay();
+                    updatePlayStatus(false);
+                }
+            }else{
+                if (mPlayerStatus != PlayerStatus.SUCCESS && getPreviewUri()) {
+                    startRealPlay(textureView.getSurfaceTexture());
+                }
             }
         } else if (view.getId() == R.id.capture_button) {
             executeCaptureEvent();
@@ -166,7 +170,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             if (mPlayer.startRecord(path)) {
                 ToastUtils.showShort("开始录像");
                 mRecording = true;
-                recordButton.setText(R.string.close_record);
+                recordButton.setBackgroundResource(R.drawable.hk_video_stop);
                 mRecordFilePathText.setText(MessageFormat.format("当前本地录像路径: {0}", path));
             }
         } else {
@@ -174,7 +178,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             mPlayer.stopRecord();
             ToastUtils.showShort("关闭录像");
             mRecording = false;
-            recordButton.setText(R.string.start_record);
+            recordButton.setBackgroundResource(R.drawable.hk_video);
         }
     }
 
@@ -191,14 +195,14 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             if (mPlayer.enableSound(true)) {
                 ToastUtils.showShort("声音开");
                 mSoundOpen = true;
-                soundButton.setText(R.string.sound_close);
+                soundButton.setBackgroundResource(R.drawable.hk_sound_clear);
             }
         } else {
             //关闭声音
             if (mPlayer.enableSound(false)) {
                 ToastUtils.showShort("声音关");
                 mSoundOpen = false;
-                soundButton.setText(R.string.sound_open);
+                soundButton.setBackgroundResource(R.drawable.hk_sound);
             }
         }
     }
@@ -266,6 +270,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                         mPlayerStatus = PlayerStatus.SUCCESS;
                         playHintText.setVisibility(View.GONE);
                         textureView.setKeepScreenOn(true);//保持亮屏
+                        updatePlayStatus(true);
                         break;
                     case FAILED:
                         //播放失败
@@ -285,15 +290,25 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private void updatePlayStatus(boolean b) {
+        isPlayying=b;
+        if(b){
+            start.setBackgroundResource(R.drawable.hk_stop);
+        }else{
+            start.setBackgroundResource(R.drawable.hk_play);
+        }
+
+    }
+
     private boolean getPreviewUri() {
-        mUri = reviewUriEdit.getText().toString();
+        mUri = previewUri;
         if (TextUtils.isEmpty(mUri)) {
-            reviewUriEdit.setError("URI不能为空");
+            T.showShort(this,"URI不能为空");
             return false;
         }
 
         if (!mUri.contains("rtsp")) {
-            reviewUriEdit.setError("非法URI");
+            T.showShort(this,"非法URI");
             return false;
         }
 

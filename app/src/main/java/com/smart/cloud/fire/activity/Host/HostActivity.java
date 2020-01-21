@@ -222,6 +222,11 @@ public class HostActivity extends Activity {
                                         temp.setElectrState(Integer.parseInt(hoststate));
                                     }
                                     temp.setRepeater(jsonObject.getString("repeaterMac"));
+                                    if(jsonObject.has("address")){
+                                        temp.setAddress(jsonObject.getString("address"));
+                                    }else{
+                                        temp.setAddress("");
+                                    }
                                     list_temp.add(temp);
                                 }
                                 if(page.equals("1")){

@@ -134,7 +134,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             MenuItem item=popupMenu.getMenu().findItem(R.id.electr_yuzhi_set);
             item.setVisible(false);
         }
-        if(!(devType==83||devType==80||devType==81||devType==88)){
+        if(!(devType==83||devType==80||devType==81||devType==88||devType==105)){
             MenuItem item=popupMenu.getMenu().findItem(R.id.fenli);
             item=popupMenu.getMenu().findItem(R.id.race);
             item.setVisible(false);
@@ -149,12 +149,12 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             MenuItem item=popupMenu.getMenu().findItem(R.id.yuzhi_set);
             item.setVisible(false);
         }
-        if(devType==88){
+        if(devType==88||devType==105){
             MenuItem item=popupMenu.getMenu().findItem(R.id.utfenli);
             item.setVisible(false);
             getYuzhi();
         }
-        if(!(devType==80||devType==81||devType==88)){
+        if(!(devType==80||devType==81||devType==88||devType==105)){
             MenuItem item=popupMenu.getMenu().findItem(R.id.fenli);
             item.setVisible(false);
             item=popupMenu.getMenu().findItem(R.id.utfenli);
@@ -167,7 +167,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             MenuItem item=popupMenu.getMenu().findItem(R.id.change_history);
             item.setVisible(false);
         }
-        if(!(devType==81||devType==88)){
+        if(!(devType==81||devType==88||devType==105)){
             MenuItem item=popupMenu.getMenu().findItem(R.id.restart);
             item.setVisible(false);
             item=popupMenu.getMenu().findItem(R.id.heartime_set);
@@ -230,7 +230,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     }
 
     private void gotoYuzhiRefresh() {
-        String url= ConstantValues.SERVER_IP_NEW+"Tthroald_zhongdian350?imeiValue="+electricMac+"&deviceType=83&Undervoltage=1&Overvoltage=1&Overcurrent=1&Leakage_current=1&Temperature1=1&Temperature2=1&Temperature3=1&Temperature4=1";
+        String url= ConstantValues.SERVER_IP_NEW+"throald_zhongdian350?imeiValue="+electricMac+"&deviceType=83&Undervoltage=1&Overvoltage=1&Overcurrent=1&Leakage_current=1&Temperature1=1&Temperature2=1&Temperature3=1&Temperature4=1";
         VolleyHelper helper=VolleyHelper.getInstance(mContext);
         RequestQueue mQueue = helper.getRequestQueue();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null,
@@ -702,7 +702,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
     public void gotoSetting(){
         LayoutInflater inflater = getLayoutInflater();
         View layout;
-        if(devType==88){
+        if(devType==88||devType==105){
             layout= inflater.inflate(R.layout.electr_threshold_setting_zd_lora,(ViewGroup) findViewById(R.id.rela));
         }else{
             layout= inflater.inflate(R.layout.ut_electr_threshold_setting,(ViewGroup) findViewById(R.id.rela));
@@ -726,7 +726,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
         final LinearLayout fenliHoldTime_line=(LinearLayout) layout.findViewById(R.id.fenliHoldTime_line);
         final EditText fenliHoldTime_value=(EditText)layout.findViewById(R.id.fenliHoldTime_value);
         final LinearLayout currentMAX_line=(LinearLayout)layout.findViewById(R.id.currentMAX_line);
-        if(devType==88){
+        if(devType==88||devType==105){
             fenli_switch.setVisibility(View.GONE);
             currentMAX_line.setVisibility(View.GONE);
         }
@@ -781,7 +781,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                     int value46=(int)Float.parseFloat(Leakage_value.getText().toString());
                     int value47=(int)Float.parseFloat(temperature_value.getText().toString());
 
-                    if(devType==88){
+                    if(devType==88||devType==105){
                         if(low<66||low>208){
                             T.showShort(mContext,"欠压阈值设置范围为66-208V");
                             return;
@@ -904,16 +904,16 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 mQueue.add(jsonObjectRequest);
-                dialog.dismiss();
+                dialog1.dismiss();
             }
         });
-        Window win = dialog.getWindow();
-        win.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        win.setBackgroundDrawableResource(android.R.color.white);
-        win.setAttributes(lp);
+//        Window win = dialog.getWindow();
+//        win.getDecorView().setPadding(0, 0, 0, 0);
+//        WindowManager.LayoutParams lp = win.getAttributes();
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        win.setBackgroundDrawableResource(android.R.color.white);
+//        win.setAttributes(lp);
         dialog.show();
     }
 
@@ -1080,13 +1080,13 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 dialog.dismiss();
             }
         });
-        Window win = dialog.getWindow();
-        win.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        win.setBackgroundDrawableResource(android.R.color.white);
-        win.setAttributes(lp);
+//        Window win = dialog.getWindow();
+//        win.getDecorView().setPadding(0, 0, 0, 0);
+//        WindowManager.LayoutParams lp = win.getAttributes();
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        win.setBackgroundDrawableResource(android.R.color.white);
+//        win.setAttributes(lp);
         dialog.show();
     }
 

@@ -194,10 +194,13 @@ public class DemoIntentService extends GTIntentService {
                 case 101:
                 case 103:
                 case 104:
+                case 106:
+                case 108:
                 case 111://@@小主机，终端
                 case 119://联动烟感
                 case 124://@@外接水位
                 case 125://@@外接水压
+                case 131://标签
                     String message = null;
                     int alarmType = dataJson.getInt("alarmType");
                     switch (deviceType){
@@ -209,6 +212,15 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生485故障";
                             }else if(alarmType==54){
                                 message="发生探测器故障";
+                            }
+                            break;
+                        case 131:
+                            if(alarmType==14){
+                                message="标签已拆除";
+                            }else if(alarmType==193){
+                                message="电量低，请更换电池";
+                            }else{
+                                message="标签报警";
                             }
                             break;
                         case 111:
@@ -371,6 +383,7 @@ public class DemoIntentService extends GTIntentService {
                                 message="发生未知类型报警";
                             }
                             break;
+                        case 106:
                         case 96:
                         case 93:
                         case 73:
@@ -390,6 +403,7 @@ public class DemoIntentService extends GTIntentService {
                         case 7:
                             message="声光发出报警";
                             break;
+                        case 108:
                         case 103:
                         case 8:
                             if(alarmType==193){
@@ -474,6 +488,7 @@ public class DemoIntentService extends GTIntentService {
                         context.startActivity(intent1);
                     }
                     break;
+                case 107://移动电气
                 case 105://中电Lora
                 case 91:
                 case 83://南京中电电气

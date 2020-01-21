@@ -362,6 +362,16 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 131://标签Lora
+                    if (netStates == 0) {//设备不在线。。
+                        ((ItemViewHolder) holder).smoke_name_text.setText("标签："+normalSmoke.getName()+"（已离线)");
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.RED);
+                    } else {//设备在线
+                        ((ItemViewHolder) holder).smoke_name_text.setText("标签："+normalSmoke.getName());
+                        ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
+                    }
+                    ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
+                    break;
                 case 96://南京防爆燃气
                 case 73://南京7020燃气
                 case 72://防爆燃气
@@ -384,6 +394,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 106://移动防爆燃气
                 case 93://金特莱南京燃气
                 case 16://@@9.29
                 case 2://燃气。。
@@ -492,7 +503,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
-                    ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
+                    ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
                     ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -544,6 +555,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
+                case 108:
                 case 103:
                 case 84:
                 case 8://手动。。

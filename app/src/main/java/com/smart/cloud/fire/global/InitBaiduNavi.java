@@ -1,7 +1,11 @@
 package com.smart.cloud.fire.global;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -12,6 +16,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.navisdk.adapter.BNOuterLogUtil;
 import com.baidu.navisdk.adapter.BNRoutePlanNode;
 import com.baidu.navisdk.adapter.BNaviSettingManager;
@@ -20,11 +25,14 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.ui.BNDemoGuideActivity;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.TestAuthorityUtil;
+import com.smart.cloud.fire.utils.TurnToMapUtil;
 import com.smart.cloud.fire.view.NormalDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 /**
  * Created by Administrator on 2016/8/8.
@@ -53,21 +61,67 @@ public class InitBaiduNavi {
         if(mNormalDialog==null){
             mNormalDialog = new NormalDialog(mActivity);
         }
-        mNormalDialog.showLoadingDialog("路线规划中...");
-        mLocationClient = new LocationClient(mActivity.getApplicationContext());     //声明LocationClient类
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
-        option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
-        option.setScanSpan(3000);// 设置发起定位请求的间隔时间为5000ms
-        option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
-        option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
-        option.setOpenGps(true);// 打开GPS
-        mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(myListener);    //注册监听函数
-        BNOuterLogUtil.setLogSwitcher(true);
-        if (initDirs()) {
-            initNavi();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LatLng slatLng=new LatLng(0,0);
+            double latitude = Double.parseDouble(normalSmoke.getLatitude());
+            double longitude = Double.parseDouble(normalSmoke.getLongitude());
+            LatLng elatLng=new LatLng(latitude,longitude);
+            showListDialog(slatLng,elatLng);
+        }else{
+            mNormalDialog.showLoadingDialog("路线规划中...");
+            mLocationClient = new LocationClient(mActivity.getApplicationContext());     //声明LocationClient类
+            LocationClientOption option = new LocationClientOption();
+            option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
+            option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
+            option.setScanSpan(3000);// 设置发起定位请求的间隔时间为5000ms
+            option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
+            option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
+            option.setOpenGps(true);// 打开GPS
+            mLocationClient.setLocOption(option);
+            mLocationClient.registerLocationListener(myListener);    //注册监听函数
+            BNOuterLogUtil.setLogSwitcher(true);
+            if (initDirs()) {
+                initNavi();
+            }
         }
+    }
+
+    private void showListDialog(LatLng slatLng, LatLng elatLng) {
+        final String[] items = { "高德","百度"};
+        AlertDialog.Builder listDialog =
+                new AlertDialog.Builder(mActivity);
+        listDialog.setTitle("请选择本地导航软件");
+        listDialog.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) { // 导航应用1高德
+                    if (TurnToMapUtil.isGdMapInstalled()) {
+                        LatLng slatLngTemp=TurnToMapUtil.BD09ToGCJ02(slatLng);
+                        LatLng elatLngTemp=TurnToMapUtil.BD09ToGCJ02(elatLng);
+                        TurnToMapUtil.openGaoDeNavi(mActivity,slatLngTemp.latitude,slatLngTemp.longitude,null,elatLngTemp.latitude,elatLngTemp.longitude,"上海外滩");
+                    }else {
+                        T.showShort(mActivity,"您还未安装高德地图！");
+                        new AlertDialog.Builder(mActivity)
+                                .setMessage("下载高德地图？")
+                                .setPositiveButton("下载", (dialog1, which1) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TurnToMapUtil.DOWNLOAD_GAODE_MAP))))
+                                .setNegativeButton("取消", null)
+                                .show();
+                    }
+                } else if (which == 1) { // 导航应用2百度
+                    if (TurnToMapUtil.isBaiduMapInstalled()){
+                        TurnToMapUtil.openBaiDuNavi(mActivity,slatLng.latitude,slatLng.longitude,null,elatLng.latitude,elatLng.longitude,"目的地");
+                    }else {
+                        T.showShort(mActivity,"您还未安装百度地图！");
+                        new AlertDialog.Builder(mActivity)
+                                .setMessage("下载百度地图？")
+                                .setNegativeButton("取消", null)
+                                .setPositiveButton("下载", (dialog12, which12) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TurnToMapUtil.DOWNLOAD_BAIDU_MAP))))
+                                .show();
+                    }
+                }
+            }
+        });
+        listDialog.show();
     }
 
     class MyLocationListener implements BDLocationListener {

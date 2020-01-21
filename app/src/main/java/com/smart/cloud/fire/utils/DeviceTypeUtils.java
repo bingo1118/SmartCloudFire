@@ -102,6 +102,10 @@ public class DeviceTypeUtils {
                         deviceType="96";
                         deviceName="燃气探测器";
                         smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("K")){
+                        deviceType="106";
+                        deviceName="燃气探测器";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         deviceType="2";//@@燃气
                         deviceName="燃气探测器";
@@ -219,6 +223,10 @@ public class DeviceTypeUtils {
                         deviceName="手动报警器";
                     }else if(smokeMac.endsWith("J")){
                         deviceType="103";//@@南京手报
+                        deviceName="NB手动报警器";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("Y")){
+                        deviceType="108";//@@南京手报
                         deviceName="NB手动报警器";
                         smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
@@ -393,6 +401,14 @@ public class DeviceTypeUtils {
                     if(smokeMac.endsWith("Q")){
                         deviceType="105";//中电Lora
                         deviceName="电气探测器";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("K")){
+                        deviceType="107";//中电Lora
+                        deviceName="电气探测器";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("P")){
+                        deviceType="131";//中电Lora
+                        deviceName="标签";
                         smokeMac = smokeMac.substring(1, macLenghth-1);
                     }
                     break;

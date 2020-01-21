@@ -162,6 +162,11 @@ public class ShopCameraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (camera.getIsOnline() == 0&&camera.getVideoType()==0) {//设备不在线。。
                     ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_lixian);
                 } else {//设备在线。。
+                    if(camera.getVideoType()!=0){
+                        ((ItemViewHolder) holder).online_state_image.setVisibility(View.GONE);
+                    }else{
+                        ((ItemViewHolder) holder).online_state_image.setVisibility(View.VISIBLE);
+                    }
                     ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.dev_online);
                     ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                 }

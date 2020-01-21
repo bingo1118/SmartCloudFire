@@ -365,8 +365,8 @@ public class SecurityDevActivity extends MvpActivity<SecurityDevPresenter> imple
     @Override
     public void getSmokeSummary(SmokeSummary smokeSummary) {
 //        totalNum.setText(smokeSummary.getAllSmokeNumber()+"");
-        onlineNum.setText(smokeSummary.getOnlineSmokeNumber()+"");
-        offlineNum.setText(smokeSummary.getLossSmokeNumber()+"");
+        onlineNum.setText("总数:"+smokeSummary.getAllSmokeNumber()+"");
+        offlineNum.setText("离线:"+smokeSummary.getLossSmokeNumber()+"");
     }
 
     @Override

@@ -4,11 +4,14 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:id="@+id/item_lin"
-    android:background="#fff">
+    android:background="#fff"
+    android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:id="@+id/rela"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_margin="8dp">
             <TextView
                 android:id="@+id/mac_name_tv"
@@ -34,14 +37,21 @@
                 android:layout_below="@id/mac_name_tv"
                 android:layout_toRightOf="@id/state_name_tv"
                 android:text="主电"/>
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:id="@+id/restart_btn"
-                android:layout_alignParentRight="true"
-                android:padding="5dp"
-                android:background="@color/login_btn"
-                android:text="复位"
-                android:textColor="#fff"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/address_tv"
+                android:layout_below="@id/state_tv"
+                android:text="地址:"/>
         </RelativeLayout>
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:id="@+id/restart_btn"
+        android:layout_gravity="center_vertical|right"
+        android:padding="5dp"
+        android:background="@color/login_btn"
+        android:text="复位"
+        android:layout_marginRight="5dp"
+        android:textColor="#fff"/>
 </LinearLayout>
