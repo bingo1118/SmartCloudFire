@@ -54,6 +54,7 @@ public class PushAlarmMsg implements Serializable{
     private String principal2Phone;
     private String uploadpeople;
     private String alarmTypeName;
+    private String buildId;
 
     public String getAddress() {
         return address;
@@ -213,6 +214,14 @@ public class PushAlarmMsg implements Serializable{
 
     public void setAlarmTypeName(String alarmTypeName) {
         this.alarmTypeName = alarmTypeName;
+    }
+
+    public String getBuildId() {
+        return buildId;
+    }
+
+    public void setBuildId(String buildId) {
+        this.buildId = buildId;
     }
 
     public static class CameraBean implements Serializable{

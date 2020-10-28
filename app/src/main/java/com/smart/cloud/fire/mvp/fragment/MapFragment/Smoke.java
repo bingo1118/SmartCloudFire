@@ -50,6 +50,7 @@ public class Smoke implements Serializable {
     private int electrState;//@@11.01
     private String rssivalue;//@@2018.03.07
     private int lowVoltage;//@@电池电量
+    private int buildingId;//是否有3D地图
 
     public String getAddress() {
         return address;
@@ -243,5 +244,13 @@ public class Smoke implements Serializable {
 
     public void setLowVoltage(int lowVoltage) {
         this.lowVoltage = lowVoltage;
+    }
+
+    public int getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(int buildingId) {
+        this.buildingId = buildingId;
     }
 }

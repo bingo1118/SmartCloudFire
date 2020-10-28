@@ -537,14 +537,18 @@ public class LineChartActivity extends MvpActivity<LineChartPresenter> implement
                         try{
                             float high=Float.parseFloat(items.get(0).getContent());
                             float low=Float.parseFloat(items.get(1).getContent());
-                            float uploadtime;
+                            float uploadtime=0;
                             float getdatatime = 0;
                             if(low>high){
                                 T.showShort(context,"低阈值不能高于高阈值");
                                 return;
                             }
                             if(devType==78||devType==85||devType==97||devType==98){
-                                uploadtime=Float.parseFloat(items.get(2).getContent().length()>0?items.get(2).getContent().toString():"0");
+                                try{
+                                    uploadtime=Float.parseFloat(items.get(2).getContent().length()>0?items.get(2).getContent().toString():"0");
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
                                 url= ConstantValues.SERVER_IP_NEW+"nanjing_set_water_data?imeiValue="+electricMac+"&deviceType="+devType
                                         +"&hight_set="+high+"&low_set="+low+"&send_time="+uploadtime+"&collect_time="+getdatatime;
                             }else if(devType==47||devType==48){

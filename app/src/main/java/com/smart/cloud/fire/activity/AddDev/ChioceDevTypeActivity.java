@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.smart.cloud.fire.activity.AddNFC.AddNFCActivity;
+import com.smart.cloud.fire.activity.AddNFC.AddVirtualPointActivity;
 import com.smart.cloud.fire.mvp.camera.AddCameraFirstActivity;
 import com.smart.cloud.fire.rqcode.Capture2Activity;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -28,7 +29,7 @@ public class ChioceDevTypeActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.spjk_lin,R.id.nfc_lin,R.id.sdtj_lin,R.id.smsr_lin,R.id.yongchuang_lin})
+    @OnClick({R.id.spjk_lin,R.id.nfc_lin,R.id.sdtj_lin,R.id.smsr_lin,R.id.yongchuang_lin,R.id.virtual_point_lin})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.spjk_lin:
@@ -40,6 +41,11 @@ public class ChioceDevTypeActivity extends Activity {
                 Intent intent6=new Intent(ChioceDevTypeActivity.this,AddNFCActivity.class);
                 intent6.putExtra("devType",6);
                 startActivity(intent6);
+                break;
+            case R.id.virtual_point_lin:
+                Intent intent9=new Intent(ChioceDevTypeActivity.this,AddVirtualPointActivity.class);
+                intent9.putExtra("devType",6);
+                startActivity(intent9);
                 break;
             case R.id.sdtj_lin:
                 Intent intent7=new Intent(ChioceDevTypeActivity.this,AddDevActivity.class);

@@ -7,12 +7,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +34,7 @@ import com.smart.cloud.fire.mvp.login.SplashActivity;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 
 import java.io.File;
+import java.util.List;
 
 import fire.cloud.smart.com.smartcloudfire.R;
 
@@ -199,9 +204,26 @@ public class MyZoomActivity extends Activity {
                     if (!file.exists()) {
                         return;
                     }
-                    intent.setDataAndType(Uri.fromFile(file),
-                            ConstantValues.Update.INSTALL_APK);
-                    mContext.startActivity(intent);
+//                    intent.setDataAndType(Uri.fromFile(file),
+//                            ConstantValues.Update.INSTALL_APK);
+//                    mContext.startActivity(intent);
+                    if(Build.VERSION.SDK_INT>24){
+                        Uri uri= FileProvider.getUriForFile(mContext,mContext.getApplicationContext().getPackageName()+".fileprovider",file);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        intent.setDataAndType(uri,
+                                ConstantValues.Update.INSTALL_APK);
+                        List<ResolveInfo> resInfoList = mContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                        for (ResolveInfo resolveInfo : resInfoList) {
+                            mContext.grantUriPermission(resolveInfo.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        }
+                    }else{
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setDataAndType(Uri.fromFile(file),
+                                ConstantValues.Update.INSTALL_APK);
+                    }
+
+                    startActivity(intent);
                     break;
                 case UpdateManager.HANDLE_MSG_DOWN_FAULT:
                     break;

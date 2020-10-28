@@ -39,8 +39,8 @@ android {
         applicationId "fire.cloud.smart.com.smartcloudfire"
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 49
-        versionName "4.3.42"
+        versionCode 56
+        versionName "4.3.49"
         multiDexEnabled true
 
         manifestPlaceholders = [
@@ -58,6 +58,9 @@ android {
 
         ndk {
             abiFilters "armeabi-v7a"
+        }
+        dexOptions {
+            javaMaxHeapSize "4g"
         }
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }

@@ -164,6 +164,11 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             int devType= mNormalAlarmMessage.getDeviceType();
             switch (devType){
+                case 119:
+                case 92:
+                case 89:
+                case 87:
+                case 86:
                 case 61:
                 case 58:
                 case 56:
@@ -331,10 +336,20 @@ public class AlarmMsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     }
                     break;
+                case 115://南京优特电气
+                case 107://移动电气
+                case 105://中电Lora
+                case 91:
+                case 83://南京中电电气
+                case 81://lora优特电气
+                case 80://南京优特电气
+                case 77://南京三相电气
+                case 76://NB直连三相电气
+                case 75://南京电气
                 case 59:
-                case 52:
                 case 53:
-                case 5:
+                case 52:
+                case 5://电气
                     msg_contant+="电气设备:"+mNormalAlarmMessage.getName();
                     int alarmFamily = mNormalAlarmMessage.getAlarmFamily();
                     switch (alarmType){

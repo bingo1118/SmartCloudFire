@@ -12,7 +12,7 @@ import java.util.Map;
     //测试图片路径
 //    public static final String NFC_IMAGES = "http://139.159.209.212:51091/";
     //正式图片路径
-    public static final String NFC_IMAGES = "http://119.29.155.148:51091/";
+    public static final String NFC_IMAGES = "http://193.112.150.195:51091/";
     //聊城图片路径
 //    public static final String NFC_IMAGES = "http://61.133.116.241:51091/";
     //华为云新正式图片路径

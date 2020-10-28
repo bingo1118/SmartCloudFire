@@ -134,7 +134,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             MenuItem item=popupMenu.getMenu().findItem(R.id.electr_yuzhi_set);
             item.setVisible(false);
         }
-        if(!(devType==83||devType==80||devType==81||devType==88||devType==105)){
+        if(!(devType==83||devType==80||devType==81||devType==88||devType==105||devType==115)){
             MenuItem item=popupMenu.getMenu().findItem(R.id.fenli);
             item=popupMenu.getMenu().findItem(R.id.race);
             item.setVisible(false);
@@ -154,7 +154,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
             item.setVisible(false);
             getYuzhi();
         }
-        if(!(devType==80||devType==81||devType==88||devType==105)){
+        if(!(devType==80||devType==81||devType==88||devType==105||devType==115)){
             MenuItem item=popupMenu.getMenu().findItem(R.id.fenli);
             item.setVisible(false);
             item=popupMenu.getMenu().findItem(R.id.utfenli);
@@ -1270,6 +1270,7 @@ public class ElectricActivity extends MvpActivity<ElectricPresenter> implements 
                 dialog1.setTitle("提示");
                 dialog1.setMessage("设置中，请稍候");
                 dialog1.setCanceledOnTouchOutside(false);
+
                 dialog1.show();
                 VolleyHelper helper=VolleyHelper.getInstance(mContext);
                 RequestQueue mQueue = helper.getRequestQueue();

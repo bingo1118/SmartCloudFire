@@ -207,7 +207,7 @@ public class AllSmokePresenter extends BasePresenter<AllSmokeView> {
 
     public void getNeedSmoke(String userId, String privilege, final String page, String parentId, String areaId, String placeTypeId, String devType, final AllDevFragment allDevFragment){
         allDevFragment.showLoading();
-        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,devType,"");
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

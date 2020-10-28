@@ -26,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jakewharton.rxbinding.view.RxView;
+import com.smart.cloud.fire.activity.ESmapActivity;
 import com.smart.cloud.fire.base.ui.MvpActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Contact;
@@ -86,6 +87,8 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     Button make_sure_upload_btn;//@@报警上传
     @Bind(R.id.deal_voice_btn)
     Button deal_voice_btn;//@@报警上传
+    @Bind(R.id.esmap_btn)
+    Button esmap_btn;//@@3D地图
     @Bind(R.id.lin_principal)
     LinearLayout lin_principa1;
     @Bind(R.id.lin_principa2)
@@ -124,6 +127,11 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
             pushWiredSmokeAlarmMsg= (PushWiredSmokeAlarmMsg) getIntent().getExtras().getSerializable("mPushAlarmMsg");
         }else{
             mPushAlarmMsg = (PushAlarmMsg) getIntent().getExtras().getSerializable("mPushAlarmMsg");
+            if(mPushAlarmMsg.getBuildId()!=null&&mPushAlarmMsg.getBuildId().length()>0){
+                esmap_btn.setVisibility(View.VISIBLE);
+            }else{
+                esmap_btn.setVisibility(View.GONE);
+            }
         }
         alarmMsg = getIntent().getExtras().getString("alarmMsg");
 
@@ -374,9 +382,14 @@ public class AlarmActivity extends MvpActivity<AlarmPresenter> implements AlarmV
     private boolean musicOpenOrClose = true;
 
     @OnClick({R.id.phone_lin_one, R.id.alarm_phone_lin_one, R.id.alarm_tc_image
-            , R.id.alarm_music_image, R.id.alarm_do_it_btn,R.id.stop_alarm,R.id.make_sure_upload_btn})
+            , R.id.alarm_music_image, R.id.alarm_do_it_btn,R.id.stop_alarm,R.id.make_sure_upload_btn ,R.id.esmap_btn})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.esmap_btn:
+                Intent intent = new Intent(mContext, ESmapActivity.class);
+                intent.putExtra("mac", mPushAlarmMsg.getMac());
+                startActivity(intent);
+                break;
             case R.id.phone_lin_one:
                 String phoneOne2 = smokeMarkPhoneTv.getText().toString().trim();
                 mvpPresenter.telPhone(mContext, phoneOne2);

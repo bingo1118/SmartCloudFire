@@ -151,7 +151,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 int errorCode = model.getErrorCode();
                 if(errorCode==0){
                     //获取到内部服务器的用户权限，并配置到MyAPP
-                    MyApp.app.setPrivilege(model.getPrivilege());
+                    MyApp.app.setPrivilege(userId,model.getPrivilege());
                     //@@5.5存储用户权限。。
                     SharedPreferencesManager.getInstance().putIntData(context,
                             SharedPreferencesManager.SP_FILE_GWELL,
@@ -215,7 +215,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
     private void login_success(String userId, String pwd, int privilege, String name) {
         //获取到内部服务器的用户权限，并配置到MyAPP
-        MyApp.app.setPrivilege(privilege);
+        MyApp.app.setPrivilege(userId,privilege);
         SharedPreferencesManager.getInstance().putData(context,
                 SharedPreferencesManager.SP_FILE_GWELL,
                 SharedPreferencesManager.KEY_RECENTPASS,
@@ -275,7 +275,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             int errorCode = model.getErrorCode();
                             switch (errorCode){
                                 case 0:
-                                    MyApp.app.setPrivilege(model.getPrivilege());//设置权限。。
+                                    MyApp.app.setPrivilege(User,model.getPrivilege());//设置权限。。
                                     mvpView.getDataSuccess();//获取数据成功，跳转到主界面
                                     break;
                                 default:
@@ -359,7 +359,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 int privilege=SharedPreferencesManager.getInstance().getIntData(activity,
                         SharedPreferencesManager.SP_FILE_GWELL,
                         SharedPreferencesManager.KEY_RECENT_PRIVILEGE);
-                MyApp.app.setPrivilege(privilege);
+                MyApp.app.setPrivilege(userId,privilege);
                 mvpView.getDataSuccess();
             }else{
                 mvpView.autoLoginFail();

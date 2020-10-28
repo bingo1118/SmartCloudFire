@@ -196,7 +196,7 @@ public class ElectricFragment extends MvpFragment<ElectricDevPresenter> implemen
             @Override
             public void onLongClick(View view, int position) {
                 Smoke smoke =list.get(position);
-                if(smoke.getDeviceType()==75||smoke.getDeviceType()==77){
+                if(smoke.getDeviceType()==75||smoke.getDeviceType()==77||smoke.getDeviceType()==115){
                     showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
                 }else{
                     T.showShort(mContext,"该设备无法删除");

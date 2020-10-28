@@ -149,7 +149,7 @@ public class WiredDevPresenter extends BasePresenter<WiredDevView> {
         if(!refresh){
             wiredDevFragment.showLoading();
         }
-        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,devType);
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,devType,"-1");
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

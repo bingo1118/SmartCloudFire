@@ -346,13 +346,19 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.chuanganqi);
                     }else if(alarmType==77){
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.tongxunguzhang);
+                    }else if(alarmType==501){
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.zhudianduankai);
+                    }else if(alarmType==502){
+                        ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.zhudianhuifu);
                     }else{
                         ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.ranqi);
                     }
                     break;
+                case 116:
                 case 51:
                     ((ItemViewHolder) holder).smokeMac.setText("CA燃气:");
-                    ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(线路"+mNormalAlarmMessage.getAlarmFamilys()+")");
+//                    ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName()+"(线路"+mNormalAlarmMessage.getAlarmFamilys()+")");
+                    ((ItemViewHolder) holder).smokeMacTv.setText(mNormalAlarmMessage.getName());
                     ((ItemViewHolder) holder).alarmMarkImage.setText(R.string.ranqi);
                     break;
                 case 125:
@@ -398,9 +404,11 @@ public class RefreshRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     }
                     break;
+                case 115://南京优特电气
                 case 107:
                 case 105://中电Lora
                 case 91:
+                case 88:
                 case 83://南京中电电气
                 case 81:
                 case 80://南京优特电气

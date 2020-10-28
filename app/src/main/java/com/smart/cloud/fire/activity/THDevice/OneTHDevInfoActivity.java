@@ -139,10 +139,17 @@ public class OneTHDevInfoActivity extends Activity {
                         try {
                             int errorCode=response.getInt("errorCode");
                             if(errorCode==0){
-                                threshold_tem_h=response.getString("threshold1")==null?"--":response.getString("threshold1");
-                                threshold_tem_l=response.getString("threshold2")==null?"--":response.getString("threshold2");
-                                threshold_hum_h=response.getString("threshold3")==null?"--":response.getString("threshold3");
-                                threshold_hum_l=(response.getString("threshold4")==null?"--":response.getString("threshold4"));
+                                if(devType.equals("99")){
+                                    threshold_tem_h=response.getString("thresholdA")==null?"--":response.getString("thresholdA");
+                                    threshold_tem_l=response.getString("thresholdB")==null?"--":response.getString("thresholdB");
+                                    threshold_hum_h=response.getString("thresholdC")==null?"--":response.getString("thresholdC");
+                                    threshold_hum_l=(response.getString("thresholdD")==null?"--":response.getString("thresholdD"));
+                                }else{
+                                    threshold_tem_h=response.getString("threshold1")==null?"--":response.getString("threshold1");
+                                    threshold_tem_l=response.getString("threshold2")==null?"--":response.getString("threshold2");
+                                    threshold_hum_h=response.getString("threshold3")==null?"--":response.getString("threshold3");
+                                    threshold_hum_l=(response.getString("threshold4")==null?"--":response.getString("threshold4"));
+                                }
                                 getdatatime=response.getString("waveValue");
                                 uploaddatatime=response.getString("ackTimes");
                                 t_low.setText(threshold_tem_l+getString(R.string.temp_unit));

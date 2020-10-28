@@ -26,6 +26,7 @@ public class BingoDialog {
         mDialog=builder.create();
     }
 
+
     public void show(){
 //        mWindow = mDialog.getWindow();
 //        mWindow.getDecorView().setPadding(0, 0, 0, 0);

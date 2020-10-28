@@ -160,7 +160,7 @@ public class ElectricDevPresenter extends BasePresenter<ElectricDevView> {
     //    userId=13622215085&privilege=2&areaId=14&placeTypeId=2&page
     public void getNeedElectricInfo(String userId, String privilege, String parentId,String areaId, String placeTypeId, String page,String devType, final ElectricFragment electricFragment){
         mvpView.showLoading();
-        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,"3");
+        Observable mObservable = apiStores1.getNeedDev2(userId,privilege,parentId,areaId,page,placeTypeId,"3","-1");
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
             @Override
             public void onSuccess(HttpError model) {

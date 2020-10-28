@@ -91,23 +91,13 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MyApp.b=System.currentTimeMillis();
-        long c1=MyApp.b-MyApp.a;
         super.onCreate(savedInstanceState);
-        MyApp.b=System.currentTimeMillis();
-        long c2=MyApp.b-MyApp.a;
         setContentView(R.layout.activity_all_smoke);
-        MyApp.b=System.currentTimeMillis();
-        long c3=MyApp.b-MyApp.a;
         //透明状态栏          
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // 透明导航栏          
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        MyApp.b=System.currentTimeMillis();
-        long c4=MyApp.b-MyApp.a;
         mContext=this;
-        MyApp.b=System.currentTimeMillis();
-        long c5=MyApp.b-MyApp.a;
     }
 
     @Override
@@ -145,9 +135,6 @@ public class ElectricDevActivity extends MvpActivity<ElectricDevPresenter> imple
         areaCondition.setHintTextColor("#ffffffff");
         areaCondition.setEditTextHint("#ffffffff");
         areaCondition.setEditTextHint("选择区域");
-
-        MyApp.b=System.currentTimeMillis();
-        long c6=MyApp.b-MyApp.a;
     }
 
     @OnClick({ R.id.area_condition, R.id.turn_map_btn})

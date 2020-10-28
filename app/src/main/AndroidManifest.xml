@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="fire.cloud.smart.com.smartcloudfire">
 
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
@@ -44,7 +45,6 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.autofocus" />
 
-
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -60,8 +60,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -70,6 +68,16 @@
                 <action android:name="com.baidu.location.service_v2.2" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="fire.cloud.smart.com.smartcloudfire.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
@@ -408,7 +416,21 @@
             android:name="com.smart.cloud.fire.activity.Inspection.UploadInspectionInfo.UploadProblemActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
-        <activity android:name="com.smart.cloud.fire.rqcode.Capture2Activity"></activity>
+        <activity android:name="com.smart.cloud.fire.rqcode.Capture2Activity" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.ESmapActivity"
+            android:screenOrientation="sensor" />
+        <activity android:name="com.smart.cloud.fire.order.OrderList.OrderListActivity" />
+        <activity android:name="com.smart.cloud.fire.order.OrderInfoDetail.OrderInfoActivity" />
+        <activity android:name="com.smart.cloud.fire.order.DealOrder.DealOrderActivity" />
+        <activity
+            android:name="com.smart.cloud.fire.order.OrderNotice.OrderNoticeActivity"
+            android:theme="@style/TaskDialogStyle" />
+        <activity
+            android:name="com.smart.cloud.fire.activity.AddNFC.AddVirtualPointActivity"
+            android:launchMode="singleTop" />
+        <activity android:name="com.smart.cloud.fire.order.DealOrder.ChangeDealerActivity" />
+        <activity android:name="com.smart.cloud.fire.order.DealOrder.CheakOrderActivity"></activity>
     </application>
 
 </manifest>

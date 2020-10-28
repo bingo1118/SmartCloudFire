@@ -1,7 +1,9 @@
 package com.smart.cloud.fire.mvp.fragment.MapFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.smart.cloud.fire.activity.ESmapActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCRecordBean;
 import com.smart.cloud.fire.base.presenter.BasePresenter;
 import com.smart.cloud.fire.global.Area;
@@ -112,9 +114,9 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
         mvpView.showLoading();
         Observable mObservable=null;
         if(isPrarent==1){
-            mObservable = apiStores1.getNeedDev2(userId,privilege,areaId,"","",placeTypeId,devType);
+            mObservable = apiStores1.getNeedDev2(userId,privilege,areaId,"","",placeTypeId,devType,"");
         }else{
-            mObservable = apiStores1.getNeedDev2(userId,privilege,"",areaId,"",placeTypeId,devType);
+            mObservable = apiStores1.getNeedDev2(userId,privilege,"",areaId,"",placeTypeId,devType,"");
         }
 
         addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<HttpError>() {
@@ -251,10 +253,15 @@ public class MapFragmentPresenter extends BasePresenter<MapFragmentView> {
             if (result) {
                 Smoke normalSmoke = (Smoke) object;
                 int states = normalSmoke.getIfDealAlarm();
-                if (states == 1) {//无未处理报警信息，地图图标不闪
-                    mvpView.showSmokeDialog(normalSmoke);
-                } else {//有未处理报警信息，地图图标闪动
-                    mvpView.showAlarmDialog(normalSmoke);
+                if(normalSmoke.getType()==6){//3D地图
+                    Intent intent=new Intent(MyApp.app, ESmapActivity.class);
+                    MyApp.app.startActivity(intent);
+                }else{
+                    if (states == 1) {//无未处理报警信息，地图图标不闪
+                        mvpView.showSmokeDialog(normalSmoke);
+                    } else {//有未处理报警信息，地图图标闪动
+                        mvpView.showAlarmDialog(normalSmoke);
+                    }
                 }
             } else {
                 Camera camera = (Camera) object;

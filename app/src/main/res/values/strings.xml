@@ -245,6 +245,8 @@
     <string name="duanlu1">【断路】</string>
     <string name="chuanganqi">【传感器故障】</string>
     <string name="tongxunguzhang">【通讯故障】</string>
+    <string name="zhudianduankai">【主电断开】</string>
+    <string name="zhudianhuifu">【主电恢复】</string>
     <string name="ranqi">【燃气】</string>
     <string name="dishuiya">【低水压】</string>
     <string name="gaoshuiya">【高水压】</string>

@@ -32,7 +32,7 @@ public class ApplyTableManager {
         newsChannelTables.add(new ApplyTable("消防物联","4", 4, isFixed(4),  "xfwl.png", 0));
         newsChannelTables.add(new ApplyTable("视频监控","5", 5, isFixed(5),  "spjk.png", 0));
         newsChannelTables.add(new ApplyTable("维保系统","6", 6, isFixed(6),  "wbxt.png", 0));
-        newsChannelTables.add(new ApplyTable("巡检系统","8", 8, isFixed(8), "xunjian.png", 0));
+//        newsChannelTables.add(new ApplyTable("巡检系统","8", 8, isFixed(8), "xunjian.png", 0));
         if(privilege!=51){
             newsChannelTables.add(new ApplyTable("主机管理","7", 7, isFixed(7), "zjgl.png", 0));
         }
@@ -67,7 +67,7 @@ public class ApplyTableManager {
         newsChannelTables.add(new ApplyTable("消防物联","4", 4, isFixed(4),  "xfwl.png", 0));
         newsChannelTables.add(new ApplyTable("视频监控","5", 5, isFixed(5),  "spjk.png", 0));
         newsChannelTables.add(new ApplyTable("维保系统","6", 6, isFixed(6),  "wbxt.png", 0));
-        newsChannelTables.add(new ApplyTable("巡检系统","8", 8, isFixed(8), "xunjian.png", 0));
+//        newsChannelTables.add(new ApplyTable("巡检系统","8", 8, isFixed(8), "xunjian.png", 0));
         if(privilege!=51){
             newsChannelTables.add(new ApplyTable("主机管理","7", 7, isFixed(7), "zjgl.png", 0));
         }

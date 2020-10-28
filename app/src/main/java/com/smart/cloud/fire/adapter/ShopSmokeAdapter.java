@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.smart.cloud.fire.activity.AllSmoke.AllSmokePresenter;
+import com.smart.cloud.fire.activity.ESmapActivity;
 import com.smart.cloud.fire.activity.GasDevice.OneGasInfoActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.activity.THDevice.OneTHDevInfoActivity;
@@ -221,6 +222,19 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     String path=ConstantValues.NFC_IMAGES+"devimages/"+normalSmoke.getMac()+".jpg";
                     Intent intent=new Intent(mContext, NFCImageShowActivity.class);
                     intent.putExtra("path",path);
+                    mContext.startActivity(intent);
+                }
+            });
+            if(normalSmoke.getBuildingId()!=0){
+                ((ItemViewHolder) holder).esmap_image.setVisibility(View.VISIBLE);
+            }else{
+                ((ItemViewHolder) holder).esmap_image.setVisibility(View.GONE);
+            }
+            ((ItemViewHolder) holder).esmap_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, ESmapActivity.class);
+                    intent.putExtra("mac", normalSmoke.getMac());
                     mContext.startActivity(intent);
                 }
             });
@@ -451,6 +465,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((ItemViewHolder) holder).right_into_image.setVisibility(View.GONE);
                     break;
                 case 91://金特莱南京烟感
+                case 75:
                 case 53://NB电气
                 case 52://@@Lara电气设备
                 case 5://电气。。
@@ -619,6 +634,7 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
                     break;
+                case 116:
                 case 51://创安
                     if (netStates == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).smoke_name_text.setText("CA燃气："+normalSmoke.getName()+"（已离线)");
@@ -919,6 +935,8 @@ public class ShopSmokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView power_button;//@@2018.03.07
         @Bind(R.id.dev_image)
         TextView dev_image;//@@2018.03.07
+        @Bind(R.id.esmap_image)
+        TextView esmap_image;
         @Bind(R.id.dev_hearttime_set)
         TextView dev_hearttime_set;//@@2018.03.07
         @Bind(R.id.voltage_image)

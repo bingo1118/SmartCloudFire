@@ -23,6 +23,7 @@ import com.smart.cloud.fire.utils.VolleyHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import rx.Observable;
@@ -49,6 +50,12 @@ public class RegisterPresenter  extends BasePresenter<RegisterView> {
                 new SubscriberCallBack<>(new ApiCallback<RegisterModel>() {
                     @Override
                     public void onSuccess(RegisterModel model) {
+                        try {
+                            String str = new String(model.getError().getBytes("GBK"),"UTF-8");
+                            System.out.print(str);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
                         String errorCode = model.getError_code();
                         switch (errorCode){
                             case "0":

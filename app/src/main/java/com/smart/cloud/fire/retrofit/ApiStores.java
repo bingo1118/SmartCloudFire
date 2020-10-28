@@ -13,6 +13,8 @@ import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpAreaResult;
 import com.smart.cloud.fire.mvp.fragment.MapFragment.HttpError;
 import com.smart.cloud.fire.mvp.login.model.LoginModel;
 import com.smart.cloud.fire.mvp.register.model.RegisterModel;
+import com.smart.cloud.fire.order.OrderInfoDetail.HttpOrderInfoEntity;
+import com.smart.cloud.fire.order.OrderList.HttpOrderListEntity;
 
 import java.util.List;
 
@@ -158,6 +160,17 @@ public interface ApiStores {
                                     ,@Query("state") String state,@Query("startDate") String startDate
                                     ,@Query("endDate") String endDate);
 
+    //查询用户工单列表
+    @GET("getAllOrder")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpOrderListEntity> getAllOrder(@Query("userId") String userId, @Query("privilege") String privilege);
+
+    //查询用户工单详情
+    @GET("getOrderDetail")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<HttpOrderInfoEntity> getOrderDetail(@Query("jkey") String jkey);
+
+
     //获取所有的巡检点下的巡检项目
     @GET("getItemsByPid")
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
@@ -197,7 +210,8 @@ public interface ApiStores {
     @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
     Observable<HttpError> getNeedDev2(@Query("userId") String userId, @Query("privilege") String privilege,@Query("parentId") String parentId,
                                      @Query("areaId") String areaId,@Query("page") String page,
-                                     @Query("placeTypeId") String placeTypeId,@Query("devType") String devType);
+                                     @Query("placeTypeId") String placeTypeId,@Query("devType") String devType
+                                    ,@Query("buildId") String buildId);
 
     //根据条件查询用户设备
     @GET("getNeedLossDev")
@@ -454,6 +468,16 @@ public interface ApiStores {
                                         @Field("producer") String producer,
                                         @Field("makeTime") String makeTime,@Field("workerPhone") String workerPhone,
                                         @Field("makeAddress") String makeAddress);
+
+    //添加虚拟点位
+    @FormUrlEncoded
+    @POST("addTaskPoint")
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    Observable<ConfireFireModel> addTaskPoint(@Field("areaId") String areaId, @Field("deviceName") String deviceName,
+                                        @Field("memo") String memo, @Field("longitude") String longitude,
+                                        @Field("latitude") String latitude, @Field("address") String address,
+                                        @Field("distance") String distance,
+                                        @Field("userId") String userId);
 
     //巡检隐患上报
     @FormUrlEncoded

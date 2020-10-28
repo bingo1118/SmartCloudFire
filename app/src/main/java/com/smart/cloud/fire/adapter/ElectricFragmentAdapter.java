@@ -1,12 +1,12 @@
 package com.smart.cloud.fire.adapter;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.smart.cloud.fire.activity.ESmapActivity;
 import com.smart.cloud.fire.activity.NFCDev.NFCImageShowActivity;
 import com.smart.cloud.fire.global.ConstantValues;
 import com.smart.cloud.fire.global.Electric;
@@ -38,6 +39,7 @@ import com.smart.cloud.fire.mvp.electricChangeHistory.ElectricChangeHistoryActiv
 import com.smart.cloud.fire.mvp.fragment.MapFragment.Smoke;
 import com.smart.cloud.fire.mvp.fragment.ShopInfoFragment.ShopInfoFragmentPresenter;
 import com.smart.cloud.fire.ui.CallManagerDialogActivity;
+import com.smart.cloud.fire.utils.BingoDialog;
 import com.smart.cloud.fire.utils.SharedPreferencesManager;
 import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.VolleyHelper;
@@ -201,7 +203,7 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                     if (state == 0) {//设备不在线。。
                         ((ItemViewHolder) holder).power_button.setVisibility(View.GONE);
                     }else{
-                        if(devType!=80&&devType!=81){
+                        if(devType!=80&&devType!=81&&devType!=83){
                             switch (eleState){
                                 case 1:
                                     ((ItemViewHolder) holder).power_button.setVisibility(View.VISIBLE);
@@ -249,7 +251,19 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                         ((ItemViewHolder) holder).online_state_image.setImageResource(R.drawable.sblb_zaixian);
                         ((ItemViewHolder) holder).smoke_name_text.setTextColor(Color.BLACK);
                     }
-
+                    if(normalSmoke.getBuildingId()!=0){
+                        ((ItemViewHolder) holder).esmap_image.setVisibility(View.VISIBLE);
+                    }else{
+                        ((ItemViewHolder) holder).esmap_image.setVisibility(View.GONE);
+                    }
+                    ((ItemViewHolder) holder).esmap_image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, ESmapActivity.class);
+                            intent.putExtra("mac", normalSmoke.getMac());
+                            mContext.startActivity(intent);
+                        }
+                    });
                     ((ItemViewHolder) holder).power_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -409,6 +423,8 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
         ImageView online_state_image;
         @Bind(R.id.dev_image)
         TextView dev_image;//@@2018.03.07
+        @Bind(R.id.esmap_image)
+        TextView esmap_image;
 
         @Bind(R.id.rssi_value)
         TextView rssi_value;//@@2018.03.07
@@ -572,7 +588,8 @@ public class ElectricFragmentAdapter extends RecyclerView.Adapter<RecyclerView.V
                 dialog.dismiss();
             }
         });
-        builder.create().show();
+        BingoDialog bingoDialog=new BingoDialog(builder);
+        bingoDialog.show();
     }
 
 

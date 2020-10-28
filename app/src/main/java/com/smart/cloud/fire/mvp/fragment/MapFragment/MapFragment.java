@@ -186,6 +186,9 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
     private MyOverlayManager mMyOverlayManager;
     @Override
     public void getDataSuccess(List<Smoke> smokeList) {
+        if(smokeList==null||smokeList.size()==0){
+            T.showShort(mContext,"无数据");
+        }
         mBaiduMap.clear();
         List<BitmapDescriptor> viewList =  initMark();
         if(mMyOverlayManager==null){
@@ -264,6 +267,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 R.layout.image_sj_mark, null);//@@水禁8.10
         View viewPL = LayoutInflater.from(mContext).inflate(
                 R.layout.image_pl_mark, null);//@@喷淋
+        View viewESmap = LayoutInflater.from(mContext).inflate(
+                R.layout.image_es_mark, null);//@@3D地图
         BitmapDescriptor bdA = BitmapDescriptorFactory
                 .fromView(viewA);
         BitmapDescriptor bdDq = BitmapDescriptorFactory
@@ -298,6 +303,8 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
                 .fromView(viewSJ);//@@8.10
         BitmapDescriptor plImage = BitmapDescriptorFactory
                 .fromView(viewPL);//@@11.02
+        BitmapDescriptor esImage = BitmapDescriptorFactory
+                .fromView(viewESmap);//@@11.02
         List<BitmapDescriptor> listView = new ArrayList<>();
         listView.add(bdA);
         listView.add(bdC);
@@ -316,6 +323,7 @@ public class MapFragment extends MvpFragment<MapFragmentPresenter> implements Ma
         listView.add(zjImage);
         listView.add(sjImage);
         listView.add(plImage);
+        listView.add(esImage);
         return listView;
     }
 

@@ -139,6 +139,34 @@ public class AddNFCPresenter extends BasePresenter<AddNFCView> {
         }));
     }
 
+    public void addVirtualPoint(String areaId,String smokeName,String memo,String longitude,String latitude
+            ,String address,String distance,String userID){
+        mvpView.showLoading();
+        Observable mObservable = apiStores1.addTaskPoint(areaId,smokeName,memo,longitude,latitude,address,distance,userID);
+        addSubscription(mObservable,new SubscriberCallBack<>(new ApiCallback<ConfireFireModel>() {
+            @Override
+            public void onSuccess(ConfireFireModel model) {
+                int result = model.getErrorCode();
+                String error=model.getError();//@@6.15
+                if(result==0){
+                    mvpView.addSmokeResult("添加成功",0);
+                }else{
+                    mvpView.addSmokeResult(error,1);//@@6.15
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                mvpView.addSmokeResult("添加失败",1);
+            }
+
+            @Override
+            public void onCompleted() {
+                mvpView.hideLoading();
+            }
+        }));
+    }
+
 
     @Override
     public void getArea(Area area) {

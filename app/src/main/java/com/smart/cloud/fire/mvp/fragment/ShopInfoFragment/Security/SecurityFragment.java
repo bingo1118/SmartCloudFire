@@ -193,7 +193,8 @@ public class SecurityFragment extends MvpFragment<SecurityDevPresenter> implemen
                         ||smoke.getDeviceType()==94||smoke.getDeviceType()==95||smoke.getDeviceType()==96
                         ||smoke.getDeviceType()==97||smoke.getDeviceType()==98||smoke.getDeviceType()==99
                         ||smoke.getDeviceType()==100||smoke.getDeviceType()==101||smoke.getDeviceType()==102
-                        ||smoke.getDeviceType()==103||smoke.getDeviceType()==104||smoke.getDeviceType()==105){
+                        ||smoke.getDeviceType()==103||smoke.getDeviceType()==104||smoke.getDeviceType()==105
+                        ||smoke.getDeviceType()==115){
                     showNormalDialog(smoke.getMac(),smoke.getDeviceType(),position);
                 }else{
                     T.showShort(mContext,"该设备无法删除");

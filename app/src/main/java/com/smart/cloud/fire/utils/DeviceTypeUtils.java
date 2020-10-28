@@ -106,6 +106,10 @@ public class DeviceTypeUtils {
                         deviceType="106";
                         deviceName="燃气探测器";
                         smokeMac = smokeMac.substring(1, macLenghth-1);
+                    }else if(smokeMac.endsWith("W")){
+                        deviceType="116";
+                        deviceName="创安燃气";
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
                     }else{
                         deviceType="2";//@@燃气
                         deviceName="燃气探测器";
@@ -178,6 +182,12 @@ public class DeviceTypeUtils {
                         deviceName="电气设备";
                         deviceType="88";
                     }//@@lora中电电气
+                    if(smokeMac.endsWith("J")){
+                        smokeMac = smokeMac.substring(1, macLenghth-1);
+                        electrState=1;
+                        deviceName="电气设备";
+                        deviceType="115";
+                    }//@@南京优特电气
                     smokeMac =smokeMac.replace("Q","");
                     break;
                 case "T":
@@ -318,6 +328,10 @@ public class DeviceTypeUtils {
                     }else if(smokeMac.endsWith("K")){
                         deviceType="101";//@@南京防爆水位
                         deviceName="水位探测器";
+                        smokeMac =smokeMac.substring(1,macLenghth-1);
+                    }else if(smokeMac.endsWith("X")){
+                        deviceType="27";//@@南京防爆水位
+                        deviceName="水浸探测器";
                         smokeMac =smokeMac.substring(1,macLenghth-1);
                     }else{
                         deviceType="10";//@@水压

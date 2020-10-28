@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Environment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -51,6 +53,7 @@ import com.smart.cloud.fire.mvp.BigData.BigDataActivity;
 import com.smart.cloud.fire.mvp.login.SplashActivity;
 import com.smart.cloud.fire.mvp.main.presenter.MainPresenter;
 import com.smart.cloud.fire.mvp.main.view.MainView;
+import com.smart.cloud.fire.order.OrderList.OrderListActivity;
 import com.smart.cloud.fire.service.RemoteService;
 import com.smart.cloud.fire.ui.BingoSerttingDialog;
 import com.smart.cloud.fire.ui.view.CircleProgressBar;
@@ -65,6 +68,7 @@ import com.smart.cloud.fire.yoosee.SettingListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -192,7 +196,6 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                         break;
                 }
                 startActivity(intent);
-                MyApp.a=System.currentTimeMillis();
             }
         });
 
@@ -343,7 +346,8 @@ public class Main3Activity extends MvpActivity<MainPresenter> implements MainVie
                 getHistoryCore();
                 break;
             case R.id.alarm_msg:
-                intent=new Intent(mContext, AlarmMsgActivity.class);
+//                intent=new Intent(mContext, AlarmMsgActivity.class);
+                intent=new Intent(mContext, OrderListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_image:

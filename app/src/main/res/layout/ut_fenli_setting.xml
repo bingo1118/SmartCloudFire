@@ -20,21 +20,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical">
-        <TextView
+        <Switch
+            android:id="@+id/fenli_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_margin="10dp"
             android:text="是否开启分励？"/>
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-            <RadioButton
-                android:id="@+id/on"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="开启"/>
+
             <LinearLayout
                 android:id="@+id/fenliHoldTime_line"
                 android:layout_width="match_parent"
@@ -64,15 +57,6 @@
                     android:gravity="center"
                     android:text="(0-30s)"/>
             </LinearLayout>
-            <RadioButton
-                android:id="@+id/off"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="关闭"/>
-        </RadioGroup>
-
-
-
     </LinearLayout>
     <Button
         android:layout_width="match_parent"

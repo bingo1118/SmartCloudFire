@@ -1,5 +1,6 @@
 package com.smart.cloud.fire.global;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -34,6 +35,8 @@ import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import org.litepal.LitePal;
 
+import java.util.List;
+
 import fire.cloud.smart.com.smartcloudfire.R;
 
 /**
@@ -51,8 +54,6 @@ public class MyApp extends Application {
     public Vibrator mVibrator;
     public static String userid;
 
-    public static long a;
-    public static long b;
 
     @Override
     public void onCreate() {
@@ -119,15 +120,13 @@ public class MyApp extends Application {
         return mNotificationManager;
     }
 
-    public  void setPrivilege(int privilege){
+    public  void setPrivilege(String user,int privilege){
         if(privilege==6||privilege==7){
             this.privilege=3;
         }else{
             this.privilege = privilege;
         }
-        userid=SharedPreferencesManager.getInstance().getData(MyApp.app,
-                SharedPreferencesManager.SP_FILE_GWELL,
-                SharedPreferencesManager.KEY_RECENTNAME);
+        userid=user;
         Constant.APPLY_MINE="APPLY_MINE"+userid;
         Constant.APPLY_MORE="APPLY_MORE"+userid;
     }
@@ -211,6 +210,21 @@ public class MyApp extends Application {
             mNotificationManager.notify(NOTIFICATION_DOWN_ID,
                     mNotification);
         }
+    }
+
+    //获取包名
+    public static String getAppProcessName(Context context) {
+        //当前应用pid
+        int pid = android.os.Process.myPid();
+        //任务管理类
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //遍历所有应用
+        List<ActivityManager.RunningAppProcessInfo> infos = manager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo info : infos) {
+            if (info.pid == pid)//得到当前应用
+                return info.processName;//返回包名
+        }
+        return "";
     }
 
     public void hideDownNotification(){

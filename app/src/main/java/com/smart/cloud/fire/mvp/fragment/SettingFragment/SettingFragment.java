@@ -182,7 +182,7 @@ public class SettingFragment extends MvpFragment<SettingFragmentPresenter> imple
             case R.id.setting_help_exit:
                 Intent in = new Intent();
                 in.setAction("APP_EXIT");
-                in.setPackage("fire.cloud.smart.com.smartcloudfire");//@@7.13只传当前应用
+                in.setPackage(MyApp.getAppProcessName(mContext));//@@7.13只传当前应用
                 mContext.sendBroadcast(in);
                 getActivity().finish();//@@7.17
                 break;
