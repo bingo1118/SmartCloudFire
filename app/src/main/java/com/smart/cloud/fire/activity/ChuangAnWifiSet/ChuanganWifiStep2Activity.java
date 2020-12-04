@@ -56,7 +56,7 @@ public class ChuanganWifiStep2Activity extends Activity {
         wifi_name.setTextColor(getResources().getColor(R.color.wifi_change_color));
         try {
             mSocketUDPClient = SocketUDP.newInstance(
-                    InetAddress.getByName("255.255.255.255"), 8266);
+                    InetAddress.getByName("192.168.0.102"), 53);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

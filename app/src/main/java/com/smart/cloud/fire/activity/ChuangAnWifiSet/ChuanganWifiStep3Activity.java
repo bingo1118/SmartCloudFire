@@ -25,7 +25,11 @@ import com.smart.cloud.fire.activity.AddDev.AddDevActivity;
 import com.smart.cloud.fire.utils.ASCIIToString;
 import com.smart.cloud.fire.utils.ByteToString;
 import com.smart.cloud.fire.utils.CRC16;
+import com.smart.cloud.fire.utils.T;
 import com.smart.cloud.fire.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -46,6 +50,7 @@ public class ChuanganWifiStep3Activity extends Activity implements View.OnClickL
     private SocketUDP mSocketUDPClient;
     private WifiManager wifiManager = null;
     private ProgressBar progress;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +87,40 @@ public class ChuanganWifiStep3Activity extends Activity implements View.OnClickL
         public void onReceive(Context arg0, Intent arg1) {
             // TODO Auto-generated method stub
             if(arg1.getAction().equals("Constants.Action.WiFiSetAck")){
-                byte[] datas = arg1.getExtras().getByteArray("datasByte");
-                if(datas!=null&& datas.length>12){
-                    byte[] mac={datas[6],datas[7],datas[8],datas[9],datas[10],datas[11]};
-                    String id= Utils.bytesToHexString(mac);
+                String datas = arg1.getExtras().getString("datasByte");
+                try {
+                    JSONObject jsonObject=new JSONObject(datas);
+                    int link = jsonObject.getInt("link");
+                    int ser = jsonObject.getInt("ser");
+                    if(link==1&&ser==1){
+                        T.showShort(mContext,"WiFi+服务器配置成功");
+                    }else if(link==1&&ser!=1){
+                        T.showShort(mContext,"WiFi配置成功");
+                    }else{
+                        T.showShort(mContext,"配置失败");
+                    }
+                    String id= "R"+jsonObject.getString("sn").replace("CA_","")+"W";
                     Intent intent=new Intent(mContext, AddDevActivity.class);
                     intent.putExtra("mac",id);
                     startActivity(intent);
                     progress.setVisibility(View.GONE);
+                    if(timer!=null){
+                        timer.cancel();
+                    }
                     finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+//                byte[] datas = arg1.getExtras().getByteArray("datasByte");
+//                if(datas!=null&& datas.length>12){
+//                    byte[] mac={datas[6],datas[7],datas[8],datas[9],datas[10],datas[11]};
+//                    String id= Utils.bytesToHexString(mac);
+//                    Intent intent=new Intent(mContext, AddDevActivity.class);
+//                    intent.putExtra("mac",id);
+//                    startActivity(intent);
+//                    progress.setVisibility(View.GONE);
+//                    finish();
+//                }
             }
         }
     };
@@ -101,7 +130,7 @@ public class ChuanganWifiStep3Activity extends Activity implements View.OnClickL
     private void connectUDP() {
         try {
             mSocketUDPClient = SocketUDP.newInstance(
-                    InetAddress.getByName("255.255.255.255"), 8266);
+                    InetAddress.getByName("192.168.0.102"), 53);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -121,7 +150,20 @@ public class ChuanganWifiStep3Activity extends Activity implements View.OnClickL
                 String devWifiName = wifi_name.getText().toString().trim();
                 if (mSocketUDPClient!=null) {
                     //开始配置设备
-                    mSocketUDPClient.sendMsg(SendServerOrder.WifiSetOrder(wifiName,wifiPwd));
+                    mSocketUDPClient.sendMsg(SendServerOrder.WifiJsonSetOrder(wifiName,wifiPwd));
+                    timer=new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    T.showShort(mContext,"连接时间过长，请重试");
+                                    progress.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    },60000);
                     progress.setVisibility(View.VISIBLE);
                 }else{
                     Toast.makeText(mContext, R.string.please_choose_right_devide_wifi, Toast.LENGTH_SHORT).show();
@@ -206,7 +248,7 @@ public class ChuanganWifiStep3Activity extends Activity implements View.OnClickL
         wifi_name.setText(getWIfi());
         try {
             mSocketUDPClient = SocketUDP.newInstance(
-                    InetAddress.getByName("255.255.255.255"), 8266);
+                    InetAddress.getByName("192.168.0.102"), 53);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

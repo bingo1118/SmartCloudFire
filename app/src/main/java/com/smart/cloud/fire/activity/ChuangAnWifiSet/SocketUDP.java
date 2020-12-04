@@ -31,7 +31,7 @@ public class SocketUDP {
 
     private boolean onGoinglistner = true;
 
-    private  DatagramSocket socket;
+    private DatagramSocket socket;
 
     private Context context;
 
@@ -94,30 +94,31 @@ public class SocketUDP {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        byte[] data = new byte[64*1024];
+                        byte[] data = new byte[64 * 1024];
                         //参数一:要接受的data 参数二：data的长度
                         DatagramPacket packet = new DatagramPacket(data, data.length);
-                        data=null;
+                        data = null;
                         socket.receive(packet);
                         Log.i("cmd1", "..........");
                         //把接收到的data转换为String字符串
                         byte[] pk = packet.getData();
-                        packet=null;
-                        int num;
-                        if((pk[2]&0xff)==9){
-                            num = 15;
-                        }else{
-                            num = 1024;
-                        }
-
-                        byte[] result = new byte[num];
-                        for(int i=0;i<num;i++){
-                            result[i] = pk[i];
-                        }
-                        if (result != null && !result.equals("")) {
-                            int cmd = result[2]&0xff;
-                            cmd2(cmd,result);
-                        }
+                        packet = null;
+                        resultData(String.valueOf(pk));
+//                        int num;
+//                        if ((pk[2] & 0xff) == 9) {
+//                            num = 15;
+//                        } else {
+//                            num = 1024;
+//                        }
+//
+//                        byte[] result = new byte[num];
+//                        for (int i = 0; i < num; i++) {
+//                            result[i] = pk[i];
+//                        }
+//                        if (result != null && !result.equals("")) {
+//                            int cmd = result[2] & 0xff;
+//                            cmd2(cmd, result);
+//                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -139,7 +140,14 @@ public class SocketUDP {
 
     }
 
-    private void cmd2(int cmd,byte[] result){
+    private void resultData(String result) {
+        Intent unOpenOrCloseOrderPack = new Intent();
+        unOpenOrCloseOrderPack.putExtra("datasByte", result);
+        unOpenOrCloseOrderPack.setAction("Constants.Action.WiFiSetAck");
+        MyApp.app.sendBroadcast(unOpenOrCloseOrderPack);
+    }
+
+    private void cmd2(int cmd, byte[] result) {
         switch (cmd) {
             case 9://配置设备状态回复包
                 Intent unOpenOrCloseOrderPack = new Intent();

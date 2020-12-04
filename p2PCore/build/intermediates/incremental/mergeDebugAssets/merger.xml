@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\7.13second\2.0HK\SmartCloudFire\p2PCore\src\main\assets"/><source path="D:\7.13second\2.0HK\SmartCloudFire\p2PCore\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\7.13second\2.0HK\SmartCloudFire\p2PCore\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Code\AndroidCode\SmartCloudFire\p2PCore\src\main\assets"/><source path="D:\Code\AndroidCode\SmartCloudFire\p2PCore\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Code\AndroidCode\SmartCloudFire\p2PCore\src\debug\assets"/></dataSet></merger>

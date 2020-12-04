@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.getui:sdk-2.13.2.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-2.13.2.0.aar/7aacb642dfa80d7270a08c5a1aea90fd/jars/libs/GetuiSDK2.13.2.0.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-2.13.2.0.aar/7aacb642dfa80d7270a08c5a1aea90fd/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-2.13.2.0.aar/7aacb642dfa80d7270a08c5a1aea90fd/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-2.13.2.0.aar/a0ebc3211287fbbf95485fc141803e2a/jars/libs/GetuiSDK2.13.2.0.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-2.13.2.0.aar/a0ebc3211287fbbf95485fc141803e2a/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-2.13.2.0.aar/a0ebc3211287fbbf95485fc141803e2a/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -57,4 +57,14 @@ public class SendServerOrder {
         return datas;
     }
 
+
+    /**
+     * 手机WiFi配置包(json版本)
+     * @return
+     */
+    public static byte[] WifiJsonSetOrder(String ssid,String psw){
+        String json="{\"type\":\"apconfig\",\"ssid\":\""+ssid+"\",\"pwd\":\""+psw+"\"}";
+        return json.getBytes();
+    }
+
 }
